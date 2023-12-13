@@ -42,14 +42,15 @@ class GalerieResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('commune.id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('commune.nom')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nom')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('av')
+                    ->label('Avenue')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('num')
+                    ->label('Numéro')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

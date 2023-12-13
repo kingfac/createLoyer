@@ -35,14 +35,14 @@ class LoyerResource extends Resource
                     Forms\Components\Select::make('mois')->options(['Janvier' => 'Janvier','Février' => 'Février','Mars' => 'Mars','Avril' => 'Avril','Mais' => 'Mais','Juin' => 'Juin','Juillet' => 'Juillet','Aout' => 'Aout','Septembre' => 'Septembre','Octobre' => 'Octobre','Novembre' => 'Novembre','Décembre' => 'Décembre'])
                         ->required(),
                     Forms\Components\TextInput::make('annee')
+                        ->label('Année')
                         ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('montant')
                         ->required()
                         ->numeric(),
                     Forms\Components\Toggle::make('garantie')
-                        ->label('Utiliser la garantie')
-
+                        ->label('Utiliser la garantie'),
                 ])->columns(4),
             ]);
     }
@@ -57,11 +57,19 @@ class LoyerResource extends Resource
                 Tables\Columns\TextColumn::make('mois')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('annee')
+                    ->label('Année')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('montant')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('locataire.garantie')
+                    ->label('Reste Garantie')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\IconColumn::make('garantie')
+                    ->label('Payement avec garantie')
+                    ->boolean(),
+                    Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -69,6 +77,8 @@ class LoyerResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Date de payement')
             ])
             ->filters([
                 //
@@ -98,6 +108,13 @@ class LoyerResource extends Resource
             'index' => Pages\ListLoyers::route('/'),
             'create' => Pages\CreateLoyer::route('/create'),
             'edit' => Pages\EditLoyer::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            LoyerResource\Widgets\CreateLoyerWidget::class,
         ];
     }
 }

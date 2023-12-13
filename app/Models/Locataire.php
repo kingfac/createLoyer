@@ -11,14 +11,15 @@ class Locataire extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'postnom',  'prenom', 'tel', 'garantie', 'occupation_id'];
+    protected $fillable = ['nom', 'postnom',  'prenom', 'tel', 'garantie', 'occupation_id','actif'];
     protected $casts = [
         'nom' => 'string', 
         'postnom' => 'string', 
         'prenom' => 'string', 
         'tel' => 'string', 
         'garantie' => 'double', 
-        'occupation_id' => 'integer'
+        'occupation_id' => 'integer',
+        'actif' => 'boolean'
     ];
 
     public function occupation() : BelongsTo {

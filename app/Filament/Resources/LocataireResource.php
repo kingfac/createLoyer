@@ -41,6 +41,11 @@ class LocataireResource extends Resource
                 Forms\Components\TextInput::make('garantie')
                     ->required()
                     ->numeric(),
+                Forms\Components\Toggle::make('actif')
+                    ->label('Désactiver/Activer')
+                    ->default(true)
+                    ->onColor('success')
+                    ->offColor('danger')
             ]);
     }
 
@@ -62,14 +67,12 @@ class LocataireResource extends Resource
                 Tables\Columns\TextColumn::make('garantie')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\ToggleColumn::make('actif'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                
             ])
             ->filters([
                 //

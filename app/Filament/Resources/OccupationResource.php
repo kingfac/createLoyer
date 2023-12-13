@@ -49,8 +49,10 @@ class OccupationResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('typeOccu.nom')
                     ->numeric()
+                    ->label('Type Occupation')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('ref')
+                    ->label('Référence')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('montant')
                     ->numeric()

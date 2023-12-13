@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('tel', 14);
             $table->double('garantie');
             $table->unsignedBigInteger('occupation_id');
+            $table->boolean('actif');
             //$table->foreign('occupation_id')->references('id')->on('occupations')->cascadeOnDelete();
             $table->timestamps();
         });

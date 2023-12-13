@@ -21,12 +21,12 @@ class CreateLoyer extends CreateRecord
         ];
     }
 
-    protected function getFormActions(): array
-    {
-        return [
-            CreateAction::make()->requiresConfirmation()->action(function ($data){
-                dd($data);
-            }),
-        ];
-    }
+    // protected function getFormActions(): array
+    // {
+    //     return [
+    //         // CreateAction::make()->requiresConfirmation()->action(function ($data){
+    //         //     dd($data);
+    //         // }),
+    //     ];
+    // }
 }
