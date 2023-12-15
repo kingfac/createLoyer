@@ -4,8 +4,10 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\User;
 use App\Models\Commune;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -49,6 +51,9 @@ class DatabaseSeeder extends Seeder
             ['nom' => 'Selembao']
         ];
         $record = Commune::insert($communes);
+         $role = Role::create(['name' => 'Gerant']);
+        $user = User::find(1)->first();
+        $user->assignRole($role);
         
     }
 }
