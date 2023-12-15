@@ -18,11 +18,11 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::create([
-        //     'name' => 'Admin',
-        //     'email' => 'admin@gmail.com',
-        //     'password' => '123456'
-        // ]);
+        \App\Models\User::create([
+             'name' => 'Admin',
+             'email' => 'admin@gmail.com',
+             'password' => '123456'
+        ]);
 
         $communes = [
             ['nom'=>'Bandalungwa'],
