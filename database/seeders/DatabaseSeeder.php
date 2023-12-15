@@ -60,15 +60,17 @@ class DatabaseSeeder extends Seeder
         $user->assignRole($role);
         
         // Les permissions
-        $permisision1 = Permission::create(['name' => 'create Galerie']);
         $permisision2 = Permission::create(['name' => 'create Occupation']);
-        $permisision3 = Permission::create(['name' => 'create Type Occus']);
-        $permisision4 = Permission::create(['name' => 'edit Galerie']);
-        $permisision5 = Permission::create(['name' => 'edit Type Occus']);
         $permisision6 = Permission::create(['name' => 'edit Occupation']);
-        $permisision7 = Permission::create(['name' => 'delete Galerie']);
         $permisision8 = Permission::create(['name' => 'delete Occupation']);
-        $permisision9 = Permission::create(['name' => 'delete Galerie']);
+        
+        $permisision3 = Permission::create(['name' => 'create Type Occus']);
+        $permisision5 = Permission::create(['name' => 'edit Type Occus']);
+        $permisision9 = Permission::create(['name' => 'delete Type Occus']);
+        
+        $permisision1 = Permission::create(['name' => 'create Galerie']);
+        $permisision4 = Permission::create(['name' => 'edit Galerie']);
+        $permisision7 = Permission::create(['name' => 'delete Galerie']);
 
         $permissions = [$permisision1,$permisision2,$permisision3,$permisision4,$permisision5,$permisision6,$permisision7,$permisision8,$permisision9];
         foreach($permissions as $permission)
