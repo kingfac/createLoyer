@@ -4,6 +4,7 @@ namespace App\Filament\Resources\LocataireResource\Pages;
 
 use App\Filament\Resources\LocataireResource;
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
 
 class ListLocataires extends ListRecords
@@ -14,6 +15,7 @@ class ListLocataires extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+            
         ];
     }
 }

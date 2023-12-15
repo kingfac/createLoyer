@@ -2,18 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\LoyerResource\Pages;
-use App\Filament\Resources\LoyerResource\RelationManagers;
-use App\Models\Loyer;
 use Filament\Forms;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Filters\SelectFilter;
+use App\Models\Loyer;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Blade;
+use Filament\Forms\Components\Section;
+use Illuminate\Database\Eloquent\Model;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\LoyerResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\LoyerResource\RelationManagers;
 
 class LoyerResource extends Resource
 {
@@ -28,7 +31,7 @@ class LoyerResource extends Resource
                 Section::make()->schema([
 
                     Forms\Components\Select::make('locataire_id')
-                        ->relationship('locataire', 'nom')
+                        ->relationship('locataire', 'noms')
                         ->searchable()
                         ->preload()
                         ->required(),
@@ -51,8 +54,11 @@ class LoyerResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('locataire.nom')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('locataire.noms')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('locataire.occupation.ref')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('locataire.occupation.typeOccu.nom')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('mois')
                     ->searchable(),
@@ -60,6 +66,7 @@ class LoyerResource extends Resource
                     ->label('Année')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('montant')
+                    ->label('Montant($)')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('locataire.garantie')
@@ -67,26 +74,34 @@ class LoyerResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('garantie')
-                    ->label('Payement avec garantie')
+                    ->label('Avec garantie')
                     ->boolean(),
-                    Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Date de payement')
+                    //->label('Date de payement')
+                    ->sortable()
             ])
+            ->defaultSort('created_at', 'desc')
+            ->searchable()
+            
             ->filters([
                 //
                 SelectFilter::make('mois')->options(['Janvier' => 'Janvier','Février' => 'Février','Mars' => 'Mars','Avril' => 'Avril','Mais' => 'Mais','Juin' => 'Juin','Juillet' => 'Juillet','Aout' => 'Aout','Septembre' => 'Septembre','Octobre' => 'Octobre','Novembre' => 'Novembre','Décembre' => 'Décembre']),
                 SelectFilter::make('annee')->options(range(2009,2030)),
+                SelectFilter::make('locataire.nom'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                //Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('pdf') 
+                ->label('PDF')
+                ->color('success')
+                // ->icon('heroicon-s-download')
+                ->action(function (Model $record) {
+                    return response()->streamDownload(function () use ($record) {
+                        echo Pdf::loadHtml(
+                            Blade::render('pdf', ['record' => $record])
+                        )->stream();
+                    }, $record->number . '.pdf');
+                }), 
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -106,7 +121,7 @@ class LoyerResource extends Resource
     {
         return [
             'index' => Pages\ListLoyers::route('/'),
-            'create' => Pages\CreateLoyer::route('/create'),
+            //'create' => Pages\CreateLoyer::route('/create'),
             'edit' => Pages\EditLoyer::route('/{record}/edit'),
         ];
     }

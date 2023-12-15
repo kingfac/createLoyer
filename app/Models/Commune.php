@@ -12,7 +12,7 @@ class Commune extends Model
 
     protected $fillable = ['nom'];
 
-    protected $casts = ['nom' => 'integer'];
+    protected $casts = ['nom' => 'string'];
 
     public function galeries() : HasMany {
         return $this->hasMany(Galerie::class);

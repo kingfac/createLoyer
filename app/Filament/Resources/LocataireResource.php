@@ -2,16 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\LocataireResource\Pages;
-use App\Filament\Resources\LocataireResource\RelationManagers;
-use App\Models\Locataire;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Form;
+use App\Models\Locataire;
 use Filament\Tables\Table;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\LocataireResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\LocataireResource\RelationManagers;
 
 class LocataireResource extends Resource
 {
@@ -79,6 +82,17 @@ class LocataireResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('pdf') 
+                ->label('Garantie.pdf')
+                ->color('success')
+                // ->icon('heroicon-s-download')
+                ->action(function (Model $record) {
+                    return response()->streamDownload(function () use ($record) {
+                        echo Pdf::loadHtml(
+                            Blade::render('factureGarantie', ['record' => $record])
+                        )->stream();
+                    }, $record->noms . '_garantie.pdf');
+                }), 
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

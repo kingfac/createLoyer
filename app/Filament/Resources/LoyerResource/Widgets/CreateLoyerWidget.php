@@ -2,13 +2,15 @@
 
 namespace App\Filament\Resources\LoyerResource\Widgets;
 
+use DateTime;
 use App\Models\Loyer;
 use Filament\Forms\Form;
 use App\Models\Locataire;
-use DateTime;
 use Filament\Widgets\Widget;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
+use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
@@ -35,13 +37,14 @@ class CreateLoyerWidget extends Widget implements HasForms
 
     public function form(Form $form): Form
     {
+        $currentDate = new DateTime();
         return $form
             ->schema([
                 Section::make()->schema([
 
                     Select::make('locataire_id')
                         ->label('Locataire')
-                        ->options(Locataire::where('actif',true)->pluck('nom','id'))
+                        ->options(Locataire::where('actif',true)->pluck('noms','id'))
                         ->searchable()
                         ->preload()
                         ->required(),
@@ -49,14 +52,22 @@ class CreateLoyerWidget extends Widget implements HasForms
                         ->required(),
                     TextInput::make('annee')
                         ->label('Année')
+                        ->numeric()
+                        ->maxValue(2030)
+                        ->minValue(2023)
+                        ->default($currentDate->format("Y"))
                         ->required(),
+                    
                     TextInput::make('montant')
                         ->required()
-                        ->numeric(),
+                        ->numeric()
+                        ->label('Montant ($)')
+                        ->default(0),
+                        
                     Toggle::make('garantie')
                         ->label('Utiliser la garantie'),
                 ])
-                ->columns(2)
+                ->columns(4)
 
             ])
             ->statePath('data');
@@ -91,5 +102,22 @@ class CreateLoyerWidget extends Widget implements HasForms
         Loyer::create($this->form->getState());
             $this->form->fill();
             $this->dispatch('loyer-created');
+    }
+
+    public function total(){
+        $loyer = Loyer::where('locataire_id',$this->form->getState()['locataire_id'])
+                        ->where('annee',$this->form->getState()['annee'])
+                        ->where('mois',$this->form->getState()['mois'])
+                        ->get();
+        //dd($loyer);
+        /* echo Pdf::loadHtml(
+            Blade::render('factureTotal.blade', ['record' => $loyer])
+        )->stream(); */
+
+        return response()->streamDownload(function () use ($loyer) {
+            echo Pdf::loadHtml(
+                Blade::render('factureTotal', ['record' => $loyer])
+            )->stream();
+        }, $this->form->getState()['mois'].'_'.$this->form->getState()['annee'].'_loyerTotal.pdf');
     }
 }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->double('garantie');
             $table->unsignedBigInteger('occupation_id');
             $table->boolean('actif');
+            $table->string('noms')->virtualAs('concat(nom, \' \', postnom, \' \', prenom)');
             //$table->foreign('occupation_id')->references('id')->on('occupations')->cascadeOnDelete();
             $table->timestamps();
         });
