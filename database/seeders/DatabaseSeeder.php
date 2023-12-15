@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Commune;
+use App\Models\Permission;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
@@ -18,11 +19,11 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::create([
-        //     'name' => 'Admin',
-        //     'email' => 'admin@gmail.com',
-        //     'password' => '123456'
-        // ]);
+         App\Models\User::create([
+             'name' => 'Admin',
+             'email' => 'admin@gmail.com',
+             'password' => '123456'
+        ]);
 
         $communes = [
             ['nom'=>'Bandalungwa'],
@@ -51,9 +52,25 @@ class DatabaseSeeder extends Seeder
             ['nom' => 'Selembao']
         ];
         $record = Commune::insert($communes);
-         $role = Role::create(['name' => 'Gerant']);
+        $role = Role::create(['name' => 'Gerant']);
         $user = User::find(1)->first();
         $user->assignRole($role);
         
+        // permissions
+        $permisision1 = Permission::create(['name' => 'create Galerie']);
+        $permisision2 = Permission::create(['name' => 'create Occupation']);
+        $permisision3 = Permission::create(['name' => 'create Type Occus']);
+        $permisision4 = Permission::create(['name' => 'edit Galerie']);
+        $permisision5 = Permission::create(['name' => 'edit Type Occus']);
+        $permisision6 = Permission::create(['name' => 'edit Occupation']);
+        $permisision7 = Permission::create(['name' => 'delete Galerie']);
+        $permisision8 = Permission::create(['name' => 'delete Occupation']);
+        $permisision9 = Permission::create(['name' => 'delete Galerie']);
+
+        $permissions = [$permisision1,$permisision2,$permisision3,$permisision4,$permisision5,$permisision6,$permisision7,$permisision8,$permisision9];
+        foreach($permissions as $permission)
+        {
+            $user->givePermissionTo($permission);
+        }
     }
 }
