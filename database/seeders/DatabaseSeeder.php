@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-         App\Models\User::create([
+        \App\Models\User::create([
              'name' => 'Admin',
              'email' => 'admin@gmail.com',
              'password' => '123456'
@@ -68,9 +68,16 @@ class DatabaseSeeder extends Seeder
         $permisision6 = Permission::create(['name' => 'edit Occupation']);
         $permisision7 = Permission::create(['name' => 'delete Galerie']);
         $permisision8 = Permission::create(['name' => 'delete Occupation']);
-        $permisision9 = Permission::create(['name' => 'delete Galerie']);
+        $permisision9 = Permission::create(['name' => 'delete Type Occus']);
+        $permisision10 = Permission::create(['name' => 'create Locataire']);
+        $permisision11 = Permission::create(['name' => 'create Loyer']);
+        $permisision12 = Permission::create(['name' => 'edit Locataire']);
+        $permisision13 = Permission::create(['name' => 'edit Loyer']);
+        $permisision14 = Permission::create(['name' => 'delete Locataire']);
+        $permisision15 = Permission::create(['name' => 'delete Loyer']);
 
-        $permissions = [$permisision1,$permisision2,$permisision3,$permisision4,$permisision5,$permisision6,$permisision7,$permisision8,$permisision9];
+
+        $permissions = [$permisision1,$permisision2,$permisision3,$permisision4,$permisision5,$permisision6,$permisision7,$permisision8,$permisision9,$permisision10,$permisision11,$permisision12,$permisision13,$permisision14,$permisision15];
         foreach($permissions as $permission)
         {
             $user->givePermissionTo($permission);
