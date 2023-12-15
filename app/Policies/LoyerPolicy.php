@@ -13,7 +13,7 @@ class LoyerPolicy
      */
     public function viewAny(User $user): bool
     {
-        if($user->hasRole(['Gerant','Boss','Caissier'])){
+        if($user->hasRole(['Boss','Caissier'])){
             return true;
         }
         return false;

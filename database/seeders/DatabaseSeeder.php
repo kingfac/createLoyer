@@ -72,7 +72,17 @@ class DatabaseSeeder extends Seeder
         $permisision4 = Permission::create(['name' => 'edit Galerie']);
         $permisision7 = Permission::create(['name' => 'delete Galerie']);
 
-        $permissions = [$permisision1,$permisision2,$permisision3,$permisision4,$permisision5,$permisision6,$permisision7,$permisision8,$permisision9];
+        
+        $permisision10 = Permission::create(['name' => 'create Locataire']);
+        $permisision12 = Permission::create(['name' => 'edit Locataire']);
+        $permisision14 = Permission::create(['name' => 'delete Locataire']);
+        
+        $permisision11 = Permission::create(['name' => 'create Loyer']);
+        $permisision13 = Permission::create(['name' => 'edit Loyer']);
+        $permisision15 = Permission::create(['name' => 'delete Loyer']);
+
+
+        $permissions = [$permisision1,$permisision2,$permisision3,$permisision4,$permisision5,$permisision6,$permisision7,$permisision8,$permisision9,$permisision10,$permisision11,$permisision12,$permisision13,$permisision14,$permisision15];
         foreach($permissions as $permission)
         {
             $user->givePermissionTo($permission);
