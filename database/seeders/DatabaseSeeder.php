@@ -52,11 +52,14 @@ class DatabaseSeeder extends Seeder
             ['nom' => 'Selembao']
         ];
         $record = Commune::insert($communes);
+        // Les roles
         $role = Role::create(['name' => 'Gerant']);
+        $role2 = Role::create(['name' => 'Boss']);
+        $role3 = Role::create(['name' => 'Caissier']);
         $user = User::find(1)->first();
         $user->assignRole($role);
         
-        // permissions
+        // Les permissions
         $permisision1 = Permission::create(['name' => 'create Galerie']);
         $permisision2 = Permission::create(['name' => 'create Occupation']);
         $permisision3 = Permission::create(['name' => 'create Type Occus']);
