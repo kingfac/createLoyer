@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('actif')->default(true);//dans le cas ou le montant du loyer a changée on va dupliquer l'occupation tout en desactivant l'ancienne et changeant le montant de la nouvelle. réaffecter la nouvelle occupation au locataire pour prendre en charge le nouveau loyer
             $table->unsignedBigInteger('galerie_id');
             $table->unsignedBigInteger('type_occu_id');
+            //$table->string('data')->virtualAs('concat(galleries.nom, \' \', montant, \' \', prenom)');
             //$table->foreign('galerie_id')->references('id')->on('galeries');
             //$table->foreign('type_occu_id')->references('id')->on('type_occus');
             $table->timestamps();

@@ -43,7 +43,7 @@ class LoyerResource extends Resource
                         ->maxLength(255),
                     Forms\Components\TextInput::make('montant')
                         ->required()
-                        ->numeric(),
+                        ->money(),
                     Forms\Components\Toggle::make('garantie')
                         ->label('Utiliser la garantie'),
                 ])->columns(4),
@@ -66,12 +66,12 @@ class LoyerResource extends Resource
                     ->label('Année')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('montant')
-                    ->label('Montant($)')
-                    ->numeric()
+                    ->label('Montant')
+                    ->money()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('locataire.garantie')
                     ->label('Reste Garantie')
-                    ->numeric()
+                    ->money()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('garantie')
                     ->label('Avec garantie')

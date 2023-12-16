@@ -31,7 +31,8 @@ class LocataireResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('occupation_id')
-                    ->relationship('occupation', 'ref')
+                    ->relationship('occupation', )
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->galerie->nom} | {$record->typeOccu->nom} ({$record->montant} $)")
                     ->required(),
                 Forms\Components\TextInput::make('nom')
                     ->required()
@@ -60,19 +61,23 @@ class LocataireResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('occupation.ref')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('nom')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('postnom')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('prenom')
+                
+                Tables\Columns\TextColumn::make('noms')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tel')
                     ->searchable(),
+                
+                Tables\Columns\TextColumn::make('occupation.galerie.nom')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('occupation.typeOccu.nom')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('garantie')
-                    ->numeric()
+                    ->label('garantie ($)')
+                    ->money()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('occupation.montant')
+                    ->label('Loyer ($)')
+                    ->money()
                     ->sortable(),
                 Tables\Columns\ToggleColumn::make('actif'),
                 Tables\Columns\TextColumn::make('created_at')
