@@ -93,6 +93,7 @@ class LoyerResource extends Resource
                 //Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('pdf') 
                 ->label('PDF')
+                ->icon('heroicon-o-printer')
                 ->color('success')
                 // ->icon('heroicon-s-download')
                 ->action(function (Model $record) {
@@ -100,8 +101,9 @@ class LoyerResource extends Resource
                         echo Pdf::loadHtml(
                             Blade::render('pdf', ['record' => $record])
                         )->stream();
-                    }, $record->number . '.pdf');
+                    }, $record->id.'1.pdf');
                 }), 
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

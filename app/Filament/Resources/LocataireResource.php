@@ -11,10 +11,14 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\LocataireResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LocataireResource\RelationManagers;
+use App\Models\Galerie;
+use App\Models\Occupation;
 
 class LocataireResource extends Resource
 {
@@ -79,6 +83,7 @@ class LocataireResource extends Resource
             ])
             ->filters([
                 //
+                SelectFilter::make('occupation_id')->relationship('occupation', 'galerie.nom')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -97,6 +102,15 @@ class LocataireResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\BulkAction::make('Imprimer la selection')->action(function (Collection $record){
+                        // dd($record);
+                        return response()->streamDownload(function () use ($record) {
+                            echo Pdf::loadHtml(
+                                Blade::render('listlocgalerie', ['record' => $record])
+                            )->stream();
+                        }, random_int(0,1000) . '_list_locataire_galerie.pdf');
+
+                    })->icon('heroicon-o-printer')->color('red')
                 ]),
             ]);
     }
