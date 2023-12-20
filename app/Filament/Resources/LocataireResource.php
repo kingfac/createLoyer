@@ -54,6 +54,7 @@ class LocataireResource extends Resource
                 Forms\Components\TextInput::make('tel')
                     ->tel()
                     ->required()
+                    ->validationMessages(['tel' => 'Numéro  incorrect', 'required' => 'Ce champ est obligatoire'])
                     ->maxLength(14),
                 Forms\Components\Select::make('mois')
                     ->label('Nbr mois garantie')

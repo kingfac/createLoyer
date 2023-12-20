@@ -42,8 +42,7 @@ class LoyerResource extends Resource
                         ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('montant')
-                        ->required()
-                        ->money(),
+                        ->required(),
                     Forms\Components\Toggle::make('garantie')
                         ->label('Utiliser la garantie'),
                 ])->columns(4),
