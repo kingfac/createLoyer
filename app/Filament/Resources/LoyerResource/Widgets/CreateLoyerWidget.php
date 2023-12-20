@@ -48,10 +48,10 @@ class CreateLoyerWidget extends Widget implements HasForms
                         //->searchable()
                         //->preload()
                         ->required(),
-                    Select::make('mois')
+                    /* Select::make('mois')
                         ->options(['Janvier' => 'Janvier','Février' => 'Février','Mars' => 'Mars','Avril' => 'Avril','Mais' => 'Mais','Juin' => 'Juin','Juillet' => 'Juillet','Aout' => 'Aout','Septembre' => 'Septembre','Octobre' => 'Octobre','Novembre' => 'Novembre','Décembre' => 'Décembre'])
                         ->label("Mois")
-                        ->required(),
+                        ->required(), */
                     TextInput::make('annee')
                         ->label('Année')
                         ->numeric()
