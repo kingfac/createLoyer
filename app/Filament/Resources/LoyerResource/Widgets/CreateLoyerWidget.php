@@ -48,11 +48,13 @@ class CreateLoyerWidget extends Widget implements HasForms
                         ->searchable()
                         ->validationMessages(['required' => 'Veuillez remplir ce champ'])
                         ->preload()
+                        ->default(1)
                         ->required(),
                     Select::make('mois')
                         ->options(['Janv
                         ier' => 'Janvier','Février' => 'Février','Mars' => 'Mars','Avril' => 'Avril','Mais' => 'Mais','Juin' => 'Juin','Juillet' => 'Juillet','Aout' => 'Aout','Septembre' => 'Septembre','Octobre' => 'Octobre','Novembre' => 'Novembre','Décembre' => 'Décembre'])
                         ->label("Mois")
+                        ->default('Janvier')
                         ->required(),
                     TextInput::make('annee')
                         ->label('Année')
@@ -123,5 +125,15 @@ class CreateLoyerWidget extends Widget implements HasForms
                 Blade::render('factureTotal', ['record' => $loyer])
             )->stream();
         }, $this->form->getState()['mois'].'_'.$this->form->getState()['annee'].'_loyerTotal.pdf');
+    }
+
+    public function dette()
+    {
+        return response()->streamDownload(function ()  {
+            echo Pdf::loadHtml(
+                Blade::render('dettes', ['mois'=>$this->form->getState()['mois'],'annee'=>$this->form->getState()['annee']])
+            )->stream();
+        }, $this->form->getState()['mois'].'_'.$this->form->getState()['annee'].'_dettes.pdf');
+                                
     }
 }

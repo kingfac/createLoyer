@@ -13,6 +13,10 @@
                 Imprimer loyer total
             </x-filament::button>
 
+            <x-filament::button type="button" class="mt-3" wire:click="dette">
+                Imprimer dettes
+            </x-filament::button>
+
         </form> 
     </x-filament::section>
 </x-filament-widgets::widget>
