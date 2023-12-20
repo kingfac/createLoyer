@@ -4,12 +4,11 @@ namespace App\Filament\Resources\LoyerResource\Widgets;
 
 use DateTime;
 use App\Models\Loyer;
-use Filament\Forms;
 use Filament\Forms\Form;
 use App\Models\Locataire;
 use Filament\Widgets\Widget;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Components\Section;
@@ -49,16 +48,9 @@ class CreateLoyerWidget extends Widget implements HasForms
                         ->searchable()
                         ->preload()
                         ->required(), */
-                   /*  Select::make('mois')
+                    Select::make('mois')
                         ->options(['Janvier' => 'Janvier','Février' => 'Février','Mars' => 'Mars','Avril' => 'Avril','Mais' => 'Mais','Juin' => 'Juin','Juillet' => 'Juillet','Aout' => 'Aout','Septembre' => 'Septembre','Octobre' => 'Octobre','Novembre' => 'Novembre','Décembre' => 'Décembre'])
                         ->label("Mois")
-                        ->required(), */
-                    Forms\Components\Select::make('locataire_id')
-                        ->relationship('locataire', 'noms')
-                        ->searchable()
-                        ->preload()
-                        ->required(),
-                    Forms\Components\Select::make('mois')->options(['Janvier' => 'Janvier','Février' => 'Février','Mars' => 'Mars','Avril' => 'Avril','Mais' => 'Mais','Juin' => 'Juin','Juillet' => 'Juillet','Aout' => 'Aout','Septembre' => 'Septembre','Octobre' => 'Octobre','Novembre' => 'Novembre','Décembre' => 'Décembre'])
                         ->required(),
                     TextInput::make('annee')
                         ->label('Année')
