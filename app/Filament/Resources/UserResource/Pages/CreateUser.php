@@ -2,8 +2,9 @@
 
 namespace App\Filament\Resources\UserResource\Pages;
 
-use App\Filament\Resources\UserResource;
 use Filament\Actions;
+use Filament\Actions\Action;
+use App\Filament\Resources\UserResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateUser extends CreateRecord
@@ -14,5 +15,10 @@ class CreateUser extends CreateRecord
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('create');
+    }
+
+    protected function getCancelFormAction(): Action
+    {
+        return Action::make('Annuler')->url($this->getResource()::getUrl('index'));
     }
 }

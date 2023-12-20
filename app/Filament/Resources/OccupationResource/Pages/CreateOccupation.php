@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\OccupationResource\Pages;
 
-use App\Filament\Resources\OccupationResource;
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
+use App\Filament\Resources\OccupationResource;
 
 class CreateOccupation extends CreateRecord
 {
@@ -15,5 +16,10 @@ class CreateOccupation extends CreateRecord
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('create');
+    }
+
+    protected function getCancelFormAction(): Action
+    {
+        return Action::make('Annuler')->url($this->getResource()::getUrl('index'));
     }
 }

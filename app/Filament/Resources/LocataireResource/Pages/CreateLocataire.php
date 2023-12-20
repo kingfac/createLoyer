@@ -2,10 +2,11 @@
 
 namespace App\Filament\Resources\LocataireResource\Pages;
 
-use App\Filament\Resources\LocataireResource;
-use App\Models\Occupation;
 use Filament\Actions;
+use App\Models\Occupation;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
+use App\Filament\Resources\LocataireResource;
 
 class CreateLocataire extends CreateRecord
 {
@@ -25,5 +26,10 @@ class CreateLocataire extends CreateRecord
         $data['garantie'] = $loyer->montant * intval($data['mois']);
         //dd($data);
         return $data;
+    }
+
+    protected function getCancelFormAction(): Action
+    {
+        return Action::make('Annuler')->url($this->getResource()::getUrl('index'));
     }
 }

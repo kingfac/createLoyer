@@ -20,6 +20,11 @@ class CreateLoyer extends CreateRecord
     {
         return $this->getResource()::getUrl('create');
     }
+
+    protected function getCancelFormAction(): Action
+    {
+        return Action::make('Annuler')->url($this->getResource()::getUrl('index'));
+    }
     
     protected function getActions(): array
     {

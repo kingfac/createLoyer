@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\PermissionResource\Pages;
 
-use App\Filament\Resources\PermissionResource;
 use Filament\Actions;
+use Filament\Pages\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
+use App\Filament\Resources\PermissionResource;
 
 class CreatePermission extends CreateRecord
 {
@@ -14,5 +15,10 @@ class CreatePermission extends CreateRecord
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('create');
+    }
+
+    protected function getCancelFormAction(): Action
+    {
+        return Action::make('Annuler')->url($this->getResource()::getUrl('index'));
     }
 }
