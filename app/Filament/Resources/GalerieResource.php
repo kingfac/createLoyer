@@ -30,6 +30,7 @@ class GalerieResource extends Resource
             ->schema([
                 Forms\Components\Select::make('commune_id')
                     ->relationship('commune', 'nom')
+                    ->default(8)
                     ->required(),
                 Forms\Components\TextInput::make('nom')
                     ->required()
@@ -100,6 +101,13 @@ class GalerieResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::all()->count();   
+    }
+
+
+    public static function getActions(){
+        return [
+            
+        ];
     }
 
 

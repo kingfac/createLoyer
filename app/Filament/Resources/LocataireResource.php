@@ -4,9 +4,13 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Galerie;
+use Filament\Forms\Set;
 use Filament\Forms\Form;
 use App\Models\Locataire;
+use App\Models\Occupation;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Blade;
@@ -17,8 +21,6 @@ use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\LocataireResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LocataireResource\RelationManagers;
-use App\Models\Galerie;
-use App\Models\Occupation;
 
 class LocataireResource extends Resource
 {
@@ -26,12 +28,19 @@ class LocataireResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public string $loyer_id;
+
+    public array $gar;
+
     public static function form(Form $form): Form
     {
+        $ddd = ['ggf'=>'hfhf'];
         return $form
             ->schema([
                 Forms\Components\Select::make('occupation_id')
                     ->relationship('occupation', )
+                    ->reactive()
+                    ->live()
                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->galerie->nom} | {$record->typeOccu->nom} ({$record->montant} $)")
                     ->required(),
                 Forms\Components\TextInput::make('nom')
@@ -46,9 +55,17 @@ class LocataireResource extends Resource
                     ->tel()
                     ->required()
                     ->maxLength(14),
-                Forms\Components\TextInput::make('garantie')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('mois')
+                    ->label('Nbr mois garantie')
+                    ->options( ["3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"10"=>10])
+                    ->reactive()
+                    ->required(),
+                    
+                /* Forms\Components\TextInput::make('garantie')
+                    ->numeric()
+                    ->reactive()
+                    ->minValue(fn($get) => Occupation::where('id', $get('occupation_id'))->value('montant') * intval($get('mois')))
+                    ->default(fn($get) => Occupation::where('id', $get('occupation_id'))->value('montant') * intval($get('mois'))), */
                 Forms\Components\Toggle::make('actif')
                     ->label('Désactiver/Activer')
                     ->default(true)
@@ -59,6 +76,8 @@ class LocataireResource extends Resource
 
     public static function table(Table $table): Table
     {
+
+        
         return $table
             ->columns([
                 
@@ -141,4 +160,6 @@ class LocataireResource extends Resource
     {
         return static::getModel()::all()->count();   
     }
+
+    
 }
