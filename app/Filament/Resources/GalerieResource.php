@@ -2,22 +2,27 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\GalerieResource\Pages;
-use App\Filament\Resources\GalerieResource\RelationManagers;
-use App\Models\Galerie;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Galerie;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Actions\CreateAction;
+use Filament\Forms\Components\Actions;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\Actions\Action;
+use App\Filament\Resources\GalerieResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\GalerieResource\RelationManagers;
 
 class GalerieResource extends Resource
 {
     protected static ?string $model = Galerie::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    
 
     public static function form(Form $form): Form
     {
@@ -81,6 +86,8 @@ class GalerieResource extends Resource
         ];
     }
 
+    
+
     public static function getPages(): array
     {
         return [
@@ -89,4 +96,16 @@ class GalerieResource extends Resource
             'edit' => Pages\EditGalerie::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::all()->count();   
+    }
+
+
+    
+
+    
+
+    
 }

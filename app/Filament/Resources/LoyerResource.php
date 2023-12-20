@@ -134,4 +134,9 @@ class LoyerResource extends Resource
             LoyerResource\Widgets\CreateLoyerWidget::class,
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::all()->count();   
+    }
 }

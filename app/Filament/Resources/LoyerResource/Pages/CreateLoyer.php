@@ -14,6 +14,13 @@ class CreateLoyer extends CreateRecord
 {
     protected static string $resource = LoyerResource::class;
 
+    protected static bool $canCreateAnother = false;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('create');
+    }
+    
     protected function getActions(): array
     {
         return [

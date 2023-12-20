@@ -135,4 +135,10 @@ class LocataireResource extends Resource
             'edit' => Pages\EditLocataire::route('/{record}/edit'),
         ];
     }
+
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::all()->count();   
+    }
 }

@@ -2,14 +2,20 @@
 
 namespace App\Filament\Resources\DettesResource\Widgets;
 
-use App\Models\Locataire;
+use DateTime;
 use App\Models\Loyer;
-use App\Models\Occupation;
 use Filament\Forms\Form;
+use App\Models\Locataire;
+use App\Models\Occupation;
+use Filament\Tables\Table;
 use Filament\Widgets\Widget;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Forms\Components\Select;
+use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Tables\Columns\TextColumn;
 
 class DetteWidget extends Widget implements HasForms
 {
@@ -32,11 +38,18 @@ class DetteWidget extends Widget implements HasForms
 
     public function form(Form $form): Form
     {
+        $currentDate = new DateTime();
+
         return $form
             ->schema([
-                TextInput::make('mois')
-                    ->required(),
+                Select::make('mois')->options(['Janvier' => 'Janvier','Février' => 'Février','Mars' => 'Mars','Avril' => 'Avril','Mais' => 'Mais','Juin' => 'Juin','Juillet' => 'Juillet','Aout' => 'Aout','Septembre' => 'Septembre','Octobre' => 'Octobre','Novembre' => 'Novembre','Décembre' => 'Décembre'])
+                        ->required(),
                 TextInput::make('annee')
+                    ->label('Année')
+                    ->numeric()
+                    ->maxValue(2030)
+                    ->minValue(2023)
+                    ->default($currentDate->format("Y"))
                     ->required(),
             ])
             ->statePath('data');
@@ -51,45 +64,16 @@ class DetteWidget extends Widget implements HasForms
 
     public function dette()
     {
-        $d = Loyer::where('mois',$this->form->getState()['mois'])->where('annee',$this->form->getState()['annee'])->get();
-                        
-        $n=0;
-        $dettes = [];
-        $locs = Locataire::all();
-
-
-        // dd($locs[0]['nom']);
-
-        for ($i=0; $i <= $locs->count(); $i++) { 
-
-            $l = Loyer::where('mois',$this->form->getState()['mois'])->where('locataire_id',$locs[$i]['id'])->get();
-            // $occ = Occupation::where('id',$l[0]['occupation_id'])->get();
-            $m = $l[0]->locataire->occupation->montant;
-            
-            if ($l->count() > 1) {
-                        # code...
-                // dd('plusieurs tranches');
-                $somme = $l->sum('montant');
-                if($somme == $m){
-                    dd('pas de dette');
-                }
-                    
-            }
-            
-            elseif ($l->count() == 1) {
-                $somme = $l['montant'];
-
-                if ($somme == $m) {
-                    dd('pas de dette');
-                }
-            }
-            // $dettes[$i] = []
-        }
-   
-
-    
-                        
+        return response()->streamDownload(function ()  {
+            echo Pdf::loadHtml(
+                Blade::render('dettes', ['mois'=>$this->form->getState()['mois'],'annee'=>$this->form->getState()['annee']])
+            )->stream();
+        }, $this->form->getState()['mois'].'_'.$this->form->getState()['annee'].'_dettes.pdf');
+                                
     }
+
+
+
 }
 
 

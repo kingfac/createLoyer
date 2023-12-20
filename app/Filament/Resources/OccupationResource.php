@@ -98,4 +98,9 @@ class OccupationResource extends Resource
             'edit' => Pages\EditOccupation::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::all()->count();   
+    }
 }

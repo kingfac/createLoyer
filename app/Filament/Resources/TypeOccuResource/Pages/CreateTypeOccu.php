@@ -9,4 +9,11 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateTypeOccu extends CreateRecord
 {
     protected static string $resource = TypeOccuResource::class;
+
+    protected static bool $canCreateAnother = false;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('create');
+    }
 }
