@@ -16,4 +16,6 @@ class EditLocataire extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    //protected function Edit
 }

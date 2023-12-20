@@ -42,12 +42,12 @@ class CreateLoyerWidget extends Widget implements HasForms
             ->schema([
                 Section::make()->schema([
 
-                    /* Select::make('locataire_id')
+                    Select::make('locataire_id')
                         ->label('Locataire')
                         ->options(Locataire::where('actif',true)->pluck('noms','id'))
                         ->searchable()
                         ->preload()
-                        ->required(), */
+                        ->required(),
                     Select::make('mois')
                         ->options(['Janvier' => 'Janvier','Février' => 'Février','Mars' => 'Mars','Avril' => 'Avril','Mais' => 'Mais','Juin' => 'Juin','Juillet' => 'Juillet','Aout' => 'Aout','Septembre' => 'Septembre','Octobre' => 'Octobre','Novembre' => 'Novembre','Décembre' => 'Décembre'])
                         ->label("Mois")

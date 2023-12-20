@@ -23,7 +23,17 @@ class CreateLocataire extends CreateRecord
     {
         //$data['user_id'] = auth()->id();
         $loyer = Occupation::where('id', $data['occupation_id'])->first();
+        if($data['postnom'] == null){
+            $data['postnom'] = "";
+        }
+        if($data['prenom'] == null){
+            $data['prenom'] = "";
+        }
+        if($data['nom'] == null){
+            $data['nom'] = "";
+        }
         $data['garantie'] = $loyer->montant * intval($data['mois']);
+
         //dd($data);
         return $data;
     }
