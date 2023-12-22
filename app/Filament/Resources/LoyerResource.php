@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\LoyerResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LoyerResource\RelationManagers;
+use App\Models\Locataire;
 
 class LoyerResource extends Resource
 {
@@ -86,7 +87,7 @@ class LoyerResource extends Resource
                 //
                 SelectFilter::make('mois')->options(['Janvier' => 'Janvier','Février' => 'Février','Mars' => 'Mars','Avril' => 'Avril','Mais' => 'Mais','Juin' => 'Juin','Juillet' => 'Juillet','Aout' => 'Aout','Septembre' => 'Septembre','Octobre' => 'Octobre','Novembre' => 'Novembre','Décembre' => 'Décembre']),
                 SelectFilter::make('annee')->options(range(2009,2030)),
-                SelectFilter::make('locataire.nom'),
+                SelectFilter::make('locataire_id')->relationship('locataire', 'noms')
             ])
             ->actions([
                 //Tables\Actions\EditAction::make(),
