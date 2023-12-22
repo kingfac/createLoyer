@@ -59,14 +59,13 @@ class LocataireResource extends Resource
                 Forms\Components\Select::make('mois')
                     ->label('Nbr mois garantie')
                     ->options( ["3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"10"=>10])
-                    ->reactive()
-                    ->required(),
+                    ->reactive(),
                     
-                /* Forms\Components\TextInput::make('garantie')
+                Forms\Components\TextInput::make('garantie')
                     ->numeric()
                     ->reactive()
                     ->minValue(fn($get) => Occupation::where('id', $get('occupation_id'))->value('montant') * intval($get('mois')))
-                    ->default(fn($get) => Occupation::where('id', $get('occupation_id'))->value('montant') * intval($get('mois'))), */
+                    ->default(fn($get) => Occupation::where('id', $get('occupation_id'))->value('montant') * intval($get('mois'))),
                 Forms\Components\Toggle::make('actif')
                     ->label('Désactiver/Activer')
                     ->default(true)

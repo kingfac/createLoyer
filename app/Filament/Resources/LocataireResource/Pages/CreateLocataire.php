@@ -5,6 +5,7 @@ namespace App\Filament\Resources\LocataireResource\Pages;
 use Filament\Actions;
 use App\Models\Occupation;
 use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\LocataireResource;
 
@@ -32,10 +33,27 @@ class CreateLocataire extends CreateRecord
         if($data['nom'] == null){
             $data['nom'] = "";
         }
-        $data['garantie'] = $loyer->montant * intval($data['mois']);
+        if($data['garantie'] == 0 && $data['mois'] == null){
+            Notification::make()
+            ->warning()
+            ->title("Validation données erreur")
+            ->body("Garantie ou mois garantie doit être renseigné pour valider
+            le formulaire")
+            ->persistent()
+            
+            ->send();
+            $this->halt();
+        }
+        elseif($data['garantie'] == 0 && $data['mois'] != null){
+            $data['garantie'] = $loyer->montant * intval($data['mois']);
+        }
 
         //dd($data);
         return $data;
+    }
+
+    protected function beforeCreate():void{
+        //dd($this->record->garantie);
     }
 
     protected function getCancelFormAction(): Action
