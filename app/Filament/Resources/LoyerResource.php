@@ -52,6 +52,10 @@ class LoyerResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $ans = [];
+        for ($i = 2009; $i <= 2030; $i++) {
+            $ans[$i] = $i;
+        }
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('locataire.noms')
@@ -86,7 +90,7 @@ class LoyerResource extends Resource
             ->filters([
                 //
                 SelectFilter::make('mois')->options(['Janvier' => 'Janvier','Février' => 'Février','Mars' => 'Mars','Avril' => 'Avril','Mais' => 'Mais','Juin' => 'Juin','Juillet' => 'Juillet','Aout' => 'Aout','Septembre' => 'Septembre','Octobre' => 'Octobre','Novembre' => 'Novembre','Décembre' => 'Décembre']),
-                SelectFilter::make('annee')->options(range(2009,2030)),
+                SelectFilter::make('annee')->options($ans),
                 SelectFilter::make('locataire_id')->relationship('locataire', 'noms')
             ])
             ->actions([
