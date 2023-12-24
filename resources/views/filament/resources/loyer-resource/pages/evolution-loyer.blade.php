@@ -21,9 +21,8 @@
             <b class="p-2" style="background-color: white">{{$loop->index + 1}}</b>
             <span class="px-2 text-lg font-bold">Locataire {{$loc->nom}} </span>
             
-            <div class="flex justify-between">
-                <p class="py-2">Loyer à payer : {{$loyer}}$</p>
-                <p class="py-2">Loyer payé : {{$somme}}$</p>
+            <div class="flex justify-center {{-- items-center text-center --}}">
+                <p class="py-2 font-bold text-xl">{{$somme}}$ / {{$loyer}}$</p>
             </div>
         </div>
         @endforeach
