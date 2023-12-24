@@ -6,6 +6,7 @@ use Filament\Forms;
 use Filament\Tables;
 use App\Models\Loyer;
 use Filament\Forms\Form;
+use App\Models\Locataire;
 use Filament\Tables\Table;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Resources\Resource;
@@ -16,8 +17,8 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\LoyerResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use RyanChandler\FilamentProgressColumn\ProgressColumn;
 use App\Filament\Resources\LoyerResource\RelationManagers;
-use App\Models\Locataire;
 
 class LoyerResource extends Resource
 {
@@ -82,7 +83,12 @@ class LoyerResource extends Resource
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     //->label('Date de payement')
-                    ->sortable()
+                    ->sortable(),
+
+                ProgressColumn::make('progress')
+                    // ->progress(function ($record) {
+                    //     return ($record->rows_complete / $record->total_rows) * 100;
+                    // }),
             ])
             ->defaultSort('created_at', 'desc')
             ->searchable()
@@ -91,7 +97,9 @@ class LoyerResource extends Resource
                 //
                 SelectFilter::make('mois')->options(['Janvier' => 'Janvier','Février' => 'Février','Mars' => 'Mars','Avril' => 'Avril','Mais' => 'Mais','Juin' => 'Juin','Juillet' => 'Juillet','Aout' => 'Aout','Septembre' => 'Septembre','Octobre' => 'Octobre','Novembre' => 'Novembre','Décembre' => 'Décembre']),
                 SelectFilter::make('annee')->options($ans),
-                SelectFilter::make('locataire_id')->relationship('locataire', 'noms')
+                SelectFilter::make('locataire_nom')->relationship('locataire', 'noms')->label('Locataire'),
+                SelectFilter::make('locataire_id')->relationship('locataire.occupation.galerie','nom')->label('Galerie')
+
             ])
             ->actions([
                 //Tables\Actions\EditAction::make(),
@@ -129,6 +137,7 @@ class LoyerResource extends Resource
             'index' => Pages\ListLoyers::route('/'),
             //'create' => Pages\CreateLoyer::route('/create'),
             'edit' => Pages\EditLoyer::route('/{record}/edit'),
+            'evolution' => Pages\EvolutionLoyer::route('/{mois}/evolution')
         ];
     }
 

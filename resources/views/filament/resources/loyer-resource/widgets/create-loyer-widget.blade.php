@@ -17,6 +17,10 @@
                 Imprimer dettes
             </x-filament::button>
 
+            <x-filament::button type="button" class="mt-3" wire:click="evolution">
+                Evolution loyer / Locataire
+            </x-filament::button>
+
         </form> 
     </x-filament::section>
 </x-filament-widgets::widget>

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Occupation extends Model
 {
@@ -26,5 +27,9 @@ class Occupation extends Model
 
     public function typeOccu() : BelongsTo {
         return $this->belongsTo(TypeOccu::class);
+    }
+
+    public function locataires(): HasMany{
+        return $this->hasMany(Locataire::class);
     }
 }
