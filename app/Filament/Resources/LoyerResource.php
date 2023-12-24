@@ -85,7 +85,7 @@ class LoyerResource extends Resource
                     //->label('Date de payement')
                     ->sortable(),
 
-                ProgressColumn::make('progress')
+                /* ProgressColumn::make('progress') */
                     // ->progress(function ($record) {
                     //     return ($record->rows_complete / $record->total_rows) * 100;
                     // }),
