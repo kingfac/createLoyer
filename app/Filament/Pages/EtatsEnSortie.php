@@ -65,7 +65,7 @@ class EtatsEnSortie extends Page implements HasForms
                         ->minValue(2023)
                         ->default($currentDate->format("Y"))
                         ->required(),
-                    Radio::make('type')
+                   /*  Radio::make('type')
                         ->options([
                             'Mois' => 'Mois',
                             'Annee' => 'Annee',
@@ -73,7 +73,7 @@ class EtatsEnSortie extends Page implements HasForms
                         ->inline()
                         ->label('Type')
                         ->inlineLabel(false)
-                        ->required()
+                        ->required() */
                 ])
                 ->columns(4)
 
