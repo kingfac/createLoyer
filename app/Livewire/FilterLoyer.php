@@ -26,11 +26,18 @@ class FilterLoyer extends Component implements HasForms, HasTable
 
     public $annee;
     public $mois;
+    public $data;
 
     protected $listeners = ['m4a' => '$refresh'];
 
     public function render()
     {
+        $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER')
+        ->selectRaw('locataires.*')
+        ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
+        ->orderBy('locataires.id')
+        ->GroupBy('locataires.id')
+        ->get();
         return view('livewire.filter-loyer');
     }
 
@@ -57,13 +64,14 @@ class FilterLoyer extends Component implements HasForms, HasTable
             /* ->select(['locataires.*', 'loyers.montant', 'loyers.mois'])
             ->join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER') */
             ->join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER')
+            ->selectRaw('locataires.noms')
             ->withSum(
                 [
                     'loyers' => fn($query) => $query->where(['mois'=>$this->mois, 'annee'=>$this->annee])
                 ], 
                 'montant'
             )
-            ->groupBy(['locataires.id', 'locataires.nom', 'locataires.postnom', 'locataires.prenom'])
+            ->groupBy(['locataires.id', 'locataires.noms'])
             )
             
             ->columns([
