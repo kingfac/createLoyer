@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Locataire;
 use App\Models\Loyer;
 use App\Models\Occupation;
 use Flowframe\Trend\Trend;
@@ -13,6 +14,8 @@ class Statistique extends BaseWidget
 {
     protected function getStats(): array
     {
+        // nombre de locataire ayant de dettes        
+
         //payement par jour
         $data1 = Trend::model(Loyer::class)
             ->between(
@@ -42,6 +45,7 @@ class Statistique extends BaseWidget
 
         
         return [
+            Stat::make('nombre des locataires ayant des dettes', '192.1k'),
             Stat::make('Payement Journalier', array_sum($data1->map(fn (TrendValue $value) => $value->aggregate)->toArray()))
                 ->description("Les loyers payés aujourd'hui")
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
@@ -55,6 +59,7 @@ class Statistique extends BaseWidget
                 ->description('Les dettes de ce mois')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
+            
         ];
     }
 }

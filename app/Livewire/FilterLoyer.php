@@ -63,7 +63,7 @@ class FilterLoyer extends Component implements HasForms, HasTable
                 ], 
                 'montant'
             )
-            ->groupBy('locataires.id')
+            ->groupBy(['locataires.id', 'locataires.nom'])
             )
             
             ->columns([
