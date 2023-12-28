@@ -25,6 +25,7 @@ class LoyerResource extends Resource
     protected static ?string $model = Loyer::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
@@ -61,8 +62,8 @@ class LoyerResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('locataire.noms')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('locataire.occupation.ref')
-                    ->sortable(),
+                /* Tables\Columns\TextColumn::make('locataire.occupation.ref')
+                    ->sortable(), */
                 Tables\Columns\TextColumn::make('locataire.occupation.typeOccu.nom')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('mois')

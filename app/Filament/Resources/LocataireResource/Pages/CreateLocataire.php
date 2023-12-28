@@ -33,7 +33,7 @@ class CreateLocataire extends CreateRecord
         if($data['nom'] == null){
             $data['nom'] = "";
         }
-        if($data['garantie'] == 0 && $data['mois'] == null){
+        if($data['garantie'] == 0 && $data['nbr'] == null){
             Notification::make()
             ->warning()
             ->title("Validation données erreur")
@@ -44,8 +44,8 @@ class CreateLocataire extends CreateRecord
             ->send();
             $this->halt();
         }
-        elseif($data['garantie'] == 0 && $data['mois'] != null){
-            $data['garantie'] = $loyer->montant * intval($data['mois']);
+        elseif($data['garantie'] == 0 && $data['nbr'] != null){
+            $data['garantie'] = $loyer->montant * intval($data['nbr']);
         }
 
         //dd($data);

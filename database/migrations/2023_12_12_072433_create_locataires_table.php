@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('prenom');
             $table->string('tel', 14);
             $table->double('garantie');
+            $table->double('nbr');
             $table->unsignedBigInteger('occupation_id');
             $table->boolean('actif');
             $table->string('noms')->virtualAs('concat(nom, \' \', postnom, \' \', prenom)');

@@ -9,13 +9,13 @@
                 {{ __('filament-panels::resources/pages/create-record.form.actions.create.label') }}
             </x-filament::button>
 
-            <x-filament::button type="button" class="mt-3" wire:click="total">
+            {{-- <x-filament::button type="button" class="mt-3" wire:click="total">
                 Imprimer loyer total
             </x-filament::button>
 
             <x-filament::button type="button" class="mt-3" wire:click="dette">
                 Imprimer dettes
-            </x-filament::button>
+            </x-filament::button> --}}
 
             <x-filament::button type="button" class="mt-3" wire:click="evolution">
                 Evolution loyer / Locataire
