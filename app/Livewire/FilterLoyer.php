@@ -36,7 +36,6 @@ class FilterLoyer extends Component implements HasForms, HasTable
         ->selectRaw('locataires.*')
         ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
         ->orderBy('locataires.id')
-        ->GroupBy('locataires.id')
         ->get();
         return view('livewire.filter-loyer');
     }

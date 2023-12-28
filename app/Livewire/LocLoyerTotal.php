@@ -20,11 +20,17 @@ class LocLoyerTotal extends Component implements HasForms, HasTable
 
     public $annee;
     public $mois;
+    public $data;
 
     protected $listeners = ['m5a' => '$refresh'];
 
     public function render()
     {
+        $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
+        ->selectRaw('locataires.*')
+        ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
+        ->orderBy('locataires.id')
+        ->get();
         return view('livewire.loc-loyer-total');
     }
 
