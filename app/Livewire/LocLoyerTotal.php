@@ -57,7 +57,7 @@ class LocLoyerTotal extends Component implements HasForms, HasTable
                 ], 
                 'montant'
             )
-            ->groupBy(['locataires.id', 'locataires.noms'])
+            ->groupBy(['locataires.id', 'locataires.nom', 'locataires.postnom', 'locataires.prenom'])
 
             )
             
