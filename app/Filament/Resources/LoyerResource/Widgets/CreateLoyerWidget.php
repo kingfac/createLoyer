@@ -109,32 +109,7 @@ class CreateLoyerWidget extends Widget implements HasForms
             $this->dispatch('loyer-created');
     }
 
-    public function total(){
-        $loyer = Loyer::where('locataire_id',$this->form->getState()['locataire_id'])
-                        ->where('annee',$this->form->getState()['annee'])
-                        ->where('mois',$this->form->getState()['mois'])
-                        ->get();
-        //dd($loyer);
-        /* echo Pdf::loadHtml(
-            Blade::render('factureTotal.blade', ['record' => $loyer])
-        )->stream(); */
-
-        return response()->streamDownload(function () use ($loyer) {
-            echo Pdf::loadHtml(
-                Blade::render('factureTotal', ['record' => $loyer])
-            )->stream();
-        }, $this->form->getState()['mois'].'_'.$this->form->getState()['annee'].'_loyerTotal.pdf');
-    }
-
-    public function dette()
-    {
-        return response()->streamDownload(function ()  {
-            echo Pdf::loadHtml(
-                Blade::render('dettes', ['mois'=>$this->form->getState()['mois'],'annee'=>$this->form->getState()['annee']])
-            )->stream();
-        }, $this->form->getState()['mois'].'_'.$this->form->getState()['annee'].'_dettes.pdf');
-                                
-    }
+   
 
     public function evolution(){
         return response()->redirectTo('/loyers/'.$this->form->getState()['mois'].'/evolution');
