@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('mois');
             $table->string('annee');
+            $table->string('observation')->nullable();
             $table->double('montant');
             $table->unsignedBigInteger('locataire_id');
             //$table->foreign('locataire_id')->references('id')->on('locataires');

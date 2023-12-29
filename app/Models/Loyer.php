@@ -10,14 +10,15 @@ class Loyer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['mois', 'annee', 'montant', 'locataire_id','garantie'];
+    protected $fillable = ['mois', 'annee', 'montant', 'locataire_id','garantie', 'observation'];
 
     protected $casts = [
         'mois' => 'string', 
         'annee' => 'integer', 
         'montant' => 'double', 
         'locataire_id' => 'integer',
-        'garantie' => 'boolean'
+        'garantie' => 'boolean',
+        'observation' => 'string', 
     ];
 
     public function locataire() : BelongsTo {

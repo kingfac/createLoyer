@@ -67,6 +67,9 @@
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Reste
                 </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    Observation
+                </td>
                
             </tr>
         </thead>
@@ -96,6 +99,10 @@
                 </td>
 
                 <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{$ly->observation ?? 'Aucune observation'}} 
+                </td>
+
+                <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     <x-filament::icon-button
                         icon="heroicon-s-eye"
                         tag="a"
@@ -104,6 +111,7 @@
                         wire:click="imprimer({{$ly}})"
                     />
                 </td>
+                
             </tr>
             @endforeach
             <tr class="text-lg font-bold bg-gray-50">

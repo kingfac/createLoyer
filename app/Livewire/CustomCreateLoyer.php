@@ -55,6 +55,9 @@ class CustomCreateLoyer extends Component implements HasForms
                         ->label('Montant ($)')
                         ->inlineLabel()
                         ->default(0),
+                        TextInput::make('observation')
+                        ->label('Observation')
+                        ->inlineLabel(),
                         
                     Toggle::make('garantie')
                         ->label('Utiliser la garantie'),
@@ -98,6 +101,7 @@ class CustomCreateLoyer extends Component implements HasForms
             'mois' => $this->mois,
             'annee' => $this->annee,
             'locataire_id' => $this->locataire_id,
+            'observation' => $this->form->getState()['observation'],
         ]);
         $this->form->fill();
         $this->dispatch('loyer-created');
@@ -112,7 +116,7 @@ class CustomCreateLoyer extends Component implements HasForms
     public function remplir(){
         //dd($this->locataire);
         $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
-        ->selectRaw('locataires.*, loyers.montant, loyers.mois, loyers.annee, loyers.created_at as date_loyer')
+        ->selectRaw('locataires.*, loyers.montant, loyers.mois, loyers.annee, loyers.created_at as date_loyer, loyers.observation')
         ->where(['loyers.locataire_id' => $this->locataire_id, 'mois' => $this->mois, 'annee' => $this->annee])
         ->orderBy('locataires.id')
         ->get();
