@@ -124,6 +124,7 @@ class CustomCreateLoyer extends Component implements HasForms
 
     public function imprimer($ly){
         dd($ly);
+        
     }
 
     public function fermer(){

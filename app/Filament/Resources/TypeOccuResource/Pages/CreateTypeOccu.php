@@ -10,6 +10,7 @@ use App\Filament\Resources\TypeOccuResource;
 class CreateTypeOccu extends CreateRecord
 {
     protected static string $resource = TypeOccuResource::class;
+    protected static ?string $title = "Créer type occupation";
 
     protected static bool $canCreateAnother = false;
 

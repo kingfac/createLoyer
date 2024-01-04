@@ -9,6 +9,7 @@ use Filament\Resources\Pages\EditRecord;
 class EditTypeOccu extends EditRecord
 {
     protected static string $resource = TypeOccuResource::class;
+    protected static ?string $title = "Modifier ype occupation";
 
     protected function getHeaderActions(): array
     {

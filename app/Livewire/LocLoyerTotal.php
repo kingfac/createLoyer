@@ -10,19 +10,27 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Resources\Pages\ListRecords;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Pages\Concerns\ExposesTableToWidgets;
 
 class LocLoyerTotal extends Component implements HasForms, HasTable
 {
     use InteractsWithTable;
     use InteractsWithForms;
+    use ExposesTableToWidgets;
 
     public $annee;
     public $mois;
     public $data;
+    public $prevu; 
+    public $recu;
+    public $_id;
 
     protected $listeners = ['m5a' => '$refresh'];
+
+    
 
     public function render()
     {
@@ -31,6 +39,26 @@ class LocLoyerTotal extends Component implements HasForms, HasTable
         ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
         ->orderBy('locataires.id')
         ->get();
+
+        $this->prevu = Locataire::all()->sum('occupation.montant');
+        $this->recu = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER')
+        ->selectRaw('locataires.*, loyers.created_at')
+        ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
+        ->orderBy('locataires.id')
+        ->get();
+        //dd($this->recu);
+
+        $somme = 0;
+        foreach ($this->recu as $val) {
+            # code...
+            if($this->_id != $val->id){
+                $somme += $val->somme;
+                $this->_id = $val->id;
+            }
+        }
+        
+        $this->recu = $somme;
+        
         return view('livewire.loc-loyer-total');
     }
 
@@ -102,6 +130,8 @@ class LocLoyerTotal extends Component implements HasForms, HasTable
                 // ...
             ]);
     }
+
+    
 }
 
 

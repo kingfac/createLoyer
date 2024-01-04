@@ -40,20 +40,29 @@
             <tr class="text-lg font-bold">
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     E
+                </td>                
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    Locataire
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    Nom
+                    Galerie
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    Loyer à payer
+                    Type d'occupation
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    Loyer mensuel,
                 </td>
 
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    Loyer payé
+                    Avances payées
                 </td>
 
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    Reste
+                    Reste à payer
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    Date
                 </td>
                
             </tr>
@@ -70,7 +79,7 @@
             @php
                 $_id = $dt->id;
             @endphp
-            <tr class="hover:bg-white/5 dark:hover:bg-white/5">
+            <tr class="hover:bg-white/5 dark:hover:bg-white/5 ">
                 @if ($dt->somme == 0)
                     
                 <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: red;">■</td>
@@ -85,6 +94,12 @@
                     {{$dt->noms}}
                 </td>
                 <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{$dt->occupation->galerie->nom}}
+                </td>
+                <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{$dt->occupation->typeOccu->nom}}
+                </td>
+                <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->occupation->montant}}$
                 </td>
                 <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
@@ -93,15 +108,28 @@
                 <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->occupation->montant - $dt->somme}} $
                 </td>
+                <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{$dt->created_at ?? 'Aucun paiement'}}
+                </td>
 
                 <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    <x-filament::icon-button
-                        icon="heroicon-s-eye"
-                        tag="a"
-                        label="Detail"
-                        tooltip="Voir le detail"
-                        wire:click="detail({{$dt->id}})"
-                    />
+                    <div class="flex gap-2 py-2">
+                        
+                        <x-filament::icon-button
+                            icon="heroicon-o-printer"
+                            tag="a"
+                            label="Detail"
+                            tooltip="Imprimer"
+                            wire:click="imprimer({{$dt->id}})"
+                        />
+                        <x-filament::icon-button
+                            icon="heroicon-s-eye"
+                            tag="a"
+                            label="Detail"
+                            tooltip="Voir le detail"
+                            wire:click="detail({{$dt->id}})"
+                        />
+                    </div>
                 </td>
             </tr>
             @endif
@@ -110,6 +138,8 @@
 
     
     </table>
+    <!-- Pagination navigation links -->
+    {{-- {{ $data->links() }} --}}
     @endif
 
     <x-filament::modal id="detail" width="7xl" slide-over :close-by-clicking-away="false">
@@ -118,4 +148,12 @@
             <livewire:custom-create-loyer :locataire_id=$dt1 :mois=$mois :annee=$annee>
         @endif
 </x-filament::modal>
+
+<script>
+    document.addEventListener('livewire:load', function () {
+        Livewire.on('openNewTab', function (data) {
+            window.open(data.url, '_blank');
+        });
+    });
+</script>
 </div>

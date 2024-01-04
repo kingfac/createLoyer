@@ -37,7 +37,7 @@ class EtatsEnSortie extends Page implements HasForms
         'Locataires avec payement partiel',
         'Locataires avec soldes impayés',
         'Evolution Loyer/Locataire',
-        'Imprimer Loyer total'
+        'Situation des paiements Global'
     ];
 
     public function mount(): void

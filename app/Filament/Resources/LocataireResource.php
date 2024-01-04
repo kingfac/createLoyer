@@ -15,12 +15,14 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\LocataireResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LocataireResource\RelationManagers;
+use Illuminate\Support\Facades\Event;
 
 class LocataireResource extends Resource
 {
@@ -108,20 +110,37 @@ class LocataireResource extends Resource
                 //
                 SelectFilter::make('occupation_id')->relationship('occupation', 'galerie.nom')
             ])
-            ->actions([
+            /* ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('pdf') 
                 ->label('Garantie.pdf')
                 ->color('success')
                 // ->icon('heroicon-s-download')
                 ->action(function (Model $record) {
-                    return response()->streamDownload(function () use ($record) {
-                        echo Pdf::loadHtml(
-                            Blade::render('factureGarantie', ['record' => $record])
-                        )->stream();
-                    }, $record->noms . '_garantie.pdf');
-                }), 
-            ])
+                   
+                    $options = [
+                        'isHtml5ParserEnabled'=> true,
+                        'isPhpEnabled' => true,    
+                        'isPhpEnabled'=> true,
+                        'isPhpEnabled'=> true,
+                        'isHtml5ParserEnabled'=> true,
+                        'isHtml5ParserEnabled'=> true,
+                    ];
+                    
+                    $pdf = pdf::loadHTML(Blade::render('factureGarantie', ['record' => $record]));
+                    $pdf->save(public_path().'/pdf/doc.pdf');
+                    
+                    
+
+                    //return response()->view('factureGarantie', ['record' => $record]);
+                    
+                    
+                    
+                    //return response()->file(public_path().'/pdf/doc.pdf', ['content-type'=>'application/pdf']);
+                    return true;
+                })
+                ->url('/pdf/doc.pdf', true), 
+            ]) */
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

@@ -1,0 +1,9 @@
+@import '../../vendor/filament/filament/resources/css/app.css';
+ 
+.filament-sidebar-item > a {
+    @apply bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 rounded-none hover:rotate-3
+}
+ 
+.filament-tables-row:nth-child(odd){
+    @apply bg-gray-50
+}

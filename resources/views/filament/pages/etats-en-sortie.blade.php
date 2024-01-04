@@ -32,7 +32,7 @@
                 </x-filament::button>
 
                 <x-filament::button type="button" class="mt-3  py-5 bg-danger" wire:click="go(5)">
-                    Loyer total
+                    Situation des paiements Global
                 </x-filament::button>
 
                 

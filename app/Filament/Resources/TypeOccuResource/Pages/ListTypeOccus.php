@@ -9,6 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 class ListTypeOccus extends ListRecords
 {
     protected static string $resource = TypeOccuResource::class;
+    protected static ?string $title = "Type occupation";
 
     protected function getHeaderActions(): array
     {

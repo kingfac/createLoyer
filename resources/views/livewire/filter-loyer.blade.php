@@ -1,6 +1,18 @@
 <div>
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
-    <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Evolution des paiements du mois de : {{ $mois }}</h1>
+    <div class="flex  justify-between">
+        <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Evolution des paiements du mois de : {{ $mois }}</h1>
+        <x-filament::icon-button
+            icon="heroicon-o-printer"
+            tag="a"
+            label="imprimer"
+            tooltip="Imprimer"
+            href="/pdf/doc.pdf"
+            target="_blank"
+            
+        />
+    </div>
+    
     
     {{-- {{ $this->table }} --}}
 
@@ -13,6 +25,9 @@
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Nom
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    Garantie
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Loyer à payer
@@ -54,6 +69,9 @@
                 {{$dt->noms}}
             </td>
             <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                {{$dt->garantie}}$
+            </td>
+            <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                 {{$dt->occupation->montant}}$
             </td>
             <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
@@ -62,6 +80,7 @@
             <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                 {{$dt->occupation->montant - $dt->somme}} $
             </td>
+
         </tr>
         @endif
         @endforeach

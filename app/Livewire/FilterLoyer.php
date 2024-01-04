@@ -8,7 +8,9 @@ use Filament\Forms\Form;
 use App\Models\Locataire;
 use Filament\Tables\Table;
 use Livewire\Attributes\On;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Forms\Components\Select;
+use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Support\Enums\FontWeight;
@@ -37,6 +39,8 @@ class FilterLoyer extends Component implements HasForms, HasTable
         ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
         ->orderBy('locataires.id')
         ->get();
+        $pdf = pdf::loadHTML(Blade::render('evolution', ['data' => $this->data, 'label' => 'EVOLUTION DE PAIEMENT DU MOIS DE '.$this->mois]));
+        $pdf->save(public_path().'/pdf/doc.pdf');
         return view('livewire.filter-loyer');
     }
 
@@ -105,5 +109,9 @@ class FilterLoyer extends Component implements HasForms, HasTable
             ->bulkActions([
                 // ...
             ]);
+    }
+
+    public function imprimer(){
+
     }
 }

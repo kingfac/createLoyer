@@ -3,25 +3,27 @@
 namespace App\Livewire;
 
 use DateTime;
+use App\Models\Loyer;
 use Livewire\Component;
 use Filament\Forms\Form;
 use App\Models\Locataire;
-use App\Actions\ResetStars;
 
+use App\Actions\ResetStars;
 use Livewire\Attributes\On;
+use Livewire\WithPagination;
+
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Actions;
-
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Support\Enums\ActionSize;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 
-
 class CustomLoyer extends Component implements HasForms
 {
 
+    use WithPagination;
     use InteractsWithForms;
 
     public ?array $dataf = [];
@@ -35,6 +37,7 @@ class CustomLoyer extends Component implements HasForms
 
     public function render()
     {
+        //dd(Loyer::whereRaw("DAY(created_at) = DAY(NOW())")->get()->sum('montant'));
         return view('livewire.custom-loyer');
     }
 
@@ -55,10 +58,12 @@ class CustomLoyer extends Component implements HasForms
     public function remplir(){
         //dd($this->form->getState()['annee']);
         $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER')
-        ->selectRaw('locataires.*')
+        ->selectRaw('locataires.*, loyers.created_at')
         ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->form->getState()['mois'], $this->form->getState()['annee']])
         ->orderBy('locataires.id')
         ->get();
+
+        //$this->data = $this->data->paginate(10);
     }
 
     public function form(Form $form): Form
@@ -128,6 +133,10 @@ class CustomLoyer extends Component implements HasForms
 
     public function evolution(){
         return response()->redirectTo('/loyers/'.$this->form->getState()['mois'].'/evolution');
+    }
+
+    public function imprimer($dt){
+        
     }
 
 }

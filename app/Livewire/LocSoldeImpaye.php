@@ -6,6 +6,8 @@ use Livewire\Component;
 use App\Models\Locataire;
 use Filament\Tables\Table;
 use Livewire\Attributes\On;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
@@ -28,9 +30,11 @@ class LocSoldeImpaye extends Component //implements HasForms, HasTable
     {
         $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'left outer')
         ->selectRaw('locataires.*')
-        ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = 'Janvier' and `annee` = 2023)) as `somme`")
+        ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
         ->orderBy('locataires.id')
         ->get();
+        $pdf = Pdf::loadHTML(Blade::render('inverse', ['data' => $this->data, 'label' => 'LOCATAIRE AVEC SOLDE IMPAYE DU MOIS DE '.$this->mois, 'inverse' =>true]));
+        $pdf->save(public_path().'/pdf/doc.pdf');
         return view('livewire.loc-solde-impaye');
     }
 
