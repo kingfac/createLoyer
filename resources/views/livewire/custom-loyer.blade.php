@@ -19,57 +19,56 @@
 
 
 <div>
-    <style>
-        tbody tr:hover {
-            background-color: #f4f4f5;
-        }
-
-        tbody tr {
-            cursor: pointer;
-            padding-top: 30px;
-        }
-    </style>
+    @filamentStyles
+    @vite('resources/css/app.css')
+    
     {{-- Close your eyes. Count to one. That is how long forever feels. --}}
     {{$this->form}}
+    {{$this->table}}
+    <div class="bg-red-500 p-10">
+        <p class="text-2xl">glodi</p>
+    </div>
     <br>
-    @if (count($data) > 0)
+    
         
-    <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'">
-        
-        <thead class="bg-gray-50 dark:bg-white/5">
-            <tr class="text-lg font-bold">
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+    <table class="table-auto border-collapse border border-slate-400 w-full">
+        <caption class="caption-top">
+            Table 3.1: Professional wrestlers and their signature moves.
+          </caption>
+        <thead class="">
+            <tr class="">
+                <th class="">
                     E
-                </td>                
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </th>                
+                <th class="">
                     Locataire
-                </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </th>
+                <th class="">
                     Galerie
-                </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </th>
+                <th class="">
                     Type d'occupation
-                </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </th>
+                <th class="">
                     Loyer mensuel,
-                </td>
+                </th>
 
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <th class="">
                     Avances payées
-                </td>
+                </th>
 
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <th class="">
                     Reste à payer
-                </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </th>
+                <th class="">
                     Date
-                </td>
+                </th>
                
             </tr>
         </thead>
     
 
-        <tbody class="divide-y divide-gray-200 whitespace-nowrap dark:divide-white/5">
+        <tbody class="">
         
             @php
                 $_id = 0;
@@ -79,40 +78,40 @@
             @php
                 $_id = $dt->id;
             @endphp
-            <tr class="hover:bg-white/5 dark:hover:bg-white/5 ">
+            <tr class="hover:bg-slate-200">
                 @if ($dt->somme == 0)
                     
-                <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: red;">■</td>
+                <td class="" style="color: red;">■</td>
                 @else
                 @if ($dt->occupation->montant == $dt->somme)
-                <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;">■</td>
+                <td class="" style="color: green;">■</td>
                 @else
-                <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: blue;">■</td>       
+                <td class="" style="color: blue;">■</td>       
                 @endif 
                 @endif
-                <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="">
                     {{$dt->noms}}
                 </td>
-                <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="">
                     {{$dt->occupation->galerie->nom}}
                 </td>
-                <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="">
                     {{$dt->occupation->typeOccu->nom}}
                 </td>
-                <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="">
                     {{$dt->occupation->montant}}$
                 </td>
-                <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="">
                     {{$dt->somme ?? 0}} $
                 </td>
-                <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="">
                     {{$dt->occupation->montant - $dt->somme}} $
                 </td>
-                <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="">
                     {{$dt->created_at ?? 'Aucun paiement'}}
                 </td>
 
-                <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="">
                     <div class="flex gap-2 py-2">
                         
                         <x-filament::icon-button
@@ -140,7 +139,7 @@
     </table>
     <!-- Pagination navigation links -->
     {{-- {{ $data->links() }} --}}
-    @endif
+    
 
     <x-filament::modal id="detail" width="7xl" slide-over :close-by-clicking-away="false">
     {{-- Modal content --}}
@@ -148,7 +147,8 @@
             <livewire:custom-create-loyer :locataire_id=$dt1 :mois=$mois :annee=$annee>
         @endif
 </x-filament::modal>
-
+@filamentScripts
+@vite('resources/js/app.js')
 <script>
     document.addEventListener('livewire:load', function () {
         Livewire.on('openNewTab', function (data) {

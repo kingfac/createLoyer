@@ -8,22 +8,27 @@ use Livewire\Component;
 use Filament\Forms\Form;
 use App\Models\Locataire;
 
+use Filament\Tables\Table;
 use App\Actions\ResetStars;
 use Livewire\Attributes\On;
-use Livewire\WithPagination;
 
+use Livewire\WithPagination;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Support\Enums\ActionSize;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Tables\Concerns\InteractsWithTable;
 
-class CustomLoyer extends Component implements HasForms
+class CustomLoyer extends Component implements HasForms, HasTable
 {
 
-    use WithPagination;
+    
+    use InteractsWithTable;
     use InteractsWithForms;
 
     public ?array $dataf = [];
@@ -53,6 +58,7 @@ class CustomLoyer extends Component implements HasForms
     public function mount(): void
     {
         $this->form->fill();
+        $this->remplir();
     }
 
     public function remplir(){
@@ -64,6 +70,31 @@ class CustomLoyer extends Component implements HasForms
         ->get();
 
         //$this->data = $this->data->paginate(10);
+    }
+
+    public function table(Table $table): Table
+    {
+        return $table
+            ->query(Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER')
+            ->selectRaw('locataires.*, max(loyers.created_at)')
+            ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->form->getState()['mois'], $this->form->getState()['annee']])
+            ->orderByRaw('locataires.id')
+            ->groupBy('locataires.id'))
+
+            ->columns([
+                TextColumn::make('noms'),
+                TextColumn::make('somme'),
+                TextColumn::make('reste'),
+            ])
+            ->filters([
+                // ...
+            ])
+            ->actions([
+                // ...
+            ])
+            ->bulkActions([
+                // ...
+            ]);
     }
 
     public function form(Form $form): Form
