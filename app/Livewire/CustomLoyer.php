@@ -77,7 +77,7 @@ class CustomLoyer extends Component implements HasForms, HasTable
         return $table
             ->query(Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER')
             ->selectRaw('locataires.*, max(loyers.created_at)')
-            ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->form->getState()['mois'], $this->form->getState()['annee']])
+            ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = '?' and `annee` = ?)) as `somme`", [$this->form->getState()['mois'], $this->form->getState()['annee']])
             ->orderByRaw('locataires.id')
             ->groupBy('locataires.id'))
 
