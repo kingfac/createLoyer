@@ -20,7 +20,8 @@
 
 <div>
     @filamentStyles
-    @vite('resources/css/app.css')
+    {{-- @vite('resources/css/app.css') --}}
+    <link rel="stylesheet" href="{{asset('build/assets/app-b2c5a9a8.css')}}">
     
     {{-- Close your eyes. Count to one. That is how long forever feels. --}}
     {{$this->form}}
@@ -148,7 +149,8 @@
         @endif
 </x-filament::modal>
 @filamentScripts
-@vite('resources/js/app.js')
+{{-- @vite('resources/js/app.js') --}}
+{{asset('build/assets/app-ddee773b.js')}}
 <script>
     document.addEventListener('livewire:load', function () {
         Livewire.on('openNewTab', function (data) {
