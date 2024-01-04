@@ -16,13 +16,15 @@
         </style>
  
         @filamentStyles
-        @vite('resources/css/app.css')
+        {{-- @vite('resources/css/app.css') --}}
+        <link rel="stylesheet" href="{{asset('build/assets/app-83fdc9c3.css')}}">
     </head>
  
     <body class="antialiased">
         {{ $slot }}
  
         @filamentScripts
-        @vite('resources/js/app.js')
+        {{-- @vite('resources/js/app.js') --}}
+        <script src="{{asset('build/assets/app-ddee773b.js')}}"></script>
     </body>
 </html>

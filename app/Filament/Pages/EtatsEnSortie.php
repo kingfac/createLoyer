@@ -92,4 +92,9 @@ class EtatsEnSortie extends Page implements HasForms
         $this->dispatch('m'.$menu, mois: $this->form->getState()['mois'], annee: $this->form->getState()['annee']);
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return 5;   
+    }
+
 }

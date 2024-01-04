@@ -1,4 +1,7 @@
-<div>
+@filamentStyles
+{{-- @vite('resources/css/app.css') --}}
+<link rel="stylesheet" href="{{asset('build/assets/app-83fdc9c3.css')}}">
+<div class="w-full">
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
     
     <div class="flex justify-between">
@@ -17,8 +20,81 @@
     </div>
    {{--  {{ $this->form }}
     {{ $this->table }} --}}
+    <div class="overflow-x-auto shadow-md sm:rounded-lg ">
+        <div class="inline-block min-w-full align-middle">
+            <div class="overflow-hidden ">
+                <table class=" divide-y divide-gray-200 table-fixed dark:divide-gray-700 w-full">
+                    <thead class="bg-gray-100 dark:bg-gray-700">
+                        <tr>
+                            
+                            <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                Locataire
+                            </th>
+                            <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                Galerie / Type Occupation
+                            </th>
+                            <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                Loyer mensuel
+                            </th>
+                            <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                Loyer payé
+                            </th>
+                            <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                Reste
+                            </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                        @php
+                            $_id = 0;
+                            $ctrR = 0;
+                        @endphp
+                        @foreach ($data as $dt) 
+                        @if ($_id != $dt->id && $dt->somme < $dt->occupation->montant && $dt->somme > 0)
+                        @php
+                            $_id = $dt->id;
+                            $ctrR += 1;
+                        @endphp
+                        
+                          
+                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                            
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$dt->noms}}
+                            </td>
+                            
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$dt->occupation->galerie->nom}} / {{$dt->occupation->typeOccu->nom}}
+                            </td>
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$dt->occupation->montant}}$
+                            </td>
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$dt->somme ?? 0}} $
+                            </td>
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$dt->occupation->montant - $dt->somme}}
+                            </td>
+                           
+                        </tr>                           
+                        @endif
+                        @endforeach
+                       
+                    </tbody>
+                </table>
+                
+            </div>
+        </div> 
+        @if ($ctrR == 0)
+        <div class="flex justify-center items-center text-2xl text-red-400 p-10">
+            <h1>Pas de données disponibles...</h1>
+        </div>
+        @endif
+    </div>
 
-    <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'">
+
+    {{-- <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'">
         
             <thead class="bg-gray-50 dark:bg-white/5">
                 <tr class="text-lg font-bold">
@@ -81,6 +157,6 @@
         </tbody>
 
        
-    </table>
+    </table> --}}
 
 </div>

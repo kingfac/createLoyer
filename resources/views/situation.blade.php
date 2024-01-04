@@ -1,4 +1,7 @@
-<div>
+{{-- @filamentStyles --}}
+{{-- @vite('resources/css/app.css') --}}
+<link rel="stylesheet" href="{{asset('build/assets/app-83fdc9c3.css')}}">
+<div class="w-screen bg-gray-100" style="width: 100vw;">
     {{-- Nothing in the world is as soft and yielding as water. --}}
     <style>
         h1{
@@ -9,55 +12,59 @@
         h2{
             
         }
+        .flex div{
+            display: flex;
+            flex: auto;
+            width: 100%;
+        }
     </style>
     <div class="flex justify-between" >
-        <h1>Etat personnel du locataire</h1>
-        <x-filament::icon-button
-            icon="heroicon-m-x-mark"
-            tag="a"
-            label="Fermer"
-            wire:click="fermer"
-        />
+        <h1>Situation personnelle du locataire</h1>
     </div>
     <hr>
-    <div class="flex justify-between py-2">
-        <div>
-            <h1>NOM DU LOCATAIRE</h1>
-            <h2>{{$locataire->noms}}</h2>
-        </div>
-        <div>
-            <h1>Galerie</h1>
-            <h2>{{$locataire->occupation->galerie->nom}}</h2>
-        </div>
-        <div>
-            <h1>Type occupation</h1>
-            <h2>{{$locataire->occupation->typeOccu->nom}}</h2>
-        </div>
-        <div>
-            <h1>Loyer à payer</h1>
-            <h2>{{$locataire->occupation->montant}} $</h2>
-        </div>
-    </div>
+    <table class="flex justify-between py-2" style="width: 100%;">
+        <tr>
+            <td>
+                <h1>NOM DU LOCATAIRE</h1>
+            </td>
+            <td>
+                <h2>{{$locataire->noms}}</h2>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h1>Galerie</h1>
+            </td>
+            <td>
+                <h1>Type occupation</h1>
+            </td>
+            <td>
+                <h1>Loyer à payer</h1>
+            </td>
+        </td>
+        <tr>
+            <td>
+                <h2>{{$locataire->occupation->galerie->nom}}</h2>
+            </td>
+            <td>
+                <h2>{{$locataire->occupation->typeOccu->nom}}</h2>
+            </td>
+            <td>
+                <h2>{{$locataire->occupation->montant}} $</h2>
+            </td>
+        </tr>
+
+    </table>
     <hr>
     <div class="py-2 flex justify-between items-center flex-col gap-2">
-        <div class="flex gap-2">
-            {{$this->form}}
-            <button wire:click="create" class="bg-blue-500 text-white p-4 rounded-md">
-                Créer
-            </button>
-            <a href="/pdf/doc.pdf" class="bg-blue-500 text-white p-4 rounded-md" target="_blank">
-                <x-heroicon-s-printer />
-                imprimer
-            </a>
-
-        </div>
+       
         <h1>Paiements effectués au mois de {{$mois}} / {{$annee}}</h1>
     </div>
 
     <br>
     @if (count($data) > 0)
         
-    <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'">
+    <table class="w-full" style="width: 100%;" border="1">
         
         <thead class="bg-gray-50 dark:bg-white/5">
             <tr class="text-lg font-bold">
@@ -107,15 +114,7 @@
                     {{$ly->observation ?? 'Aucune observation'}} 
                 </td>
 
-               {{--  <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    <x-filament::icon-button
-                        icon="heroicon-s-eye"
-                        tag="a"
-                        label="Detail"
-                        tooltip="Imprimer"
-                        wire:click="imprimer({{$ly}})"
-                    />
-                </td> --}}
+               
                 
             </tr>
             @endforeach
@@ -132,17 +131,5 @@
         <h1>Aucun paiement effectué au cours de ce mois-ci !</h1>
     </div>
     @endif
-    {{-- <div class="fixed top-32 right-20 bg-gray-200 text-white p-3 rounded-2xl">
-        <x-filament::icon-button
-            icon="heroicon-o-printer"
-            tag="a"
-            label="imprimer"
-            tooltip="Imprimer"
-            href="/pdf/doc.pdf"
-            target="_blank"
-            size="xl"
-            color="danger"
-                
-        />
-    </div> --}}
+    
 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\Loyer;
 use Filament\Pages\Page;
 use Filament\Forms\Contracts\HasForms;
 
@@ -19,5 +20,9 @@ class LoyerLoc extends Page implements HasForms
 
     protected static string $view = 'filament.pages.loyer-loc';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return Loyer::all()->count();   
+    }
 
 }

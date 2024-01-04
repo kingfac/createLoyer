@@ -36,6 +36,10 @@ class CustomLoyer extends Component implements HasForms, HasTable
     public $mois;
     public $data = [];
     public $dt1;
+
+    public $recherche;
+
+    public $selectedGal;
     
 
     protected $listeners = ['actualiser1' => '$refresh'];
@@ -53,6 +57,10 @@ class CustomLoyer extends Component implements HasForms, HasTable
         $this->remplir();
         $this->dt1 = null;
         //$this->dispatch('actualiser1');
+    }
+
+    public function clear(){
+        $this->recherche = '';
     }
 
     public function mount(): void
@@ -76,16 +84,17 @@ class CustomLoyer extends Component implements HasForms, HasTable
     {
         return $table
             ->query(Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER')
-            ->selectRaw('locataires.id, max(locataires.noms) as noms, max(loyers.created_at)')
+            ->selectRaw('locataires.id, max(locataires.noms) as noms, max(loyers.created_at) as ld')
             ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->form->getState()['mois'], $this->form->getState()['annee']])
             ->orderByRaw('locataires.id')
             ->groupByRaw('locataires.id'))
 
             ->columns([
-                TextColumn::make('noms'),
-                TextColumn::make('somme'),
-                TextColumn::make('reste'),
+                TextColumn::make('noms')->searchable(),
+                TextColumn::make('somme')->default(0)->money()->label('Loyer mensuel'),
+                TextColumn::make('ld'),
             ])
+            ->searchable()
             ->filters([
                 // ...
             ])
@@ -127,6 +136,8 @@ class CustomLoyer extends Component implements HasForms, HasTable
                         ->color('primary')
                         ->action(function () {
                             $this->dt1 = null;
+                            //$this->form->fill();
+                            $this->resetTable();
                             $this->remplir();
                         })
                         ->outlined()
@@ -139,6 +150,7 @@ class CustomLoyer extends Component implements HasForms, HasTable
                            $this->evolution();
                         })
                         ->size(ActionSize::ExtraLarge)
+                        ->outlined()
                     ])->columnSpan(2),
                     
                 ])

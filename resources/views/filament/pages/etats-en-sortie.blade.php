@@ -7,11 +7,9 @@
             {{-- <x-filament::button type="submit" class="mt-3  py-5">
                 {{ __('filament-panels::resources/pages/create-record.form.actions.create.label') }}
             </x-filament::button> --}}
-            <div style="display: grid;
-                grid-template-columns: repeat(4, 1fr);
-                grid-gap: 3px;">
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr);" class="gap-4">
 
-                <x-filament::button type="button" class="mt-3  py-5" wire:click="go(0)">
+                <x-filament::button type="button" class="mt-3  py-5" wire:click="go(0)" outlined>
                     Locataires à jour
                 </x-filament::button>
 
@@ -19,19 +17,19 @@
                     Locataires avec payement en retard
                 </x-filament::button> --}}
 
-                <x-filament::button type="button" class="mt-3  py-5" wire:click="go(2)">
+                <x-filament::button type="button" class="mt-3  py-5" wire:click="go(2)" outlined>
                     Locataires avec payement partiel
                 </x-filament::button>
 
-                <x-filament::button type="button" class="mt-3  py-5" wire:click="go(3)">
+                <x-filament::button type="button" class="mt-3  py-5" wire:click="go(3)" outlined>
                     Locataires avec soldes impayés
                 </x-filament::button>
 
-                <x-filament::button type="button" class="mt-3  py-5" wire:click="go(4)">
+                <x-filament::button type="button" class="mt-3  py-5" wire:click="go(4)" outlined>
                     Evolution Loyer/Locataire
                 </x-filament::button>
 
-                <x-filament::button type="button" class="mt-3  py-5 bg-danger" wire:click="go(5)">
+                <x-filament::button type="button" class="mt-3  py-5 bg-danger" wire:click="go(5)" outlined>
                     Situation des paiements Global
                 </x-filament::button>
 

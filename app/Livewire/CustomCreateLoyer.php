@@ -120,6 +120,10 @@ class CustomCreateLoyer extends Component implements HasForms
         ->where(['loyers.locataire_id' => $this->locataire_id, 'mois' => $this->mois, 'annee' => $this->annee])
         ->orderBy('locataires.id')
         ->get();
+
+        //pdf
+        $pdf = Pdf::loadHTML(Blade::render('situation', ['data' => $this->data, 'label' => 'SITUATION PERSONNE DU LOCATAIRE ', 'mois' => $this->mois, 'annee' => $this->annee, 'locataire' => $this->locataire]));
+        $pdf->save(public_path().'/pdf/doc.pdf');
     }
 
     public function imprimer($ly){
