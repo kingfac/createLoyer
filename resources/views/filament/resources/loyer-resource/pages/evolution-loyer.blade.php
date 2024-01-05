@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="{{asset('build/assets/app-514a0b6d.css')}}">
 @php
     use App\Models\Loyer;
 @endphp
