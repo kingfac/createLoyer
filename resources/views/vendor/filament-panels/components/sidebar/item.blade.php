@@ -1,3 +1,4 @@
+
 @props([
     'active' => false,
     'activeChildItems' => false,
@@ -18,7 +19,8 @@
 @php
     $sidebarCollapsible = $sidebarCollapsible && filament()->isSidebarCollapsibleOnDesktop();
 @endphp
-
+@vite('resources/css/app.css')
+{{-- <link rel="stylesheet" href="{{asset('build/assets/app-1a2e2064.css')}}"> --}}
 <li
     {{
         $attributes->class([
@@ -46,8 +48,8 @@
             x-tooltip.html="tooltip"
         @endif
         @class([
-            'fi-sidebar-item-button relative flex items-center justify-center gap-x-3 rounded-lg px-2 py-2 text-sm outline-none transition duration-75 hover:bg-gray-100 focus-visible:bg-gray-100 dark:hover:bg-white/5 dark:focus-visible:bg-white/5',
-            'bg-gray-100 dark:bg-white/5' => $active,
+            'group fi-sidebar-item-button relative flex items-center justify-center gap-x-3 rounded-lg px-2 py-2 text-sm outline-none transition duration-75 hover:bg-blue-600 hover:text-white focus-visible:bg-primary-600 dark:hover:bg-white/5 dark:focus-visible:bg-white/5',
+            'bg-primary-600 dark:bg-primary-600' => $active,
         ])
     >
         @if (filled($icon) && ((! $subGrouped) || filament()->isSidebarCollapsibleOnDesktop()))
@@ -55,9 +57,9 @@
                 :icon="($active && $activeIcon) ? $activeIcon : $icon"
                 :x-show="($subGrouped && filament()->isSidebarCollapsibleOnDesktop()) ? '! $store.sidebar.isOpen' : false"
                 @class([
-                    'fi-sidebar-item-icon h-6 w-6',
-                    'text-gray-400 dark:text-gray-500' => ! $active,
-                    'text-primary-600 dark:text-primary-400' => $active,
+                    'fi-sidebar-item-icon h-6 w-6 group-hover:text-white',
+                    'text-gray-400 dark:text-white' => ! $active,
+                    'text-white dark:text-white-400' => $active,
                 ])
             />
         @endif
@@ -83,7 +85,7 @@
 
                 <div
                     @class([
-                        'relative h-1.5 w-1.5 rounded-full',
+                        'relative h-1.5 w-1.5 rounded-full group-hover:text-white',
                         'bg-gray-400 dark:bg-gray-500' => ! $active,
                         'bg-primary-600 dark:bg-primary-400' => $active,
                     ])
@@ -99,9 +101,9 @@
                 x-transition:enter-end="opacity-100"
             @endif
             @class([
-                'fi-sidebar-item-label flex-1 truncate font-medium',
+                'fi-sidebar-item-label flex-1 truncate font-medium group-hover:text-white',
                 'text-gray-700 dark:text-gray-200' => ! $active,
-                'text-primary-600 dark:text-primary-400' => $active,
+                'text-white dark:text-white' => $active,
             ])
         >
             {{ $slot }}

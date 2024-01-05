@@ -1,5 +1,5 @@
 <x-filament-panels::page>
-<x-filament::page>
+
     <x-filament::section>
         {{-- Widget content --}}
         <form wire:submit="create"> 
@@ -62,5 +62,4 @@
             <livewire:loc-loyer-total :mois=$mois :annee=$annee>
         @endif
     </x-filament::section>
-</x-filament::page>
 </x-filament-panels::page>

@@ -1,10 +1,13 @@
-<link rel="stylesheet" href="{{asset('build/assets/app-514a0b6d.css')}}">
+{{-- <link rel="stylesheet" href="{{asset('build/assets/app-514a0b6d.css')}}"> --}}
 @php
     use App\Models\Loyer;
 @endphp
-{{-- @vite('resources/css/app.css') --}}
-<link rel="stylesheet" href="{{asset('build/assets/app-1a2e2064.css')}}">
+@vite('resources/css/app.css')
+{{-- <link rel="stylesheet" href="{{asset('build/assets/app-1a2e2064.css')}}"> --}}
 <x-filament-panels::page>
+    <div class="p-5 bg-red-300 hover:bg-blue-600">
+        <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, quidem blanditiis. Eius nemo assumenda corporis explicabo voluptatibus amet laudantium in, velit dolor reiciendis error vitae fugit architecto minus illo voluptas.</h1>
+    </div>
     <x-filament::breadcrumbs :breadcrumbs="[
         '/loyer-loc' => 'Loyer',
         '/loyer/janvier/evolution' => 'Evolution',
