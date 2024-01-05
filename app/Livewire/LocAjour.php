@@ -9,15 +9,16 @@ use Livewire\Component;
 use App\Models\Locataire;
 use Filament\Tables\Table;
 use Livewire\Attributes\On;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
+use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class LocAjour extends Component //implements HasForms, HasTable
 {
@@ -40,7 +41,7 @@ class LocAjour extends Component //implements HasForms, HasTable
             ->orderBy('locataires.id')
             ->get();
         $pdf = Pdf::loadHTML(Blade::render('evolution', ['data' => $this->data, 'label' => 'LOCATAIRE À JOUR DU MOIS DE '.$this->mois]));
-        $pdf->save(public_path().'/pdf/doc.pdf');
+        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return view('livewire.loc-ajour');
     }
 

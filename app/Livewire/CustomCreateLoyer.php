@@ -17,6 +17,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Illuminate\Support\Facades\Storage;
 
 class CustomCreateLoyer extends Component implements HasForms
 {
@@ -123,7 +124,8 @@ class CustomCreateLoyer extends Component implements HasForms
 
         //pdf
         $pdf = Pdf::loadHTML(Blade::render('situation', ['data' => $this->data, 'label' => 'SITUATION PERSONNE DU LOCATAIRE ', 'mois' => $this->mois, 'annee' => $this->annee, 'locataire' => $this->locataire]));
-        $pdf->save(public_path().'/pdf/doc.pdf');
+        //$pdf->save(public_path().'/pdf/doc.pdf');
+        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
     }
 
     public function imprimer($ly){

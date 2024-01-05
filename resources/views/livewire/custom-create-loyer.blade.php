@@ -45,7 +45,7 @@
             <button wire:click="create" class="bg-blue-500 text-white p-4 rounded-md">
                 Créer
             </button>
-            <a href="/pdf/doc.pdf" class="bg-blue-500 text-white p-4 rounded-md" target="_blank">
+            <a href="/storage/pdf/doc.pdf" class="bg-blue-500 text-white p-4 rounded-md" target="_blank">
                 <x-heroicon-s-printer />
                 imprimer
             </a>
@@ -138,7 +138,7 @@
             tag="a"
             label="imprimer"
             tooltip="Imprimer"
-            href="/pdf/doc.pdf"
+            href="/storage/pdf/doc.pdf"
             target="_blank"
             size="xl"
             color="danger"

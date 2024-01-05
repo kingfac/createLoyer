@@ -12,6 +12,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
+use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 
@@ -34,7 +35,7 @@ class LocSoldeImpaye extends Component //implements HasForms, HasTable
         ->orderBy('locataires.id')
         ->get();
         $pdf = Pdf::loadHTML(Blade::render('inverse', ['data' => $this->data, 'label' => 'LOCATAIRE AVEC SOLDE IMPAYE DU MOIS DE '.$this->mois, 'inverse' =>true]));
-        $pdf->save(public_path().'/pdf/doc.pdf');
+        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return view('livewire.loc-solde-impaye');
     }
 

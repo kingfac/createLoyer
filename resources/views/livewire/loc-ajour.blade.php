@@ -12,7 +12,7 @@
             tag="a"
             label="imprimer"
             tooltip="Imprimer"
-            href="/pdf/doc.pdf"
+            href="/storage/pdf/doc.pdf"
             target="_blank"
                 
         />

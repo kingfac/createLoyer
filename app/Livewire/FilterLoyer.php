@@ -16,6 +16,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
+use Illuminate\Support\Facades\Storage;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -40,7 +41,7 @@ class FilterLoyer extends Component implements HasForms, HasTable
         ->orderBy('locataires.id')
         ->get();
         $pdf = pdf::loadHTML(Blade::render('evolution', ['data' => $this->data, 'label' => 'EVOLUTION DE PAIEMENT DU MOIS DE '.$this->mois]));
-        $pdf->save(public_path().'/pdf/doc.pdf');
+        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return view('livewire.filter-loyer');
     }
 

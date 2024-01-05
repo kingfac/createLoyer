@@ -24,11 +24,10 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 
-class CustomLoyer extends Component implements HasForms, HasTable
+class CustomLoyer extends Component implements HasForms
 {
 
     
-    use InteractsWithTable;
     use InteractsWithForms;
 
     public ?array $dataf = [];
@@ -80,7 +79,7 @@ class CustomLoyer extends Component implements HasForms, HasTable
         //$this->data = $this->data->paginate(10);
     }
 
-    public function table(Table $table): Table
+  /*   public function table(Table $table): Table
     {
         return $table
             ->query(Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER')
@@ -105,7 +104,7 @@ class CustomLoyer extends Component implements HasForms, HasTable
                 // ...
             ]);
     }
-
+ */
     public function form(Form $form): Form
     {
         $currentDate = new DateTime();

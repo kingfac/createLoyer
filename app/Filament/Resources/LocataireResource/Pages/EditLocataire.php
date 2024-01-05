@@ -23,7 +23,7 @@ class EditLocataire extends EditRecord
     protected function mutateFormDataBeforeSave(array $data): array
     {
         //$data['user_id'] = auth()->id();
-        dd($data);
+        //dd($data);
         $loyer = Occupation::where('id', $data['occupation_id'])->first();
         if($data['postnom'] == null){
             $data['postnom'] = "";
@@ -46,7 +46,7 @@ class EditLocataire extends EditRecord
             $this->halt();
         }
         else{
-            $data['garantie'] = ($loyer->montant * intval($data['nbr'])) + $loyer->garantie;
+            $data['garantie'] = ($loyer->montant * intval($data['nbr'])) ;
         }
 
         //dd($data);

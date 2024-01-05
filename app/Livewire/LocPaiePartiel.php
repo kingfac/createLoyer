@@ -7,6 +7,7 @@ use App\Models\Locataire;
 use Livewire\Attributes\On;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Storage;
 
 class LocPaiePartiel extends Component
 {
@@ -25,7 +26,7 @@ class LocPaiePartiel extends Component
         ->orderBy('locataires.id')
         ->get();
         $pdf = Pdf::loadHTML(Blade::render('partiel', ['data' => $this->data, 'label' => 'LOCATAIRES AVEC PAIEMENT PARTIEL DU MOIS DE '.$this->mois, 'inverse' =>true]));
-        $pdf->save(public_path().'/pdf/doc.pdf');
+        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return view('livewire.loc-paie-partiel');
     }
 
