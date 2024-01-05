@@ -1,3 +1,4 @@
+
 @props([
     'alpineHidden' => null,
     'alpineSelected' => null,
@@ -19,7 +20,6 @@
 
 
 <div>
-    @filamentStyles
     {{-- @vite('resources/css/app.css') --}}
     <link rel="stylesheet" href="{{asset('build/assets/app-514a0b6d.css')}}">
     
