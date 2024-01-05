@@ -46,7 +46,13 @@ class EditLocataire extends EditRecord
             $this->halt();
         }
         else{
-            $data['garantie'] = ($loyer->montant * intval($data['nbr'])) ;
+            if($data['nbr'] == null){
+                $data['nbr'] = 0;
+            }
+            else{
+
+                $data['garantie'] = ($loyer->montant * intval($data['nbr'])) ;
+            }
         }
 
         //dd($data);

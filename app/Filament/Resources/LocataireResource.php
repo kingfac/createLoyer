@@ -70,8 +70,9 @@ class LocataireResource extends Resource
                 Forms\Components\Toggle::make('actif')
                     ->label('Désactiver/Activer')
                     ->default(true)
-                    ->onColor('success')
+                    ->onColor('primary')
                     ->offColor('danger')
+                    
             ]);
     }
 
