@@ -53,7 +53,7 @@
     <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'">
         <tr>
             <td>
-                <h1>NOM DU LOCATAIRE</h1>
+                <h3>NOM DU LOCATAIRE</h3>
             </td>
             <td>
                 <h2>{{$locataire->noms}}</h2>
@@ -61,13 +61,13 @@
         </tr>
         <tr>
             <td>
-                <h1>Galerie</h1>
+                <h3>Galerie</h3>
             </td>
             <td>
-                <h1>Type occupation</h1>
+                <h3>Type occupation</h3>
             </td>
             <td>
-                <h1>Loyer à payer</h1>
+                <h3>Loyer à payer</h3>
             </td>
         </td>
         <tr>
@@ -86,13 +86,13 @@
     <hr>
     <div class="py-2 flex justify-between items-center flex-col gap-2">
        
-        <h1>Paiements effectués au mois de {{$mois}} / {{$annee}}</h1>
+        <h2>Paiements effectués au mois de {{$mois}} / {{$annee}}</h2>
     </div>
 
     <br>
     
         
-    <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'">
+    <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5" border="0.5">
         
         <thead class="bg-gray-50 dark:bg-white/5">
             <tr class="text-lg font-bold">
