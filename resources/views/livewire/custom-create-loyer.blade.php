@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="{{asset('build/assets/app-1a2e2064.css')}}">
 <div>
+    <link rel="stylesheet" href="{{asset('build/assets/app-1a2e2064.css')}}">
     {{-- Nothing in the world is as soft and yielding as water. --}}
     <style>
         h1{
