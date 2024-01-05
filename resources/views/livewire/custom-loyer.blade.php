@@ -1,28 +1,8 @@
 
-@props([
-    'alpineHidden' => null,
-    'alpineSelected' => null,
-    'recordAction' => null,
-    'recordUrl' => null,
-    'striped' => false,
-    'footer' => null,
-    'header' => null,
-    'reorderable' => false,
-    'reorderAnimationDuration' => 300,
-])
-
-@php
-    $hasAlpineHiddenClasses = filled($alpineHidden);
-    $hasAlpineSelectedClasses = filled($alpineSelected);
-
-    $stripedClasses = 'bg-gray-50 dark:bg-white/5';
-@endphp
-
-
 <div>
 
     {{-- @vite('resources/css/app.css') --}}
-    <link rel="stylesheet" href="{{asset('build/assets/app-514a0b6d.css')}}">
+    <link rel="stylesheet" href="{{asset('build/assets/app-1a2e2064.css')}}">
     
     {{-- Close your eyes. Count to one. That is how long forever feels. --}}
     {{$this->form}}

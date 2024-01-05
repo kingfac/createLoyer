@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="{{asset('build/assets/app-1a2e2064.css')}}">
 <div>
     {{-- Nothing in the world is as soft and yielding as water. --}}
     <style>
