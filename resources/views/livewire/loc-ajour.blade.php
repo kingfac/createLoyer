@@ -1,6 +1,6 @@
 @filamentStyles
 {{-- @vite('resources/css/app.css') --}}
-<link rel="stylesheet" href="{{asset('build/assets/app-83fdc9c3.css')}}">
+<link rel="stylesheet" href="{{asset('build/assets/app-514a0b6d.css')}}">
 <div class="w-full">
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
     <div class="flex justify-between">
@@ -17,7 +17,7 @@
                 
         />
     </div>
-    <div class="overflow-x-auto shadow-md sm:rounded-lg bg-red-500">
+    <div class="overflow-x-auto shadow-md sm:rounded-lg">
         <div class="inline-block min-w-full align-middle">
             <div class="overflow-hidden ">
                 <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">
@@ -98,6 +98,11 @@
                 </table>
             </div>
         </div>
+       {{--  <div class="text-orange-400">kfkf</div>
+        <div class="text-yellow-400">kfkf</div>
+        <div class="text-blue-400">kfkf</div>
+        <div class="text-green-400">kfkf</div>
+        <div class="text-slate-400">kfkf</div> --}}
         @if ($ctrR == 0)
         <div class="flex justify-center items-center text-2xl text-red-400 p-10">
             <h1>Pas de données disponibles...</h1>

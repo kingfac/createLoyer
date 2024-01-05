@@ -6,7 +6,8 @@ module.exports = {
     "./resources/**/*.blade.php",
     "./resources/views/filament/*.blade.php",
     './resources/views/filament/**/*.blade.php',
-    /* "./resources/views/livewire/*.blade.php", */
+    "./resources/views/livewire/*.blade.php",
+    "./resources/views/livewire/components/*.blade.php",
     "./resources/**/*.js",
     './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
     './app/Filament/**/*.php',

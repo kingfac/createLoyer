@@ -1,3 +1,6 @@
+
+<link rel="stylesheet" href="{{asset('build/assets/app-514a0b6d.css')}}">
+{{-- @vite('resources/css/app.css') --}}
 <div class="gap-y-2 shadow py-8 px-5 flex justify-between items-center bg-gray-50">
     <div class="flex flex-col gap-3">
         <div class="flex items-center gap-x-2">

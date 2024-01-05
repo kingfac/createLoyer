@@ -1,6 +1,6 @@
 @filamentStyles
 {{-- @vite('resources/css/app.css') --}}
-<link rel="stylesheet" href="{{asset('build/assets/app-83fdc9c3.css')}}">
+<link rel="stylesheet" href="{{asset('build/assets/app-514a0b6d.css')}}">
 <div class="w-full">
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
     <div class="flex  justify-between">
@@ -69,12 +69,12 @@
                         <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                             <td class="p-4 w-4">
                                 @if ($dt->somme == 0)
-                                <div class="w-4 h-4 bg-blue-600 rounded border-gray-300  p-2"></div>
+                                <div class="w-4 h-4 bg-red-600 rounded border-gray-300  p-2"></div>
                                 @else
                                     @if ($dt->occupation->montant == $dt->somme)
                                     <div class="w-4 h-4 bg-green-600 rounded border-gray-300  p-2"></div>
                                     @else
-                                    <div class="w-4 h-4 bg-red-600 rounded border-gray-300  p-2"></div>
+                                    <div class="w-4 h-4 bg-blue-600 rounded border-gray-300  p-2"></div>
                                     @endif
                                 @endif
                             </td>

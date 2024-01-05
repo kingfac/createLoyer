@@ -1,4 +1,5 @@
 <x-filament-panels::page>
+    @vite('resources/css/app.css')
     <x-filament::section>
         {{-- Widget content --}}
         <form wire:submit="create"> 

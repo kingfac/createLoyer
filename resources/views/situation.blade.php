@@ -1,6 +1,6 @@
 {{-- @filamentStyles --}}
 {{-- @vite('resources/css/app.css') --}}
-<link rel="stylesheet" href="{{asset('build/assets/app-83fdc9c3.css')}}">
+<link rel="stylesheet" href="{{asset('build/assets/app-514a0b6d.css')}}">
 <div class="w-screen bg-gray-100" style="width: 100vw;">
     {{-- Nothing in the world is as soft and yielding as water. --}}
     <style>
