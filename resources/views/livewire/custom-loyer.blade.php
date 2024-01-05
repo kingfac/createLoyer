@@ -102,7 +102,7 @@
                                         <div class="flex flex-col gap-1">
                                             <label for="galerie" class="text-sm">Galerie</label>
                                             <select data-te-select-init id="galerie" class="border rounded-lg text-lg px-3" wire:model.live="selectedGal">
-                                                <option>Selectionner</option>
+                                                <option value="">Selectionner</option>
                                                 @foreach (Galerie::all() as $gal)
                                                 <option value="{{$gal->nom}}">{{$gal->nom}}</option>
                                                 @endforeach
@@ -166,70 +166,66 @@
                                 @php
                                     $_id = $dt->id;
                                 @endphp
-                                
-                                @if (strlen($recherche) > 0 )
-                                @if (str_contains(strtoupper($dt->noms), strtoupper($recherche)) )
-                                @php
-                                        $ctrR = 0;
-                                @endphp
-                                
-                                <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                                    <td class="p-4 w-4">
-                                        @if ($dt->somme == 0)
-                                        <div class="w-4 h-4 bg-blue-600 rounded border-gray-300  p-2"></div>
-                                        @else
-                                            @if ($dt->occupation->montant == $dt->somme)
-                                            <div class="w-4 h-4 bg-green-600 rounded border-gray-300  p-2"></div>
-                                            @else
+                                @if (strlen($selectedGal) > 0)
+                                    @if ($dt->occupation->galerie->nom == $selectedGal)
+                                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <td class="p-4 w-4">
+                                            @if ($dt->somme == 0)
                                             <div class="w-4 h-4 bg-red-600 rounded border-gray-300  p-2"></div>
+                                            @else
+                                                @if ($dt->occupation->montant == $dt->somme)
+                                                <div class="w-4 h-4 bg-green-600 rounded border-gray-300  p-2"></div>
+                                                @else
+                                                <div class="w-4 h-4 bg-blue-600 rounded border-gray-300  p-2"></div>
+                                                @endif
                                             @endif
-                                        @endif
-                                    </td>
-                                    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{$dt->noms}}
-                                    </td>
-                                    <td class="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">
-                                        {{$dt->occupation->galerie->nom}}
-                                    </td>
-                                    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{$dt->occupation->typeOccu->nom}}
-                                    </td>
-                                    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{$dt->occupation->montant}}$
-                                    </td>
-                                    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{$dt->somme ?? 0}} $
-                                    </td>
-                                    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{$dt->occupation->montant - $dt->somme}} $
-                                    </td>
-                                    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{$dt->created_at ?? 'Aucun paiement'}}
-                                    </td>
-                                    <td class="py-4 px-6 text-sm font-medium text-right whitespace-nowrap flex gap-3">
-                                        {{-- <x-filament::icon-button
-                                            icon="heroicon-o-printer"
+                                        </td>
+                                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{$dt->noms}}
+                                        </td>
+                                        <td class="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">
+                                            {{$dt->occupation->galerie->nom}}
+                                        </td>
+                                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{$dt->occupation->typeOccu->nom}}
+                                        </td>
+                                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{$dt->occupation->montant}}$
+                                        </td>
+                                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{$dt->somme ?? 0}} $
+                                        </td>
+                                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{$dt->occupation->montant - $dt->somme}} $
+                                        </td>
+                                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{$dt->created_at ?? 'Aucun paiement'}}
+                                        </td>
+                                        <td class="py-4 px-6 text-sm font-medium text-right whitespace-nowrap flex gap-3">
+                                            {{-- <x-filament::icon-button
+                                                icon="heroicon-o-printer"
+                                                tag="a"
+                                                label="Detail"
+                                                tooltip="Imprimer"
+                                                wire:click="imprimer({{$dt->id}})"
+                                            /> --}}
+                                        <x-filament::icon-button
+                                            icon="heroicon-s-eye"
                                             tag="a"
                                             label="Detail"
-                                            tooltip="Imprimer"
-                                            wire:click="imprimer({{$dt->id}})"
-                                        /> --}}
-                                    <x-filament::icon-button
-                                        icon="heroicon-s-eye"
-                                        tag="a"
-                                        label="Detail"
-                                        tooltip="Voir le detail"
-                                        wire:click="detail({{$dt->id}})"
-                                    />
-                                    </td>
-                                </tr>
-                                @else
+                                            tooltip="Voir le detail"
+                                            wire:click="detail({{$dt->id}})"
+                                        />
+                                        </td>
+                                    </tr>
                                     @php
-                                        $ctrR += 1;
+                                         $ctrR += 1;
                                     @endphp
-                                @endif
-                                
+                                    @endif
                                 @else    
+                                    @php
+                                         $ctrR = 0;
+                                    @endphp
                                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                                     <td class="p-4 w-4">
                                         @if ($dt->somme == 0)
@@ -283,15 +279,19 @@
                                 @endif
                                 @endif
                                 @endforeach
-                                @if ($ctrR > 0)
-                                    <h1>Not found</h1>
-                                @endif
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+        @if ($ctrR == 0 && strlen($selectedGal) > 0)    
+        <div class="w-full p-10">
+            <div  class="flex justify-center items-center">
+                <h1 class="text-2xl">Aucune information disponible pour ce filtre</h1>
+            </div>
+        </div>
+        @endif
     </div>
     
        

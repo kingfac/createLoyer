@@ -46,6 +46,8 @@ class CustomLoyer extends Component implements HasForms
     public function render()
     {
         //dd(Loyer::whereRaw("DAY(created_at) = DAY(NOW())")->get()->sum('montant'));
+        $this->remplir($this->recherche, $this->selectedGal);
+        
         return view('livewire.custom-loyer');
     }
 
@@ -68,13 +70,26 @@ class CustomLoyer extends Component implements HasForms
         $this->remplir();
     }
 
-    public function remplir(){
+    public function remplir($recherche = '', $gal = ''){
         //dd($this->form->getState()['annee']);
+        /* if($recherche == null){
+            $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER')
+            ->selectRaw('locataires.*, loyers.created_at')
+            ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->form->getState()['mois'], $this->form->getState()['annee']])
+            ->orderBy('locataires.id')
+            ->get();
+        }
+        else{
+            
+        } */
         $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER')
-        ->selectRaw('locataires.*, loyers.created_at')
-        ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->form->getState()['mois'], $this->form->getState()['annee']])
-        ->orderBy('locataires.id')
-        ->get();
+            //->join('occupations', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER')
+            ->selectRaw('locataires.*, loyers.created_at')
+            ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->form->getState()['mois'], $this->form->getState()['annee']])
+            ->orderBy('locataires.id')
+            ->where('noms', 'like', '%' . $recherche . '%')
+            //->orWhere('noms', 'like', '%' . $gal . '%')
+            ->get();
 
         //$this->data = $this->data->paginate(10);
     }
