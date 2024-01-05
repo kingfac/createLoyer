@@ -20,8 +20,8 @@
 
 <div>
     @filamentStyles
-    {{-- @vite('resources/css/app.css') --}}
-    <link rel="stylesheet" href="{{asset('build/assets/app-514a0b6d.css')}}">
+    @vite('resources/css/app.css')
+    {{-- <link rel="stylesheet" href="{{asset('build/assets/app-1a2e2064.css')}}"> --}}
     
     {{-- Close your eyes. Count to one. That is how long forever feels. --}}
     {{$this->form}}
@@ -33,7 +33,7 @@
     <div class="w-full" x-data="{recherche : '', clear(){this.recherche=''},}">
 
         <div class="flex flex-col">
-            <div class="py-4 text-2xl bg-gray-100 px-4 flex justify-between">
+            <div class="py-4 text-2xl bg-gray-100 px-4 flex justify-between dark:bg-transparent">
                 <div>
                     @if (strlen($recherche) > 0)    
                     <span  class="text-xs p-1 bg-blue-300 rounded">

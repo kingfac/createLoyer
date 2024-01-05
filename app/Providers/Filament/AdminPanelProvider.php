@@ -20,6 +20,9 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use App\Filament\Resources\LoyerResource\Pages\LocataireGalerie;
+use App\Filament\Widgets\RapportJournalier;
+use App\Filament\Widgets\Statistique;
+use App\Filament\Widgets\StatsEvolution;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -56,10 +59,13 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            //->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
                 /* Widgets\FilamentInfoWidget::class, */
+                Statistique::class,
+                StatsEvolution::class,
+                RapportJournalier::class
             ])
             ->middleware([
                 EncryptCookies::class,

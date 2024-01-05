@@ -17,7 +17,7 @@
  
         @filamentStyles
         {{-- @vite('resources/css/app.css') --}}
-        <link rel="stylesheet" href="{{asset('build/assets/app-514a0b6d.css')}}">
+        <link rel="stylesheet" href="{{asset('build/assets/app-1a2e2064.css')}}">
     </head>
  
     <body class="antialiased">

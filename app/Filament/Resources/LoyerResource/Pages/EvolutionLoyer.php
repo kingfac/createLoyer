@@ -14,7 +14,9 @@ class EvolutionLoyer extends Page
 
     protected static string $resource = LoyerResource::class;
 
+
     protected static string $view = 'filament.resources.loyer-resource.pages.evolution-loyer';
+    protected static ?string $title = '';
 
     public function mount($mois): void
     {
@@ -25,9 +27,14 @@ class EvolutionLoyer extends Page
     }
 
     protected function getHeaderWidgets(): array
-{
-    return [
-        
-    ];
-}
+    {
+        return [
+            
+        ];
+    }
+
+    public function getBreadcrumb(): ?string
+    {
+        return null;
+    }
 }

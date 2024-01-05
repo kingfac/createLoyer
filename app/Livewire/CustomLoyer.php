@@ -136,7 +136,7 @@ class CustomLoyer extends Component implements HasForms
                         ->action(function () {
                             $this->dt1 = null;
                             //$this->form->fill();
-                            $this->resetTable();
+                            //$this->resetTable();
                             $this->remplir();
                         })
                         ->outlined()

@@ -1,28 +1,34 @@
 @php
     use App\Models\Loyer;
 @endphp
+{{-- @vite('resources/css/app.css') --}}
+<link rel="stylesheet" href="{{asset('build/assets/app-1a2e2064.css')}}">
 <x-filament-panels::page>
+    <x-filament::breadcrumbs :breadcrumbs="[
+        '/loyer-loc' => 'Loyer',
+        '/loyer/janvier/evolution' => 'Evolution',
+        
+    ]" />
     {{-- {{$data}} --}}
     <div class="flex justify-between">
         <h1 class="text-2xl font-bold">Evolution loyer du mois de {{$mois}}</h1>
         <p class="font-bold">Total locataires : {{$data->count()}}</p>
     </div>
-    <div style="display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: 3px;">
+    <div style="" class="grid grid-cols-4 gap-5">
 
     
     @foreach ($data as $loc)
         @php
             $somme = Loyer::where(['locataire_id' => $loc->id, 'mois' => $mois])->sum('montant');
             $loyer = $loc->occupation->montant;
+            $color = ($somme == $loyer ? 'green' : ($somme !=0 ? 'blue' : 'red'));
         @endphp
-        <div style="background-color: {{ ($somme == $loyer ? '#dcfce7' : ($somme !=0 ? '#fef9c3' : '#fee2e2'))}};" class="p-4">
-            <b class="p-2" style="background-color: white">{{$loop->index + 1}}</b>
-            <span class="px-2 text-lg font-bold">Locataire {{$loc->nom}} </span>
+        <div style="" class="p-4 bg-{{$color}}-600 rounded-lg shadow-xl hover:bg-{{$color}}-50">
+            <b class="px-2 py-1 rounded-lg bg-white text-black shadow-lg" >{{$loop->index + 1}}</b>
+            <span class="px-2 text-lg font-bold text-white">Locataire {{$loc->nom}} </span>
             
             <div class="flex justify-center {{-- items-center text-center --}}">
-                <p class="py-2 font-bold text-xl">{{$somme}}$ / {{$loyer}}$</p>
+                <p class="py-2 font-bold text-xl text-white">{{$somme}}$ / {{$loyer}}$</p>
             </div>
         </div>
         @endforeach

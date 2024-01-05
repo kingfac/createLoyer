@@ -119,7 +119,7 @@
                 
             </tr>
             @endforeach
-            <tr class="text-lg font-bold bg-gray-50">
+            <tr class="text-lg font-bold bg-gray-50 dark:bg-transparent">
                 <td class="">Total</td>
                 <td>{{$total}} $</td>
             </tr>
