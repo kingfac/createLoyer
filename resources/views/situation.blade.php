@@ -1,28 +1,56 @@
-{{-- @filamentStyles --}}
-{{-- @vite('resources/css/app.css') --}}
-<link rel="stylesheet" href="{{asset('build/assets/app-514a0b6d.css')}}">
-<div class="w-screen bg-gray-100" style="width: 100vw;">
-    {{-- Nothing in the world is as soft and yielding as water. --}}
-    <style>
-        h1{
-            font-size: 1.2em;
-            font-weight: bold;
-        }
+<style>
+    .text-center {
+        text-align: center;
+    }
+    .b-2{
+        border:solid 2px
+    }
+    .b-1{
+        border:solid 1px #ababab;
+    }
+    .bg-gray-500{
+        background:#ababab;
+    }
+    .mb-2{
+        margin-bottom: 20px;
+    }
+    .pb-2{
+        padding-bottom:20px;
+    }
+    .pt-2{
+        padding-top:20px;
+    }
+    .text-bold{
+        font-weight: bold;
+    }
+    .py-2{
+        padding-bottom:20px;
+        padding-top:20px;
+    }
+    .w-full{
+        width: 100%;
+    }
+    .text-r{
+        text-align: right;
+    }
+    #t2 td{
+        border:solid 1px #ababab;
+    }
+    #t2 tr{
+        border:solid 1px #ababab;
+    }
 
-        h2{
-            
-        }
-        .flex div{
-            display: flex;
-            flex: auto;
-            width: 100%;
-        }
-    </style>
-    <div class="flex justify-between" >
-        <h1>Situation personnelle du locataire</h1>
-    </div>
-    <hr>
-    <table class="flex justify-between py-2" style="width: 100%;">
+</style>
+<div class=" text-center">
+    <img src="https://static.vecteezy.com/ti/vecteur-libre/t2/620985-vecteur-de-modele-de-logos-maison-et-maison-gratuit-vectoriel.jpg">
+    <h2>MILLE ET UNE MERVEILLE</h2>
+</div>
+
+<div class="text-center b-2 bg-gray-500 mb-2">{{$label}}</div>
+
+
+    {{-- Nothing in the world is as soft and yielding as water. --}}
+    <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'">
         <tr>
             <td>
                 <h1>NOM DU LOCATAIRE</h1>
@@ -62,9 +90,9 @@
     </div>
 
     <br>
-    @if (count($data) > 0)
+    
         
-    <table class="w-full" style="width: 100%;" border="1">
+    <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'">
         
         <thead class="bg-gray-50 dark:bg-white/5">
             <tr class="text-lg font-bold">
@@ -90,7 +118,6 @@
         <tbody class="divide-y divide-gray-200 whitespace-nowrap dark:divide-white/5">
         
             @php
-                $_id = 0;
                 $total = 0;
             @endphp
             @foreach ($data as $ly) 
@@ -126,10 +153,6 @@
 
     
     </table>
-    @else
-    <div class="flex justify-center items-center" style="padding: 100px;">
-        <h1>Aucun paiement effectué au cours de ce mois-ci !</h1>
-    </div>
-    @endif
+   
     
-</div>
+

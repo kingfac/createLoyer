@@ -125,6 +125,8 @@ class CustomCreateLoyer extends Component implements HasForms
         //pdf
         $pdf = Pdf::loadHTML(Blade::render('situation', ['data' => $this->data, 'label' => 'SITUATION PERSONNE DU LOCATAIRE ', 'mois' => $this->mois, 'annee' => $this->annee, 'locataire' => $this->locataire]));
         //$pdf->save(public_path().'/pdf/doc.pdf');
+        
+        //$pdf = Pdf::loadHTML(Blade::render('evolution', ['data' => $this->data, 'label' => 'LOCATAIRE À JOUR DU MOIS DE '.$this->mois]));
         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
     }
 
