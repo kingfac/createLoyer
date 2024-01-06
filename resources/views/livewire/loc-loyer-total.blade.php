@@ -1,5 +1,7 @@
-<link rel="stylesheet" href="{{asset('build/assets/app-7c2ef0f7.css')}}">
-<div>
+<div class="w-full">
+    @filamentStyles
+    {{-- @vite('resources/css/app.css') --}}
+    <link rel="stylesheet" href="{{asset('build/assets/app-7c2ef0f7.css')}}">
     {{-- @vite('resources/css/app.css') --}}
  
     {{-- A good traveler has no fixed plans and is not intent upon arriving. --}}

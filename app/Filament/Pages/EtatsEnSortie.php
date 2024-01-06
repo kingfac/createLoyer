@@ -37,7 +37,8 @@ class EtatsEnSortie extends Page implements HasForms
         'Locataires avec payement partiel',
         'Locataires avec soldes impayés',
         'Evolution Loyer/Locataire',
-        'Situation des paiements Global'
+        'Situation des paiements Global',
+        'Paiement journalier'
     ];
 
     public function mount(): void
@@ -85,9 +86,12 @@ class EtatsEnSortie extends Page implements HasForms
         dd($this->form->getState()['type']);
     }
     public function go($menu){
+        //dd($menu);
         $this->mois = $this->form->getState()['mois'];
         $this->annee = $this->form->getState()['annee'];
-        $this->menu = $this->menus[$menu];
+        if($this->menu != $this->menus[$menu]){
+            $this->menu = $this->menus[$menu];
+        }
         //$this->emit('evolution', ['mois' => $this->form->getState()['mois'], 'annee' => $this->form->getState()['annee']]);
         $this->dispatch('m'.$menu, mois: $this->form->getState()['mois'], annee: $this->form->getState()['annee']);
     }

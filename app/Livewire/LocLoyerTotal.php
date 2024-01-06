@@ -30,8 +30,6 @@ class LocLoyerTotal extends Component implements HasForms, HasTable
 
     protected $listeners = ['m5a' => '$refresh'];
 
-    
-
     public function render()
     {
         $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
@@ -71,8 +69,6 @@ class LocLoyerTotal extends Component implements HasForms, HasTable
         $this->mois = $mois;
         $this->dispatch('m5a');
     }
-
-    
     
     public function table(Table $table): Table
     {

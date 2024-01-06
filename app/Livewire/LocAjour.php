@@ -35,14 +35,11 @@ class LocAjour extends Component //implements HasForms, HasTable
     public function render()
     {
 
-        $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
-            ->selectRaw('locataires.*')
-            ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
-            ->orderBy('locataires.id')
-            ->get();
-        $pdf = Pdf::loadHTML(Blade::render('evolution', ['data' => $this->data, 'label' => 'LOCATAIRE À JOUR DU MOIS DE '.$this->mois]));
-        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return view('livewire.loc-ajour');
+    }
+
+    public function mount(){
+        $this->remplir();
     }
 
     #[On('m0')] 
@@ -52,6 +49,19 @@ class LocAjour extends Component //implements HasForms, HasTable
         $this->annee = $annee;
         $this->mois = $mois;
         $this->dispatch('m0a');
+        $this->remplir();
+        
+    }
+
+    public function remplir(){
+
+        $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
+            ->selectRaw('locataires.*')
+            ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
+            ->orderBy('locataires.id')
+            ->get();
+        $pdf = Pdf::loadHTML(Blade::render('evolution', ['data' => $this->data, 'label' => 'LOCATAIRE À JOUR DU MOIS DE '.$this->mois]));
+        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
     }
 
     

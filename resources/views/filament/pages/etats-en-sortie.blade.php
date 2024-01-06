@@ -8,6 +8,7 @@
             {{-- <x-filament::button type="submit" class="mt-3  py-5">
                 {{ __('filament-panels::resources/pages/create-record.form.actions.create.label') }}
             </x-filament::button> --}}
+            
             <div style="display: grid; grid-template-columns: repeat(4, 1fr);" class="gap-4">
 
                 <x-filament::button type="button" class="mt-3  py-5" wire:click="go(0)" outlined>
@@ -33,13 +34,18 @@
                 <x-filament::button type="button" class="mt-3  py-5 bg-danger" wire:click="go(5)" outlined>
                     Situation des paiements Global
                 </x-filament::button>
+                <x-filament::button type="button" class="mt-3  py-5 bg-danger" wire:click="go(6)" outlined>
+                    Paiements Journalier
+                </x-filament::button>
 
                 
             </div>
         </form> 
     </x-filament::section>
     <x-filament::section>
+        
         @if ($menu == $menus[0])
+            <p>cool</p>
             <livewire:loc-ajour :mois=$mois :annee=$annee>
         @endif
 
@@ -60,6 +66,9 @@
         @endif
         @if ($menu == $menus[5])
             <livewire:loc-loyer-total :mois=$mois :annee=$annee>
+        @endif
+        @if ($menu == $menus[6])
+            <livewire:paie-journalier>
         @endif
     </x-filament::section>
 </x-filament-panels::page>
