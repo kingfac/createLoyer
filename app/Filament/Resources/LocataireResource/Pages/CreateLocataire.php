@@ -47,6 +47,9 @@ class CreateLocataire extends CreateRecord
         elseif($data['garantie'] == 0 && $data['nbr'] != null){
             $data['garantie'] = $loyer->montant * intval($data['nbr']);
         }
+        elseif($data['garantie'] != 0 && $data['nbr'] == null){
+            $data['nbr'] = 0;
+        }
 
         //dd($data);
         return $data;
