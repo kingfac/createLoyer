@@ -11,7 +11,7 @@ class CreateRole extends CreateRecord
 {
     protected static string $resource = RoleResource::class;
     protected static bool $canCreateAnother = false;
-
+    protected static ?string $title = 'Créer rôle';
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('create');

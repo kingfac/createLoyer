@@ -21,6 +21,8 @@ class EtatsEnSortie extends Page implements HasForms
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static string $view = 'filament.pages.etats-en-sortie';
+    protected static ?string $title = 'Etats en sortie';
+    protected static ?int $navigationSort = 7;
 
 
     public ?array $data = [];

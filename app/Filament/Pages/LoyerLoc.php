@@ -21,6 +21,7 @@ class LoyerLoc extends Page implements HasForms
     protected static ?string $title = 'Loyer';
 
     protected static string $view = 'filament.pages.loyer-loc';
+    protected static ?int $navigationSort = 6;
 
     public static function getNavigationBadge(): ?string
     {

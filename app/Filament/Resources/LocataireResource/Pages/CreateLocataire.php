@@ -12,6 +12,7 @@ use App\Filament\Resources\LocataireResource;
 class CreateLocataire extends CreateRecord
 {
     protected static string $resource = LocataireResource::class;
+    protected static ?string $title = 'Créer locataire';
 
     protected static bool $canCreateAnother = false;
 

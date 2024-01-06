@@ -29,6 +29,7 @@ class LocataireResource extends Resource
     protected static ?string $model = Locataire::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?int $navigationSort = 5;
 
     public string $loyer_id;
 
@@ -110,8 +111,8 @@ class LocataireResource extends Resource
             ])
             ->filters([
                 //
-                SelectFilter::make('occupation_id')->relationship('occupation', 'galerie.nom')->label('Galerie'),
-                //SelectFilter::make('occupation_id')->relationship('occupation', 'typeOccu.nom')->label('Occupation')
+                //SelectFilter::make('occupation_id')->relationship('occupation', 'galerie.nom')->label('Galerie'),
+                SelectFilter::make('occupation_id')->relationship('occupation', 'typeOccu.nom')->label('Occupation')
             ])
             /* ->actions([
                 Tables\Actions\EditAction::make(),

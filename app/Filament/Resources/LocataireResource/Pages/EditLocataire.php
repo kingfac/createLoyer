@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class EditLocataire extends EditRecord
 {
     protected static string $resource = LocataireResource::class;
+    protected static ?string $title = 'Modifier locataire';
 
     protected function getHeaderActions(): array
     {

@@ -11,6 +11,7 @@ class CreatePermission extends CreateRecord
 {
     protected static string $resource = PermissionResource::class;
     protected static bool $canCreateAnother = false;
+    protected static ?string $title = 'Créer permission';
 
     protected function getRedirectUrl(): string
     {

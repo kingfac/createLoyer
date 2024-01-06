@@ -9,6 +9,7 @@ use Filament\Resources\Pages\EditRecord;
 class EditOccupation extends EditRecord
 {
     protected static string $resource = OccupationResource::class;
+    protected static ?string $title = 'Modifier occupation';
 
     protected function getHeaderActions(): array
     {

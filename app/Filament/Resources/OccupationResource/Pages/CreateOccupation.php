@@ -10,6 +10,7 @@ use App\Filament\Resources\OccupationResource;
 class CreateOccupation extends CreateRecord
 {
     protected static string $resource = OccupationResource::class;
+    protected static ?string $title = 'Créer occupation';
 
     protected static bool $canCreateAnother = false;
 

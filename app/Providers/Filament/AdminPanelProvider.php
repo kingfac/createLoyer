@@ -23,6 +23,7 @@ use App\Filament\Resources\LoyerResource\Pages\LocataireGalerie;
 use App\Filament\Widgets\RapportJournalier;
 use App\Filament\Widgets\Statistique;
 use App\Filament\Widgets\StatsEvolution;
+use Filament\Facades\Filament;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -82,4 +83,6 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ]);
     }
+
+    
 }
