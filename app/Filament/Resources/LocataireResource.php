@@ -91,9 +91,10 @@ class LocataireResource extends Resource
                 Tables\Columns\TextColumn::make('occupation.galerie.nom')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('occupation.typeOccu.nom')
+                    ->label('Occupation')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('garantie')
-                    ->label('garantie ($)')
+                    ->label('Garantie ($)')
                     ->money()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('occupation.montant')
@@ -102,14 +103,15 @@ class LocataireResource extends Resource
                     ->sortable(),
                 Tables\Columns\ToggleColumn::make('actif'),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Date')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 
             ])
             ->filters([
                 //
-                SelectFilter::make('occupation_id')->relationship('occupation', 'galerie.nom')
+                SelectFilter::make('occupation_id')->relationship('occupation', 'galerie.nom')->label('Galerie'),
+                //SelectFilter::make('occupation_id')->relationship('occupation', 'typeOccu.nom')->label('Occupation')
             ])
             /* ->actions([
                 Tables\Actions\EditAction::make(),
