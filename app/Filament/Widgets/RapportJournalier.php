@@ -12,7 +12,7 @@ use Filament\Widgets\TableWidget as BaseWidget;
 class RapportJournalier extends BaseWidget
 {
 
-    
+    protected int | string | array $columnSpan = 'full';
     public $mois;
     public $annee;
     public $lesMois = [
