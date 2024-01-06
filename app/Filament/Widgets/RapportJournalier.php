@@ -12,6 +12,7 @@ use Filament\Widgets\TableWidget as BaseWidget;
 class RapportJournalier extends BaseWidget
 {
 
+    
     public $mois;
     public $annee;
     public $lesMois = [
@@ -27,6 +28,8 @@ class RapportJournalier extends BaseWidget
         '10' => 'Octobre',
         '11' => 'Novembre',
         '12' => 'Décembre'];
+
+        
     
 
     public function table(Table $table): Table
