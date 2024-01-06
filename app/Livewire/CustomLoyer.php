@@ -39,6 +39,7 @@ class CustomLoyer extends Component implements HasForms
     public $recherche;
 
     public $selectedGal;
+    public $selectedOccu = '';
     
 
     protected $listeners = ['actualiser1' => '$refresh'];
