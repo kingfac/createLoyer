@@ -117,7 +117,7 @@ class CustomCreateLoyer extends Component implements HasForms
     public function remplir(){
         //dd($this->locataire);
         $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
-        ->selectRaw('locataires.*, loyers.montant, loyers.mois, loyers.annee, loyers.created_at as date_loyer, loyers.observation')
+        ->selectRaw('locataires.*, loyers.montant, loyers.mois, loyers.annee, loyers.created_at as date_loyer, loyers.observation, loyers.garantie')
         ->where(['loyers.locataire_id' => $this->locataire_id, 'mois' => $this->mois, 'annee' => $this->annee])
         ->orderBy('locataires.id')
         ->get();

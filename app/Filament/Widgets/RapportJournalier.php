@@ -5,6 +5,7 @@ namespace App\Filament\Widgets;
 use DateTime;
 use Filament\Tables;
 use App\Models\Loyer;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -50,9 +51,11 @@ class RapportJournalier extends BaseWidget
                 TextColumn::make('locataire.noms')->label('Locataire'),
                 TextColumn::make('locataire.occupation.galerie.nom')->label('Galerie'),
                 TextColumn::make('locataire.occupation.typeOccu.nom')->label('Occupation'),
-                TextColumn::make('montant')->label('Loyer payé'),
-                TextColumn::make('mois')->label('Mois'),
-                TextColumn::make('created_at')->label('Heure')->time(),
+                
+                TextColumn::make('montant')->label('Loyer payé')
+                    ->summarize(Sum::make()->money()->label('Total'))
+                    ->money(),
+                    
             ]);
     }
 }

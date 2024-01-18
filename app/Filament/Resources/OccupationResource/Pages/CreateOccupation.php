@@ -23,4 +23,9 @@ class CreateOccupation extends CreateRecord
     {
         return Action::make('Annuler')->url($this->getResource()::getUrl('index'));
     }
+
+    /* protected function getCreateFormAction(): Action
+    {
+        return Action::make('Creer encore hein')->submit($this->form());
+    } */
 }

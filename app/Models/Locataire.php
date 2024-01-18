@@ -30,7 +30,14 @@ class Locataire extends Model
     public function loyers() : HasMany {
         return $this->hasMany(Loyer::class);
     }
+    
+    public function garanties() : HasMany {
+        return $this->hasMany(Garantie::class);
+    }
 
+    public function divers() : HasMany {
+        return $this->hasMany(Divers::class);
+    }
     /* public function noms(){
         return $this->nom.' - '.$this->prenom;
     } */

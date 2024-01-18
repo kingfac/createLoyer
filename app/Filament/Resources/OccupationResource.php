@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -70,6 +71,9 @@ class OccupationResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('montant')
+                    ->summarize(Sum::make()
+                    ->label('Total'))
             ])
             ->filters([
                 //
@@ -104,4 +108,6 @@ class OccupationResource extends Resource
     {
         return static::getModel()::all()->count();   
     }
+
+    
 }

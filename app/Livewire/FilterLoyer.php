@@ -82,7 +82,7 @@ class FilterLoyer extends Component implements HasForms, HasTable
                 TextColumn::make('S')
                     ->colors([
                         
-                        'success' => static fn ($record): bool => $record->occupation->montant == $record->loyers_sum_montant,
+                        'succTextColumness' => static fn ($record): bool => $record->occupation->montant == $record->loyers_sum_montant,
                         'danger' => static fn ($record): bool => $record->loyers_sum_montant == 0,
                         'info' => static fn ($record): bool => $record->loyers_sum_montant > 0 && $record->loyers_sum_montant < $record->occupation->montant,
                         /* 'success' => static fn ($record): bool => $state === 'published',

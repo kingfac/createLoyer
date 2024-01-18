@@ -14,6 +14,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Concerns\InteractsWithTable;
 
 class PaieJournalier extends Component implements HasForms, HasTable
@@ -62,7 +63,9 @@ class PaieJournalier extends Component implements HasForms, HasTable
                 TextColumn::make('locataire.noms')->label('Locataire'),
                 TextColumn::make('locataire.occupation.galerie.nom')->label('Galerie'),
                 TextColumn::make('locataire.occupation.typeOccu.nom')->label('Occupation'),
-                TextColumn::make('montant')->label('Loyer payé'),
+                TextColumn::make('montant')->label('Loyer payé')
+                    ->summarize(Sum::make()->money()->label('Total'))
+                    ->money(),
                 TextColumn::make('mois')->label('Mois'),
                 TextColumn::make('created_at')->label('Heure')->time(),
             ]);

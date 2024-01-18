@@ -1,5 +1,9 @@
 <x-filament-panels::page>
-
+    <x-filament::breadcrumbs :breadcrumbs="[
+        '/' => 'Dashboard',
+        '/etats-en-sortie' => 'Etat en sortie',
+        
+    ]" />
     <x-filament::section>
         {{-- Widget content --}}
         <form wire:submit="create"> 
