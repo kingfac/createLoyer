@@ -2,8 +2,8 @@
 @php
     use App\Models\Loyer;
 @endphp
-@vite('resources/css/app.css')
-{{-- <link rel="stylesheet" href="{{asset('build/assets/app-7c2ef0f7.css')}}"> --}}
+{{--@vite('resources/css/app.css')--}}
+{{-- <link rel="stylesheet" href="{{asset('build/assets/app-a622fd7e.css')}}"> --}}
 <x-filament-panels::page>
     
     <x-filament::breadcrumbs :breadcrumbs="[

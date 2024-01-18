@@ -15,7 +15,7 @@
             
             <div style="display: grid; grid-template-columns: repeat(4, 1fr);" class="gap-4">
 
-                <x-filament::button type="button" class="mt-3  py-5" wire:click="go(0)" outlined>
+                <x-filament::button type="button" class="mt-3  py-5 text-white hover:text-black" wire:click="go(0)" outlined>
                     Locataires à jour
                 </x-filament::button>
 
@@ -23,22 +23,22 @@
                     Locataires avec payement en retard
                 </x-filament::button> --}}
 
-                <x-filament::button type="button" class="mt-3  py-5" wire:click="go(2)" outlined>
+                <x-filament::button type="button" class="mt-3  py-5 text-white hover:text-black" wire:click="go(2)" outlined>
                     Locataires avec payement partiel
                 </x-filament::button>
 
-                <x-filament::button type="button" class="mt-3  py-5" wire:click="go(3)" outlined>
+                <x-filament::button type="button" class="mt-3  py-5 text-white hover:text-black" wire:click="go(3)" outlined>
                     Locataires avec soldes impayés
                 </x-filament::button>
 
-                <x-filament::button type="button" class="mt-3  py-5" wire:click="go(4)" outlined>
+                <x-filament::button type="button" class="mt-3  py-5 text-white hover:text-black" wire:click="go(4)" outlined>
                     Evolution Loyer/Locataire
                 </x-filament::button>
 
-                <x-filament::button type="button" class="mt-3  py-5 bg-danger" wire:click="go(5)" outlined>
+                <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(5)" outlined>
                     Situation des paiements Global
                 </x-filament::button>
-                <x-filament::button type="button" class="mt-3  py-5 bg-danger" wire:click="go(6)" outlined>
+                <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(6)" outlined>
                     Paiements Journalier
                 </x-filament::button>
 

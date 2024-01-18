@@ -54,7 +54,7 @@
             'rounded-lg' => ! $grouped,
             match ($color) {
                 'gray' => 'fi-color-gray',
-                default => 'fi-color-custom',
+                default => 'fi-color-custom bg-blue-600',
             },
             // @deprecated `fi-btn-color-*` has been replaced by `fi-color-gray` and `fi-color-custom`.
             is_string($color) ? "fi-btn-color-{$color}" : null,
