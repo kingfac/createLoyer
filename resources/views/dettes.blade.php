@@ -1,47 +1,4 @@
-<style>
-    .text-center {
-        text-align: center;
-    }
-    .b-2{
-        border:solid 2px
-    }
-    .b-1{
-        border:solid 1px #ababab;
-    }
-    .bg-gray{
-        background:#ababab;
-    }
-    .mb-2{
-        margin-bottom: 20px;
-    }
-    .pb-2{
-        padding-bottom:20px;
-    }
-    .pt-2{
-        padding-top:20px;
-    }
-    .text-bold{
-        font-weight: bold;
-    }
-    .py-2{
-        padding-bottom:20px;
-        padding-top:20px;
-    }
-    .w-full{
-        width: 100%;
-    }
-    .text-r{
-        text-align: right;
-    }
-    #t2 td{
-        border:solid 1px #ababab;
-    }
-    #t2 tr{
-        border:solid 1px #ababab;
-    }
-
-</style>
-
+<link rel="stylesheet" href="{{public_path('css.css')}}">
 @php
     use App\Models\Loyer;
     use App\Models\Locataire;
@@ -77,61 +34,70 @@
     // dd($dettes);
 
 @endphp
+<div  class="w-screen">
 
-<div class=" text-center">
-    <img src="https://static.vecteezy.com/ti/vecteur-libre/t2/620985-vecteur-de-modele-de-logos-maison-et-maison-gratuit-vectoriel.jpg">
-    <h2>MILLE ET UNE MERVEILLE</h2>
-</div>
-
-<div class="text-center b-2 bg-gray mb-2">LISTE DES LOCATAIRES AVEC DETTES</div>
-<table class="w-full mb-2">
-    <tr style="font-size: 1.1em; text-decoration:underline;" class="text-bold">
-        <td>Mois/Année </td>
-    </tr>
+    <div class=" text-center">
+        <img src="{{public_path('logo.png')}}">
+        <h2>MILLE ET UNE MERVEILLE</h2>
+    </div>
     
-    <tr class="">
-       <td>{{$mois}}/{{$annee}}</td>
-    </tr>
-    
-</table>
-
-<table class="w-full" id="t2">
-    <thead>
+    <div class="text-center b-2 bg-gray mb-2">LISTE DES LOCATAIRES AVEC DETTES</div>
+    <table class="w-full mb-2">
+        <tr style="font-size: 1.1em; text-decoration:underline;" class="text-bold">
+            <td>Mois/Année </td>
+        </tr>
         
-    </thead>
-    <thead>
-        <tr>
-            <td>ID</td>
-            <td>NOM</td>
-            <td>POST NON</td>
-            <td>PRENOM</td>
-            <td>TEL</td>
-            <td>GARANTIE($)</td>
-            <td>DETTE($)</td>
-
+        <tr class="">
+           <td>{{$mois}}/{{$annee}}</td>
         </tr>
-    </thead>
-    <tbody class="py-2">
+        
+    </table>
+    
+    <table class="w-full" id="t2">
+        <thead>
+            
+        </thead>
+        <thead>
+            <tr style="background-color:#abababc6;">>
+                <td>ID</td>
+                <td>NOM</td>
+                <td>POST NON</td>
+                <td>PRENOM</td>
+                <td>TEL</td>
+                <td>GARANTIE($)</td>
+                <td>DETTE($)</td>
+    
+            </tr>
+        </thead>
+        <tbody class="py-2">
+    
+            @foreach ($dettes as $dette)    
+            <tr class="border-b">
+                <td>{{ $loop->index + 1 }}</td>
+                <td>{{ $dette["loc"]->nom }}</td>
+                <td>{{ $dette["loc"]->postnom }} </td>
+                <td>{{$dette["loc"]->prenom}}</td>
+                <td>{{$dette["loc"]->tel}}</td>
+                <td>{{$dette["loc"]->garantie}}</td>
+                <td>{{$dette["dette"]}}</td>
+    
+            </tr>
+           
+            @endforeach
+    
+        </tbody>
+    </table>
+    
+    
+    
+    @php
+        $lelo = new DateTime('now');
+        $lelo = $lelo->format('d-m-Y');
+    @endphp
 
-        @foreach ($dettes as $dette)    
-        <tr>
-            <td>{{ $loop->index + 1 }}</td>
-            <td>{{ $dette["loc"]->nom }}</td>
-            <td>{{ $dette["loc"]->postnom }} </td>
-            <td>{{$dette["loc"]->prenom}}</td>
-            <td>{{$dette["loc"]->tel}}</td>
-            <td>{{$dette["loc"]->garantie}}</td>
-            <td>{{$dette["dette"]}}</td>
+    <div class="w-full" style=" text-align:right; margin-top:30px;">
+        <p>Aujourd'hui le, {{$lelo}}</p>
+    </div>
+    
 
-        </tr>
-       
-        @endforeach
-
-    </tbody>
-</table>
-
-
-
-
-
-
+</div>    

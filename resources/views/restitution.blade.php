@@ -1,48 +1,6 @@
-<style>
-    .text-center {
-        text-align: center;
-    }
-    .b-2{
-        border:solid 2px
-    }
-    .b-1{
-        border:solid 1px #ababab;
-    }
-    .bg-gray-500{
-        background:#ababab;
-    }
-    .mb-2{
-        margin-bottom: 20px;
-    }
-    .pb-2{
-        padding-bottom:20px;
-    }
-    .pt-2{
-        padding-top:20px;
-    }
-    .text-bold{
-        font-weight: bold;
-    }
-    .py-2{
-        padding-bottom:20px;
-        padding-top:20px;
-    }
-    .w-full{
-        width: 100%;
-    }
-    .text-r{
-        text-align: right;
-    }
-    #t2 td{
-        border:solid 1px #ababab;
-    }
-    #t2 tr{
-        border:solid 1px #ababab;
-    }
-
-</style>
+<link rel="stylesheet" href="{{public_path('css.css')}}"> 
 <div class=" text-center">
-    <img src="https://static.vecteezy.com/ti/vecteur-libre/t2/620985-vecteur-de-modele-de-logos-maison-et-maison-gratuit-vectoriel.jpg">
+    <img src="{{public_path('logo.png')}}">
     <h2>MILLE ET UNE MERVEILLE</h2>
 </div>
 
@@ -55,7 +13,7 @@
             <td>
                 <h4>NOM DU LOCATAIRE</h4>
             </td>
-            <td>
+            <td colspan="4">
                 <h4>{{$data[0]->locataire->noms}}</h4>
             </td>
         </tr>
@@ -75,7 +33,6 @@
             <td>
                 <h4>Montant à restituer</h4>
             </td>
-        </td>
         <tr>
             <td>
                 <h4>{{$data[0]->locataire->occupation->galerie->nom}}</h4>
@@ -103,11 +60,11 @@
 
     <br>
     <h3>Garanties payées</h3>
-        
+    <hr>
     <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'" border="0.2">
         
         <thead class="bg-gray-50 dark:bg-white/5">
-            <tr class="text-lg font-bold">
+            <tr class="text-lg font-bold" style="background-color: #ababab6f">
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Date
                 </td>
@@ -129,7 +86,7 @@
                 @php
                     $total += $ly->montant;
                 @endphp
-                <tr class="hover:bg-white/5 dark:hover:bg-white/5">
+                <tr class="hover:bg-white/5 dark:hover:bg-white/5 border-b">
                     
                     
                     <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
@@ -139,22 +96,27 @@
                         {{$ly->montant ?? 0}} $
                     </td>   
                 </tr>
-           @endif
-                @endforeach
-                <tr class="text-lg font-bold bg-gray-50">
-                    <td class="">Total</td>
-                    <td>{{$total}} $</td>
-                </tr>
+            @endif
+            @endforeach
+            <tr class="text-lg font-bold bg-gray-50">
+                <td class="">Total</td>
+                <td>{{$total}} $</td>
+            </tr>
                 
         </tbody>
 
     
     </table>
 
-    <div>
+    @php
+        $lelo = new DateTime('now');
+        $lelo = $lelo->format('d-m-Y');
+    @endphp
 
+    <div class="w-full" style=" text-align:right; margin-top:30px;">
+        <p>Aujourd'hui le, {{$lelo}}</p>
     </div>
 
-   {{$data[$data->count()-1]->loyers}}
+   
   
 

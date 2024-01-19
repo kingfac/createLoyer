@@ -1,49 +1,7 @@
-<style>
-    .text-center {
-        text-align: center;
-    }
-    .b-2{
-        border:solid 2px
-    }
-    .b-1{
-        border:solid 1px #ababab;
-    }
-    .bg-gray{
-        background:#ababab;
-    }
-    .mb-2{
-        margin-bottom: 20px;
-    }
-    .pb-2{
-        padding-bottom:20px;
-    }
-    .pt-2{
-        padding-top:20px;
-    }
-    .text-bold{
-        font-weight: bold;
-    }
-    .py-2{
-        padding-bottom:20px;
-        padding-top:20px;
-    }
-    .w-full{
-        width: 100%;
-    }
-    .text-r{
-        text-align: right;
-    }
-    #t2 td{
-        border:solid 1px #ababab;
-    }
-    #t2 tr{
-        border:solid 1px #ababab;
-    }
-
-</style>
+<link rel="stylesheet" href="{{public_path('css.css')}}"> 
 
 <div class=" text-center">
-    <img src="https://static.vecteezy.com/ti/vecteur-libre/t2/620985-vecteur-de-modele-de-logos-maison-et-maison-gratuit-vectoriel.jpg">
+    <img src="{{public_path('logo.png')}}">
     <h2>MILLE ET UNE MERVEILLE</h2>
 </div>
 

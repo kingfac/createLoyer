@@ -155,7 +155,7 @@ class CustomLoyer extends Component implements HasForms
                             //$this->resetTable();
                             $this->remplir();
                         })
-                        ->outlined()
+                        
                         ->size(ActionSize::ExtraLarge),
                         Actions\Action::make('Evolution')
                         ->icon('heroicon-o-eye')
@@ -165,7 +165,7 @@ class CustomLoyer extends Component implements HasForms
                            $this->evolution();
                         })
                         ->size(ActionSize::ExtraLarge)
-                        ->outlined()
+                        
                     ])->columnSpan(2),
                     
                 ])

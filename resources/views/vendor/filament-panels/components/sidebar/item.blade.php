@@ -19,8 +19,8 @@
 @php
     $sidebarCollapsible = $sidebarCollapsible && filament()->isSidebarCollapsibleOnDesktop();
 @endphp
-{{--@vite('resources/css/app.css')--}}
-<link rel="stylesheet" href="{{asset('build/assets/app-a622fd7e.css')}}">
+{{-- @vite('resources/css/app.css') --}}
+<link rel="stylesheet" href="{{asset('build/assets/app-247549ac.css')}}">
 <li
     {{
         $attributes->class([
@@ -48,8 +48,8 @@
             x-tooltip.html="tooltip"
         @endif
         @class([
-            'group fi-sidebar-item-button relative flex items-center justify-center gap-x-3 rounded-lg px-2 py-2 text-sm outline-none transition duration-75 hover:bg-blue-600 hover:text-white focus-visible:bg-primary-600 dark:hover:bg-white/5 dark:focus-visible:bg-white/5',
-            'bg-primary-600 dark:bg-primary-600' => $active,
+            'group fi-sidebar-item-button relative flex items-center justify-center gap-x-3 rounded-lg px-2 py-2 text-sm outline-none transition duration-75 hover:bg-white hover:text-black focus-visible:bg-white dark:hover:bg-white/5 dark:focus-visible:bg-white/5',
+            'bg-white dark:bg-primary-600' => $active,
         ])
     >
         @if (filled($icon) && ((! $subGrouped) || filament()->isSidebarCollapsibleOnDesktop()))
@@ -57,9 +57,9 @@
                 :icon="($active && $activeIcon) ? $activeIcon : $icon"
                 :x-show="($subGrouped && filament()->isSidebarCollapsibleOnDesktop()) ? '! $store.sidebar.isOpen' : false"
                 @class([
-                    'fi-sidebar-item-icon h-6 w-6 group-hover:text-white',
-                    'text-gray-400 dark:text-white' => ! $active,
-                    'text-white dark:text-white-400' => $active,
+                    'fi-sidebar-item-icon h-6 w-6 group-hover:text-blue-600',
+                    'text-white dark:text-white' => ! $active,
+                    'text-blue-600 dark:text-white-400' => $active,
                 ])
             />
         @endif
@@ -101,9 +101,9 @@
                 x-transition:enter-end="opacity-100"
             @endif
             @class([
-                'fi-sidebar-item-label flex-1 truncate font-medium group-hover:text-white',
-                'text-gray-700 dark:text-gray-200' => ! $active,
-                'text-white dark:text-white' => $active,
+                'fi-sidebar-item-label flex-1 truncate font-medium group-hover:text-blue-600',
+                'text-white dark:text-gray-200' => ! $active,
+                'text-blue-600 dark:text-white' => $active,
             ])
         >
             {{ $slot }}
