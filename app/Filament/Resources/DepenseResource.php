@@ -20,6 +20,8 @@ class DepenseResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Comptabilité';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -96,5 +98,10 @@ class DepenseResource extends Resource
             'create' => Pages\CreateDepense::route('/create'),
             'edit' => Pages\EditDepense::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::all()->count();   
     }
 }

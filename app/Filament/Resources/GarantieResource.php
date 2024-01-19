@@ -146,7 +146,12 @@ class GarantieResource extends Resource
         ];
     }
 
-    // public static function getEloquentQuery(): Builder{
-    //     return static::getModel()::query()->where('restitution',true);
-    // }
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::all()->count();   
+    }
+
+    public static function getEloquentQuery(): Builder{
+        return static::getModel()::query()->where('restitution',false);
+    }
 }

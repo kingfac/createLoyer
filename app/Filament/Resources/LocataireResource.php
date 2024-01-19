@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\LocataireResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LocataireResource\RelationManagers;
+use App\Models\Garantie;
 use Illuminate\Support\Facades\Event;
 
 class LocataireResource extends Resource
@@ -94,9 +95,12 @@ class LocataireResource extends Resource
                 Tables\Columns\TextColumn::make('occupation.typeOccu.nom')
                     ->label('Occupation')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('garantie')
+                Tables\Columns\TextColumn::make('jjj')
                     ->label('Garantie ($)')
-                    ->money()
+                    /* ->money() */
+                    ->default(function(Locataire $record){
+                        return Garantie::where(['locataire_id' => $record->id, 'restitution' => false])->sum('montant');
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('occupation.montant')
                     ->label('Loyer ($)')

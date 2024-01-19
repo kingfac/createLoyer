@@ -8,6 +8,7 @@ use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\LocataireResource;
+use App\Models\Garantie;
 
 class CreateLocataire extends CreateRecord
 {
@@ -35,7 +36,7 @@ class CreateLocataire extends CreateRecord
             $data['nom'] = "";
         }
         if($data['garantie'] == 0 && $data['nbr'] == null){
-            Notification::make()
+            /* Notification::make()
             ->warning()
             ->title("Validation données erreur")
             ->body("Garantie ou mois garantie doit être renseigné pour valider
@@ -43,7 +44,10 @@ class CreateLocataire extends CreateRecord
             ->persistent()
             
             ->send();
-            $this->halt();
+            $this->halt(); */
+            //Rien A faire pena awa
+            $data['nbr'] = 0;
+            $data['garantie'] = 0;
         }
         elseif($data['garantie'] == 0 && $data['nbr'] != null){
             $data['garantie'] = $loyer->montant * intval($data['nbr']);
@@ -64,4 +68,15 @@ class CreateLocataire extends CreateRecord
     {
         return Action::make('Annuler')->url($this->getResource()::getUrl('index'));
     }
+
+    protected function afterCreate(): void
+    {
+        // Runs after the form fields are saved to the database.
+        //dd($this->record);
+        if($this->record->garantie > 0){
+            Garantie::create(['locataire_id' => $this->record->id, 'montant' => $this->record->garantie]);
+        }
+    }
+
+   
 }

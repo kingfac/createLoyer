@@ -20,6 +20,7 @@ class DiversResource extends Resource
     protected static ?string $model = Divers::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Comptabilité';
 
     public static function form(Form $form): Form
     {
@@ -103,5 +104,10 @@ class DiversResource extends Resource
             'create' => Pages\CreateDivers::route('/create'),
             'edit' => Pages\EditDivers::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::all()->count();   
     }
 }
