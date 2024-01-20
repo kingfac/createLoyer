@@ -55,7 +55,6 @@ class RapportJournalier extends BaseWidget
                 TextColumn::make('montant')->label('Loyer payé')
                     ->summarize(Sum::make()->money()->label('Total'))
                     ->money(),
-                    
             ]);
     }
 }

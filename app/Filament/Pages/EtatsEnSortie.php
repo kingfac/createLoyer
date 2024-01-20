@@ -40,7 +40,12 @@ class EtatsEnSortie extends Page implements HasForms
         'Locataires avec soldes impayés',
         'Evolution Loyer/Locataire',
         'Situation des paiements Global',
-        'Paiement journalier'
+        'Paiement journalier',
+        'Total garantie',
+        'Liste locataire avec arrieres',
+        'Liste prevision mensuel',
+        'Rapport synthese',
+        'Rapport mensuel'
     ];
 
     public function mount(): void

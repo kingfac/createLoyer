@@ -54,9 +54,10 @@ class GarantieResource extends Resource
                 // Tables\columns\TextColumn::make('llklk')->default(function(Garantie $record){
                 //     return 'glodi';
                 // }),
+                Tables\columns\TextColumn::make('locataire.occupation.galerie.nom'),
                 Tables\columns\TextColumn::make('locataire.occupation.typeOccu.nom'),
                 Tables\Columns\TextColumn::make('montant')
-                    ->summarize(Sum::make('montant')),
+                    ->summarize(Sum::make('montant')->label('Total')),
                 ToggleColumn::make('restitution'),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
@@ -70,6 +71,7 @@ class GarantieResource extends Resource
             ])
             // ->groups(['locataire.noms','locataire.occupation.typeOccu.nom'])
             ->defaultGroup('locataire.noms')
+            
             // ->groupsOnly()
             ->filters([
                 SelectFilter::make('locataire_nom')->relationship('locataire', 'noms')->label('Locataire'),
