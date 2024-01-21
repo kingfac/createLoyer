@@ -33,9 +33,11 @@ class DiversResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('qte')
+                    ->label("Quantité")
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('cu')
+                    ->label('Coût unitaire')
                     ->required()
                     ->numeric(),
             ]);
@@ -46,29 +48,38 @@ class DiversResource extends Resource
         return $table
         
             ->columns([
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label("Date")
+                    ->date()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('locataire.noms')
-                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('locataire.occupation.galerie.nom')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('locataire.occupation.typeOccu.nom')
+                    ->label('Occupation')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('besoin')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('qte')
+                    ->label("Quantité")
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('cu')
+                    ->label('Coût unitaire')
                     ->numeric()
                     ->sortable()
                     ->money(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                    TextColumn::make('total')->default( function(Divers $d){
+                
+               
+                   /*  TextColumn::make('total')->default( function(Divers $d){
                         return $d->cu*$d->qte;
-                    })->money(),
+                    })->money() */
+                    TextColumn::make('total')
+                        ->money()
+                        ->summarize(Sum::make()->label('Total')->money())
+                    ,
+                    
                 // Tables\Columns\TextColumn::make('total')
                 //     ->label('cu')
                 //     ->summarize()

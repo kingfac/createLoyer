@@ -123,7 +123,8 @@
     :columns="$columns"
     :extra-heading-column="$extraHeadingColumn"
     :groups-only="$groupsOnly"
-    :heading="__(($hasPageSummary ? 'filament-tables::table.summary.subheadings.all' : 'filament-tables::table.summary.heading'), ['label' => $pluralModelLabel])"
+    {{-- :heading="__(($hasPageSummary ? 'filament-tables::table.summary.subheadings.all' : 'filament-tables::table.summary.heading'), ['label' => '$pluralModelLabel'])" --}}
+    :heading="'Résumé général'"
     :placeholder-columns="$placeholderColumns"
     :query="$query"
     :record-checkbox-position="$recordCheckboxPosition"

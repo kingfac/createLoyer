@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('besoin');
             $table->double('qte');
             $table->double('cu');
+            $table->double('total')->virtualAs('(qte*cu)');
             $table->timestamps();
         });
     }

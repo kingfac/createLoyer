@@ -11,6 +11,7 @@ use Filament\Tables\Table;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Grouping\Group;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Storage;
 use Filament\Notifications\Notification;
@@ -27,6 +28,7 @@ class GarantieResource extends Resource
     protected static ?string $model = Garantie::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Comptabilité';
 
     public static function form(Form $form): Form
     {
@@ -55,10 +57,11 @@ class GarantieResource extends Resource
                 //     return 'glodi';
                 // }),
                 Tables\columns\TextColumn::make('locataire.occupation.galerie.nom'),
-                Tables\columns\TextColumn::make('locataire.occupation.typeOccu.nom'),
+                Tables\columns\TextColumn::make('locataire.occupation.typeOccu.nom')->label("Occupation"),
                 Tables\Columns\TextColumn::make('montant')
-                    ->summarize(Sum::make('montant')->label('Total')),
-                ToggleColumn::make('restitution'),
+                    ->summarize(Sum::make('montant')->label('Total'))
+                    ,
+                /* ToggleColumn::make('restitution'), */
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -71,6 +74,10 @@ class GarantieResource extends Resource
             ])
             // ->groups(['locataire.noms','locataire.occupation.typeOccu.nom'])
             ->defaultGroup('locataire.noms')
+            /* ->groups([
+                Group::make('locataire.noms')
+                    ->collapsible(),
+            ]) */
             
             // ->groupsOnly()
             ->filters([

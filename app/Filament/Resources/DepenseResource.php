@@ -30,9 +30,11 @@ class DepenseResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('qte')
+                    ->label("Quantité")
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('cu')
+                    ->label('Coût unitaire')
                     ->required()
                     ->numeric(),
             ]);
@@ -42,34 +44,26 @@ class DepenseResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label("Date")
+                    ->date()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('besoin')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('qte')
+                    ->label("Quantité")
                     ->numeric()
-                    ->sortable(),
+                    ->sortable(),               
                 Tables\Columns\TextColumn::make('cu')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                    
-                Tables\Columns\TextColumn::make('cu')
-                    ->label('cu')
+                    ->label('Coût unitaire')
                     ->summarize(Sum::make()->money()->label('Total'))
                     ->money(),
-                Tables\Columns\TextColumn::make('Total')->default(function(Depense $record){
+                /* Tables\Columns\TextColumn::make('Total')->default(function(Depense $record){
                     return $record->cu*$record->qte;
-                })->money()
+                })->money() */
+                Tables\Columns\TextColumn::make('total')
+                    ->money()
+                    ->summarize(Sum::make()->label('Total')->money()),
             ])
             ->filters([
                 //

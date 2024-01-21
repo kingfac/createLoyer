@@ -863,7 +863,8 @@
                                         :columns="$columns"
                                         :group-column="$group?->getColumn()"
                                         :groups-only="$isGroupsOnly"
-                                        :heading="$isGroupsOnly ? $previousRecordGroupTitle : __('filament-tables::table.summary.subheadings.group', ['group' => $previousRecordGroupTitle, 'label' => $pluralModelLabel])"
+                                        {{-- :heading="$isGroupsOnly ? $previousRecordGroupTitle : __('filament-tables::table.summary.subheadings.group', ['group' => $previousRecordGroupTitle, 'label' => $pluralModelLabel])" --}}
+                                        :heading="'Résumé '.$pluralModelLabel"
                                         :query="$group->scopeQuery($this->getAllTableSummaryQuery(), $previousRecord)"
                                         :record-checkbox-position="$recordCheckboxPosition"
                                         :selected-state="$groupedSummarySelectedState[$previousRecordGroupKey] ?? []"
@@ -1069,7 +1070,8 @@
                                 :columns="$columns"
                                 :group-column="$group?->getColumn()"
                                 :groups-only="$isGroupsOnly"
-                                :heading="$isGroupsOnly ? $previousRecordGroupTitle : __('filament-tables::table.summary.subheadings.group', ['group' => $previousRecordGroupTitle, 'label' => $pluralModelLabel])"
+                                {{-- :heading="$isGroupsOnly ? $previousRecordGroupTitle : __('filament-tables::table.summary.subheadings.group', ['group' => $previousRecordGroupTitle, 'label' => $pluralModelLabel])" --}}
+                                :heading="'Résumé '.$pluralModelLabel"
                                 :query="$group->scopeQuery($this->getAllTableSummaryQuery(), $previousRecord)"
                                 :record-checkbox-position="$recordCheckboxPosition"
                                 :selected-state="$groupedSummarySelectedState[$previousRecordGroupKey] ?? []"
