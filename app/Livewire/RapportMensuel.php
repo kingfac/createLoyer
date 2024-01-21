@@ -132,9 +132,9 @@ class RapportMensuel extends Component implements HasForms,HasTable
                             ->selectRaw('loyers.montant, loyers.created_at, MONTH(loyers.created_at)')
                             //->select('loyers.*')
                             ->where('galeries.id', $record->id)
-                            ->whereRaw("MONTH(loyers.created_at) <> $moi ")
+                            ->whereRaw("MONTH(loyers.created_at) <> $mois ")
                             ->get();
-                        dd($retour, $mois);
+                        //dd($retour, $mois);
                         return array_sum($dettes);
                     }),
                 TextColumn::make('Montant perçu Aout')

@@ -41,8 +41,20 @@
                 <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(6)" outlined>
                     Paiements Journalier
                 </x-filament::button>
-               {{--  <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(11)" outlined>
+                <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(11)" outlined>
                     Rapport Mensuel
+                </x-filament::button>
+
+                <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(7)" outlined>
+                    Total garantie
+                </x-filament::button>
+
+                <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(8)" outlined>
+                    Tota divers
+                </x-filament::button>
+
+                {{-- <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(9)" outlined>
+                    Paiements Journalier
                 </x-filament::button> --}}
 
                 
@@ -76,6 +88,12 @@
         @endif
         @if ($menu == $menus[6])
             <livewire:paie-journalier>
+        @endif
+        @if ($menu == $menus[7])
+            <livewire:total-garantie>
+        @endif
+        @if ($menu == $menus[8])
+            <livewire:diver-locataire>
         @endif
         @if ($menu == $menus[11])
             <livewire:rapport-mensuel>
