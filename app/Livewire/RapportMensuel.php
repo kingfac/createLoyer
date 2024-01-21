@@ -42,6 +42,21 @@ class RapportMensuel extends Component implements HasForms,HasTable
         '11' => 'Novembre',
         '12' => 'Décembre'
     ];
+
+    public $Mois2 = [
+        'Janvier' => '01',
+        'Février' => '02',
+        'Mars' => '03',
+        'Avril' => '04',
+        'Mais' => '05',
+        'Juin' => '06',
+        'Juillet' => '07',
+        'Aout' => '08',
+        'Septembre' => '09',
+        'Octobre' => '10',
+        'Novembre' => '11',
+        'Décembre' => '12'
+    ];
     
     public function render()
     {
@@ -67,7 +82,7 @@ class RapportMensuel extends Component implements HasForms,HasTable
                         $galerie = Galerie::where('id', $record->id)->first();
                         $locs = $galerie->occupations[0]->locataires;
                         // dd($locs);
-                        
+                        $mois = intval($this->Mois2[$this->mois]);
                         $gi = [];
                         foreach ($locs as $loc) {
                             // $start = new DateTime(NOW());
@@ -77,7 +92,7 @@ class RapportMensuel extends Component implements HasForms,HasTable
                             // $end_date= new DateTime(NOW());
                             // $end_date->modify("-1 month");
                             // dd($end);
-                            $garanties = Garantie::where('locataire_id',$loc->id)->whereRaw("MONTH(created_at) < MONTH(NOW())")->sum('montant');
+                            $garanties = Garantie::where('locataire_id',$loc->id)->whereRaw("MONTH(created_at) < $mois and YEAR(created_at) = $this->annee and restitution=0")->sum('montant');
                             array_push($gi,$garanties);
                         }
                         
@@ -85,13 +100,14 @@ class RapportMensuel extends Component implements HasForms,HasTable
                     }),
                 TextColumn::make('Nouvelles garanties')
                     ->default(function(Galerie $record){
+                        $mois = intval($this->Mois2[$this->mois]);
                         $galerie = Galerie::where('id', $record->id)->first();
                         $locs = $galerie->occupations[0]->locataires;
                         // dd($locs);
                         
                         $gi = [];
                         foreach ($locs as $loc) {
-                            $garanties = Garantie::where('locataire_id',$loc->id)->whereRaw("MONTH(created_at) = MONTH(NOW())")->sum('montant');
+                            $garanties = Garantie::where('locataire_id',$loc->id)->whereRaw("MONTH(created_at) = $mois and restitution=0 and YEAR(created_at) = $this->annee")->sum('montant');
                             array_push($gi,$garanties);
                         }
                         
@@ -102,13 +118,23 @@ class RapportMensuel extends Component implements HasForms,HasTable
                         $galerie = Galerie::where('id', $record->id)->first();
                         $locs = $galerie->occupations[0]->locataires;
                         $dettes=[];
+                        $mois = intval($this->Mois2[$this->mois]);
                         // dd($locs);
                         //formater le mois de janvier to 01
                         foreach ($locs as $loc) {
                             # requette non terminee
-                            $loyers = Loyer::where('locataire_id',$loc->id)->whereRaw("MONTH(created_at) = MONTH(NOW())")->sum('montant');
+                            $loyers = Loyer::where('locataire_id',$loc->id)->whereRaw("MONTH(created_at) <> $mois and (annee = $this->annee or annee < $this->annee)")->sum('montant');
                             array_push($dettes,$loyers);
                         }
+                        $retour = Galerie::join('occupations', 'occupations.galerie_id', '=', 'galeries.id')
+                            ->join('locataires', 'locataires.occupation_id', '=', 'occupations.id')
+                            ->join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
+                            ->selectRaw('loyers.montant, loyers.created_at, MONTH(loyers.created_at)')
+                            //->select('loyers.*')
+                            ->where('galeries.id', $record->id)
+                            ->whereRaw("MONTH(loyers.created_at) <> $moi ")
+                            ->get();
+                        dd($retour, $mois);
                         return array_sum($dettes);
                     }),
                 TextColumn::make('Montant perçu Aout')

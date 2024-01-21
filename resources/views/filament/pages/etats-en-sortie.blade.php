@@ -41,9 +41,9 @@
                 <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(6)" outlined>
                     Paiements Journalier
                 </x-filament::button>
-                <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(11)" outlined>
+               {{--  <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(11)" outlined>
                     Rapport Mensuel
-                </x-filament::button>
+                </x-filament::button> --}}
 
                 
             </div>
