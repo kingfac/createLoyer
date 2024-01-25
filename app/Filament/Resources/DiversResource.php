@@ -60,16 +60,17 @@ class DiversResource extends Resource
                     ->label('Occupation')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('besoin')
+                    ->label('Libellé')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('qte')
-                    ->label("Quantité")
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('cu')
-                    ->label('Coût unitaire')
-                    ->numeric()
-                    ->sortable()
-                    ->money(),
+                // Tables\Columns\TextColumn::make('qte')
+                //     ->label("Quantité")
+                //     ->numeric()
+                //     ->sortable(),
+                // Tables\Columns\TextColumn::make('cu')
+                //     ->label('Coût unitaire')
+                //     ->numeric()
+                //     ->sortable()
+                //     ->money(),
                 
                
                    /*  TextColumn::make('total')->default( function(Divers $d){
@@ -77,7 +78,12 @@ class DiversResource extends Resource
                     })->money() */
                     TextColumn::make('total')
                         ->money()
-                        ->summarize(Sum::make()->label('Total')->money())
+                        ->summarize(
+                            Sum::make()
+                            ->label('Total')
+                            ->money()
+                        )
+                        ->label('Montant')
                     ,
                     
                 // Tables\Columns\TextColumn::make('total')

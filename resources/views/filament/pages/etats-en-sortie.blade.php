@@ -13,9 +13,9 @@
                 {{ __('filament-panels::resources/pages/create-record.form.actions.create.label') }}
             </x-filament::button> --}}
             
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr);" class="gap-4">
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr);" class="gap-4">
 
-                <x-filament::button type="button" class="mt-3  py-5 text-white hover:text-black" wire:click="go(0)" outlined>
+                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 text-white hover:text-black" wire:click="go(0)" outlined>
                     Locataires à jour
                 </x-filament::button>
 
@@ -23,39 +23,39 @@
                     Locataires avec payement en retard
                 </x-filament::button> --}}
 
-                <x-filament::button type="button" class="mt-3  py-5 text-white hover:text-black" wire:click="go(2)" outlined>
-                    Locataires avec payement partiel
+                <x-filament::button size="xs" icon="heroicon-m-sparkles"   type="button" class="mt-3  py-5 text-white hover:text-black" wire:click="go(2)" outlined>
+                    Payement partiel
                 </x-filament::button>
 
-                <x-filament::button type="button" class="mt-3  py-5 text-white hover:text-black" wire:click="go(3)" outlined>
-                    Locataires avec soldes impayés
+                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 text-white hover:text-black" wire:click="go(3)" outlined>
+                    Soldes impayés
                 </x-filament::button>
 
-                <x-filament::button type="button" class="mt-3  py-5 text-white hover:text-black" wire:click="go(4)" outlined>
-                    Evolution Loyer/Locataire
+                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 text-white hover:text-black" wire:click="go(4)" outlined>
+                    Evolution loyer
                 </x-filament::button>
 
-                <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(5)" outlined>
-                    Situation des paiements Global
+                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(5)" outlined>
+                    Paiements Global
                 </x-filament::button>
-                <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(6)" outlined>
+                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(6)" outlined>
                     Paiements Journalier
                 </x-filament::button>
-                <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(11)" outlined>
+                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(11)" outlined>
                     Rapport Mensuel
                 </x-filament::button>
 
-                <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(7)" outlined>
+                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(7)" outlined>
                     Total garantie
                 </x-filament::button>
 
-                <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(8)" outlined>
+                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(8)" outlined>
                     Tota divers
                 </x-filament::button>
 
-                {{-- <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(9)" outlined>
+                <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(9)" outlined>
                     Paiements Journalier
-                </x-filament::button> --}}
+                </x-filament::button>
 
                 
             </div>

@@ -241,12 +241,13 @@ class CustomCreateLoyer extends Component implements HasForms
             }
         }
         else if($loyer_checking == $this->locataire->occupation->montant){
-            dd("Loyer déjà payé pour ce mois-ci");
+            //dd("Loyer déjà payé pour ce mois-ci");
             Notification::make()
                 ->title("Erreur")
                 ->body("Loyer déjà payé pour ce mois-ci")
                 ->warning()
-                ->persistent();
+                ->persistent()
+                ->send();
             //return false;
             $this->form->fill();
             //$this->dispatch('loyer-created');
@@ -254,63 +255,85 @@ class CustomCreateLoyer extends Component implements HasForms
             //echo "<script>alert('Loyer déjà payé pour ce mois-ci')</script>";
         }
         else{
-            //dd($loyer_checking);
-            $mt_paye = $this->locataire->occupation->montant - $loyer_checking;
-            $data[] =[
-                'montant' => $mt_paye,
-                'mois' => $Mois1[$mois_en_numeric_start > 9 ? $mois_en_numeric_start : '0'.$mois_en_numeric_start],
-                'annee' => $this->annee,
-                'locataire_id' => $this->locataire_id,
-                'observation' => $this->form->getState()['observation'],
-                'garantie' => $this->form->getState()['garantie'],
-                'created_at' => $lelo
-            ];
-            $moiss[] = $Mois1[$mois_en_numeric_start > 9 ? $mois_en_numeric_start : '0'.$mois_en_numeric_start];
+            if($this->form->getState()['montant'] <  $this->locataire->occupation->montant){
+                $loyer = Loyer::create([
+                    'montant' => $this->form->getState()['montant'],
+                    'mois' => $this->mois,
+                    'annee' => $this->annee,
+                    'locataire_id' => $this->locataire_id,
+                    'observation' => $this->form->getState()['observation'],
+                    'garantie' => $this->form->getState()['garantie']
+                ]);
+        
+                $this->form->fill();
+                $this->dispatch('loyer-created');
+                $this->remplir();
+                return response()->streamDownload(function () use ($loyer) {
+                    echo Pdf::loadHtml(
+                        Blade::render('pdf', ['record' => $loyer])
+                    )->stream();
+                }, $loyer->id.'1.pdf');
+            }
+            else{
 
-            $nbr = intval(($this->form->getState()['montant'] - $mt_paye) / $this->locataire->occupation->montant);
-            $reste = ($this->form->getState()['montant'] - $mt_paye) - ($this->locataire->occupation->montant * $nbr);
-            for ($i=$mois_en_numeric_start+1; $i < $nbr + $mois_en_numeric_start + 1 ; $i++) { 
-                # code...
+                //dd($loyer_checking);
+                $mt_paye = $this->locataire->occupation->montant - $loyer_checking;
                 $data[] =[
-                    'montant' => $this->locataire->occupation->montant,
-                    'mois' => $Mois1[$i > 9 ? $i : '0'.$i],
+                    'montant' => $mt_paye,
+                    'mois' => $Mois1[$mois_en_numeric_start > 9 ? $mois_en_numeric_start : '0'.$mois_en_numeric_start],
                     'annee' => $this->annee,
                     'locataire_id' => $this->locataire_id,
                     'observation' => $this->form->getState()['observation'],
                     'garantie' => $this->form->getState()['garantie'],
                     'created_at' => $lelo
                 ];
-                $moiss[] = $Mois1[$i > 9 ? $i : '0'.$i];
+                $moiss[] = $Mois1[$mois_en_numeric_start > 9 ? $mois_en_numeric_start : '0'.$mois_en_numeric_start];
+    
+                $nbr = intval(($this->form->getState()['montant'] - $mt_paye) / $this->locataire->occupation->montant);
+                $reste = ($this->form->getState()['montant'] - $mt_paye) - ($this->locataire->occupation->montant * $nbr);
+                for ($i=$mois_en_numeric_start+1; $i < $nbr + $mois_en_numeric_start + 1 ; $i++) { 
+                    # code...
+                    $data[] =[
+                        'montant' => $this->locataire->occupation->montant,
+                        'mois' => $Mois1[$i > 9 ? $i : '0'.$i],
+                        'annee' => $this->annee,
+                        'locataire_id' => $this->locataire_id,
+                        'observation' => $this->form->getState()['observation'],
+                        'garantie' => $this->form->getState()['garantie'],
+                        'created_at' => $lelo
+                    ];
+                    $moiss[] = $Mois1[$i > 9 ? $i : '0'.$i];
+                }
+    
+                if($reste > 0){
+                    $nbr +=2;
+                    $data[] =[
+                        'montant' => $reste,
+                        'mois' => $Mois1[$nbr > 9 ? $nbr : '0'.$nbr],
+                        'annee' => $this->annee,
+                        'locataire_id' => $this->locataire_id,
+                        'observation' => $this->form->getState()['observation'],
+                        'garantie' => $this->form->getState()['garantie'],
+                        'created_at' => $lelo
+                    ];
+                    $moiss[] = $Mois1[$nbr > 9 ? $nbr : '0'.$nbr];
+                }
+                //dd($moiss, $data);
+                //dd($reste, $nbr, $data);
+                Loyer::insert($data);
+                $records = Loyer::whereIn('mois', $moiss)
+                    //->where(['annee' => $this->annee, 'locataire_id' => $this->locataire_id])
+                    ->whereRaw("DATE(created_at) = DATE(NOW()) and annee = $this->annee and locataire_id = $this->locataire_id")
+                    ->get();
+                $this->form->fill();
+                $this->dispatch('loyer-created');
+                $this->remplir();
+                return response()->streamDownload(function () use ($records) {
+                    echo Pdf::loadHtml(
+                        Blade::render('anticipatif', ['records' => $records])
+                    )->stream();
+                }, 'loyerAnticipatif.pdf');
             }
-
-            if($reste > 0){
-                $nbr +=2;
-                $data[] =[
-                    'montant' => $reste,
-                    'mois' => $Mois1[$nbr > 9 ? $nbr : '0'.$nbr],
-                    'annee' => $this->annee,
-                    'locataire_id' => $this->locataire_id,
-                    'observation' => $this->form->getState()['observation'],
-                    'garantie' => $this->form->getState()['garantie'],
-                    'created_at' => $lelo
-                ];
-                $moiss[] = $Mois1[$nbr > 9 ? $nbr : '0'.$nbr];
-            }
-            //dd($moiss, $data);
-            //dd($reste, $nbr, $data);
-            Loyer::insert($data);
-            $records = Loyer::whereIn('mois', $moiss)
-                //->where(['annee' => $this->annee, 'locataire_id' => $this->locataire_id])
-                ->whereRaw("DATE(created_at) = DATE(NOW()) and annee = $this->annee and locataire_id = $this->locataire_id")
-                ->get();
-            $this->form->fill();
-            $this->dispatch('loyer-created');
-            $this->remplir();
-            return response()->streamDownload(function () use ($records) {
-                echo Pdf::loadHtml(
-                    Blade::render('anticipatif', ['records' => $records])
-                )->stream();
-            }, 'loyerAnticipatif.pdf');
         }
 
        
