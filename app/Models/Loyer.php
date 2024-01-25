@@ -19,6 +19,7 @@ class Loyer extends Model
         'locataire_id' => 'integer',
         'garantie' => 'boolean',
         'observation' => 'string', 
+        'created_at' => 'datetime'
     ];
 
     public function locataire() : BelongsTo {
