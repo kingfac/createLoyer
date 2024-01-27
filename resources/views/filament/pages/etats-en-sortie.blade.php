@@ -53,8 +53,8 @@
                     Tota divers
                 </x-filament::button>
 
-                <x-filament::button type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(9)" outlined>
-                    Paiements Journalier
+                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(9)" outlined>
+                    Arriérés
                 </x-filament::button>
 
                 
@@ -97,6 +97,9 @@
         @endif
         @if ($menu == $menus[11])
             <livewire:rapport-mensuel>
+        @endif
+        @if ($menu == $menus[9])
+            <livewire:loc-arrieres>
         @endif
     </x-filament::section>
 </x-filament-panels::page>
