@@ -11,6 +11,7 @@
 <body class="w-screen">
     
     <div class=" text-center w-full">
+        
         <img src="{{public_path('logo.png')}}">
         <h2 class="text-bold text-xl">MILLE ET UNE MERVEILLE</h2>
     </div>

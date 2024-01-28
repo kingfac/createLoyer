@@ -64,7 +64,7 @@
     <x-filament::section>
         
         @if ($menu == $menus[0])
-            <p>cool</p>
+            
             <livewire:loc-ajour :mois=$mois :annee=$annee>
         @endif
 

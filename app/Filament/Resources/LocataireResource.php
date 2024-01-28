@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources;
 
+use DateTime;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Galerie;
 use Filament\Forms\Set;
+use App\Models\Garantie;
 use Filament\Forms\Form;
 use App\Models\Locataire;
 use App\Models\Occupation;
@@ -14,6 +16,7 @@ use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Filament\Tables\Filters\SelectFilter;
@@ -22,8 +25,6 @@ use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\LocataireResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LocataireResource\RelationManagers;
-use App\Models\Garantie;
-use Illuminate\Support\Facades\Event;
 
 class LocataireResource extends Resource
 {
@@ -39,6 +40,7 @@ class LocataireResource extends Resource
     public static function form(Form $form): Form
     {
         $ddd = ['ggf'=>'hfhf'];
+        $currentDate = new DateTime();
         return $form
             ->schema([
                 Forms\Components\Select::make('occupation_id')
@@ -60,6 +62,18 @@ class LocataireResource extends Resource
                     ->validationMessages(['regex' => 'Numéro  incorrect', 'required' => 'Ce champ est obligatoire'])
                     ->required()
                     ->maxLength(14),
+                Forms\Components\Select::make('mp')
+                    ->label('Mois du paiement')
+                    ->options( ["1"=> "janvier","2"=>"février", "3"=>"mars","4"=>"avril","5"=>"mai","6"=>"juin","7"=>"juillet","8"=>"aout","9"=>"septembre","10"=>"octobre","11" => "novembre", "12" => "décembre"])
+                    ->reactive(),
+                Forms\Components\TextInput::make('ap')
+                    ->label('Année')
+                    ->numeric()
+                    ->maxValue(2030)
+                    ->minValue(2023)
+                    ->default($currentDate->format("Y"))
+                    ->inlineLabel()
+                    ->required(),
                 Forms\Components\Select::make('nbr')
                     ->label('Nbr mois garantie')
                     ->options( ["3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"10"=>10])
@@ -110,7 +124,10 @@ class LocataireResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Date')
                     ->dateTime()
-                    ->sortable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('mp')
+                    ->dateTime("M")
+                    ->sortable(),
                 
             ])
             ->filters([
