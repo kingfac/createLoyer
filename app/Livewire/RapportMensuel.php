@@ -2,13 +2,14 @@
 
 namespace App\Livewire;
 
-use App\Models\Galerie;
-use App\Models\Garantie;
-use App\Models\Locataire;
 use DateTime;
 use App\Models\Loyer;
+use App\Models\Galerie;
 use Livewire\Component;
+use App\Models\Garantie;
+use App\Models\Locataire;
 use Filament\Tables\Table;
+use Livewire\Attributes\On;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Contracts\HasForms;
@@ -57,10 +58,27 @@ class RapportMensuel extends Component implements HasForms,HasTable
         'Novembre' => '11',
         'Décembre' => '12'
     ];
+
+    protected $listeners = ['m11a' => '$refresh'];
+
+
+    #[On('m11')] 
+    public function update($mois, $annee)
+    {
+        // ...
+        // dd($this->annee);
+        $this->annee = $annee;
+        $this->mois = $mois;
+        // dd($this->mois);
+        $this->dispatch('m11a');
+        // $this->remplir();
+        
+    }
     
     public function render()
     {
-        $this->remplir();
+        // $this->remplir();
+        // dd($this->mois);
         return view('livewire.rapport-mensuel');
     }
 
@@ -80,88 +98,217 @@ class RapportMensuel extends Component implements HasForms,HasTable
                 TextColumn::make('Anciennes garanties')
                     ->default(function(Galerie $record){
                         $galerie = Galerie::where('id', $record->id)->first();
-                        $locs = $galerie->occupations[0]->locataires;
-                        // dd($locs);
+                        // dd($galerie);
+                        $occups = $galerie->occupations;
+                        $locs=[];
                         $mois = intval($this->Mois2[$this->mois]);
-                        $gi = [];
-                        foreach ($locs as $loc) {
-                            // $start = new DateTime(NOW());
-                            // $start->modify("-12 month");
-                            // dd($start);
-
-                            // $end_date= new DateTime(NOW());
-                            // $end_date->modify("-1 month");
-                            // dd($end);
-                            $garanties = Garantie::where('locataire_id',$loc->id)->whereRaw("MONTH(created_at) < $mois and YEAR(created_at) = $this->annee and restitution=0")->sum('montant');
-                            array_push($gi,$garanties);
+                        // dd($mois);
+                        // dd($mois);
+                        foreach($occups as $occup){
+                            array_push($locs, $occup->locataires);
                         }
+                        // dd($locs);
+                        $somme=[];
+                        for($i=0; $i < count($locs); $i++){
+                            // dd($locs[$i][0]);
+                            $garanties = Garantie::where('locataire_id',$locs[$i][0]->id)->whereRaw("MONTH(created_at) < $mois and restitution=false and YEAR(created_at) <= $this->annee");
+                            array_push($somme,$garanties->sum('montant'));
+                        }
+                        // dd(array_sum($somme));
+                        // $locs = Locataire::where('occupation_id', )->get();
+                        // foreach ($locs as $loc) {
+                        //     $start = new DateTime(NOW());
+                        //     $start->modify("-12 month");
+                        //     dd($start);
+
+                        //     $end_date= new DateTime(NOW());
+                        //     $end_date->modify("-1 month");
+                        //     dd($end);
+                        //     array_push($gi,$garanties);
+                        // }
                         
-                        return array_sum($gi);
+                        return array_sum($somme);
                     }),
                 TextColumn::make('Nouvelles garanties')
                     ->default(function(Galerie $record){
                         $mois = intval($this->Mois2[$this->mois]);
                         $galerie = Galerie::where('id', $record->id)->first();
-                        $locs = $galerie->occupations[0]->locataires;
-                        // dd($locs);
-                        
-                        $gi = [];
-                        foreach ($locs as $loc) {
-                            $garanties = Garantie::where('locataire_id',$loc->id)->whereRaw("MONTH(created_at) = $mois and restitution=0 and YEAR(created_at) = $this->annee")->sum('montant');
-                            array_push($gi,$garanties);
+                        $occups = $galerie->occupations;
+
+                        $locs=[];
+                        foreach($occups as $occup){
+                            array_push($locs, $occup->locataires);
                         }
-                        
-                        return array_sum($gi);
+                        // dd($locs);
+                        $somme=[];
+                        for($i=0; $i < count($locs); $i++){
+                            // dd($locs[$i][0]);
+                            // $garanties = Garantie::where('locataire_id',$locs[$i][0]->id)->whereRaw("MONTH(created_at) < $mois and restitution=false and YEAR(created_at) <= $this->annee");
+                            // array_push($somme,$garanties->sum('montant'));
+                            $garanties = Garantie::where('locataire_id',$locs[$i][0]->id)->whereRaw("MONTH(created_at) = $mois and restitution=0 and YEAR(created_at) = $this->annee")->sum('montant');
+                            array_push($somme,$garanties);
+                        }
+
+                        return array_sum($somme);
                     }),
                 TextColumn::make('Dettes antérieures perçues')
                     ->default(function(Galerie $record){
                         $galerie = Galerie::where('id', $record->id)->first();
-                        $locs = $galerie->occupations[0]->locataires;
-                        $dettes=[];
                         $mois = intval($this->Mois2[$this->mois]);
-                        // dd($locs);
-                        //formater le mois de janvier to 01
-                        foreach ($locs as $loc) {
-                            # requette non terminee
-                            $loyers = Loyer::where('locataire_id',$loc->id)->whereRaw("MONTH(created_at) <> $mois and (annee = $this->annee or annee < $this->annee)")->sum('montant');
-                            array_push($dettes,$loyers);
+
+                        $occups = $galerie->occupations;
+                        $locs=[];
+                        foreach($occups as $occup){
+                            array_push($locs, $occup->locataires);
                         }
-                        $retour = Galerie::join('occupations', 'occupations.galerie_id', '=', 'galeries.id')
-                            ->join('locataires', 'locataires.occupation_id', '=', 'occupations.id')
-                            ->join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
-                            ->selectRaw('loyers.montant, loyers.created_at, MONTH(loyers.created_at)')
-                            //->select('loyers.*')
-                            ->where('galeries.id', $record->id)
-                            ->whereRaw("MONTH(loyers.created_at) <> $mois ")
-                            ->get();
-                        //dd($retour, $mois);
-                        return array_sum($dettes);
+                        // dd($locs);
+                        $somme=[];
+                        for($i=0; $i < count($locs); $i++){
+                            //ne doit pas recupere paiement anticipatif
+                            $loyers = Loyer::where('locataire_id',$locs[$i][0]->id)->whereRaw(" mois != '$this->mois' and YEAR(created_at) = $this->annee ")->sum('montant');
+                            // dd($loyers);
+                            array_push($somme,$loyers);
+                           
+                        }
+
+                        return array_sum($somme);
+
+                    
                     }),
-                TextColumn::make('Montant perçu Aout')
+                TextColumn::make('Montant(loyer) perçu Ce mois')
                     ->default(function(Galerie $record){
 
                         $galerie = Galerie::where('id', $record->id)->first();
-                        $locs = $galerie->occupations[0]->locataires;
-                        // dd($locs);
-                        
-                        $gi = [];
-                        $dettes = [];
-                        foreach ($locs as $loc) {
-                            $garanties = Garantie::where('locataire_id',$loc->id)->whereRaw("MONTH(created_at) = MONTH(NOW())")->sum('montant');
-                            array_push($gi,$garanties);
+                        $mois = intval($this->Mois2[$this->mois]);
 
-                            $loyers = Loyer::where('locataire_id',$loc->id)->whereRaw("MONTH(created_at) = MONTH(NOW())")->sum('montant');
-                            array_push($dettes,$loyers);
+                        $occups = $galerie->occupations;
+                        $locs=[];
+                        foreach($occups as $occup){
+                            array_push($locs, $occup->locataires);
+                        }
+                        // dd($locs);
+                        $somme=[];
+                        for($i=0; $i < count($locs); $i++){
+                            //ne doit pas recupere paiement anticipatif
+                            $loyers = Loyer::where('locataire_id',$locs[$i][0]->id)->whereRaw("mois = '$this->mois' and annee = $this->annee   ")->sum('montant');
+                            // dd($loyers);
+                            array_push($somme,$loyers);
+                           
                         }
 
-                        $nouv_garanties = array_sum($gi);
-                        $dets = array_sum($dettes);
+                        return array_sum($somme);
+
+                        // $galerie = Galerie::where('id', $record->id)->first();
+                        // $locs = $galerie->occupations[0]->locataires;
+                        // // dd($locs);
                         
-                        return $nouv_garanties+$dets;
+                        // $gi = [];
+                        // $dettes = [];
+                        // foreach ($locs as $loc) {
+                        //     $garanties = Garantie::where('locataire_id',$loc->id)->whereRaw("MONTH(created_at) = MONTH(NOW())")->sum('montant');
+                        //     array_push($gi,$garanties);
+
+                        //     $loyers = Loyer::where('locataire_id',$loc->id)->whereRaw("MONTH(created_at) = MONTH(NOW())")->sum('montant');
+                        //     array_push($dettes,$loyers);
+                        // }
+
+                        // $nouv_garanties = array_sum($gi);
+                        // $dets = array_sum($dettes);
+                        
+                        // return $nouv_garanties+$dets;
                     }),
-                TextColumn::make('Montant perçu Septembre'),
-                TextColumn::make('Total perçu'),
-                TextColumn::make('Montant attendu'),
+                TextColumn::make('Montant perçu au mois suivant')
+                    ->default(function(Galerie $record){
+                            $galerie = Galerie::where('id', $record->id)->first();
+                            $mois = intval($this->Mois2[$this->mois]);
+
+                            $occups = $galerie->occupations;
+                            $locs=[];
+                            foreach($occups as $occup){
+                                array_push($locs, $occup->locataires);
+                            }
+                            // dd($locs);
+                            $somme=[];
+                            // $mois_suivant =  $this->lesMois['0'.$mois +1];
+                            // dd($mois_suivant);
+                            $mois_suivant = '0'.$mois +1;
+                            for($i=0; $i < count($locs); $i++){
+                                //ne doit pas recupere paiement anticipatif
+                                $loyers = Loyer::where('locataire_id',$locs[$i][0]->id)->whereRaw(" MONTH(created_at) = $mois_suivant")->sum('montant');
+                                // dd($loyers);
+                                array_push($somme,$loyers);
+                            
+                            }
+
+                            return array_sum($somme);
+
+                        
+                        }),
+                TextColumn::make('Total perçu')
+                ->default(function(Galerie $record){
+                    $galerie = Galerie::where('id', $record->id)->first();
+                    $mois = intval($this->Mois2[$this->mois]);
+
+                    $occups = $galerie->occupations;
+                    $locs=[];
+                    foreach($occups as $occup){
+                        array_push($locs, $occup->locataires);
+                    }
+                    // dd($locs);
+                    $somme=[];
+                    $somme1=[];
+                    $somme2=[];
+                    $somme3=[];
+                    $somme4=[];
+                    // $mois_suivant =  $this->lesMois['0'.$mois +1];
+                    // dd($mois_suivant);
+                    $mois_suivant = '0'.$mois +1;
+                    for($i=0; $i < count($locs); $i++){
+                        //ne doit pas recupere paiement anticipatif
+                        $loyers1 = Loyer::where('locataire_id',$locs[$i][0]->id)->whereRaw(" MONTH(created_at) = $mois_suivant")->sum('montant');
+                        // dd($loyers);
+                        array_push($somme1,$loyers1);
+                        $loyers2 = Loyer::where('locataire_id',$locs[$i][0]->id)->whereRaw("mois = '$this->mois' and annee = $this->annee   ")->sum('montant');
+                        // dd($loyers);
+                        array_push($somme2,$loyers2);
+                        $loyers3 = Loyer::where('locataire_id',$locs[$i][0]->id)->whereRaw(" mois != '$this->mois' and YEAR(created_at) = $this->annee ")->sum('montant');
+                        // dd($loyers);
+                        array_push($somme3,$loyers3);
+                        $garanties = Garantie::where('locataire_id',$locs[$i][0]->id)->whereRaw("MONTH(created_at) = $mois and restitution=0 and YEAR(created_at) = $this->annee")->sum('montant');
+                        array_push($somme4,$garanties);
+                       
+                    
+                    }
+                    $tot1 = array_sum($somme1);
+                    $tot2 = array_sum($somme2);
+                    $tot3 = array_sum($somme3);
+                    $tot4 = array_sum($somme4);
+                    
+                    return ($tot1+$tot2+$tot3+$tot4);
+
+                
+                }),
+                
+                TextColumn::make('Montant attendu')
+                    ->default(function(Galerie $record){
+                        // $mois = intval($this->Mois2[$this->mois]);
+                        // $galerie = Galerie::where('id', $record->id)->first();
+                        // $occups = $galerie->occupations;
+
+                        // $locs=[];
+                        // foreach($occups as $occup){
+                        //     array_push($locs, $occup->locataires);
+                        // }
+                        // // dd($locs);
+                        // $somme=[];
+                        // for($i=0; $i < count($locs); $i++){
+                        //     $garanties = Garantie::where('locataire_id',$locs[$i][0]->id)->whereRaw("MONTH(created_at) = $mois and restitution=0 and YEAR(created_at) = $this->annee")->sum('montant');
+                        //     array_push($somme,$garanties);
+                        // }
+                        // // dd($garanties);
+
+                        // return array_sum($somme);
+                    }),
                 TextColumn::make('Montant non perçu'),
                 TextColumn::make('Montant perçu Septembre'),
                 TextColumn::make('Totaux de réalisation'),
@@ -177,14 +324,14 @@ class RapportMensuel extends Component implements HasForms,HasTable
     }
 
     public function remplir(){
-        $this->mois = new DateTime();
-        $lelo = new DateTime('now');
-        $lelo = $lelo->format('d-m-Y');
+        // $this->mois = new DateTime();
+        // $lelo = new DateTime('now');
+        // $lelo = $lelo->format('d-m-Y');
         $this->annee = $this->mois->format('Y');
         $this->mois = $this->lesMois[$this->mois->format('m')];
-        $this->data = Galerie::whereRaw("DAY(created_at) = DAY(NOW())")->get();
-        $pdf = Pdf::loadHTML(Blade::render('journalier', ['data' => $this->data, 'label' => 'PAIEMENT JOURNALIER DU MOIS DE '.$this->mois]));
-        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
+        // $this->data = Galerie::whereRaw("DAY(created_at) = DAY(NOW())")->get();
+        // $pdf = Pdf::loadHTML(Blade::render('journalier', ['data' => $this->data, 'label' => 'PAIEMENT JOURNALIER DU MOIS DE '.$this->mois]));
+        // Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
     }
 
 

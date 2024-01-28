@@ -96,7 +96,7 @@
             <livewire:diver-locataire>
         @endif
         @if ($menu == $menus[11])
-            <livewire:rapport-mensuel>
+            <livewire:rapport-mensuel :mois=$mois :annee=$annee>
         @endif
         @if ($menu == $menus[9])
             <livewire:loc-arrieres>
