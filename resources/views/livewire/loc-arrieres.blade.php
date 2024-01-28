@@ -47,7 +47,7 @@
         <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Arriérés des locataires</h1>
         {{--  {{ $this->form }}
         {{ $this->table }} --}}
-        <x-filament::icon-button
+        {{-- <x-filament::icon-button
             icon="heroicon-o-printer"
             tag="a"
             label="imprimer"
@@ -55,7 +55,7 @@
             href="/storage/pdf/doc.pdf"
             target="_blank"
                 
-        />
+        /> --}}
     </div>
     <div class="overflow-x-auto shadow-md sm:rounded-lg">
         <div class="inline-block min-w-full align-middle">
