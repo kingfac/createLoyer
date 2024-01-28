@@ -175,16 +175,16 @@
                                     @endif
                                 @endif  --}}
                             </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap ">
                                 {{$dt->id}}
                             </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap ">
                                 {{$dt->nom}}
                             </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap ">
                                  {{$sommeLoyerApay}}
                             </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap ">
                                 {{$total}}
                             </td>
                         </tr>
@@ -200,29 +200,29 @@
                         @endphp
                         @endforeach
                         <tr class="bg-gray-600 dark:hover:bg-gray-700 text-white">
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap ">
                                 
                             </td>
-                            <td class="py-4 px-6 text-sm font-medium  whitespace-nowrap dark:text-white">
+                            <td class="py-4 px-6 text-sm font-medium  whitespace-nowrap ">
                                 Total
                             </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap ">
                                 
                             </td>
-                            <td class="py-4 px-6 text-sm font-medium whitespace-nowrap dark:text-white">
+                            <td class="py-4 px-6 text-sm font-medium whitespace-nowrap ">
                                 {{ $totLoyer }}
                             </td>
-                            <td class="py-4 px-6 text-sm font-medium whitespace-nowrap dark:text-white">
+                            <td class="py-4 px-6 text-sm font-medium whitespace-nowrap ">
                                 {{$totDette}}
                             </td>
                         </tr>
-                        <tr class="bg-gray-600 text-white">
-                            <td class="py-4 px-6 text-sm font-medium  whitespace-nowrap dark:text-white">
+                        <tr class="bg-gray-600 ">
+                            <td class="py-4 px-6 text-sm font-medium  whitespace-nowrap ">
                             </td>
-                            <td colspan="2" class="py-4 px-6 text-sm font-medium  whitespace-nowrap dark:text-white">
+                            <td colspan="2" class="py-4 px-6 text-sm font-medium  whitespace-nowrap ">
                                 Total prévision mensuelless 
                             </td>
-                            <td colspan="2" class="py-4 px-6 text-sm font-medium  whitespace-nowrap dark:text-white">
+                            <td colspan="2" class="py-4 px-6 text-sm font-medium  whitespace-nowrap ">
                                 {{$totLoyer}} + {{$totDette}} = {{$totLoyer + $totDette }}
                             </td>
                         </tr>

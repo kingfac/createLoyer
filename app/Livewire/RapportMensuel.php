@@ -289,7 +289,7 @@ class RapportMensuel extends Component implements HasForms,HasTable
                 
                 }),
                 
-                TextColumn::make('Montant attendu')
+               /*  TextColumn::make('Montant attendu')
                     ->default(function(Galerie $record){
                         // $mois = intval($this->Mois2[$this->mois]);
                         // $galerie = Galerie::where('id', $record->id)->first();
@@ -313,7 +313,7 @@ class RapportMensuel extends Component implements HasForms,HasTable
                 TextColumn::make('Montant perçu Septembre'),
                 TextColumn::make('Totaux de réalisation'),
                 TextColumn::make('Sorties avec dettes'),
-                TextColumn::make('Total dettes'),
+                TextColumn::make('Total dettes'), */
                 
                 // TextColumn::make('montant')->label('Loyer payé')
                 //     ->summarize(Sum::make()->money()->label('Total'))
