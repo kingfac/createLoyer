@@ -5,6 +5,8 @@
     <h2>MILLE ET UNE MERVEILLE</h2>
 </div>
 
+
+
 <div class="text-center b-2 bg-gray-500 mb-2">RECU DE PAIEMENT</div>
 
 <table class="w-full mb-2">
