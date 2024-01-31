@@ -58,6 +58,8 @@ class CustomLoyer extends Component implements HasForms
         // ...
         $this->remplir();
         $this->dt1 = null;
+        $this->mois = $this->form->getState()['mois'];
+        $this->annee = $this->form->getState()['annee'];
         //$this->dispatch('actualiser1');
     }
 
@@ -68,6 +70,8 @@ class CustomLoyer extends Component implements HasForms
     public function mount(): void
     {
         $this->form->fill();
+        $this->mois = $this->form->getState()['mois'];
+        $this->annee = $this->form->getState()['annee'];
         $this->remplir();
     }
 
@@ -190,7 +194,7 @@ class CustomLoyer extends Component implements HasForms
     }
 
     public function evolution(){
-        return response()->redirectTo('/loyers/'.$this->form->getState()['mois'].'/evolution');
+        return response()->redirectTo('/loyers/'.$this->form->getState()['mois'].'/'.$this->form->getState()['annee'].'/evolution');
     }
 
     public function imprimer($dt){

@@ -13,7 +13,7 @@
     ]" />
     {{-- {{$data}} --}}
     <div class="flex justify-between">
-        <h1 class="text-2xl font-bold">Evolution loyer du mois de {{$mois}}</h1>
+        <h1 class="text-2xl font-bold">Evolution loyer de {{$mois}} {{$annee}}</h1>
         <p class="font-bold">Total locataires : {{$data->count()}}</p>
     </div>
     <div style="" class="grid grid-cols-4 gap-5">

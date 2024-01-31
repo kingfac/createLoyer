@@ -53,36 +53,40 @@ class LocataireResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('postnom')
+                    ->label('Post-nom')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('prenom')
+                    ->label('Prénom')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('tel')
+                    ->label('Téléphone')
                     ->tel()
-                    ->validationMessages(['regex' => 'Numéro  incorrect', 'required' => 'Ce champ est obligatoire'])
+                    ->validationMessages(['regex' => 'Numéro  incorrect', 'required' => 'Ce champ est obligatoire', 'min' => 'Numéro incorrect.'])
                     ->required()
+                    ->minLength(10)
                     ->maxLength(14),
+                Forms\Components\Select::make('nbr')
+                    ->label('Nombre de mois garantie')
+                    ->options( ["3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"10"=>10])
+                    ->reactive(),
+                Forms\Components\TextInput::make('garantie')
+                    ->numeric()
+                    /* ->minValue(fn($get) => Occupation::where('id', $get('occupation_id'))->value('montant') * intval($get('mois'))) */
+                    ->default(fn($get) => Occupation::where('id', $get('occupation_id'))->value('montant') * intval($get('mois'))),
                 Forms\Components\Select::make('mp')
-                    ->label('Mois du paiement')
+                    ->label('Mois du premier paiement')
                     ->options( ["1"=> "janvier","2"=>"février", "3"=>"mars","4"=>"avril","5"=>"mai","6"=>"juin","7"=>"juillet","8"=>"aout","9"=>"septembre","10"=>"octobre","11" => "novembre", "12" => "décembre"])
                     ->reactive(),
                 Forms\Components\TextInput::make('ap')
-                    ->label('Année')
+                    ->label('Année du premier paiement')
                     ->numeric()
                     ->maxValue(2030)
                     ->minValue(2023)
                     ->default($currentDate->format("Y"))
                     ->inlineLabel()
                     ->required(),
-                Forms\Components\Select::make('nbr')
-                    ->label('Nbr mois garantie')
-                    ->options( ["3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"10"=>10])
-                    ->reactive(),
                     
-                Forms\Components\TextInput::make('garantie')
-                    ->numeric()
-                    /* ->minValue(fn($get) => Occupation::where('id', $get('occupation_id'))->value('montant') * intval($get('mois'))) */
-                    ->default(fn($get) => Occupation::where('id', $get('occupation_id'))->value('montant') * intval($get('mois'))),
                 Forms\Components\Toggle::make('actif')
                     ->label('Désactiver/Activer')
                     ->default(true)
@@ -133,7 +137,8 @@ class LocataireResource extends Resource
             ->filters([
                 //
                 //SelectFilter::make('occupation_id')->relationship('occupation', 'galerie.nom')->label('Galerie'),
-                SelectFilter::make('occupation_id')->relationship('occupation', 'typeOccu.nom')->label('Occupation')
+                SelectFilter::make('Galerie')->relationship('occupation','galerie.nom'),
+                SelectFilter::make('occupation_id')->relationship('occupation', 'typeOccu.nom')->label('Occupation'),
             ])
             /* ->actions([
                 Tables\Actions\EditAction::make(),

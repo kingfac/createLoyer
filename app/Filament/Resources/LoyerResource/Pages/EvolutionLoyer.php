@@ -11,6 +11,7 @@ class EvolutionLoyer extends Page
 {
     public $data;
     public $mois;
+    public $annee;
 
     protected static string $resource = LoyerResource::class;
 

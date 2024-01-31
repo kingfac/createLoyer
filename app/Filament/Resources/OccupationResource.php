@@ -2,17 +2,19 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Forms;
+use Filament\Tables;
+use Filament\Forms\Form;
+use App\Models\Occupation;
+use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Columns\Summarizers\Sum;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OccupationResource\Pages;
 use App\Filament\Resources\OccupationResource\RelationManagers;
-use App\Models\Occupation;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Columns\Summarizers\Sum;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Filters\Filter;
 
 class OccupationResource extends Resource
 {
@@ -30,14 +32,17 @@ class OccupationResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('type_occu_id')
                     ->relationship('typeOccu', 'nom')
+                    ->label('Type occupation')
                     ->required(),
                 Forms\Components\TextInput::make('ref')
+                    ->label('Référence')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('montant')
                     ->required()
                     ->numeric(),
                 Forms\Components\Toggle::make('multiple')
+                    ->label('Occupation multiple')
                     ->required(),
             ]);
     }
@@ -76,7 +81,9 @@ class OccupationResource extends Resource
                     ->label('Total'))
             ])
             ->filters([
-                //
+                SelectFilter::make('galerie_id')->relationship('galerie', 'nom')->label('Galerie'),
+                SelectFilter::make('type_occu_id')->relationship('typeOccu', 'nom')->label('Type occupation'),
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -9,7 +9,9 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Actions\CreateAction;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Actions;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Actions\Action;
 use App\Filament\Resources\GalerieResource\Pages;
@@ -37,9 +39,11 @@ class GalerieResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('av')
+                    ->label('Avenue')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('num')
+                    ->label('Numéro')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -69,7 +73,7 @@ class GalerieResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('commune_id')->relationship('commune', 'nom')->label('Commune'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

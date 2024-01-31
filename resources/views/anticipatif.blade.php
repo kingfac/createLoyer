@@ -4,10 +4,10 @@
 
     <div class=" text-center">
         <img src="{{public_path('logo.png')}}">
-        <h2>MILLE ET UNE MERVEILLE</h2>
+        <h2 style="font-weight: bold">MILLE ET UNE MERVEILLE</h2>
     </div>
     
-    <div class="text-center b-2 bg-gray-500 mb-2">RECU DE PAIEMENT ANTICIPATIF </div>
+    <div class="text-center b-2 bg-gray-500 mb-2" style="font-weight: bold">RECU DE PAIEMENT ANTICIPATIF </div>
     
     <table class="w-full mb-2">
         <tr style="font-size: 1.1em; text-decoration:underline;" class="text-bold">

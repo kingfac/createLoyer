@@ -139,7 +139,7 @@ class LoyerResource extends Resource
             'index' => Pages\ListLoyers::route('/'),
             //'create' => Pages\CreateLoyer::route('/create'),
             'edit' => Pages\EditLoyer::route('/{record}/edit'),
-            'evolution' => Pages\EvolutionLoyer::route('/{mois}/evolution'),
+            'evolution' => Pages\EvolutionLoyer::route('/{mois}/{annee}/evolution'),
             'loca' => Pages\Loca::route('/loca'),
         ];
     }

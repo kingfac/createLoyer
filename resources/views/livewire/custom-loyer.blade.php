@@ -12,9 +12,10 @@
 
     <!-- component -->
     <div class="w-full" x-data="{recherche : '', clear(){this.recherche=''},}">
-
+        
         <div class="flex flex-col">
             <div class="py-4 text-2xl bg-gray-100 px-4 flex justify-between dark:bg-transparent">
+                <h4 style="background-color:white; padding:8px; border-radius: 20px; font-size:0.7em">Loyer du mois de <span style="color:red; text-transform:lowercase">{{$mois}}</span>  <span style="color:red"> {{$annee}}</span></h4>
                 <div>
                     @if (strlen($recherche) > 0)    
                     <span  class="text-xs p-1 bg-blue-300 rounded">
@@ -153,13 +154,13 @@
                                         Loyer 
                                     </th>
                                     <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                        Avances 
+                                        Loye paye 
                                     </th>
                                     <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                         Reste
                                     </th>
                                     <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                        Date
+                                        Date de paiement
                                     </th>
                                     <th scope="col" class="p-4">
                                         <span class="sr-only">Edit</span>
@@ -237,7 +238,7 @@
                                        {{$dt->occupation->montant - $dt->somme}} $
                                    </td>
                                    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                       {{$dt->created_at ?? 'Aucun paiement'}}
+                                       {{$dt->created_at?? 'Aucun paiement'}}
                                    </td>
                                    <td class="py-4 px-6 text-sm font-medium text-right whitespace-nowrap flex gap-3">
                                        {{-- <x-filament::icon-button

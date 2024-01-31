@@ -38,6 +38,14 @@
             <h1>Loyer à payer</h1>
             <h2>{{$locataire->occupation->montant}} $</h2>
         </div>
+        <div>
+            <h1>GARANTIE</h1>
+            <?php 
+                use App\Models\Garantie;
+                $garantie = Garantie::where('locataire_id',$locataire->id)->first();
+            ?>
+            <h2>{{$garantie->montant ?? 'Aucune garantie'}}($)</h2>
+        </div>
     </div>
     <hr>
     <div class="py-2 flex justify-between items-center flex-col gap-2">
@@ -63,7 +71,7 @@
         <thead class="bg-gray-50 dark:bg-white/5">
             <tr class="text-lg font-bold">
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    Date
+                    Date de paiment
                 </td>
 
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
@@ -127,7 +135,7 @@
             </tr>
             @endforeach
             <tr class="text-lg font-bold bg-gray-50 dark:bg-transparent">
-                <td class="">Total</td>
+                <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">Total</td>
                 <td>{{$total}} $</td>
             </tr>
         </tbody>
