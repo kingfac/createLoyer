@@ -13,7 +13,10 @@ use Filament\Tables\Columns\Summarizers\Sum;
 use App\Filament\Resources\DiversResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\DiversResource\RelationManagers;
+use Closure;
+use Filament\Forms\Get;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Collection;
 
 class DiversResource extends Resource
 {
@@ -26,7 +29,11 @@ class DiversResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Toggle::make('entreprise')
+                    ->label('Entreprise/Locataire')
+                    ->reactive(),
                 Forms\Components\Select::make('locataire_id')
+                    ->hidden(fn(Get $get): bool =>  $get('entreprise') == false)
                     ->relationship('locataire', 'noms')
                     ->required(),
                 Forms\Components\TextInput::make('besoin')
@@ -52,7 +59,14 @@ class DiversResource extends Resource
                     ->label("Date")
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('locataire.noms')
+                Tables\Columns\TextColumn::make('Entreprise/Locataire')
+                    ->default(function(Divers $record){
+                        if($record->entreprise == false){
+                            return 'Entreprise';
+                        }elseif ($record->entreprise == true) {
+                            return $record->locataire->noms;
+                        }
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('locataire.occupation.galerie.nom')
                     ->sortable(),
@@ -60,17 +74,17 @@ class DiversResource extends Resource
                     ->label('Occupation')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('besoin')
-                    ->label('Libellé')
+                    ->label('Besoin')
                     ->searchable(),
-                // Tables\Columns\TextColumn::make('qte')
-                //     ->label("Quantité")
-                //     ->numeric()
-                //     ->sortable(),
-                // Tables\Columns\TextColumn::make('cu')
-                //     ->label('Coût unitaire')
-                //     ->numeric()
-                //     ->sortable()
-                //     ->money(),
+                Tables\Columns\TextColumn::make('qte')
+                    ->label("Quantité")
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('cu')
+                    ->label('Coût unitaire')
+                    ->numeric()
+                    ->sortable()
+                    ->money(),
                 
                
                    /*  TextColumn::make('total')->default( function(Divers $d){
@@ -80,10 +94,10 @@ class DiversResource extends Resource
                         ->money()
                         ->summarize(
                             Sum::make()
-                            ->label('Total')
+                            ->label('Total général')
                             ->money()
                         )
-                        ->label('Montant')
+                        ->label('Total')
                     ,
                     
                 // Tables\Columns\TextColumn::make('total')

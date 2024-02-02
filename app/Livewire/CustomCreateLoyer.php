@@ -3,11 +3,11 @@
 namespace App\Livewire;
 
 use DateTime;
+use Exception;
 use App\Models\Loyer;
 use Livewire\Component;
 use Filament\Forms\Form;
 use App\Models\Locataire;
-use Filament\Widgets\Widget;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
@@ -17,6 +17,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Components\TextInput;
+
 use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
 
@@ -145,21 +146,22 @@ class CustomCreateLoyer extends Component implements HasForms
             $mois_dette = [];
             
             // $m est le mois parcouru enregistré pour le calcul de somme 
-           $total = 0;
-           $m = 0; // mois encour de traitement
-           $total_mois = 0;
-           $somme_mois = [];
-           $nbrMois_paye = 0;
+            $total = 0;
+            $m = 0; // mois encour de traitement
+            $total_mois = 0;
+            $somme_mois = [];
+            $nbrMois_paye = 0;
 
-           /* total loyer */
-           $totLoyer = 0;
-           $totDette =  0;
-           $ctr_check = 0; //s'il n'y a qu'un seul truc
-            $loyers = Loyer::where('locataire_id', $this->locataire_id)->orderByRaw('annee, mois')->get();
+            /* total loyer */
+            $totLoyer = 0;
+            $totDette =  0;
+            $ctr_check = 0; //s'il n'y a qu'un seul truc
+            $loyers = Loyer::where('locataire_id', $this->locataire_id)->orderByRaw('created_at')->get();
             foreach ($loyers as $index => $loy)
             {
                     //convertir mois en nombre
                     $mloyer = intval($Mois2[$loy->mois]);
+                    //dd( $mloyer, $loy->mois);
                     //si ce n'est pas le meme mois qu'on traite
                     if($m != $mloyer){
                         if($m != 0 ){
@@ -184,12 +186,18 @@ class CustomCreateLoyer extends Component implements HasForms
                             $rapport[] = [$loy->mois ,$total_mois ,$this->locataire->occupation->montant, date("Y")-1];
                             $mois_dette[] = $loy->mois;
                         }
+                        //echo "<script>alert($loy->mois)</script>";
                     }
                     else{
                         $total_mois += $loy->montant;
                     }
             }
-            //dd($total, $rapport, $total_mois, $nbrMois_paye);
+            /* if(count($rapport) == 0 && $total_mois > 0){
+                $rapport[] = [$this->mois ,$total_mois ,$this->locataire->occupation->montant, date("Y")-1];
+            } */
+            
+            //dd($total_mois);
+            //dd($total, $rapport, $total_mois, $nbrMois_paye, $this->mois);
             /* Affichage des arrieres s'il y a */
                 $Nba = date("Y") - $this->locataire->ap; //nombre d'annee
                 $mois_encours = date("m"); //mois encours
@@ -239,6 +247,12 @@ class CustomCreateLoyer extends Component implements HasForms
                         foreach ($mois_dette as $v) {
                             $aff_mois .= "$v ,";
                         }
+                        ///Modal::send();
+                        //dd($aff_mois, $nom, $total);
+                        /* Notification::make()
+                        ->title('Saved successfully')
+                        ->success()
+                        ->send(); */
                         Notification::make()
                         ->title("Dettes trouvées")
                         ->body("$nom a un total des dettes de $total $, pour les mois de ($aff_mois)")
@@ -295,10 +309,19 @@ class CustomCreateLoyer extends Component implements HasForms
         $loyer_checking = Loyer::where(['locataire_id' => $this->locataire_id, 'mois' => $this->mois, 'annee' => $this->annee])->sum('montant');
         
         $lelo = new DateTime('now');
-
+        
+        
         if($loyer_checking == 0){
+            $ctrA = 0;
             if($this->form->getState()['montant'] <= $this->locataire->occupation->montant && $this->form->getState()['nbr'] == null){
-
+                /* dd([
+                    'montant' => $this->form->getState()['montant'],
+                    'mois' => $this->mois,
+                    'annee' => $this->annee,
+                    'locataire_id' => $this->locataire_id,
+                    'observation' => $this->form->getState()['observation'],
+                    'garantie' => $this->form->getState()['garantie']
+                ]); */
                 $loyer = Loyer::create([
                     'montant' => $this->form->getState()['montant'],
                     'mois' => $this->mois,
@@ -307,6 +330,8 @@ class CustomCreateLoyer extends Component implements HasForms
                     'observation' => $this->form->getState()['observation'],
                     'garantie' => $this->form->getState()['garantie']
                 ]);
+
+                //dd($loyer_checking, 2);
         
                 $this->form->fill();
                 $this->dispatch('loyer-created');
@@ -320,40 +345,78 @@ class CustomCreateLoyer extends Component implements HasForms
             if($this->form->getState()['montant'] > $this->locataire->occupation->montant && $this->form->getState()['nbr'] == null){
                 $nbr = intval($this->form->getState()['montant'] / $this->locataire->occupation->montant);
                 $reste = $this->form->getState()['montant'] - ($this->locataire->occupation->montant * $nbr);
+                $ctrA = 0;
                 for ($i=$mois_en_numeric_start; $i < $nbr + $mois_en_numeric_start ; $i++) { 
                     # code...
-                    $data[] =[
-                        'montant' => $this->locataire->occupation->montant,
-                        'mois' => $Mois1[$i > 9 ? $i : '0'.$i],
-                        'annee' => $this->annee,
-                        'locataire_id' => $this->locataire_id,
-                        'observation' => $this->form->getState()['observation'],
-                        'garantie' => $this->form->getState()['garantie'],
-                        'created_at' => $lelo
-                    ];
-                    $moiss[] = $Mois1[$i > 9 ? $i : '0'.$i];
+                    if($i <= 12){
+
+                        $data[] =[
+                            'montant' => $this->locataire->occupation->montant,
+                            'mois' => $Mois1[$i > 9 ? $i : '0'.$i],
+                            'annee' => $this->annee,
+                            'locataire_id' => $this->locataire_id,
+                            'observation' => $this->form->getState()['observation'],
+                            'garantie' => $this->form->getState()['garantie'],
+                            'created_at' => $lelo
+                        ];
+                        $moiss[] = $Mois1[$i > 9 ? $i : '0'.$i];
+                    }
+                    else
+                    {
+                        $ctrA ++;
+                        $data[] =[
+                            'montant' => $this->locataire->occupation->montant,
+                            'mois' => $Mois1[$ctrA > 9 ? $ctrA : '0'.$ctrA],
+                            'annee' => $this->annee+1,
+                            'locataire_id' => $this->locataire_id,
+                            'observation' => $this->form->getState()['observation'],
+                            'garantie' => $this->form->getState()['garantie'],
+                            'created_at' => $lelo
+                        ];
+                        $moiss[] = $Mois1[$ctrA > 9 ? $ctrA : '0'.$ctrA];
+                    }
                 }
     
                 if($reste > 0){
-                    $nbr +=$mois_en_numeric_start;
-                    $data[] =[
-                        'montant' => $reste,
-                        'mois' => $Mois1[$nbr > 9 ? $nbr : '0'.$nbr],
-                        'annee' => $this->annee,
-                        'locataire_id' => $this->locataire_id,
-                        'observation' => $this->form->getState()['observation'],
-                        'garantie' => $this->form->getState()['garantie'],
-                        'created_at' => $lelo
-                    ];
-                    $moiss[] = $Mois1[$nbr > 9 ? $nbr : '0'.$nbr];
+                    if($ctrA == 0){
+                        $nbr +=$mois_en_numeric_start;
+                        if($nbr == 13){
+                            $nbr = 1;
+                            $this->annee++;
+                        }
+                        $data[] =[
+                            'montant' => $reste,
+                            'mois' => $Mois1[$nbr > 9 ? $nbr : '0'.$nbr],
+                            'annee' => $this->annee,
+                            'locataire_id' => $this->locataire_id,
+                            'observation' => $this->form->getState()['observation'],
+                            'garantie' => $this->form->getState()['garantie'],
+                            'created_at' => $lelo
+                        ];
+                        $moiss[] = $Mois1[$nbr > 9 ? $nbr : '0'.$nbr];
+                    }
+                    else{
+                        $nbr = $ctrA + 1;
+                        $data[] =[
+                            'montant' => $reste,
+                            'mois' => $Mois1[$nbr > 9 ? $nbr : '0'.$nbr],
+                            'annee' => $this->annee + 1,
+                            'locataire_id' => $this->locataire_id,
+                            'observation' => $this->form->getState()['observation'],
+                            'garantie' => $this->form->getState()['garantie'],
+                            'created_at' => $lelo
+                        ];
+                        $moiss[] = $Mois1[$nbr > 9 ? $nbr : '0'.$nbr];
+                    }
                 }
                 
                 //dd($reste, $nbr, $data);
                 Loyer::insert($data);
-                $records = Loyer::whereIn('mois', $moiss)
-                    ->where(['annee' => $this->annee, 'locataire_id' => $this->locataire_id])
+                $records = Loyer::where(['locataire_id' => $this->locataire_id])
+                    ->whereRaw("created_at = ?", [$lelo])
                     ->orderBy('created_at')
                     ->get();
+                    //dd($records);
                 $this->form->fill();
                 $this->dispatch('loyer-created');
                 $this->remplir();
@@ -412,29 +475,38 @@ class CustomCreateLoyer extends Component implements HasForms
             //echo "<script>alert('Loyer déjà payé pour ce mois-ci')</script>";
         }
         else{
+            
             //si le montant est inferieur au loyer a payer et que ce meme montant est inferieur ou egal au reste a payer ce que ce n'est pas un payement anticipatif, juste le solde de la dette ou une avance du loyer
             if($this->form->getState()['montant'] <  $this->locataire->occupation->montant && $this->form->getState()['montant'] <= ($this->locataire->occupation->montant - $loyer_checking) ){
-                $loyer = Loyer::create([
-                    'montant' => $this->form->getState()['montant'],
-                    'mois' => $this->mois,
-                    'annee' => $this->annee,
-                    'locataire_id' => $this->locataire_id,
-                    'observation' => $this->form->getState()['observation'],
-                    'garantie' => $this->form->getState()['garantie']
-                ]);
-        
-                $this->form->fill();
-                $this->dispatch('loyer-created');
-                $this->remplir();
-                return response()->streamDownload(function () use ($loyer) {
-                    echo Pdf::loadHtml(
-                        Blade::render('pdf', ['record' => $loyer])
-                    )->stream();
-                }, $loyer->id.'1.pdf');
+                try {
+                    
+                    //code...
+                    $loyer = Loyer::create([
+                        'montant' => $this->form->getState()['montant'],
+                        'mois' => $this->mois,
+                        'annee' => $this->annee,
+                        'locataire_id' => $this->locataire_id,
+                        'observation' => $this->form->getState()['observation'],
+                        'garantie' => $this->form->getState()['garantie']
+                    ]);
+            
+                    $this->form->fill();
+                    //$this->dispatch('loyer-created');
+                    $this->remplir();
+                    return response()->streamDownload(function () use ($loyer) {
+                        //dd($loyer, "sisi");
+                        echo Pdf::loadHtml(
+                            Blade::render('pdf', ['record' => $loyer])
+                        )->stream();
+                    }, '1.pdf');
+                } catch (Exception $ex) {
+                    //throw $th;
+                    dd($ex->getMessage());
+                }
             }
             else{
 
-                //dd($loyer_checking);
+                //dd($loyer_checking, 200);
                 $mt_paye = $this->locataire->occupation->montant - $loyer_checking;
                 $data[] =[
                     'montant' => $mt_paye,
@@ -451,19 +523,21 @@ class CustomCreateLoyer extends Component implements HasForms
                 $nbr = intval(($this->form->getState()['montant'] - $mt_paye) / $this->locataire->occupation->montant);
                 $reste = ($this->form->getState()['montant'] - $mt_paye) - ($this->locataire->occupation->montant * $nbr);
                 //dd($nbr, $reste);
-
+                $ctrA = 0;
                 for ($i=$mois_en_numeric_start+1; $i < $nbr + $mois_en_numeric_start + 1 ; $i++) { 
                     # code...
-                    $data[] =[
-                        'montant' => $this->locataire->occupation->montant,
-                        'mois' => $Mois1[$i > 9 ? $i : '0'.$i],
-                        'annee' => $this->annee,
-                        'locataire_id' => $this->locataire_id,
-                        'observation' => $this->form->getState()['observation'],
-                        'garantie' => $this->form->getState()['garantie'],
-                        'created_at' => $lelo
-                    ];
-                    $moiss[] = $Mois1[$i > 9 ? $i : '0'.$i];
+                    if($i <= 12){
+                        $data[] =[
+                            'montant' => $this->locataire->occupation->montant,
+                            'mois' => $Mois1[$i > 9 ? $i : '0'.$i],
+                            'annee' => $this->annee,
+                            'locataire_id' => $this->locataire_id,
+                            'observation' => $this->form->getState()['observation'],
+                            'garantie' => $this->form->getState()['garantie'],
+                            'created_at' => $lelo
+                        ];
+                        $moiss[] = $Mois1[$i > 9 ? $i : '0'.$i];
+                    }
                 }
     
                 if($reste > 0){

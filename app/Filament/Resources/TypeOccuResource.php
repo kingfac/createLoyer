@@ -74,4 +74,9 @@ class TypeOccuResource extends Resource
             'edit' => Pages\EditTypeOccu::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::all()->count();   
+    }
 }

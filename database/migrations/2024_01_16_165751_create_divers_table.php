@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('divers', function (Blueprint $table) {
             $table->id();
-            $table->integer('locataire_id');
+            $table->integer('locataire_id')->nullable();
             $table->string('besoin');
             $table->double('qte');
             $table->double('cu');
+            $table->boolean('entreprise')->default(false);
             $table->double('total')->virtualAs('(qte*cu)');
             $table->timestamps();
         });

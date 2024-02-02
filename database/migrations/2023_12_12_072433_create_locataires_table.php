@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('mp')->nullable();
             $table->unsignedBigInteger('ap')->nullable();
             $table->unsignedBigInteger('occupation_id');
+            $table->string('num_occupation');
             $table->boolean('actif');
             $table->string('noms')->virtualAs('concat(nom, \' \', postnom, \' \', prenom)');
             //$table->foreign('occupation_id')->references('id')->on('occupations')->cascadeOnDelete();

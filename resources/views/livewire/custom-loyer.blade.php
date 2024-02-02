@@ -162,6 +162,9 @@
                                     <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                         Date de paiement
                                     </th>
+                                    <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                        N° Occupation
+                                    </th>
                                     <th scope="col" class="p-4">
                                         <span class="sr-only">Edit</span>
                                     </th>
@@ -228,6 +231,7 @@
                                    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                        {{$dt->occupation->typeOccu->nom}}
                                    </td>
+                                   
                                    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                        {{$dt->occupation->montant}}$
                                    </td>
@@ -240,6 +244,9 @@
                                    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                        {{$dt->created_at?? 'Aucun paiement'}}
                                    </td>
+                                   <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{$dt->num_occupation}}
+                                    </td>
                                    <td class="py-4 px-6 text-sm font-medium text-right whitespace-nowrap flex gap-3">
                                        {{-- <x-filament::icon-button
                                            icon="heroicon-o-printer"

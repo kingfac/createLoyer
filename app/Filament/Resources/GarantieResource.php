@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Grouping\Group;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\ToggleColumn;
@@ -35,13 +36,14 @@ class GarantieResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('locataire_id')
-                    ->relationship('locataire','noms')
+                    ->relationship('locataire')
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->noms} | {$record->occupation->typeOccu->nom} |{$record->num_occupation} ")
                     ->required(),
                 Forms\Components\TextInput::make('montant')
                     ->required()
                     ->numeric(),
-                Forms\Components\Toggle::make('restitution')
-                        ->required(),
+                // Forms\Components\Toggle::make('restitution')
+                //         ->required(),
             ]);
     }
 
@@ -58,6 +60,7 @@ class GarantieResource extends Resource
                 // }),
                 Tables\columns\TextColumn::make('locataire.occupation.galerie.nom'),
                 Tables\columns\TextColumn::make('locataire.occupation.typeOccu.nom')->label("Occupation"),
+                Tables\columns\TextColumn::make('locataire.num_occupation')->label("Numéro occupation"),
                 Tables\Columns\TextColumn::make('montant')
                     ->summarize(Sum::make('montant')->label('Total'))
                     ,
@@ -73,7 +76,7 @@ class GarantieResource extends Resource
                 
             ])
             // ->groups(['locataire.noms','locataire.occupation.typeOccu.nom'])
-            ->defaultGroup('locataire.noms')
+            ->defaultGroup('locataire.num_occupation')->modelLabel("locataire.noms")
             /* ->groups([
                 Group::make('locataire.noms')
                     ->collapsible(),
@@ -85,51 +88,6 @@ class GarantieResource extends Resource
 
             ])
             ->actions([
-                Action::make('Restituer')
-                ->action(function(Garantie $record){
-                    
-                    // dd($g);
-                    $paiements = Loyer::where('locataire_id', $record->locataire_id)->where('garantie',true)->sum('montant');
-                    $r_exist = Garantie::where(['locataire_id'=>$record->locataire_id, 'restitution'=> true])->first();
-                    if($r_exist == null){
-                        
-                        // dd($record->montant);
-                        $garanties = Garantie::where('locataire_id',$record->locataire_id)->sum('montant');
-                        // dd($garanties, $paiements);
-                        $restitution = $garanties-$paiements;
-                        // dd($restitution);
-    
-                        $restitution = Garantie::create([
-                            'montant' => $restitution,
-                            'locataire_id' => $record->locataire_id,
-                            'restitution' => true,
-                        ]);
-    
-                    }
-                    else{
-                        Notification::make()
-                        ->title('Erreur de restitution')
-                            ->body('Ce locataire a déjà été restitué.')
-                            ->danger()
-                            ->icon('')
-                            ->iconColor('')
-                            ->duration(5000)
-                            ->persistent()
-                            ->actions([
-                                
-                                ])
-                                ->send();
-                    }
-                    
-                    $g = Garantie::where('locataire_id',$record->locataire_id)->orderBy('restitution')->get();
-                    // $pdf = Pdf::loadHTML(Blade::render('restitution', ['data' => $g]));
-                    //Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
-                    return response()->streamDownload(function () use ($g, $paiements) {
-                        echo Pdf::loadHtml(
-                            Blade::render('restitution', ['data' => $g, 'loyers'=> $paiements])
-                        )->stream();
-                    }, '1.pdf');                }),
-
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

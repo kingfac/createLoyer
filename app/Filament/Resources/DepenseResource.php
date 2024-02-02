@@ -56,7 +56,6 @@ class DepenseResource extends Resource
                     ->sortable(),               
                 Tables\Columns\TextColumn::make('cu')
                     ->label('Coût unitaire')
-                    ->summarize(Sum::make()->money()->label('Total'))
                     ->money(),
                 /* Tables\Columns\TextColumn::make('Total')->default(function(Depense $record){
                     return $record->cu*$record->qte;
