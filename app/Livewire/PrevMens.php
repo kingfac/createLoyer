@@ -30,7 +30,6 @@ class PrevMens extends Component
     #[On('m10')] 
     public function update($mois, $annee)
     {
-        // ...
         $this->annee = $annee;
         $this->mois = $mois;
         $this->dispatch('m10a');
@@ -38,13 +37,6 @@ class PrevMens extends Component
     }
 
     public function remplir(){
-
-        /* $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
-            ->selectRaw('locataires.*')
-            ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
-            ->orderBy('locataires.id')
-            ->get(); */
         $this->data = Galerie::orderBy('id')->get();
-        
     }
 }

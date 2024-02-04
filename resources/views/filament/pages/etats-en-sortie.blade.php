@@ -50,14 +50,14 @@
                 </x-filament::button>
 
                 <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(8)" outlined>
-                    Tota divers
+                    Total divers
                 </x-filament::button>
 
                 <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(9)" outlined>
                     Arriérés
                 </x-filament::button>
                 <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(10)" outlined>
-                    Prevision mensuel
+                    Prevision mensuelle
                 </x-filament::button>
                 <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(12)" outlined>
                     Sorties avec dettes

@@ -54,7 +54,7 @@
                                 Galerie
                             </th>
                             <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                Loyers total
+                                Loyer total
                             </th>
                             <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                 Dettes antérieures
@@ -182,10 +182,10 @@
                                 {{$dt->nom}}
                             </td>
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap ">
-                                 {{$sommeLoyerApay}}
+                                 {{$sommeLoyerApay}} $
                             </td>
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap ">
-                                {{$total}}
+                                {{$total}} $
                             </td>
                         </tr>
                         @php
@@ -210,20 +210,20 @@
                                 
                             </td>
                             <td class="py-4 px-6 text-sm font-medium whitespace-nowrap ">
-                                {{ $totLoyer }}
+                                {{ $totLoyer }} $
                             </td>
                             <td class="py-4 px-6 text-sm font-medium whitespace-nowrap ">
-                                {{$totDette}}
+                                {{$totDette}} $
                             </td>
                         </tr>
-                        <tr class="bg-gray-600 ">
+                        <tr class="bg-gray-600 text-white">
                             <td class="py-4 px-6 text-sm font-medium  whitespace-nowrap ">
                             </td>
                             <td colspan="2" class="py-4 px-6 text-sm font-medium  whitespace-nowrap ">
-                                Total prévision mensuelless 
+                                Total prévisions mensuelles 
                             </td>
-                            <td colspan="2" class="py-4 px-6 text-sm font-medium  whitespace-nowrap ">
-                                {{$totLoyer}} + {{$totDette}} = {{$totLoyer + $totDette }}
+                            <td colspan="2" class="py-4 px-6 text-sm font-medium  whitespace-nowrap text-center">
+                                {{$totLoyer}} + {{$totDette}} = {{$totLoyer + $totDette }} $
                             </td>
                         </tr>
                        
