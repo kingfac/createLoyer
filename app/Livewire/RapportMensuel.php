@@ -61,17 +61,38 @@ class RapportMensuel extends Component implements HasForms,HasTable
     ];
     public function getSomme($gal):int
     {
-        $montantOccupation = 0;
-        foreach ($gal->occupations as $occ) {
-            $montantOccupation += $occ->montant;
-        }
-        $montantOccupation *= count($occ->locataires);
-        return $montantOccupation;
+
+            $mois = intval($this->Mois2[$this->mois]);
+
+            $occups = $gal->occupations;
+            $somme_occu = $occups->sum('montant');
+
+        
+            $locs=[];
+            $somme_locs=[];
+            foreach($occups as $occup){
+                array_push($locs, $occup->locataires->where('actif',true));
+            }
+
+            foreach ($locs as $loc) {
+                foreach ($loc as $lo) {                
+                    array_push($somme_locs, $lo->occupation->montant);
+                }
+            }
+
+            $loyers_locs = array_sum($somme_locs);
+            
+            
+            
+        return $loyers_locs;
     }
 
     public function getLoyerGalerie ($gal,$mois):int
     {
         $loyerGalerie = 0;
+        $occups = $gal->occupations;
+
+        // $loyers = Loyer::where(['mois'=> $mois,]);
         foreach($gal->occupations as $occ){
             foreach($occ->locataires as $loc){
                 foreach($loc->loyers as $loy){
