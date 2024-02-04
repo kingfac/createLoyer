@@ -45,7 +45,8 @@ class EtatsEnSortie extends Page implements HasForms
         'Liste locataire avec arrieres',
         'Liste prevision mensuel',
         'Rapport synthese',
-        'Rapport mensuel'
+        'Rapport mensuel',
+        'Sorties avec dettes'
     ];
 
     public function mount(): void

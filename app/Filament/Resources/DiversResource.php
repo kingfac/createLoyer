@@ -60,7 +60,7 @@ class DiversResource extends Resource
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('Entreprise/Locataire')
-                    ->default(function(Divers $record){
+                        ->default(function(Divers $record){
                         if($record->entreprise == false){
                             return 'Entreprise';
                         }elseif ($record->entreprise == true) {

@@ -59,6 +59,9 @@
                 <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(10)" outlined>
                     Prevision mensuel
                 </x-filament::button>
+                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(12)" outlined>
+                    Sorties avec dettes
+                </x-filament::button>
             </div>
         </form> 
     </x-filament::section>
@@ -104,6 +107,9 @@
         @endif
         @if ($menu == $menus[10])
             <livewire:prev-mens :mois=$mois :annee=$annee>
+        @endif
+        @if ($menu == $menus[12])
+            <livewire:sortie-dette :mois=$mois :annee=$annee>
         @endif
     </x-filament::section>
 </x-filament-panels::page>

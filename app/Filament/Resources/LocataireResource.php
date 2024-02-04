@@ -172,7 +172,7 @@ class LocataireResource extends Resource
                 SelectFilter::make('occupation_id')->relationship('occupation', 'typeOccu.nom')->label('Occupation'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                //Tables\Actions\EditAction::make(),
                 // Tables\Actions\Action::make('pdf') 
                 // ->label('Garantie.pdf')
                 // ->color('success')

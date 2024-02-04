@@ -140,12 +140,22 @@ class CustomLoyer extends Component implements HasForms
                         ->inlineLabel()
                         ->required()
                         ->columnSpan(2),
-                    TextInput::make('annee')
+                    Select::make('annee')
                         ->label('Année')
-                        ->numeric()
-                        ->maxValue(2030)
-                        ->minValue(2023)
                         ->default($currentDate->format("Y"))
+                        ->options(function(){
+                            
+                            return [
+                                '2023' => 2023,
+                                '2024' => 2024,
+                                '2025' => 2025,
+                                '2026' => 2026,
+                                '2027' => 2027,
+                                '2028' => 2028,
+                                '2029' => 2029,
+                                '2030' => 2030,
+                            ];
+                        })
                         ->inlineLabel()
                         ->required()
                         ->columnSpan(3),

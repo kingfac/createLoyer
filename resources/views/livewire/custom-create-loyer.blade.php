@@ -42,14 +42,18 @@
             <h1>GARANTIE</h1>
             <?php 
                 use App\Models\Garantie;
-                $garantie = Garantie::where('locataire_id',$locataire->id)->first();
+                use App\Models\Loyer;
+
+                $garantie = Garantie::where(['locataire_id'=> $locataire->id, 'restitution' => false])->sum('montant');
+                $paie_garantie = Loyer::where(['locataire_id' => $locataire->id, 'garantie' => true])->sum('montant');
             ?>
-            <h2>{{$garantie->montant ?? 'Aucune garantie'}}($)</h2>
+            <h2>{{$garantie - $paie_garantie ?? 'Aucune garantie'}}($)</h2>
         </div>
     </div>
     <hr>
     <div class="py-2 flex justify-between items-center flex-col gap-2">
         <div class="flex gap-2">
+            @if ($locataire->actif)
             {{$this->form}}
             <button wire:click="create" class="bg-blue-500 text-white p-4 rounded-md">
                 Créer
@@ -58,6 +62,16 @@
                 <x-heroicon-s-printer />
                 imprimer
             </a>
+            @else
+                <div  class="flex justify-center items-center">
+                    <p>Le locataire a déjà liberé l'occupation {{$locataire->num_occupation}}</p>
+                    <button type="" class="bg-blue-500 text-white p-4 rounded-md" target="_blank">
+                        <x-heroicon-s-printer />
+                        imprimer
+                    </button>
+                </div>
+            @endif
+            
 
         </div>
         <h1>Paiements effectués au mois de {{$mois}} / {{$annee}}</h1>

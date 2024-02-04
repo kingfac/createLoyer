@@ -52,7 +52,7 @@ class GarantieResource extends Resource
         return $table
             ->columns([
                 
-                Tables\Columns\TextColumn::make('locataire.nom')
+                Tables\Columns\TextColumn::make('locataire.noms')
                     ->sortable()
                     ->searchable(),
                 // Tables\columns\TextColumn::make('llklk')->default(function(Garantie $record){

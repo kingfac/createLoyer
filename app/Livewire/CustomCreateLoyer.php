@@ -6,6 +6,7 @@ use DateTime;
 use Exception;
 use App\Models\Loyer;
 use Livewire\Component;
+use App\Models\Garantie;
 use Filament\Forms\Form;
 use App\Models\Locataire;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -16,8 +17,8 @@ use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Illuminate\Support\Facades\Storage;
-use Filament\Forms\Components\TextInput;
 
+use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
 
@@ -31,6 +32,8 @@ class CustomCreateLoyer extends Component implements HasForms
     public $data = [];
     public $locataire;
     public $annee;
+    public $copy_annee;
+    public $paie_loyer;
     public $mois;
 
     public function render()
@@ -42,6 +45,7 @@ class CustomCreateLoyer extends Component implements HasForms
     public function mount(): void
     {
         $this->form->fill();
+        $this->copy_annee = $this->annee;
         //dd($this->dt);
         $this->locataire = Locataire::find($this->locataire_id);
         $this->remplir();
@@ -99,6 +103,10 @@ class CustomCreateLoyer extends Component implements HasForms
         else{
             
         } */
+        $garantie = Garantie::where(['locataire_id'=> $this->locataire_id, 'restitution' => false])->sum('montant');
+        $paie_garantie = Loyer::where(['locataire_id' => $this->locataire_id, 'garantie' => true])->sum('montant');
+        $reste_garantie = $garantie - $paie_garantie;
+
         if($this->form->getState()['montant'] == 0 && $this->form->getState()['nbr'] == null){
             Notification::make()
             ->title("Erreur")
@@ -180,12 +188,13 @@ class CustomCreateLoyer extends Component implements HasForms
                         $total_mois = 0;
                         $total_mois += $loy->montant;
                         $nbrMois_paye++;
-                        
-                        if(count($loyers) == 1){
+                        if(count($loyers) == 1 && $loy->montant != $this->locataire->occupation->montant){
+
                             $total += $this->locataire->occupation->montant - $total_mois;
                             $rapport[] = [$loy->mois ,$total_mois ,$this->locataire->occupation->montant, date("Y")-1];
                             $mois_dette[] = $loy->mois;
                         }
+                        // dd($rapport, $total);
                         //echo "<script>alert($loy->mois)</script>";
                     }
                     else{
@@ -197,7 +206,7 @@ class CustomCreateLoyer extends Component implements HasForms
             } */
             
             //dd($total_mois);
-            //dd($total, $rapport, $total_mois, $nbrMois_paye, $this->mois);
+            // dd($total, $rapport, $total_mois, $nbrMois_paye, $this->mois);
             /* Affichage des arrieres s'il y a */
                 $Nba = date("Y") - $this->locataire->ap; //nombre d'annee
                 $mois_encours = date("m"); //mois encours
@@ -235,7 +244,7 @@ class CustomCreateLoyer extends Component implements HasForms
                         }
                     }
             }
-            //dd($total, $rapport);
+            // dd($total, $rapport);
             if($total > 0){
                 if(count(($rapport)) > 1){
                     if($rapport[0][0] == $this->mois && $rapport[0][3] == $this->annee){
@@ -262,12 +271,47 @@ class CustomCreateLoyer extends Component implements HasForms
                     }
                 }
                 else{
-                    return $this->store();    
+                    
+                    if($this->form->getState()['garantie'] == true && $this->form->getState()['montant'] < $reste_garantie  ){
+                        
+                        return $this->store();    
+                    }elseif (!$this->form->getState()['garantie']) {
+                        # code...
+                        return $this->store();    
+    
+                    }else{
+                        Notification::make()
+                        ->title("Erreur de paiement")
+                        ->body("Le montant à payer est supérieur à lalll garantie")
+                        ->persistent()
+                        ->danger()
+                        ->duration(9000)
+                        ->send();
+                    }
+                    
                 }
                 
             }
             else{
-                return $this->store();            
+                
+                if($this->form->getState()['garantie']  && $this->form->getState()['montant'] <= $reste_garantie  ){
+                        
+                    return $this->store();    
+                }
+                elseif (!$this->form->getState()['garantie']) {
+                    # code...
+                    return $this->store();    
+
+                }
+                else{
+                    Notification::make()
+                    ->title("Erreur de paiement")
+                    ->body("Le montant à payer est supérieur à la garantie.")
+                    ->persistent()
+                    ->danger()
+                    ->duration(9000)
+                    ->send();
+                }
             }
         } 
     }
@@ -310,8 +354,10 @@ class CustomCreateLoyer extends Component implements HasForms
         
         $lelo = new DateTime('now');
         
-        
+        //s'il n'a pas encore déjà payé l'avance
         if($loyer_checking == 0){
+            // dd($loyer_checking, 50);
+
             $ctrA = 0;
             if($this->form->getState()['montant'] <= $this->locataire->occupation->montant && $this->form->getState()['nbr'] == null){
                 /* dd([
@@ -410,7 +456,7 @@ class CustomCreateLoyer extends Component implements HasForms
                     }
                 }
                 
-                //dd($reste, $nbr, $data);
+                // dd($reste, $nbr, $data);
                 Loyer::insert($data);
                 $records = Loyer::where(['locataire_id' => $this->locataire_id])
                     ->whereRaw("created_at = ?", [$lelo])
@@ -462,6 +508,8 @@ class CustomCreateLoyer extends Component implements HasForms
             }
         }
         else if($loyer_checking == $this->locataire->occupation->montant){
+            // dd($loyer_checking, 100);
+
             //dd("Loyer déjà payé pour ce mois-ci");
             Notification::make()
                 ->title("Erreur")
@@ -506,7 +554,6 @@ class CustomCreateLoyer extends Component implements HasForms
             }
             else{
 
-                //dd($loyer_checking, 200);
                 $mt_paye = $this->locataire->occupation->montant - $loyer_checking;
                 $data[] =[
                     'montant' => $mt_paye,
@@ -541,18 +588,22 @@ class CustomCreateLoyer extends Component implements HasForms
                 }
     
                 if($reste > 0){
+                    // dd($nbr);
                     if($nbr == 0){
                         $nbr = $mois_en_numeric_start + 1;
                     }
                     else {
                         $nbr +=2;
                     }
-
+                    $nbr=$nbr > 12 ? 1: $nbr ;
+                    if($data[count($data)-1]['mois'] == $Mois1[$nbr > 9 ? $nbr : '0'.$nbr] ) $nbr++;
+                    // $this->annee=$nbr > 12 ? date('Y')+1: $this->annee ;
+                    // dd($reste, $nbr,$data[count($data)-1]);
 
                     $data[] =[
                         'montant' => $reste,
                         'mois' => $Mois1[$nbr > 9 ? $nbr : '0'.$nbr],
-                        'annee' => $this->annee,
+                        'annee' => $nbr == 1 ? $this->annee+1: $this->annee,
                         'locataire_id' => $this->locataire_id,
                         'observation' => $this->form->getState()['observation'],
                         'garantie' => $this->form->getState()['garantie'],
@@ -560,12 +611,12 @@ class CustomCreateLoyer extends Component implements HasForms
                     ];
                     $moiss[] = $Mois1[$nbr > 9 ? $nbr : '0'.$nbr];
                 }
-                //dd($moiss, $data);
-                //dd($reste, $nbr, $data);
+                // dd($moiss, $data);
+                // dd($reste, $nbr, $data);
                 Loyer::insert($data);
                 $records = Loyer::whereIn('mois', $moiss)
                     //->where(['annee' => $this->annee, 'locataire_id' => $this->locataire_id])
-                    ->whereRaw("created_at = ? and annee = $this->annee and locataire_id = $this->locataire_id", [$lelo])
+                    ->whereRaw("created_at = ?  and locataire_id = $this->locataire_id", [$lelo])
                     ->get();
                 $this->form->fill();
                 $this->dispatch('loyer-created');
@@ -583,6 +634,7 @@ class CustomCreateLoyer extends Component implements HasForms
     
     public function remplir(){
         //dd($this->locataire);
+        $this->annee = $this->copy_annee;
         $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
         ->selectRaw('locataires.*, loyers.montant, loyers.mois, loyers.annee, loyers.created_at as date_loyer, loyers.observation, loyers.garantie')
         ->where(['loyers.locataire_id' => $this->locataire_id, 'mois' => $this->mois, 'annee' => $this->annee])
