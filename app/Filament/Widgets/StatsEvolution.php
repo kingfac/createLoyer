@@ -95,17 +95,14 @@ class StatsEvolution extends BaseWidget
             Stat::make('Loyer non payés', $data1.' Locataire(s)')
                 ->description('Dernière mise à jour : '.$maj1)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->chart([7, 2, 10, 3, 15, 4, 17])
                 ->color('danger'),
             Stat::make('Loyer en cours', $data2.' Locataire(s)')
                 ->description('Dernière mise à jour : '.$maj2)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->chart([7, 2, 10, 3, 15, 4, 17])
                 ->color('info'),
             Stat::make('Loyer terminé', $data3.' Locataire(s)')
                 ->description('Dernière mise à jour : '.$maj3)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->chart([7, 2, 10, 3, 15, 4, 17])
                 ->color('success'),
         ];
     }

@@ -100,21 +100,17 @@ class Statistique extends BaseWidget
             Stat::make('Nombre des locataires ayant des dettes', $ctrdette.'')
                 ->description("Conerne le mois de ".$this->mois.'-'.$this->annee)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->color('warning')
-                ->chart([7, 2, 10, 3, 15, 4, 17]),
+                ->color('warning'),
 
             Stat::make('Payement journalier', $data1.' $')
                 ->description("Les loyers payés aujourd'hui : ".$lelo)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->color('success')
-                ->chart([7, 2, 10, 3, 15, 4, 17])
-                ,
+                ->color('success'),
 
             Stat::make('Prevision mensuelle', $recu.'$ sur '.$prevu.'$')
                 ->description('Loyers perçu / prevu, pour ce mois : '.$this->mois)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->color('danger')
-                ->chart([7, 2, 10, 3, 15, 4, 17]),
+                ->color('danger'),
             /* Stat::make('Dette Mensuelle', $montPrevuI - $montPayeI)
                 ->description('Les dettes de ce mois')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')

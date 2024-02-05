@@ -88,7 +88,7 @@ class RapportJournalier extends BaseWidget
                 return Garantie::where('locataire_id', $record->id)
                 ->whereRaw('DATE(created_at) = CURDATE()')
                 ->sum('montant');
-            })
+            })->summarize(Sum::make())
             ->money(),
             TextColumn::make("DD")->label('Divers')->default(function(Locataire $record){
                 

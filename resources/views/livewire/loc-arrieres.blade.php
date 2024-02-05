@@ -121,9 +121,13 @@
                                     $total_mois = 0;
                                     $somme_mois = [];
                                     $nbrMois_paye = 0;
+                                    $rapport = [];
+                                    $loyers = Loyer::where('locataire_id', $loc->id)->orderByRaw('created_at')->get();
                                 @endphp
                                 {{-- Parcourir les loyers du locataire --}}
-                                @foreach (Loyer::where('locataire_id', $loc->id)->orderByRaw('annee, mois')->get() as $loy)
+
+                                @foreach ($loyers as $loy)
+                                    
                                     @php
                                         //convertir mois en nombre
                                         $mloyer = intval($Mois2[$loy->mois]);
@@ -133,9 +137,10 @@
                                                 //s'il a une dette par rapport a ce mois
                                                 if ($total_mois < $loc->occupation->montant) {
                                                     @endphp
-                                                    <p>{{$loc->loyers[$loop->index-1]->mois}} : {{$total_mois}} / {{$loc->occupation->montant}}</p>
+                                                    <p>{{$loyers[$loop->index-1]->mois}} : {{$total_mois}} / {{$loc->occupation->montant}}</p>
                                                     @php
                                                     $total += $loc->occupation->montant - $total_mois;
+                                                    $rapport[] = [$loyers[$loop->index-1]->mois ,$total_mois ,$loc->occupation->montant, date("Y")-1];
                                                 }
                                             }
                                             //chargement du mois suivant et calcul de la somme des loyers payess
@@ -143,6 +148,10 @@
                                             $total_mois = 0;
                                             $total_mois += $loy->montant;
                                             $nbrMois_paye++;
+                                            if(count($loyers) == 1 && $loy->montant != $loc->occupation->montant){
+                                                $total += $loc->occupation->montant - $total_mois;
+                                                $rapport[] = [$loy->mois ,$total_mois ,$loc->occupation->montant, date("Y")-1];
+                                            }
                                         }
                                         else{
                                             $total_mois += $loy->montant;
@@ -172,6 +181,7 @@
                                                         <p>{{$Mois1[$i > 9 ? $i : "0".$i]}} : 0/{{$loc->occupation->montant}}</p>
                                                         @php
                                                             $total += $loc->occupation->montant;
+                                                            $rapport[] = [$Mois1[$i > 9 ? $i : "0".$i] ,0 ,$loc->occupation->montant, date("Y")-1];
                                                         @endphp
                                                     @endfor
                                                 @else
@@ -180,6 +190,7 @@
                                                         <p>{{$Mois1[$i > 9 ? $i : "0".$i]}} : 0/{{$loc->occupation->montant}}</p>
                                                         @php
                                                             $total += $loc->occupation->montant;
+                                                            $rapport[] = [$Mois1[$i > 9 ? $i : "0".$i] ,0 ,$loc->occupation->montant, date("Y")-1];
                                                         @endphp
                                                     @endfor
                                                 @endif
@@ -192,11 +203,12 @@
                                                     <p>{{$Mois1[$i > 9 ? $i : "0".$i]}} : 0/{{$loc->occupation->montant}}</p>
                                                     @php
                                                     $total += $loc->occupation->montant;
+                                                    $rapport[] = [$Mois1[$i > 9 ? $i : "0".$i] ,0 ,$loc->occupation->montant, date("Y")];
                                                     @endphp
                                                 @endfor
                                             @endif
-                                        @else
-                                            <p class="" style="color: green">En ordre</p>
+                                       {{--  @else
+                                            <p class="" style="color: green">En ordre</p> --}}
                                         @endif
                                     @else
                                         <p class="" style="color: red">Aucun payement effectué pour ce locataire</p>
