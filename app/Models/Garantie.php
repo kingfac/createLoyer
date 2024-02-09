@@ -17,4 +17,8 @@ class Garantie extends Model
     public function locataire(): BelongsTo {
         return $this->belongsTo(Locataire::class);
     }
+
+    public function locs(){
+        return Locataire::where('actif', true);
+    }
 }

@@ -18,7 +18,7 @@ class CreateLoyer extends CreateRecord
 
     protected function getRedirectUrl(): string
     {
-        return $this->getResource()::getUrl('create');
+        return $this->getResource()::getUrl('index');
     }
 
     protected function getCancelFormAction(): Action

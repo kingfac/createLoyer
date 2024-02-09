@@ -136,7 +136,41 @@ class CustomLoyer extends Component implements HasForms
                     Select::make('mois')
                         ->options(['Janvier' => 'Janvier','Février' => 'Février','Mars' => 'Mars','Avril' => 'Avril','Mais' => 'Mais','Juin' => 'Juin','Juillet' => 'Juillet','Aout' => 'Aout','Septembre' => 'Septembre','Octobre' => 'Octobre','Novembre' => 'Novembre','Décembre' => 'Décembre'])
                         ->label("Mois")
-                        ->default('Janvier')
+                        ->default(function(){
+                            $Mois1 = [
+                                '01' => 'Janvier',
+                                '02' => 'Février',
+                                '03' => 'Mars',
+                                '04' => 'Avril',
+                                '05' => 'Mais',
+                                '06' => 'Juin',
+                                '07' => 'Juillet',
+                                '08' => 'Aout',
+                                '09' => 'Septembre',
+                                '10' => 'Octobre',
+                                '11' => 'Novembre',
+                                '12' => 'Décembre'
+                            ];
+                            $Mois2 = [
+                                'Janvier' => '01',
+                                'Février' => '02',
+                                'Mars' => '03',
+                                'Avril' => '04',
+                                'Mais' => '05',
+                                'Juin' => '06',
+                                'Juillet' => '07',
+                                'Aout' => '08',
+                                'Septembre' => '09',
+                                'Octobre' => '10',
+                                'Novembre' => '11',
+                                'Décembre' => '12'
+                            ];
+                          
+                            $date = NOW();
+                            $mois =$date->format('m');
+
+                            return $Mois1[$mois];
+                        })
                         ->inlineLabel()
                         ->required()
                         ->columnSpan(2),

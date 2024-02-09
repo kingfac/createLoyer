@@ -660,5 +660,91 @@ class CustomCreateLoyer extends Component implements HasForms
         //$this->dispatch('actualiser');
     }
 
+
+    
+
+    public function calculDettes($id){
+        /*------------------------calcul des dettes------------------------------------*/
+        $locataire = Locataire::where('id', $id)->first();
+        $Mois1 = [
+            '01' => 'Janvier',
+            '02' => 'Février',
+            '03' => 'Mars',
+            '04' => 'Avril',
+            '05' => 'Mais',
+            '06' => 'Juin',
+            '07' => 'Juillet',
+            '08' => 'Aout',
+            '09' => 'Septembre',
+            '10' => 'Octobre',
+            '11' => 'Novembre',
+            '12' => 'Décembre'
+        ];
+        $Mois2 = [
+            'Janvier' => '01',
+            'Février' => '02',
+            'Mars' => '03',
+            'Avril' => '04',
+            'Mais' => '05',
+            'Juin' => '06',
+            'Juillet' => '07',
+            'Aout' => '08',
+            'Septembre' => '09',
+            'Octobre' => '10',
+            'Novembre' => '11',
+            'Décembre' => '12'
+        ];
+      
+        $rapport = [];
+        $mois_dette = [];
+        
+        // $m est le mois parcouru enregistré pour le calcul de somme 
+        $total = 0;
+        $m = 0; // mois encour de traitement
+        $total_mois = 0;
+        $nbrMois_paye = 0;
+
+        /* total loyer */
+        $loyers = Loyer::where('locataire_id', $this->locataire->id)->orderByRaw('created_at')->get();
+        foreach ($loyers as $index => $loy)
+        {
+                //convertir mois en nombre
+                $mloyer = intval($Mois2[$loy->mois]);
+                //dd( $mloyer, $loy->mois);
+                //si ce n'est pas le meme mois qu'on traite
+                if($m != $mloyer){
+                    if($m != 0 ){
+                        //s'il a une dette par rapport a ce mois
+                        if ($total_mois < $locataire->occupation->montant) {
+                            /* @endphp
+                            <p>{{$loc->loyers[$loop->index-1]->mois}} : {{$total_mois}} / {{$loc->occupation->montant}}</p>
+                            @php */
+                            $total += $locataire->occupation->montant - $total_mois;
+                            $rapport[] = [$locataire->loyers[$index-1]->mois ,$total_mois ,$locataire->occupation->montant, date("Y")-1];
+                            $mois_dette[] = $locataire->loyers[$index-1]->mois;
+                        }
+                    }
+                    //chargement du mois suivant et calcul de la somme des loyers payess
+                    $m = $mloyer;
+                    $total_mois = 0;
+                    $total_mois += $loy->montant;
+                    $nbrMois_paye++;
+                    
+                    if(count($loyers) == 1){
+                        $total += $locataire->occupation->montant - $total_mois;
+                        $rapport[] = [$loy->mois ,$total_mois ,$locataire->occupation->montant, date("Y")-1];
+                        $mois_dette[] = $loy->mois;
+                    }
+                    //echo "<script>alert($loy->mois)</script>";
+                }
+                else{
+                    $total_mois += $loy->montant;
+                }
+        }
+     
+        return $total;
+        /*-----------------------fin calcul des dettes---------------------------------*/
+    }
+
     
 }

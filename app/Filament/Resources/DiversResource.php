@@ -2,21 +2,25 @@
 
 namespace App\Filament\Resources;
 
+use Closure;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Divers;
+use Filament\Forms\Get;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Radio;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Columns\Summarizers\Sum;
+use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\DiversResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\DiversResource\RelationManagers;
-use Closure;
-use Filament\Forms\Get;
-use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Collection;
+use Filament\Tables\Filters\Filter;
 
 class DiversResource extends Resource
 {
@@ -29,9 +33,21 @@ class DiversResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Toggle::make('entreprise')
-                    ->label('Entreprise/Locataire')
-                    ->reactive(),
+                
+                // Forms\Components\Toggle::make('entreprise')
+                //     ->label('Entreprise/Locataire')
+                //     ->reactive(),
+                Grid::make()
+                        ->schema([
+                            
+                            Radio::make('entreprise')
+                                ->label('Entreprise/locataire')
+                                ->default(true)
+                               
+                                ->reactive()
+                                ->boolean(),
+                        ]),
+               
                 Forms\Components\Select::make('locataire_id')
                     ->hidden(fn(Get $get): bool =>  $get('entreprise') == false)
                     ->relationship('locataire', 'noms')
@@ -109,7 +125,13 @@ class DiversResource extends Resource
                     
             ])
             ->filters([
-                //
+                SelectFilter::make('locataire_id')->relationship('locataire', 'nom')->label('Locataire'),
+
+                SelectFilter::make('Galerie')->relationship('locataire.occupation.galerie', 'nom')->label('Galerie'),
+
+                // SelectFilter::make('locataire_id')->relationship('locataire','locataire_id'),
+                // SelectFilter::make('locataire_id')->relationship('locataire', 'locataire.nom')->label('Occupation'),
+                // Filter::make('entreprise')->query()
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

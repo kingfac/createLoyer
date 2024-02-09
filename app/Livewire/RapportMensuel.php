@@ -87,29 +87,75 @@ class RapportMensuel extends Component implements HasForms,HasTable
         return $loyers_locs;
     }
 
-    public function getLoyerGalerie ($gal,$mois):int
+    public function getLoyerGalerie ($gal,$mois,$annee):int
     {
-        $loyerGalerie = 0;
+        
+
         $occups = $gal->occupations;
 
-        // $loyers = Loyer::where(['mois'=> $mois,]);
-        foreach($gal->occupations as $occ){
-            foreach($occ->locataires as $loc){
-                foreach($loc->loyers as $loy){
-                    if($loy->mois == $mois){
-                        $loyerGalerie += $loy->montant;
+    
+        $locs=[];
+        $loyers_locs=[];
+        foreach($occups as $occup){
+            array_push($locs, $occup->locataires->where('actif',true));
+        }
+
+        foreach ($locs as $loc) {
+            foreach ($loc as $lo) {                
+                
+                $loyer = Loyer::where(['locataire_id'=> $lo->id, 'mois' => $mois, 'annee'=>$annee])->sum('montant');
+                // dd($loyer);
+                array_push($loyers_locs, $loyer);
+            }
+        }
+
+        $loyers_locss = array_sum($loyers_locs);
+        // dd($this->getSomme($gal),$loyers_locss);
+        
+        return $loyers_locss;
+        
+    }
+
+
+    public function getSortieDette($gal,$mois,$annee){
+        $occups = $gal->occupations;
+            $somme_occu = $occups->sum('montant');
+
+        
+            $locs=[];
+            $somme_sortie_dette=[];
+            $moiss = intval($this->Mois2[$mois]);
+
+            foreach($occups as $occup){
+                array_push($locs, $occup->locataires->where('actif',false));
+            }
+
+            foreach ($locs as $loc) {
+                foreach ($loc as $lo) {           
+                    $sm = Garantie::where(['locataire_id' , $lo->id, 'restitution' == true])->whereRaw(["MONTH(created_at) == $moiss "]); 
+                    // dd($sm != null);
+                    if($sm!= null){
+
+                        array_push($somme_sortie_dette, 1);
                     }
                 }
             }
-        }
-        return $loyerGalerie;
+
+            $nbr = array_sum($somme_sortie_dette);
+            return $nbr;
     }
-    public function getTauxRealisation($gal,$mois):int
+
+
+    public function getTauxRealisation($gal,$mois, $annee):float
     {
-        if($this->getLoyerGalerie($gal,$mois)!=0){
-            return ($this->getSomme($gal)*100)/$this->getLoyerGalerie($gal,$mois);
+        $montant_paye = $this->getSomme($gal,$mois,$annee) - $this->getLoyerGalerie($gal,$mois,$annee);
+        $montant_attendu = $this->getSomme($gal);
+
+        if($montant_attendu == 0){
+            return 0;
         }
-        return 0;
+        $taux = ($montant_paye*100)/$montant_attendu;
+        return $taux;
     }
     public function getTotalDettes():int
     {
@@ -313,19 +359,18 @@ class RapportMensuel extends Component implements HasForms,HasTable
                 
                 TextColumn::make('Montant non perçu')
                     ->default(function (Galerie $record){
-                        return $this->getLoyerGalerie(Galerie::where('id',$record->id)->first(),$this->mois)-$this->getSomme(Galerie::where('id',$record->id)->first());
+                        return $this->getLoyerGalerie(Galerie::where('id',$record->id)->first(), $this->mois,$this->annee) - $this->getSomme(Galerie::where('id',$record->id)->first());
                     })
                     ->suffix(' $'),
 
                 TextColumn::make('Taux de réalisation')
                     ->default(function(Galerie $record){
-                        return $this->getTauxRealisation(Galerie::where('id',$record->id)->first(),$this->mois);
+                        return $this->getTauxRealisation(Galerie::where('id',$record->id)->first(),$this->mois, $this->annee);
                     })
                     ->suffix(' %'),
                 TextColumn::make('Sorties avec dettes')
                     ->default(function(Model $record){
-                        $value = Garantie::where('restitution',true)->where('montant','<',0)->count();
-                        return $value;
+                        return $this->getSortieDette($record,$this->mois, $this->annee);
                     }),
                /*  TextColumn::make('Total dettes')
                     ->default(function(Galerie $record){

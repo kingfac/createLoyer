@@ -41,6 +41,7 @@ class Locataire extends Model
     public function divers() : HasMany {
         return $this->hasMany(Divers::class);
     }
+    
     /* public function noms(){
         return $this->nom.' - '.$this->prenom;
     } */

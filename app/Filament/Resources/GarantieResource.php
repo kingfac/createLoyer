@@ -85,6 +85,9 @@ class GarantieResource extends Resource
             // ->groupsOnly()
             ->filters([
                 SelectFilter::make('locataire_nom')->relationship('locataire', 'noms')->label('Locataire'),
+                SelectFilter::make('Galerie')->relationship('locataire.occupation.galerie', 'nom')->label('Galerie'),
+                SelectFilter::make('Occupation')->relationship('locataire.occupation', 'ref')->label('Occupation(référence)'),
+                SelectFilter::make('Type occupation')->relationship('locataire.occupation.typeOccu', 'nom')->label('Type occupation'),
 
             ])
             ->actions([

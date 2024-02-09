@@ -49,6 +49,13 @@
             ?>
             <h2>{{$garantie - $paie_garantie ?? 'Aucune garantie'}}($)</h2>
         </div>
+        {{-- <div>
+            <h1>DETTES</h1>
+            <?php 
+                $result = $this->calculDettes($locataire->id)
+            ?>
+            <h2>{{$result ?? 'Aucune garantie'}}($)</h2>
+        </div> --}}
     </div>
     <hr>
     <div class="py-2 flex justify-between items-center flex-col gap-2">
@@ -65,11 +72,11 @@
             @else
                 <div  class="flex justify-center items-center">
                     <p>Le locataire a déjà liberé l'occupation {{$locataire->num_occupation}}</p>
-                    <button type="" class="bg-blue-500 text-white p-4 rounded-md" target="_blank">
-                        <x-heroicon-s-printer />
-                        imprimer
-                    </button>
                 </div>
+                <button type="" class="bg-blue-500 text-white p-4 rounded-md" target="_blank">
+                    <x-heroicon-s-printer />
+                    imprimer
+                </button>
             @endif
             
 

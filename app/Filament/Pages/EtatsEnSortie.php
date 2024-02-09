@@ -46,7 +46,8 @@ class EtatsEnSortie extends Page implements HasForms
         'Liste prevision mensuel',
         'Rapport synthese',
         'Rapport mensuel',
-        'Sorties avec dettes'
+        'Sorties avec dettes',
+        'Résumé Journalier'
     ];
 
     public function mount(): void

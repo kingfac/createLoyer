@@ -2,7 +2,6 @@
     <x-filament::breadcrumbs :breadcrumbs="[
         '/' => 'Dashboard',
         '/etats-en-sortie' => 'Etat en sortie',
-        
     ]" />
     <x-filament::section>
         {{-- Widget content --}}
@@ -62,6 +61,9 @@
                 <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(12)" outlined>
                     Sorties avec dettes
                 </x-filament::button>
+                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(13)" outlined>
+                    Résumé Journalier
+                </x-filament::button>
             </div>
         </form> 
     </x-filament::section>
@@ -110,6 +112,9 @@
         @endif
         @if ($menu == $menus[12])
             <livewire:sortie-dette :mois=$mois :annee=$annee>
+        @endif
+        @if ($menu == $menus[13])
+            <livewire:resume-journalier :mois=$mois :annee=$annee>
         @endif
     </x-filament::section>
 </x-filament-panels::page>
