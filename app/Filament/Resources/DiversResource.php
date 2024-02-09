@@ -41,15 +41,18 @@ class DiversResource extends Resource
                         ->schema([
                             
                             Radio::make('entreprise')
-                                ->label('Entreprise/locataire')
-                                ->default(true)
-                               
+                                ->options([
+                                   1 => 'Entreprise',
+                                   0 => 'Locataire',
+                                ])
+                                ->descriptions(['Entreprise' => 'Entreprise', 'Locataire' => 'Locataire'])
+                                ->label('Type')
                                 ->reactive()
-                                ->boolean(),
+                                ->default(1)
                         ]),
                
                 Forms\Components\Select::make('locataire_id')
-                    ->hidden(fn(Get $get): bool =>  $get('entreprise') == false)
+                    ->hidden(fn(Get $get): bool =>  $get('entreprise') == 1)
                     ->relationship('locataire', 'noms')
                     ->required(),
                 Forms\Components\TextInput::make('besoin')
@@ -77,9 +80,9 @@ class DiversResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('Entreprise/Locataire')
                         ->default(function(Divers $record){
-                        if($record->entreprise == false){
+                        if($record->entreprise == true){
                             return 'Entreprise';
-                        }elseif ($record->entreprise == true) {
+                        }elseif ($record->entreprise == false) {
                             return $record->locataire->noms;
                         }
                     })

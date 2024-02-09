@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Depense;
 use App\Models\Divers;
 use Livewire\Component;
 use App\Models\Locataire;
@@ -15,6 +16,10 @@ class ResumeJournalier extends Component
     public $annee;
     public $mois;
     public $data;
+    public $data1;
+    public $data2;
+
+
 
     protected $listeners = ['m0a' => '$refresh'];
     public function render()
@@ -39,7 +44,10 @@ class ResumeJournalier extends Component
 
     public function remplir(){
 
-        $this->data = Divers::all();
+        $this->data = Depense::all();
+        $this->data1 = Divers::where('entreprise',true)->get();
+        $this->data2 = Divers::where('entreprise',false)->get();
+
         // $pdf = Pdf::loadHTML(Blade::render('evolution', ['data' => $this->data, 'label' => 'LOCATAIRE À JOUR DU MOIS DE '.$this->mois]));
         // Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
     }

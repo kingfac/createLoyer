@@ -64,7 +64,57 @@
                         <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                             
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$dt->cu*$dt->qte}}
+                            </td>
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{-- {{$dt->besoin}} --}}
+
+                            </td>
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$dt->besoin}}
+
+                            </td>
+                        </tr>
+                        <tr>
+
+                        </tr>
+
+                        @endforeach
+
+                        @foreach ($data1 as $dt) 
+                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                            
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$dt->cu*$dt->qte}}
+                            </td>
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{-- {{$dt->besoin}} --}}
+
+                            </td>
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$dt->besoin}}
+
+                            </td>
+                        </tr>
+                        <tr>
+
+                        </tr>
+
+                        @endforeach
+
+                        @foreach ($data2 as $dt) 
+                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                            
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{-- {{$dt->cu*$dt->qte}} --}}
+                            </td>
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$dt->cu*$dt->qte}}
+
+                            </td>
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$dt->besoin}}
+
                             </td>
                         </tr>
                         <tr>
