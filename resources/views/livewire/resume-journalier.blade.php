@@ -58,8 +58,25 @@
 
                         @php
                             $_id = 0;
+                            $total1=0;
+                            $total2=0;
+                            $total3=0;
                             $ctrR = 0;
+                            foreach ($data as $dt) {
+                                $total1 += $dt->cu*$dt->qte;
+                            }
+
+                            foreach ($data1 as $dt) {
+                                $total2 += $dt->cu*$dt->qte;
+                            }
+
+                            foreach ($data2 as $dt) {
+                                $total3 += $dt->cu*$dt->qte;
+                            }
+
+                            $total = $total1 + $total2 + $total3;
                         @endphp
+                        
                         @foreach ($data as $dt) 
                         <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                             
@@ -96,11 +113,8 @@
 
                             </td>
                         </tr>
-                        <tr>
-
-                        </tr>
-
                         @endforeach
+
 
                         @foreach ($data2 as $dt) 
                         <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -117,13 +131,14 @@
 
                             </td>
                         </tr>
-                        <tr>
-
-                        </tr>
+                   
 
                         @endforeach
                         
-                          
+                        <tr class="text-xl" style=" font:bold; size:1.6em;">
+                            <td colspan="4" class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Total</td>
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$total}} $</td>
+                        </tr>
                         
                      
                        
