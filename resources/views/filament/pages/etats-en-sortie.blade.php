@@ -61,8 +61,11 @@
                 <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(12)" outlined>
                     Sorties avec dettes
                 </x-filament::button>
-                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(13)" outlined>
+                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(14)" outlined>
                     Résumé Journalier
+                </x-filament::button>
+                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(13)" outlined>
+                    Rapport Journalier
                 </x-filament::button>
             </div>
         </form> 
@@ -113,8 +116,11 @@
         @if ($menu == $menus[12])
             <livewire:sortie-dette :mois=$mois :annee=$annee>
         @endif
-        @if ($menu == $menus[13])
+        @if ($menu == $menus[14])
             <livewire:resume-journalier :mois=$mois :annee=$annee>
+        @endif
+        @if ($menu == $menus[13])
+            <livewire:rapport-journalier :mois=$mois :annee=$annee>
         @endif
     </x-filament::section>
 </x-filament-panels::page>

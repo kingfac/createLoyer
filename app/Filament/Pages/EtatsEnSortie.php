@@ -47,6 +47,7 @@ class EtatsEnSortie extends Page implements HasForms
         'Rapport synthese',
         'Rapport mensuel',
         'Sorties avec dettes',
+        'Rapport journalier',
         'Résumé Journalier'
     ];
 
