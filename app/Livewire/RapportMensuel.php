@@ -146,7 +146,7 @@ class RapportMensuel extends Component implements HasForms,HasTable
     }
 
 
-    public function getTauxRealisation($gal,$mois, $annee):float
+    public function getTauxRealisation($gal,$mois, $annee):int
     {
         $montant_paye = $this->getSomme($gal,$mois,$annee) - $this->getLoyerGalerie($gal,$mois,$annee);
         $montant_attendu = $this->getSomme($gal);
@@ -154,7 +154,7 @@ class RapportMensuel extends Component implements HasForms,HasTable
         if($montant_attendu == 0){
             return 0;
         }
-        $taux = ($montant_paye*100)/$montant_attendu;
+        $taux = ($montant_paye/$montant_attendu)*100;
         return $taux;
     }
     public function getTotalDettes():int
@@ -195,10 +195,20 @@ class RapportMensuel extends Component implements HasForms,HasTable
                             array_push($locs, $occup->locataires);
                         }
                         $somme=[];
-                        for($i=0; $i < count($locs); $i++){
-                            $garanties = Garantie::where('locataire_id',$locs[$i][0]->id)->whereRaw("MONTH(created_at) < $mois and restitution=false and YEAR(created_at) <= $this->annee");
-                            array_push($somme,$garanties->sum('montant'));
+
+                        foreach ($locs as $loc) {
+                            foreach ($loc as $lo) {                
+                                
+                                // $loyer = Loyer::where(['locataire_id'=> $lo->id, 'mois' => $mois, 'annee'=>$annee])->sum('montant');
+                                // dd($loyer);
+                                // array_push($loyers_locs, $loyer);
+                                $garanties = Garantie::where('locataire_id',$lo->id)->whereRaw("MONTH(created_at) < $mois and restitution=false and YEAR(created_at) <= $this->annee");
+                                array_push($somme,$garanties->sum('montant'));
+                            }
                         }
+
+                        // for($i=0; $i < count($locs); $i++){
+                        // }
                         // $locs = Locataire::where('occupation_id', )->get();
                         // foreach ($locs as $loc) {
                         //     $start = new DateTime(NOW());
@@ -221,10 +231,20 @@ class RapportMensuel extends Component implements HasForms,HasTable
                             array_push($locs, $occup->locataires);
                         }
                         $somme=[];
-                        for($i=0; $i < count($locs); $i++){
-                            $garanties = Garantie::where('locataire_id',$locs[$i][0]->id)->whereRaw("MONTH(created_at) = $mois and restitution=0 and YEAR(created_at) = $this->annee")->sum('montant');
-                            array_push($somme,$garanties);
+
+                        foreach ($locs as $loc) {
+                            foreach ($loc as $lo) {                
+                                
+                                // $loyer = Loyer::where(['locataire_id'=> $lo->id, 'mois' => $mois, 'annee'=>$annee])->sum('montant');
+                                // dd($loyer);
+                                // array_push($loyers_locs, $loyer);
+                                $garanties = Garantie::where('locataire_id',$lo->id)->whereRaw("MONTH(created_at) = $mois and restitution=0 and YEAR(created_at) = $this->annee")->sum('montant');
+                                array_push($somme,$garanties);
+                            }
                         }
+
+                        // for($i=0; $i < count($locs); $i++){
+                        // }
                         return array_sum($somme);
                     })                    
                     ->suffix(' $'),
@@ -240,13 +260,23 @@ class RapportMensuel extends Component implements HasForms,HasTable
                             array_push($locs, $occup->locataires);
                         }
                         $somme=[];
-                        for($i=0; $i < count($locs); $i++){
 
-                            //ne doit pas recupere paiement anticipatif
-
-                            $loyers = Loyer::where('locataire_id',$locs[$i][0]->id)->whereRaw(" mois != '$this->mois' and YEAR(created_at) = $this->annee ")->sum('montant');
-                            array_push($somme,$loyers);  
+                        foreach ($locs as $loc) {
+                            foreach ($loc as $lo) {                
+                                
+                                // $loyer = Loyer::where(['locataire_id'=> $lo->id, 'mois' => $mois, 'annee'=>$annee])->sum('montant');
+                                // dd($loyer);
+                                // array_push($loyers_locs, $loyer);
+                                $loyers = Loyer::where('locataire_id',$lo->id)->whereRaw(" mois != '$this->mois' and YEAR(created_at) = $this->annee ")->sum('montant');
+                                array_push($somme,$loyers);  
+                            }
                         }
+
+                        // for($i=0; $i < count($locs); $i++){
+
+                        //     //ne doit pas recupere paiement anticipatif
+
+                        // }
                         return array_sum($somme);
                     })                    
                     ->suffix(' $'),
@@ -263,12 +293,22 @@ class RapportMensuel extends Component implements HasForms,HasTable
                             array_push($locs, $occup->locataires);
                         }
                         $somme=[];
-                        for($i=0; $i < count($locs); $i++){
-                            //ne doit pas recupere paiement anticipatif
-                            $loyers = Loyer::where('locataire_id',$locs[$i][0]->id)->whereRaw("mois = '$this->mois' and annee = $this->annee   ")->sum('montant');
-                            array_push($somme,$loyers);
-                           
+
+                        foreach ($locs as $loc) {
+                            foreach ($loc as $lo) {                
+                                
+                                // $loyer = Loyer::where(['locataire_id'=> $lo->id, 'mois' => $mois, 'annee'=>$annee])->sum('montant');
+                                // dd($loyer);
+                                // array_push($loyers_locs, $loyer);
+                                $loyers = Loyer::where('locataire_id',$lo->id)->whereRaw("mois = '$this->mois' and annee = $this->annee   ")->sum('montant');
+                                array_push($somme,$loyers);
+                               
+                            }
                         }
+
+                        // for($i=0; $i < count($locs); $i++){
+                        //     //ne doit pas recupere paiement anticipatif
+                        // }
 
                         return array_sum($somme);
 
@@ -304,10 +344,20 @@ class RapportMensuel extends Component implements HasForms,HasTable
                             $somme=[];
                             // $mois_suivant =  $this->lesMois['0'.$mois +1];
                             $mois_suivant = '0'.$mois +1;
+
+                            foreach ($locs as $loc) {
+                                foreach ($loc as $lo) {                
+                                    
+                                    // $loyer = Loyer::where(['locataire_id'=> $lo->id, 'mois' => $mois, 'annee'=>$annee])->sum('montant');
+                                    // dd($loyer);
+                                    // array_push($loyers_locs, $loyer);
+                                    $loyers = Loyer::where('locataire_id',$lo->id)->whereRaw(" MONTH(created_at) = $mois_suivant")->sum('montant');
+                                    array_push($somme,$loyers);
+                                }
+                            }
+
                             for($i=0; $i < count($locs); $i++){
                                 //ne doit pas recupere paiement anticipatif
-                                $loyers = Loyer::where('locataire_id',$locs[$i][0]->id)->whereRaw(" MONTH(created_at) = $mois_suivant")->sum('montant');
-                                array_push($somme,$loyers);
                             }
                             return array_sum($somme);
                         })
@@ -330,17 +380,28 @@ class RapportMensuel extends Component implements HasForms,HasTable
                     $somme4=[];
                     // $mois_suivant =  $this->lesMois['0'.$mois +1];
                     $mois_suivant = '0'.$mois +1;
-                    for($i=0; $i < count($locs); $i++){
-                        //ne doit pas recupere paiement anticipatif
-                        $loyers1 = Loyer::where('locataire_id',$locs[$i][0]->id)->whereRaw(" MONTH(created_at) = $mois_suivant")->sum('montant');
-                        array_push($somme1,$loyers1);
-                        $loyers2 = Loyer::where('locataire_id',$locs[$i][0]->id)->whereRaw("mois = '$this->mois' and annee = $this->annee   ")->sum('montant');
-                        array_push($somme2,$loyers2);
-                        $loyers3 = Loyer::where('locataire_id',$locs[$i][0]->id)->whereRaw(" mois != '$this->mois' and YEAR(created_at) = $this->annee ")->sum('montant');
-                        array_push($somme3,$loyers3);
-                        $garanties = Garantie::where('locataire_id',$locs[$i][0]->id)->whereRaw("MONTH(created_at) = $mois and restitution=0 and YEAR(created_at) = $this->annee")->sum('montant');
-                        array_push($somme4,$garanties);
+
+                    foreach ($locs as $loc) {
+                        foreach ($loc as $lo) {                
+                            
+                            // $loyer = Loyer::where(['locataire_id'=> $lo->id, 'mois' => $mois, 'annee'=>$annee])->sum('montant');
+                            // dd($loyer);
+                            // array_push($loyers_locs, $loyer);
+                            $loyers1 = Loyer::where('locataire_id',$lo->id)->whereRaw(" MONTH(created_at) = $mois_suivant")->sum('montant');
+                            array_push($somme1,$loyers1);
+                            $loyers2 = Loyer::where('locataire_id',$lo->id)->whereRaw("mois = '$this->mois' and annee = $this->annee   ")->sum('montant');
+                            array_push($somme2,$loyers2);
+                            $loyers3 = Loyer::where('locataire_id',$lo->id)->whereRaw(" mois != '$this->mois' and YEAR(created_at) = $this->annee ")->sum('montant');
+                            array_push($somme3,$loyers3);
+                            $garanties = Garantie::where('locataire_id',$lo->id)->whereRaw("MONTH(created_at) = $mois and restitution=0 and YEAR(created_at) = $this->annee")->sum('montant');
+                            array_push($somme4,$garanties);
+                        }
                     }
+
+
+                    // for($i=0; $i < count($locs); $i++){
+                    //     //ne doit pas recupere paiement anticipatif
+                    // }
                     $tot1 = array_sum($somme1);
                     $tot2 = array_sum($somme2);
                     $tot3 = array_sum($somme3);

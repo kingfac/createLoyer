@@ -5,6 +5,7 @@ namespace App\Filament\Resources\GarantieResource\Pages;
 use App\Models\Loyer;
 use Filament\Actions;
 use App\Models\Garantie;
+use App\Models\Locataire;
 use Filament\Actions\Action;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Forms\Components\Select;
@@ -13,8 +14,8 @@ use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\GarantieResource;
-use App\Models\Locataire;
 
 class ListGaranties extends ListRecords
 {
@@ -29,15 +30,16 @@ class ListGaranties extends ListRecords
                 ->form([
                     
                     Select::make('locataire_id')
-                        ->relationship('locataire')
+                        ->relationship(
+                            'locataire',
+                            modifyQueryUsing: fn (Builder $query) => $query->where('actif', true),
+                            )
                         ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->noms} | {$record->occupation->typeOccu->nom} |{$record->num_occupation} ")
                         ->required()
                         ->validationMessages(['required' => 'Veuillez séléctionner un locataire']),
 
                     ])
                 ->action(function(array $data){
-                    // dd($data['locataire_id']);
-                    // dd($g);
                     $paiements = Loyer::where('locataire_id', $data['locataire_id'])->where('garantie',true)->sum('montant');
                     $r_exist = Garantie::where(['locataire_id'=>$data['locataire_id'], 'restitution'=> true])->first();
                     if($r_exist == null){

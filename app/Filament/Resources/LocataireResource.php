@@ -148,14 +148,19 @@ class LocataireResource extends Resource
                     ->default(function(Locataire $record){
                         // dd($record);
                         $locataire = Locataire::where(['id'=> $record->id, 'num_occupation' => $record->num_occupation])->get();
-                        return Garantie::where(['locataire_id' => $locataire[0]->id, 'restitution' => false])->sum('montant');
+                        if($locataire[0]->actif){
+                            return Garantie::where(['locataire_id' => $locataire[0]->id, 'restitution' => false])->sum('montant');
+                        }
+                        else{
+                            return 'Restituée';
+                        }
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('occupation.montant')
                     ->label('Loyer ($)')
                     ->money()
                     ->sortable(),
-                Tables\Columns\ToggleColumn::make('actif'),
+                Tables\Columns\IconColumn::make('actif'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Date')
                     ->dateTime()

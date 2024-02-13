@@ -16,8 +16,9 @@ use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
-use Illuminate\Support\Facades\Storage;
+use Filament\Forms\Components\Textarea;
 
+use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -63,12 +64,14 @@ class CustomCreateLoyer extends Component implements HasForms
                         ->label('Montant ($)')
                         ->inlineLabel()
                         ->default(0),
-                        TextInput::make('observation')
+                        Textarea::make('observation')
+                        ->rows(5)
                         ->label('Observation')
                         ->inlineLabel(),
                     Select::make('nbr')
                         ->label('Nonbre mois (Loyer anticipatif par mois)')
                         ->options( ["2"=>2, "3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"10"=>10])
+                        ->hidden(true)
                         ->reactive(),
                     Toggle::make('garantie')
                         ->label('Utiliser la garantie'),
@@ -282,7 +285,7 @@ class CustomCreateLoyer extends Component implements HasForms
                     }else{
                         Notification::make()
                         ->title("Erreur de paiement")
-                        ->body("Le montant à payer est supérieur à lalll garantie")
+                        ->body("Le montant à payer est supérieur à la garantie")
                         ->persistent()
                         ->danger()
                         ->duration(9000)

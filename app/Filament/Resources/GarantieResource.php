@@ -42,8 +42,6 @@ class GarantieResource extends Resource
                 Forms\Components\TextInput::make('montant')
                     ->required()
                     ->numeric(),
-                // Forms\Components\Toggle::make('restitution')
-                //         ->required(),
             ]);
     }
 

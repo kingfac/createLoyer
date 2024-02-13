@@ -138,11 +138,119 @@
                         <tr class="text-xl" style=" font:bold; size:1.6em;">
                             <td colspan="4" class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Total</td>
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$total}} $</td>
+                            
                         </tr>
-                        
-                     
-                       
+
                     </tbody>
+                        
+                        
+                </table>
+
+            </div>
+            <div>
+                <table class="min-w-full divide-y  divide-gray-200 table-fixed dark:divide-gray-700">
+                    <thead class="bg-gray-100 dark:bg-gray-700">
+                        <tr colspan="1" >
+                            <p style="text-align:center">RESUME DE LA CAISSE DU {{NOW()->format('d/m/y')}}</p>
+                        </tr>
+                        <tr colspan="2" style="text-align: center">
+                            <tr scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                <th scope="col" colspan="2" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    CAISSE
+                                </th>
+                                <th scope="col" colspan="2" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    BANQUE
+                                </th>   
+                            </tr>
+                            
+                            <tr>
+                                <td scope="col" colspan="" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    DESIGNATION
+                                </td>
+                                <td scope="col" colspan="" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    MONTANT EN USD
+                                </td>
+                                
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    DESIGNATION
+                                </td>
+                                
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    MONTANT EN USD
+                                </td>
+                            </tr>
+                        </tr>
+
+                        <tbody>
+                            <tr>
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    prevision finale
+                                </td>
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    6099
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    Entrée brut du jour
+                                </td>
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    6099
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    Prévision restante
+                                </td>
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    6099
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    Solde du 05!01!2021
+                                </td>
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    6099
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    Entrée du jour
+                                </td>
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    6099
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    Dépenses du jour
+                                </td>
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    6099
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    SOlde du jour
+                                </td>
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    6099
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    Solde final
+                                </td>
+                                <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                    6099
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </thead>
+                    
                 </table>
             </div>
         </div>

@@ -11,7 +11,7 @@
             
         }
     </style>
-    <div class="flex justify-between" >
+    <div class="flex justify-between py-6" >
         <h1>Etat personnel du locataire</h1>
         <x-filament::icon-button
             icon="heroicon-m-x-mark"
@@ -58,30 +58,34 @@
         </div> --}}
     </div>
     <hr>
-    <div class="py-2 flex justify-between items-center flex-col gap-2">
-        <div class="flex gap-2">
+    <div class="py-8 flex justify-between items-center flex-col">
+        <div class=" ">
             @if ($locataire->actif)
-            {{$this->form}}
-            <button wire:click="create" class="bg-blue-500 text-white p-4 rounded-md">
-                Créer
-            </button>
-            <a href="/storage/pdf/doc.pdf" class="bg-blue-500 text-white p-4 rounded-md" target="_blank">
-                <x-heroicon-s-printer />
-                imprimer
-            </a>
+            <div class=" ">
+                {{$this->form}}
+            </div>
+            <div class=" flex gap-5 py-8">
+                <button wire:click="create"  class="bg-blue-500   text-white px-5 py-5 text-center rounded-md ">
+                    Créer
+                </button>
+                <a href="/storage/pdf/doc.pdf" class="bg-blue-500  text-white px-5 py-5 rounded-md" target="_blank">
+                    {{-- <x-heroicon-s-printer /> --}}
+                    Imprimer
+                </a>
+            </div>
             @else
                 <div  class="flex justify-center items-center">
                     <p>Le locataire a déjà liberé l'occupation {{$locataire->num_occupation}}</p>
                 </div>
                 <button type="" class="bg-blue-500 text-white p-4 rounded-md" target="_blank">
                     <x-heroicon-s-printer />
-                    imprimer
+                    Imprimer
                 </button>
             @endif
             
 
         </div>
-        <h1>Paiements effectués au mois de {{$mois}} / {{$annee}}</h1>
+        <h1 class=" py-8">Paiements effectués au mois de {{$mois}} / {{$annee}}</h1>
     </div>
 
     <br>
