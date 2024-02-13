@@ -14,6 +14,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Components\Actions;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Textarea;
@@ -68,10 +69,11 @@ class CustomCreateLoyer extends Component implements HasForms
                         ->rows(5)
                         ->label('Observation')
                         ->inlineLabel(),
-                    Select::make('nbr')
-                        ->label('Nonbre mois (Loyer anticipatif par mois)')
-                        ->options( ["2"=>2, "3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"10"=>10])
-                        ->hidden(true)
+                    Hidden::make('nbr')
+                        // ->label('Nonbre mois (Loyer anticipatif par mois)')
+                        // ->options( ["2"=>2, "3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"10"=>10])
+                      
+
                         ->reactive(),
                     Toggle::make('garantie')
                         ->label('Utiliser la garantie'),
@@ -85,6 +87,7 @@ class CustomCreateLoyer extends Component implements HasForms
 
     public function create()
     {
+        
         //dd($this->form->getState());
         /* if ($this->form->getState()['garantie']) {
             dd(44);
