@@ -40,6 +40,8 @@ class LocataireResource extends Resource
     protected static ?string $model = Locataire::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Gestion Locataires';
+    // protected static ?string $navigationLabel = 'Locataires actifs';
     protected static ?int $navigationSort = 5;
 
     public string $loyer_id;
@@ -344,7 +346,7 @@ class LocataireResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->orderBy('noms');
+        return parent::getEloquentQuery()->where('actif', true)->orderBy('noms');
     }
 
     

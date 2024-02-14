@@ -32,7 +32,7 @@ class ListGaranties extends ListRecords
                     Select::make('locataire_id')
                         ->relationship(
                             'locataire',
-                            modifyQueryUsing: fn (Builder $query) => $query->where('actif', true),
+                            modifyQueryUsing: fn (Builder $query) => $query->where('actif', true)->where('garantie', '>' ,0),
                             )
                         ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->noms} | {$record->occupation->typeOccu->nom} |{$record->num_occupation} ")
                         ->required()

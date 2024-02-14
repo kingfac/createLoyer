@@ -10,15 +10,16 @@ use App\Models\Garantie;
 use Filament\Forms\Form;
 use App\Models\Locataire;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Components\Actions;
-use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Components\Textarea;
 
+use Filament\Forms\Components\Textarea;
 use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -58,28 +59,34 @@ class CustomCreateLoyer extends Component implements HasForms
         $currentDate = new DateTime();
         return $form
             ->schema([
-                Section::make()->schema([                    
-                    TextInput::make('montant')
+                Group::make()
+                ->schema([
+
+                    Section::make()->schema([                    
+                        TextInput::make('montant')
                         ->required()
                         ->numeric()
                         ->label('Montant ($)')
                         ->inlineLabel()
+                        ->columnSpan(2)
                         ->default(0),
-                        Textarea::make('observation')
-                        ->rows(5)
-                        ->label('Observation')
-                        ->inlineLabel(),
-                    Hidden::make('nbr')
+                        Hidden::make('nbr')
                         // ->label('Nonbre mois (Loyer anticipatif par mois)')
                         // ->options( ["2"=>2, "3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"10"=>10])
-                      
-
+                        
+                        
                         ->reactive(),
-                    Toggle::make('garantie')
+                        Toggle::make('garantie')
                         ->label('Utiliser la garantie'),
-                    
-                ])
-                ->columns(2)
+                    ])
+                        ->columns(4),
+                        Textarea::make('observation')
+                            ->rows(5)
+                            ->label('Observation'),
+                            //->inlineLabel(),
+                            //->columnSpan(4),
+                        
+                    ]),
 
             ])
             ->statePath('datas');
