@@ -94,14 +94,14 @@ class CustomCreateLoyer extends Component implements HasForms
 
     public function create()
     {
-        $loc = Locataire::find($this->locataire_id)->first();
-        // dd($loc);
+        $loc = Locataire::where('id',$this->locataire_id)->get();
+        // dd($loc->value('mp'));
 
-        if ($loc->mp == null) {
+        if ($loc->value('mp') == null) {
             # $loc...
             return Notification::make()
                 ->title('Erreur de paiement')
-                ->body('Veuillez indiquer le premier mois de paiement du locataire')
+                ->body('Dans l\'enregistrement du locataire, vous n\'avez pas encore spécifié le premier mois de paiement du locataire.')
                 ->success()
                 ->icon('')
                 ->iconColor('')
