@@ -94,6 +94,24 @@ class CustomCreateLoyer extends Component implements HasForms
 
     public function create()
     {
+        $loc = Locataire::find($this->locataire_id)->first();
+        // dd($loc);
+
+        if ($loc->mp == null) {
+            # $loc...
+            return Notification::make()
+                ->title('Erreur de paiement')
+                ->body('Veuillez indiquer le premier mois de paiement du locataire')
+                ->success()
+                ->icon('')
+                ->iconColor('')
+                ->duration(5000)
+                ->persistent()
+                ->actions([
+                    
+                ])
+                ->send();
+        }
         
         //dd($this->form->getState());
         /* if ($this->form->getState()['garantie']) {
@@ -116,6 +134,8 @@ class CustomCreateLoyer extends Component implements HasForms
         else{
             
         } */
+        
+
         $garantie = Garantie::where(['locataire_id'=> $this->locataire_id, 'restitution' => false])->sum('montant');
         $paie_garantie = Loyer::where(['locataire_id' => $this->locataire_id, 'garantie' => true])->sum('montant');
         $reste_garantie = $garantie - $paie_garantie;
@@ -331,7 +351,7 @@ class CustomCreateLoyer extends Component implements HasForms
 
     private function store(){
         
-        // //if()
+        
         $Mois1 = [
             '01' => 'Janvier',
             '02' => 'Février',
