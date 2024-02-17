@@ -30,7 +30,7 @@
     </div>
     <div class=" w-full p-3 bg-gray-300 flex justify-between">
         <p class="text-black opacity-5">Galérie: {{$locataire->occupation->galerie->nom}}</p>
-        <p class="text-black opacity-5">Type occupation: {{$locataire->occupation->galerie->nom}}</p>
+        <p class="text-black opacity-5">Type occupation: {{$locataire->occupation->typeOccu->nom}}</p>
         <p class="text-black opacity-5">Numéro occupation: {{$locataire->num_occupation}}</p>
         <p class="text-black opacity-5">Loyer: {{$locataire->occupation->montant}} $</p>
         <?php 

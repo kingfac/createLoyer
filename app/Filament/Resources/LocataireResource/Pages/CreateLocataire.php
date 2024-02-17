@@ -25,7 +25,6 @@ class CreateLocataire extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        dd($data);
         //$data['user_id'] = auth()->id();
         $loyer = Occupation::where('id', $data['occupation_id'])->first();
         if($data['postnom'] == null){

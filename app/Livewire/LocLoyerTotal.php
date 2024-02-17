@@ -30,8 +30,10 @@ class LocLoyerTotal extends Component implements HasForms, HasTable
 
     protected $listeners = ['m5a' => '$refresh'];
 
+    #[On('m5')] 
     public function render()
     {
+
         $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
         ->selectRaw('locataires.*')
         ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
@@ -44,7 +46,6 @@ class LocLoyerTotal extends Component implements HasForms, HasTable
         ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
         ->orderBy('locataires.id')
         ->get();
-        //dd($this->recu);
 
         $somme = 0;
         foreach ($this->recu as $val) {
@@ -67,8 +68,35 @@ class LocLoyerTotal extends Component implements HasForms, HasTable
         // ...
         $this->annee = $annee;
         $this->mois = $mois;
+        $this->remplir();
         $this->dispatch('m5a');
     }
+
+    // public function remplir(){
+    //     $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
+    //     ->selectRaw('locataires.*')
+    //     ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
+    //     ->orderBy('locataires.id')
+    //     ->get();
+
+    //     $this->prevu = Locataire::all()->sum('occupation.montant');
+    //     $this->recu = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER')
+    //     ->selectRaw('locataires.*, loyers.created_at')
+    //     ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
+    //     ->orderBy('locataires.id')
+    //     ->get();
+
+    //     $somme = 0;
+    //     foreach ($this->recu as $val) {
+    //         # code...
+    //         if($this->_id != $val->id){
+    //             $somme += $val->somme;
+    //             $this->_id = $val->id;
+    //         }
+    //     }
+        
+    //     $this->recu = $somme;
+    // }
     
     public function table(Table $table): Table
     {
