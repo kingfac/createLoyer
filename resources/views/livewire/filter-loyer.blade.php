@@ -37,9 +37,9 @@
                             <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                 Galerie / Type 
                             </th>
-                            <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                            {{-- <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                 Garantie
-                            </th>
+                            </th> --}}
                             <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                 Loyer mensuel
                             </th>
@@ -55,14 +55,21 @@
                     <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
 
                         @php
+                            use App\Models\Loyer;
+
                             $_id = 0;
                             $ctrR = 0;
+                            $total_paye=0;
+                            $total_reste=0;
                         @endphp
                         @foreach ($data as $dt) 
+                     
                         @if ($_id != $dt->id)
                         @php
                             $_id = $dt->id;
                             $ctrR +=1 ;
+                            $total_paye += $dt->somme;
+                            $total_reste += ($dt->occupation->montant - $dt->somme);
                         @endphp
                         
                           
@@ -84,9 +91,12 @@
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$dt->occupation->galerie->nom}} / {{$dt->occupation->typeOccu->nom}}
                             </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$dt->garantie}}
-                            </td>
+                            {{-- <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                @php
+                                    $paie_garantie = Loyer::where('locataire_id', $dt->id)->where('garantie',true)->sum('montant');
+                                @endphp
+                                {{$dt->garantie  - $paie_garantie}}
+                            </td> --}}
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$dt->occupation->montant}}$
                             </td>
@@ -101,6 +111,25 @@
                         
                         @endif
                         @endforeach
+
+                        <tr>
+                            <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
+                                Totaux
+                            </td>    
+                            <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
+                            </td>   
+                            <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
+                            </td>      
+                            <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
+                                {{-- {{$total_paye}} --}}
+                            </td>         
+                            <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$total_paye}}
+                            </td>     
+                            <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$total_reste}}
+                            </td>                              
+                        </tr>
                        
                     </tbody>
                 </table>

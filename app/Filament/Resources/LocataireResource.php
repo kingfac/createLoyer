@@ -32,7 +32,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\ReplicateAction;
 use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\LocataireResource\Pages;
+use App\Filament\Resources\LocataireResource\Pages\EditLocataire;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\LocataireResource\RelationManagers;
 
 class LocataireResource extends Resource
@@ -79,28 +81,19 @@ class LocataireResource extends Resource
                     ->required()
                     ->minLength(10)
                     ->maxLength(14),
+
                 Forms\Components\Select::make('nbr')
                     ->label('Nombre de mois garantie')
-                    ->hidden(function(Request $request){
-                        $r = Str::endsWith($request->path(), '/edit');
-                        if($r){
-                            return true;
-                        }
-                        return false;
-                    })
+                    ->hiddenOn(Pages\EditLocataire::class)
                     ->options( ["3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"10"=>10])
                     ->reactive(),
                 Forms\Components\TextInput::make('garantie')
                     ->numeric()
-                    ->hidden(function(Request $request){
-                        $r = Str::endsWith($request->path(), '/edit');
-                        if($r){
-                            return true;
-                        }
-                        return false;
-                    })
+                    ->hiddenOn(EditLocataire::class),
+
                     /* ->minValue(fn($get) => Occupation::where('id', $get('occupation_id'))->value('montant') * intval($get('mois'))) */
-                    ->default(fn($get) => Occupation::where('id', $get('occupation_id'))->value('montant') * intval($get('mois'))),
+                    // ->default(fn($get) => Occupation::where('id', $get('occupation_id'))->value('montant') * intval($get('mois'))),
+                
                 Forms\Components\Select::make('mp')
                     ->label('Mois du premier paiement')
                     ->options( ["1"=> "janvier","2"=>"février", "3"=>"mars","4"=>"avril","5"=>"mai","6"=>"juin","7"=>"juillet","8"=>"aout","9"=>"septembre","10"=>"octobre","11" => "novembre", "12" => "décembre"])
@@ -117,8 +110,7 @@ class LocataireResource extends Resource
                 Forms\Components\Toggle::make('actif')
                     ->label('Désactiver/Activer')
                     ->default(true)
-                    ->onColor('primary')
-                    ->offColor('danger')
+                    
                     
             ]);
     }

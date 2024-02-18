@@ -92,6 +92,7 @@ class CustomLoyer extends Component implements HasForms
             ->selectRaw('locataires.*, loyers.created_at')
             ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->form->getState()['mois'], $this->form->getState()['annee']])
             ->orderBy('locataires.id')
+            ->orderBy('somme', 'ASC')
             ->where('noms', 'like', '%' . $recherche . '%')
             ->where('actif', true)
             //->orWhere('noms', 'like', '%' . $gal . '%')

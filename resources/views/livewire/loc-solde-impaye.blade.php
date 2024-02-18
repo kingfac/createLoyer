@@ -7,7 +7,7 @@
    {{--  {{ $this->form }}
     {{ $this->table }} --}}
     <div class="flex  justify-between">
-        <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Locataire avec solde impayé : {{ $mois }}</h1>
+        <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Locataires avec soldes impayés : {{ $mois }}</h1>
         <x-filament::icon-button
             icon="heroicon-o-printer"
             tag="a"
@@ -75,6 +75,8 @@
                         
                         @endif
                         @endforeach
+
+                        
                        
                     </tbody>
                 </table>

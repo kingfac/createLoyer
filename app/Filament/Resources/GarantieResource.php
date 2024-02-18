@@ -3,13 +3,16 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\User;
 use Filament\Tables;
 use App\Models\Loyer;
 use App\Models\Garantie;
 use Filament\Forms\Form;
+use App\Models\Locataire;
 use Filament\Tables\Table;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\DB;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Grouping\Group;
 use Illuminate\Support\Facades\Blade;
@@ -36,7 +39,10 @@ class GarantieResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('locataire_id')
-                    ->relationship('locataire')
+                    ->relationship(
+                        'locataire',
+                        modifyQueryUsing: fn (Builder $query) => $query->where('actif', true),
+                    )
                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->noms} | {$record->occupation->typeOccu->nom} |{$record->num_occupation} ")
                     ->required(),
                 Forms\Components\TextInput::make('montant')
@@ -48,21 +54,25 @@ class GarantieResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(function(Builder $query){
+                $locsactifs = DB::table('locataires')->select('id')->where('actif', true);
+ 
+                
+                return Garantie::query()->whereIn('locataire_id', $locsactifs)->where('restitution',false);
+            })
             ->columns([
                 
                 Tables\Columns\TextColumn::make('locataire.noms')
                     ->sortable()
                     ->searchable(),
-                // Tables\columns\TextColumn::make('llklk')->default(function(Garantie $record){
-                //     return 'glodi';
-                // }),
+             
                 Tables\columns\TextColumn::make('locataire.occupation.galerie.nom'),
                 Tables\columns\TextColumn::make('locataire.occupation.typeOccu.nom')->label("Occupation"),
                 Tables\columns\TextColumn::make('locataire.num_occupation')->label("Numéro occupation"),
                 Tables\Columns\TextColumn::make('montant')
+                    ->label('Total garantie')
                     ->summarize(Sum::make('montant')->label('Total'))
                     ,
-                /* ToggleColumn::make('restitution'), */
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -73,8 +83,9 @@ class GarantieResource extends Resource
                     ->sortable()
                 
             ])
-            // ->groups(['locataire.noms','locataire.occupation.typeOccu.nom'])
-            ->defaultGroup('locataire.num_occupation')->modelLabel("locataire.noms")
+            ->defaultGroup('locataire.id')->modelLabel("locataire.noms")
+
+
             /* ->groups([
                 Group::make('locataire.noms')
                     ->collapsible(),
@@ -119,7 +130,38 @@ class GarantieResource extends Resource
         return static::getModel()::all()->count();   
     }
 
-    public static function getEloquentQuery(): Builder{
-        return static::getModel()::query()->where('restitution',false);
-    }
+    // public static function getEloquentQuery(): Builder{
+    //     return Locataire::query()->where('actif',true);
+    // }
 }
+
+
+// return $table
+//             ->columns([
+                
+//                 Tables\Columns\TextColumn::make('locataire.noms')
+//                     ->sortable()
+//                     ->searchable(),
+//                 // Tables\columns\TextColumn::make('llklk')->default(function(Garantie $record){
+//                 //     return 'glodi';
+//                 // }),
+//                 Tables\columns\TextColumn::make('locataire.occupation.galerie.nom'),
+//                 Tables\columns\TextColumn::make('locataire.occupation.typeOccu.nom')->label("Occupation"),
+//                 Tables\columns\TextColumn::make('locataire.num_occupation')->label("Numéro occupation"),
+//                 Tables\Columns\TextColumn::make('montant')
+//                     ->summarize(Sum::make('montant')->label('Total'))
+//                     ,
+//                 /* ToggleColumn::make('restitution'), */
+//                 Tables\Columns\TextColumn::make('updated_at')
+//                     ->dateTime()
+//                     ->sortable()
+//                     ->toggleable(isToggledHiddenByDefault: true),
+//                     Tables\Columns\TextColumn::make('created_at')
+//                     ->dateTime()
+//                     ->label('Date')
+//                     ->sortable()
+                
+//             ])
+//             ->defaultGroup('locataire.num_occupation')->modelLabel("locataire.noms")
+
+            

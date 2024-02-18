@@ -49,12 +49,17 @@
                         @php
                             $_id = 0;
                             $ctrR = 0;
+                            $total_paye=0;
+                            $total_reste=0;
+
                         @endphp
                         @foreach ($data as $dt) 
                         @if ($_id != $dt->id && $dt->somme < $dt->occupation->montant && $dt->somme > 0)
                         @php
                             $_id = $dt->id;
                             $ctrR += 1;
+                            $total_paye += $dt->somme;
+                            $total_reste = $total_reste + ($dt->occupation->montant - $dt->somme)
                         @endphp
                         
                           
@@ -77,9 +82,25 @@
                                 {{$dt->occupation->montant - $dt->somme}}
                             </td>
                            
-                        </tr>                           
+                        </tr>  
+                       
                         @endif
                         @endforeach
+                        <tr>
+                            <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
+                                Totaux
+                            </td>    
+                            <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
+                            </td>   
+                            <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
+                            </td>      
+                            <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$total_paye}}
+                            </td>         
+                            <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$total_reste}}
+                            </td>                                
+                        </tr>
                        
                     </tbody>
                 </table>
