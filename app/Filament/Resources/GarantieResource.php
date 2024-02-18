@@ -58,7 +58,7 @@ class GarantieResource extends Resource
                 $locsactifs = DB::table('locataires')->select('id')->where('actif', true);
  
                 
-                return Garantie::query()->whereIn('locataire_id', $locsactifs)->where('restitution',false);
+                return Garantie::query()->whereIn('locataire_id', $locsactifs)->where('restitution',false)->where('montant', '>', 0);
             })
             ->columns([
                 
