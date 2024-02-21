@@ -154,11 +154,7 @@ class LocataireResource extends Resource
                     ->money()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('actif'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Date')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('Mp')
+                Tables\Columns\TextColumn::make('Mois premier paiement')
                     ->default(function(Model $record){
                         $ConvMois = [
                             1 => "janvier",
@@ -183,6 +179,10 @@ class LocataireResource extends Resource
 
                         return "Non spécifié";
                     })
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Date')
+                    ->dateTime()
                     ->sortable(),
                 
             ])
