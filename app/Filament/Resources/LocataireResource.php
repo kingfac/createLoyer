@@ -159,7 +159,6 @@ class LocataireResource extends Resource
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('mp')
-                    ->dateTime("M")
                     ->sortable(),
                 
             ])
