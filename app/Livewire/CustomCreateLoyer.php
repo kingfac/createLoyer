@@ -158,6 +158,23 @@ class CustomCreateLoyer extends Component implements HasForms
         $loy_m1 = Loyer::where(['locataire_id' => $this->locataire_id, 'mois' => $mv])->sum('montant');
         // dd($loy_m1);
         
+        if ($loc->value('mp') == null) {
+            # $loc...
+            return Notification::make()
+                ->title('Erreur de paiement')
+                ->body('Dans l\'enregistrement du locataire, vous n\'avez pas encore spécifié le premier mois de paiement du locataire.')
+                ->success()
+                ->icon('')
+                ->iconColor('')
+                ->duration(5000)
+                ->persistent()
+                ->actions([
+                    
+                ])
+                ->send();
+        }
+
+        
         if (($mois != $mp && $ap == $annee && $loys == 0)  || ($mois < $mp && $ap == $annee && $loys > 0) ) {
             # $loc...
             return Notification::make()
@@ -195,7 +212,7 @@ class CustomCreateLoyer extends Component implements HasForms
                 ->send();
             }
             
-        }elseif($loy_m1 == null && $mois != $mp ){
+        }elseif($loy_m1 == null && $mois != $mp && $mp != null ){
             return Notification::make()
                 ->title('Erreur de paiement')
                 ->body("Impossible de payer ce mois car le mois de  $mv reste encore impayé.")
@@ -211,21 +228,7 @@ class CustomCreateLoyer extends Component implements HasForms
         }
 
 
-        if ($loc->value('mp') == null) {
-            # $loc...
-            return Notification::make()
-                ->title('Erreur de paiement')
-                ->body('Dans l\'enregistrement du locataire, vous n\'avez pas encore spécifié le premier mois de paiement du locataire.')
-                ->success()
-                ->icon('')
-                ->iconColor('')
-                ->duration(5000)
-                ->persistent()
-                ->actions([
-                    
-                ])
-                ->send();
-        }
+       
 
         
         
