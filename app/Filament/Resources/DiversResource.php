@@ -53,7 +53,7 @@ class DiversResource extends Resource
                
                 Forms\Components\Select::make('locataire_id')
                     ->hidden(fn(Get $get): bool =>  $get('entreprise') == 1)
-                    ->relationship('locataire', 'noms')
+                    ->relationship('locataire', 'noms', )
                     ->required(),
                 Forms\Components\TextInput::make('besoin')
                     ->required()

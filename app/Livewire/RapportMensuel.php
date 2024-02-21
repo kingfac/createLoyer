@@ -177,6 +177,80 @@ class RapportMensuel extends Component implements HasForms,HasTable
         return view('livewire.rapport-mensuel');
     }
 
+    /* fonction qui renvoie les anciennes garanties */
+    public function getAnciennesGaranties($record)
+    {
+        $galerie = Galerie::where('id', $record->id)->first();
+        $occups = $galerie->occupations;
+        $locs=[];
+        $somme=[];
+        $mois = intval($this->Mois2[$this->mois]);
+
+        foreach($occups as $occup){
+            array_push($locs, $occup->locataires);
+        }
+
+        foreach ($locs as $loc) {
+            foreach ($loc as $lo) {                
+                $garanties = Garantie::where('locataire_id',$lo->id)
+                    ->whereRaw("MONTH(created_at) < $mois and restitution=false and YEAR(created_at) <= $this->annee");
+                array_push($somme,$garanties->sum('montant'));
+            }
+        }
+                       
+        return array_sum($somme);
+    }
+
+    /* fonction qui renvoie les nouvelles garanties */
+    public function getNouvellesGaranties($record)
+    {
+        $mois = intval($this->Mois2[$this->mois]);
+        $galerie = Galerie::where('id', $record->id)->first();
+        $occups = $galerie->occupations;
+        $locs=[];
+        $somme=[];
+
+        foreach($occups as $occup){
+            array_push($locs, $occup->locataires);
+        }
+
+        foreach ($locs as $loc) {
+            foreach ($loc as $lo) {                
+                $garanties = Garantie::where('locataire_id',$lo->id)
+                    ->whereRaw("MONTH(created_at) = $mois and restitution=0 and YEAR(created_at) = $this->annee")
+                    ->sum('montant');
+
+                array_push($somme,$garanties);
+            }
+        }
+
+        return array_sum($somme);
+    }
+
+    /* fonction pour calculer les dettes anterieures percues*/
+    public function getDettesAnterieuresPercues($record)
+    {
+        $galerie = Galerie::where('id', $record->id)->first();
+        $mois = intval($this->Mois2[$this->mois]);
+        $somme=[];
+        $occups = $galerie->occupations;
+        $locs=[];
+
+        foreach($occups as $occup){
+            array_push($locs, $occup->locataires);
+        }
+        foreach ($locs as $loc) {
+            foreach ($loc as $lo) {                
+                // ici je n arrive pas a obtenir les loyers dont le mois est < au mois actuel
+                $loyers = Loyer::where('locataire_id',$lo->id)->whereRaw(" (mois) != '$this->mois' and YEAR(created_at) = $this->annee ")->sum('montant');
+                array_push($somme,$loyers);  
+            }
+        }
+
+    
+        return array_sum($somme);
+    }
+
     public function table(Table $table): Table
     {    
         return $table
@@ -187,97 +261,18 @@ class RapportMensuel extends Component implements HasForms,HasTable
                 TextColumn::make('nom')->label('Galerie'),
                 TextColumn::make('Anciennes garanties')
                     ->default(function(Galerie $record){
-                        $galerie = Galerie::where('id', $record->id)->first();
-                        $occups = $galerie->occupations;
-                        $locs=[];
-                        $mois = intval($this->Mois2[$this->mois]);
-                        foreach($occups as $occup){
-                            array_push($locs, $occup->locataires);
-                        }
-                        $somme=[];
-
-                        foreach ($locs as $loc) {
-                            foreach ($loc as $lo) {                
-                                
-                                // $loyer = Loyer::where(['locataire_id'=> $lo->id, 'mois' => $mois, 'annee'=>$annee])->sum('montant');
-                                // dd($loyer);
-                                // array_push($loyers_locs, $loyer);
-                                $garanties = Garantie::where('locataire_id',$lo->id)->whereRaw("MONTH(created_at) < $mois and restitution=false and YEAR(created_at) <= $this->annee");
-                                array_push($somme,$garanties->sum('montant'));
-                            }
-                        }
-
-                        // for($i=0; $i < count($locs); $i++){
-                        // }
-                        // $locs = Locataire::where('occupation_id', )->get();
-                        // foreach ($locs as $loc) {
-                        //     $start = new DateTime(NOW());
-                        //     $start->modify("-12 month");
-
-                        //     $end_date= new DateTime(NOW());
-                        //     $end_date->modify("-1 month");
-                        //     array_push($gi,$garanties);
-                        // }                        
-                        return array_sum($somme);
+                       return $this->getAnciennesGaranties($record);
                     })                     
                     ->suffix(' $'),
                 TextColumn::make('Nouvelles garanties')
                     ->default(function(Galerie $record){
-                        $mois = intval($this->Mois2[$this->mois]);
-                        $galerie = Galerie::where('id', $record->id)->first();
-                        $occups = $galerie->occupations;
-                        $locs=[];
-                        foreach($occups as $occup){
-                            array_push($locs, $occup->locataires);
-                        }
-                        $somme=[];
-
-                        foreach ($locs as $loc) {
-                            foreach ($loc as $lo) {                
-                                
-                                // $loyer = Loyer::where(['locataire_id'=> $lo->id, 'mois' => $mois, 'annee'=>$annee])->sum('montant');
-                                // dd($loyer);
-                                // array_push($loyers_locs, $loyer);
-                                $garanties = Garantie::where('locataire_id',$lo->id)->whereRaw("MONTH(created_at) = $mois and restitution=0 and YEAR(created_at) = $this->annee")->sum('montant');
-                                array_push($somme,$garanties);
-                            }
-                        }
-
-                        // for($i=0; $i < count($locs); $i++){
-                        // }
-                        return array_sum($somme);
+                        return $this->getNouvellesGaranties($record);
                     })                    
                     ->suffix(' $'),
 
                 TextColumn::make('Dettes antérieures perçues')
                     ->default(function(Galerie $record){
-                        $galerie = Galerie::where('id', $record->id)->first();
-                        $mois = intval($this->Mois2[$this->mois]);
-
-                        $occups = $galerie->occupations;
-                        $locs=[];
-                        foreach($occups as $occup){
-                            array_push($locs, $occup->locataires);
-                        }
-                        $somme=[];
-
-                        foreach ($locs as $loc) {
-                            foreach ($loc as $lo) {                
-                                
-                                // $loyer = Loyer::where(['locataire_id'=> $lo->id, 'mois' => $mois, 'annee'=>$annee])->sum('montant');
-                                // dd($loyer);
-                                // array_push($loyers_locs, $loyer);
-                                $loyers = Loyer::where('locataire_id',$lo->id)->whereRaw(" mois != '$this->mois' and YEAR(created_at) = $this->annee ")->sum('montant');
-                                array_push($somme,$loyers);  
-                            }
-                        }
-
-                        // for($i=0; $i < count($locs); $i++){
-
-                        //     //ne doit pas recupere paiement anticipatif
-
-                        // }
-                        return array_sum($somme);
+                        return $this->getDettesAnterieuresPercues($record);        
                     })                    
                     ->suffix(' $'),
 
@@ -306,30 +301,13 @@ class RapportMensuel extends Component implements HasForms,HasTable
                             }
                         }
 
-                        // for($i=0; $i < count($locs); $i++){
-                        //     //ne doit pas recupere paiement anticipatif
-                        // }
-
                         return array_sum($somme);
 
-                        // $galerie = Galerie::where('id', $record->id)->first();
-                        // $locs = $galerie->occupations[0]->locataires;
-                        
-                        // $gi = [];
-                        // $dettes = [];
-                        // foreach ($locs as $loc) {
-                        //     $garanties = Garantie::where('locataire_id',$loc->id)->whereRaw("MONTH(created_at) = MONTH(NOW())")->sum('montant');
-                        //     array_push($gi,$garanties);
-
-                        //     $loyers = Loyer::where('locataire_id',$loc->id)->whereRaw("MONTH(created_at) = MONTH(NOW())")->sum('montant');
-                        //     array_push($dettes,$loyers);
-                        // }
-
-                        // $nouv_garanties = array_sum($gi);
-                        // $dets = array_sum($dettes);
-                        
-                        // return $nouv_garanties+$dets;
-                    })                     
+                    })   
+                    ->label(function(){
+                        $mois = intval($this->Mois2[$this->mois]);
+                        return $this->lesMois['0'.$mois];
+                    })                  
                     ->suffix(' $'),
                 TextColumn::make('Montant perçu au mois suivant')
                     ->default(function(Galerie $record){
@@ -347,10 +325,6 @@ class RapportMensuel extends Component implements HasForms,HasTable
 
                             foreach ($locs as $loc) {
                                 foreach ($loc as $lo) {                
-                                    
-                                    // $loyer = Loyer::where(['locataire_id'=> $lo->id, 'mois' => $mois, 'annee'=>$annee])->sum('montant');
-                                    // dd($loyer);
-                                    // array_push($loyers_locs, $loyer);
                                     $loyers = Loyer::where('locataire_id',$lo->id)->whereRaw(" MONTH(created_at) = $mois_suivant")->sum('montant');
                                     array_push($somme,$loyers);
                                 }
@@ -360,6 +334,11 @@ class RapportMensuel extends Component implements HasForms,HasTable
                                 //ne doit pas recupere paiement anticipatif
                             }
                             return array_sum($somme);
+                        })
+                        ->label(function(){
+                            $mois = intval($this->Mois2[$this->mois]);
+                            $mois_suivant = '0'.$mois +1;
+                            return $this->lesMois[$mois_suivant];
                         })
                         ->suffix(' $'),
 

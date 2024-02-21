@@ -80,15 +80,12 @@ class PaieJournalier extends Component implements HasForms, HasTable
                 TextColumn::make('noms')->label('Locataire'),
                 TextColumn::make('occupation.galerie.nom')->label('Galerie'),
                 TextColumn::make('occupation.typeOccu.nom')->label('Occupation'),
-                /* TextColumn::make('montant')->label('Loyer payé')
-                    ->summarize(Sum::make()->money()->label('Total'))
-                    ->money(), */
-                /* TextColumn::make('mois')->label('Mois'),
-                TextColumn::make('created_at')->label('Heure')->time(), */
+              
                 TextColumn::make("Periode")->default(function(Locataire $record){
                     $moiss = [];
+                    $current_data = NOW()->format('Y-m-d');
                     foreach (Loyer::where('locataire_id', $record->id)
-                    ->whereRaw('DATE(created_at) = CURDATE()')
+                    ->whereRaw(" DATE(created_at) = '$current_data' ")
                     ->distinct('mois')
                     ->get('mois') as $loy) {
                         # code...
@@ -97,23 +94,25 @@ class PaieJournalier extends Component implements HasForms, HasTable
                     return $moiss;
                 }),
                 TextColumn::make("Garantie")->default(function(Locataire $record){
+                    $current_date = NOW()->format('Y-m-d');
                     
-                    return Garantie::where('locataire_id', $record->id)
-                    ->whereRaw('DATE(created_at) = CURDATE()')
+                    return Garantie::where(['locataire_id' => $record->id, 'restitution' => false])
+                    ->whereRaw(" DATE(created_at) = '$current_date' ")
                     ->sum('montant');
                 })
                 ->money(),
                 TextColumn::make("DD")->label('Divers')->default(function(Locataire $record){
+                    $current_date = NOW()->format('Y-m-d');
                     
                     return Divers::where('locataire_id', $record->id)
-                    ->whereRaw('DATE(created_at) = CURDATE()')
+                    ->whereRaw(" DATE(created_at) = '$current_date' ")
                     ->sum('total');
                 })->money(),
                 TextColumn::make("d")->label("Dettes")->default(function(Locataire $record){
                     $data = 0;
-
+                    $current_date = NOW()->format('Y-m-d');
                     foreach (Loyer::where('locataire_id', $record->id)
-                    ->whereRaw('DATE(created_at) = CURDATE()')->get() as $loy) {
+                    ->whereRaw("DATE(created_at) = '$current_date' ")->get() as $loy) {
                         //dd($this->Mois2[$loy->mois], date('m'));
                         if($this->Mois2[$loy->mois] != date('m')){
                             $data += $loy->montant;
@@ -124,6 +123,7 @@ class PaieJournalier extends Component implements HasForms, HasTable
                 TextColumn::make("Date")->default(date('j-M-Y'))
             ]);
     }
+    
 
     public function remplir(){
         $this->mois = new DateTime();

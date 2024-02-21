@@ -21,44 +21,44 @@ class EditLocataire extends EditRecord
         ];
     }
 
-    protected function mutateFormDataBeforeSave(array $data): array
-    {
-        //$data['user_id'] = auth()->id();
-        //dd($data);
-        $loyer = Occupation::where('id', $data['occupation_id'])->first();
-        if($data['postnom'] == null){
-            $data['postnom'] = "";
-        }
-        if($data['prenom'] == null){
-            $data['prenom'] = "";
-        }
-        if($data['nom'] == null){
-            $data['nom'] = "";
-        }
-        if($data['garantie'] == 0 && $data['nbr'] == null){
-            Notification::make()
-            ->warning()
-            ->title("Validation données erreur")
-            ->body("Garantie ou mois garantie doit être renseigné pour valider
-            le formulaire")
-            ->persistent()
+    // protected function mutateFormDataBeforeSave(array $data): array
+    // {
+    //     //$data['user_id'] = auth()->id();
+    //     //dd($data);
+    //     $loyer = Occupation::where('id', $data['occupation_id'])->first();
+    //     if($data['postnom'] == null){
+    //         $data['postnom'] = "";
+    //     }s
+    //     if($data['prenom'] == null){
+    //         $data['prenom'] = "";
+    //     }
+    //     if($data['nom'] == null){
+    //         $data['nom'] = "";
+    //     }
+    //     // if($data['garantie'] == 0 && $data['nbr'] == null){
+    //     //     Notification::make()
+    //     //     ->warning()
+    //     //     ->title("Validation données erreur")
+    //     //     ->body("Garantie ou mois garantie doit être renseigné pour valider
+    //     //     le formulaire")
+    //     //     ->persistent()
             
-            ->send();
-            $this->halt();
-        }
-        else{
-            if($data['nbr'] == null){
-                $data['nbr'] = 0;
-            }
-            else{
+    //     //     ->send();
+    //     //     $this->halt();
+    //     // }
+    //     // else{
+    //     //     if($data['nbr'] == null){
+    //     //         $data['nbr'] = 0;
+    //     //     }
+    //     //     else{
 
-                $data['garantie'] = ($loyer->montant * intval($data['nbr'])) ;
-            }
-        }
+    //     //         $data['garantie'] = ($loyer->montant * intval($data['nbr'])) ;
+    //     //     }
+    //     // }
 
-        //dd($data);
-        return $data;
-    }
+    //     //dd($data);
+    //     return $data;
+    // }
 
     //protected function Edit
 }

@@ -39,6 +39,34 @@ class CustomCreateLoyer extends Component implements HasForms
     public $paie_loyer;
     public $mois;
 
+    public $Mois1 = [
+        '01' => 'Janvier',
+        '02' => 'Février',
+        '03' => 'Mars',
+        '04' => 'Avril',
+        '05' => 'Mais',
+        '06' => 'Juin',
+        '07' => 'Juillet',
+        '08' => 'Aout',
+        '09' => 'Septembre',
+        '10' => 'Octobre',
+        '11' => 'Novembre',
+        '12' => 'Décembre'
+    ];
+    public $Mois2 = [
+        'Janvier' => '01',
+        'Février' => '02',
+        'Mars' => '03',
+        'Avril' => '04',
+        'Mais' => '05',
+        'Juin' => '06',
+        'Juillet' => '07',
+        'Aout' => '08',
+        'Septembre' => '09',
+        'Octobre' => '10',
+        'Novembre' => '11',
+        'Décembre' => '12'
+    ];
     public function render()
     {
         $this->remplir();
@@ -94,8 +122,94 @@ class CustomCreateLoyer extends Component implements HasForms
 
     public function create()
     {
+        
         $loc = Locataire::where('id',$this->locataire_id)->get();
-        // dd($loc->value('mp'));
+        $loys = Loyer::where('locataire_id', $this->locataire_id)->sum('montant');
+        // dd($loys);
+        // dd($loc->value('mp'), $loc->value('ap'), intval($this->Mois2[$this->mois]), intval($this->annee));
+        
+        $mois = intval($this->Mois2[$this->mois]);
+        $mp = $loc->value('mp');
+        $mm1=0;
+        // dd($mois, $mp);
+        if($mois != $mp && $mois == 1){
+            // dd('coucou');
+            $mm1 = 12;
+
+        }elseif($mois != $mp){
+            $mm1 = intval(($mois-1));
+        }else{
+            $mm1 = $mois;
+        }
+        // dd($mm1);
+        $ap = $loc->value('ap');
+        $annee = intval($this->annee);
+    
+        $mv = 0;
+        // dd($mm1);
+        if($mm1 <= 9){
+            $mv = $this->Mois1['0'.$mm1];
+
+        }elseif($mm1 >= 10)
+        {
+            $mv = $this->Mois1[$mm1];
+        }
+        
+        $loy_m1 = Loyer::where(['locataire_id' => $this->locataire_id, 'mois' => $mv])->sum('montant');
+        // dd($loy_m1);
+        
+        if (($mois != $mp && $ap == $annee && $loys == 0)  || ($mois < $mp && $ap == $annee && $loys > 0) ) {
+            # $loc...
+            return Notification::make()
+                ->title('Erreur de paiement')
+                ->body('Le mois de paiement est soit supérieur ou inférieur au premier mois de paiement.')
+                ->success()
+                ->icon('')
+                ->iconColor('')
+                ->duration(5000)
+                ->persistent()
+                ->actions([
+                    
+                    ])
+                    ->send();
+                }
+                
+                
+        if($loy_m1 != null && $mois != $mp )
+        {
+            $mtp = $loye_occup = Loyer::where(['locataire_id' => $this->locataire_id, 'mois' => $mv])->get()[0]->locataire->occupation->montant;
+            if($mtp == $loy_m1){
+                ///il peut payer
+            }elseif( $loy_m1 < $mtp){
+                return Notification::make()
+                ->title('Erreur de paiement')
+                ->body("Impossible de payer ce mois car le locataire n'a payé que $loy_m1($)/$mtp($) au mois de $mv.")
+                ->success()
+                ->icon('')
+                ->iconColor('')
+                ->duration(5000)
+                ->persistent()
+                ->actions([
+                    
+                ])
+                ->send();
+            }
+            
+        }elseif($loy_m1 == null && $mois != $mp ){
+            return Notification::make()
+                ->title('Erreur de paiement')
+                ->body("Impossible de payer ce mois car le mois de  $mv reste encore impayé.")
+                ->success()
+                ->icon('')
+                ->iconColor('')
+                ->duration(5000)
+                ->persistent()
+                ->actions([
+                    
+                ])
+                ->send();
+        }
+
 
         if ($loc->value('mp') == null) {
             # $loc...
@@ -112,6 +226,8 @@ class CustomCreateLoyer extends Component implements HasForms
                 ])
                 ->send();
         }
+
+        
         
         //dd($this->form->getState());
         /* if ($this->form->getState()['garantie']) {
@@ -284,23 +400,28 @@ class CustomCreateLoyer extends Component implements HasForms
                         return $this->store();
                     }
                     else{
-                        $nom = $this->locataire->noms;
-                        $aff_mois = "";
-                        foreach ($mois_dette as $v) {
-                            $aff_mois .= "$v ,";
+                        if($mp == $mois && $annee == $ap){
+                            return $this->store();
+                        }else{
+
+                            $nom = $this->locataire->noms;
+                            $aff_mois = "";
+                            foreach ($mois_dette as $v) {
+                                $aff_mois .= "$v ,";
+                            }
+                            ///Modal::send();
+                            //dd($aff_mois, $nom, $total);
+                            /* Notification::make()
+                            ->title('Saved successfully')
+                            ->success()
+                            ->send(); */
+                            Notification::make()
+                            ->title("Dettes trouvées")
+                            ->body("$nom a un total des dettes de $total $, pour les mois de ($aff_mois)")
+                            ->persistent()
+                            ->danger()
+                            ->send();
                         }
-                        ///Modal::send();
-                        //dd($aff_mois, $nom, $total);
-                        /* Notification::make()
-                        ->title('Saved successfully')
-                        ->success()
-                        ->send(); */
-                        Notification::make()
-                        ->title("Dettes trouvées")
-                        ->body("$nom a un total des dettes de $total $, pour les mois de ($aff_mois)")
-                        ->persistent()
-                        ->danger()
-                        ->send();
                     }
                 }
                 else{
@@ -507,7 +628,7 @@ class CustomCreateLoyer extends Component implements HasForms
                 //dd($mt, $reste);
             }
             else{
-                dd('coucou');
+                // dd('coucou');
                 
                 for ($i=$mois_en_numeric_start; $i < $this->form->getState()['nbr'] + $mois_en_numeric_start ; $i++) { 
                     # code...

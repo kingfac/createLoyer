@@ -104,8 +104,7 @@ class LocataireResource extends Resource
                     ->maxValue(2030)
                     ->minValue(2023)
                     ->default($currentDate->format("Y"))
-                    ->inlineLabel()
-                    ->required(),
+                    ->inlineLabel(),
                     
                 Forms\Components\Toggle::make('actif')
                     ->label('Désactiver/Activer')
