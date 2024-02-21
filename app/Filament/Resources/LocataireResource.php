@@ -158,24 +158,30 @@ class LocataireResource extends Resource
                     ->label('Date')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('mp')
+                Tables\Columns\TextColumn::make('Mp')
                     ->default(function(Model $record){
                         $ConvMois = [
-                            "1"=> "janvier",
-                            "2"=>"février", 
-                            "3"=>"mars",
-                            "4"=>"avril",
-                            "5"=>"mai",
-                            "6"=>"juin",
-                            "7"=>"juillet",
-                            "8"=>"aout",
-                            "9"=>"septembre",
-                            "10"=>"octobre",
-                            "11" => "novembre", 
-                            "12" => "décembre"
+                            1 => "janvier",
+                            2 =>"février", 
+                            3 =>"mars",
+                            4 =>"avril",
+                            5 =>"mai",
+                            6 =>"juin",
+                            7 =>"juillet",
+                            8 =>"aout",
+                            9 =>"septembre",
+                            10 =>"octobre",
+                            11  => "novembre", 
+                            12  => "décembre"
                         ];
+                        // dd($record->mp);
+                        if ($record->mp != 0 || $record->mp != null) {
+                            # code...
+                            // dd($ConvMois[intval($record->mp)]);
+                            return $ConvMois[$record->mp];
+                        }
 
-                        return $ConvMois[$record->mp];
+                        return "Non spécifié";
                     })
                     ->sortable(),
                 
