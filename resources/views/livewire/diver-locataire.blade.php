@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{asset('build/assets/app-247549ac.css')}}">
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
     <div class="flex justify-between">
-        <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Total garanties des locataires</h1>
+        <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Total divers des locataires</h1>
         {{--  {{ $this->form }}
         {{ $this->table }} --}}
         {{-- <x-filament::icon-button
@@ -89,7 +89,7 @@
                                         $totalg += $gar->total;
                                     @endphp
                                      <ul>
-                                         <li>{{$loop->index + 1}}. {{$gar->total}}$</li>
+                                         <li>{{$gar->total}}$</li>
                                     </ul>
                                 @endforeach
                                 @if ($totalg == 0)
@@ -98,11 +98,11 @@
                             </td>
                         </tr>
 
-                        
+{{--                         
                         <tr class="text-xl" style=" font:bold; size:1.6em;">
                             <td colspan="5" class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"></td>
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$totalg}} $</td>
-                       </tr>
+                       </tr> --}}
                         @php
                             $total += $totalg;
                         @endphp

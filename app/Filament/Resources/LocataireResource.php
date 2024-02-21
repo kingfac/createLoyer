@@ -355,7 +355,7 @@ class LocataireResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::all()->count();   
+        return static::getModel()::where('actif', true)->count();   
     }
 
 

@@ -93,6 +93,7 @@ class PaieJournalier extends Component implements HasForms, HasTable
                     }
                     return $moiss;
                 }),
+
                 TextColumn::make("Garantie")->default(function(Locataire $record){
                     $current_date = NOW()->format('Y-m-d');
                     
@@ -100,14 +101,18 @@ class PaieJournalier extends Component implements HasForms, HasTable
                     ->whereRaw(" DATE(created_at) = '$current_date' ")
                     ->sum('montant');
                 })
+                ->summarize(Sum::make()->label('Total')->money())
                 ->money(),
+                
                 TextColumn::make("DD")->label('Divers')->default(function(Locataire $record){
                     $current_date = NOW()->format('Y-m-d');
                     
                     return Divers::where('locataire_id', $record->id)
                     ->whereRaw(" DATE(created_at) = '$current_date' ")
                     ->sum('total');
-                })->money(),
+                })
+                // ->summarize(Sum::make()->label('Total')->money())
+                ->money(),
                 TextColumn::make("d")->label("Dettes")->default(function(Locataire $record){
                     $data = 0;
                     $current_date = NOW()->format('Y-m-d');

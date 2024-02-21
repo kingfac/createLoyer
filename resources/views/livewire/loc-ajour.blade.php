@@ -52,6 +52,8 @@
                         @php
                             $_id = 0;
                             $ctrR = 0;
+                            $somme =0;
+                            $somme1 =0;
                         @endphp
                         @foreach ($data as $dt) 
                         @if ($_id != $dt->id && $dt->occupation->montant == $dt->somme)
@@ -61,40 +63,66 @@
                         @endphp
                         
                           
-                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <td class="p-4 w-4">
-                                @if ($dt->somme == 0)
-                                <div class="w-4 h-4 bg-blue-600 rounded border-gray-300  p-2"></div>
+                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <td class="p-4 w-4">
+                            @if ($dt->somme == 0)
+                            <div class="w-4 h-4 bg-blue-600 rounded border-gray-300  p-2"></div>
+                            @else
+                                @if ($dt->occupation->montant == $dt->somme)
+                                <div class="w-4 h-4 bg-green-600 rounded border-gray-300  p-2"></div>
                                 @else
-                                    @if ($dt->occupation->montant == $dt->somme)
-                                    <div class="w-4 h-4 bg-green-600 rounded border-gray-300  p-2"></div>
-                                    @else
-                                    <div class="w-4 h-4 bg-red-600 rounded border-gray-300  p-2"></div>
-                                    @endif
+                                <div class="w-4 h-4 bg-red-600 rounded border-gray-300  p-2"></div>
                                 @endif
-                            </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$dt->noms}}
-                            </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$dt->occupation->galerie->nom}}
-                            </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$dt->occupation->typeOccu->nom}}
-                            </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$dt->occupation->montant}}$
-                            </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$dt->somme ?? 0}} $
-                            </td>
+                            @endif
+                        </td>
+                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{$dt->noms}}
+                        </td>
+                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{$dt->occupation->galerie->nom}}
+                        </td>
+                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{$dt->occupation->typeOccu->nom}}
+                        </td>
+                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            @php
+                                $somme += $dt->occupation->montant;
+                                $somme1 += $dt->somme;
+                            @endphp
+                            {{$dt->occupation->montant}}$
+                        </td>
+                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{$dt->somme ?? 0}} $
+                        </td>
                            
-                        </tr>
+                    </tr>
                         
                         @endif
                         
                         @endforeach
-                       
+                        @if ($ctrR > 0)
+                            <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    Tautaux
+                                </td>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    
+                                </td>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    
+                                </td>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    
+                                </td>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{$somme}}
+                                </td>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{$somme1}} 
+                                </td>
+                            </tr>
+                            
+                        @endif
                     </tbody>
                 </table>
             </div>
