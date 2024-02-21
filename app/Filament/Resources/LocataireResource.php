@@ -63,7 +63,8 @@ class LocataireResource extends Resource
                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->galerie->nom} | {$record->typeOccu->nom} ({$record->montant} $)")
                     ->required(),
                 Forms\Components\TextInput::make('num_occupation')
-                    ->label('Numéro occupation'),
+                    ->label('Numéro occupation')
+                    ->required(),
                 Forms\Components\TextInput::make('nom')
                     ->required()
                     ->maxLength(255),
@@ -130,7 +131,6 @@ class LocataireResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('occupation.typeOccu.nom')
                     ->label('Occupation')
-                    ->required()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('num_occupation')
                     ->label('Numéro occupation')
