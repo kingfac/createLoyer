@@ -130,6 +130,7 @@ class LocataireResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('occupation.typeOccu.nom')
                     ->label('Occupation')
+                    ->required()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('num_occupation')
                     ->label('Numéro occupation')
