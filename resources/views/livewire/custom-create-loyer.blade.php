@@ -1,13 +1,6 @@
 <div>
     <link rel="stylesheet" href="{{asset('build/assets/app-247549ac.css')}}">
-    <div align='right'>
-        <x-filament::icon-button
-        icon="heroicon-m-x-mark"
-        tag="a"
-        label="Fermer"
-        wire:click="fermer"
-        />
-    </div>
+    
     {{-- Nothing in the world is as soft and yielding as water. --}}
     {{-- <style>
         h1{
@@ -22,13 +15,21 @@
     <div class="flex justify-between " >
         <div class=" w-full flex justify-between  bg-blue-600 p-6 ">
             <h1 class=" text-xl text-white uppercase">Etat personnel du locataire</h1>
-            <p class="text-white opacity-5">{{$locataire->noms}}</p>
-
+            <p class="text-white opacity-5 flex-1 text-right">{{$locataire->noms}}</p>
+            <div align='right' style=" padding-left: 10px;">
+                <x-filament::icon-button
+                icon="heroicon-m-x-mark"
+                tag="a"
+                label="Fermer"
+                wire:click="fermer"
+                color="white"
+                />
+            </div>
         </div>
         
        
     </div>
-    <div class=" w-full p-3 bg-gray-300 flex justify-between">
+    <div class=" w-full p-3 bg-gray-100 flex justify-between">
         <p class="text-black opacity-5">Galérie: {{$locataire->occupation->galerie->nom}}</p>
         <p class="text-black opacity-5">Type occupation: {{$locataire->occupation->typeOccu->nom}}</p>
         <p class="text-black opacity-5">Numéro occupation: {{$locataire->num_occupation}}</p>
@@ -119,11 +120,11 @@
             <div class="">
                 {{$this->form}}
             </div>
-            <div class=" flex gap-5 py-8">
-                <button wire:click="create"  class="bg-blue-500   text-white px-5 py-5 text-center rounded-md ">
+            <div class=" flex gap-5 py-4">
+                <button wire:click="create"  class="bg-blue-500   text-white px-5 py-2 text-center rounded-md ">
                     Créer
                 </button>
-                <a href="/storage/pdf/doc.pdf" class="bg-blue-500  text-white px-5 py-5 rounded-md" target="_blank">
+                <a href="/storage/pdf/doc.pdf" class="bg-blue-500  text-white px-5 py-2 rounded-md" target="_blank">
                     {{-- <x-heroicon-s-printer /> --}}
                     Imprimer
                 </a>
@@ -140,7 +141,7 @@
             
 
         </div>
-        <h1 class=" ">Paiements effectués au mois de {{$mois}} / {{$annee}}</h1>
+        {{-- <h1 class=" ">Paiements effectués au mois de {{$mois}} / {{$annee}}</h1> --}}
     </div>
 
     @if (count($data) > 0)
@@ -213,8 +214,9 @@
     
     </table>
     @else
-    <div class="flex justify-center items-center" style="padding: 100px;">
-        <h1>Aucun paiement effectué au cours de ce mois-ci !</h1>
+    <div class=" flex justify-center" style="padding: 10px;">
+        {{-- <h1>Aucun paiement effectué au cours de ce mois-ci !</h1> --}}
+        <img src="{{asset('img/No_data.svg')}}" alt="" srcset="" width="400">
     </div>
     @endif
     

@@ -10,12 +10,14 @@ use App\Models\Garantie;
 use Filament\Forms\Form;
 use App\Models\Locataire;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Components\Actions;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 
@@ -38,6 +40,7 @@ class CustomCreateLoyer extends Component implements HasForms
     public $copy_annee;
     public $paie_loyer;
     public $mois;
+    public $x = "";
 
     public $Mois1 = [
         '01' => 'Janvier',
@@ -86,36 +89,65 @@ class CustomCreateLoyer extends Component implements HasForms
     {
         $currentDate = new DateTime();
         return $form
-            ->schema([
+            /* ->schema([
                 Group::make()
                 ->schema([
 
                     Section::make()->schema([                    
-                        TextInput::make('montant')
-                        ->required()
-                        ->numeric()
-                        ->label('Montant ($)')
-                        ->inlineLabel()
-                        ->columnSpan(2)
-                        ->default(0),
-                        Hidden::make('nbr')
-                        // ->label('Nonbre mois (Loyer anticipatif par mois)')
-                        // ->options( ["2"=>2, "3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"10"=>10])
                         
-                        
-                        ->reactive(),
-                        Toggle::make('garantie')
-                        ->label('Utiliser la garantie'),
-                    ])
-                        ->columns(4),
+                        Section::make()->schema([
+                            TextInput::make('montant')
+                            ->required()
+                            ->numeric()
+                            ->label('Montant ($)')
+                            ->inlineLabel()
+                            ->default(0),
+                            Hidden::make('nbr')
+                            // ->label('Nonbre mois (Loyer anticipatif par mois)')
+                            // ->options( ["2"=>2, "3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"10"=>10])
+                            
+                            
+                            ->reactive(),
+                            Toggle::make('garantie')
+                            ->label('Utiliser la garantie'),
+                        ])->columns(1),
+
                         Textarea::make('observation')
-                            ->rows(5)
-                            ->label('Observation'),
+                        ->label('Observation'),
+                    ])
+                        ->columns(12),
+                       
                             //->inlineLabel(),
                             //->columnSpan(4),
                         
                     ]),
 
+            ]) */
+            ->schema([
+                Section::make("Enregistrement du loyer (".$this->mois."  ".$this->annee.")")
+                    ->schema([
+                        Grid::make()->schema([
+                            TextInput::make('montant')
+                                ->required()
+                                ->numeric()
+                                ->label('Montant ($)')
+                                ->inlineLabel()
+                                ->default(0)
+                                ->columnSpan(6),
+                            Hidden::make('nbr')                           
+                                ->reactive(),
+                            Toggle::make('garantie')
+                                ->label('Utiliser la garantie')
+                                ->columnSpan(2),
+                        ])
+                        ->columns(12),
+                        Textarea::make('observation')
+                            ->label('Observation')
+                            ->maxWidth("full"),
+                        
+                    ])
+                    ->columnSpan(12)
+                    ,
             ])
             ->statePath('datas');
     }

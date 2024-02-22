@@ -12,68 +12,196 @@
                 {{ __('filament-panels::resources/pages/create-record.form.actions.create.label') }}
             </x-filament::button> --}}
             
-            <div style="display: grid; grid-template-columns: repeat(5, 1fr);" class="gap-4">
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr);" class="gap-4" 
 
-                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 text-white hover:text-black" wire:click="go(0)" outlined>
+            {{-- alpine js code --}}
+            x-data="{
+                a:555
+            }">
+
+                <button 
+                    size="xs" 
+                    icon="heroicon-m-sparkles" 
+                    type="button" 
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                    wire:click="go(0)"
+                    :class="{'bg-red-800 text-black':a==0}"
+                    @click="a=0"
+                    outlined>
+                    <x-heroicon-s-sparkles class="w-4 h-4" />
                     Locataires à jour
-                </x-filament::button>
+                </button>
 
                {{--  <x-filament::button type="button" class="mt-3  py-5" wire:click="go(1)">
                     Locataires avec payement en retard
                 </x-filament::button> --}}
-
-                <x-filament::button size="xs" icon="heroicon-m-sparkles"   type="button" class="mt-3  py-5 text-white hover:text-black" wire:click="go(2)" outlined>
+                <button 
+                    size="xs" 
+                    icon="heroicon-m-sparkles" 
+                    type="button" 
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3"
+                    :class="{'bg-red-800 text-black':a==2}"
+                    @click="a=2"
+                    wire:click="go(2)" outlined>
+                    <x-heroicon-s-sparkles class="w-4 h-4" />
                     Payement partiel
-                </x-filament::button>
+                </button>
 
-                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 text-white hover:text-black" wire:click="go(3)" outlined>
+                <button 
+                    size="xs" 
+                    icon="heroicon-m-sparkles" 
+                    type="button" 
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                    wire:click="go(3)" 
+                    :class="{'bg-red-800 text-black':a==3}"
+                    @click="a=3"
+                    outlined>
+                    <x-heroicon-s-sparkles class="w-4 h-4" />
                     Soldes impayés
-                </x-filament::button>
+                </button>
 
-                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 text-white hover:text-black" wire:click="go(4)" outlined>
+                <button 
+                    size="xs" 
+                    icon="heroicon-m-sparkles" 
+                    type="button" 
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                    wire:click="go(4)" 
+                    :class="{'bg-red-800 text-black':a==4}"
+                    @click="a=4"
+                    outlined>
+                    <x-heroicon-s-sparkles class="w-4 h-4" />
                     Evolution loyer
-                </x-filament::button>
+                </button>
 
-                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(5)" outlined>
+                <button 
+                    size="xs" 
+                    icon="heroicon-m-sparkles" 
+                    type="button" 
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                    wire:click="go(5)"
+                    :class="{'bg-red-800 text-black':a==5}"
+                    @click="a=5"
+                    outlined>
+                    <x-heroicon-s-sparkles class="w-4 h-4" />
                     Paiements Global
-                </x-filament::button>
-                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(6)" outlined>
+                </button>
+                <button 
+                    size="xs" 
+                    icon="heroicon-m-sparkles" 
+                    type="button" class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                    wire:click="go(6)" 
+                    :class="{'bg-red-800 text-black':a==6}"
+                    @click="a=6"
+                    outlined>
+                    <x-heroicon-s-sparkles class="w-4 h-4" />
                     Paiements Journalier
-                </x-filament::button>
-                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(11)" outlined>
+                </button>
+                <button 
+                    size="xs" 
+                    icon="heroicon-m-sparkles" 
+                    type="button" 
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                    wire:click="go(11)"
+                    :class="{'bg-red-800 text-black':a==11}"
+                    @click="a=11"
+                    outlined>
+                    <x-heroicon-s-sparkles class="w-4 h-4" />
                     Rapport Mensuel
-                </x-filament::button>
+                </button>
 
-                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(7)" outlined>
+                <button 
+                    size="xs" 
+                    icon="heroicon-m-sparkles" 
+                    type="button" class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                    wire:click="go(7)" 
+                    :class="{'bg-red-800 text-black':a==7}"
+                    @click="a=7"
+                    outlined>
+                    <x-heroicon-s-sparkles class="w-4 h-4" />
                     Total garantie
-                </x-filament::button>
+                </button>
 
-                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(8)" outlined>
+                <button 
+                    size="xs" 
+                    icon="heroicon-m-sparkles" 
+                    type="button" 
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                    wire:click="go(8)" 
+                    :class="{'bg-red-800 text-black':a==8}"
+                    @click="a=8"
+                    outlined>
+                    <x-heroicon-s-sparkles class="w-4 h-4" />
                     Total divers
-                </x-filament::button>
+                </button>
 
-                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(9)" outlined>
+                <button 
+                    size="xs" 
+                    icon="heroicon-m-sparkles" 
+                    type="button" 
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                    wire:click="go(9)"
+                    :class="{'bg-red-800 text-black':a==9}"
+                    @click="a=9"
+                    outlined>
+                    <x-heroicon-s-sparkles class="w-4 h-4" />
                     Arriérés
-                </x-filament::button>
-                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(10)" outlined>
+                </button>
+                <button 
+                    size="xs" 
+                    icon="heroicon-m-sparkles" 
+                    type="button" 
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                    wire:click="go(10)"
+                    :class="{'bg-red-800 text-black':a==10}"
+                    @click="a=10"
+                    outlined>
+                    <x-heroicon-s-sparkles class="w-4 h-4" />
                     Prevision mensuelle
-                </x-filament::button>
-                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(12)" outlined>
+                </button>
+                <button 
+                    size="xs" 
+                    icon="heroicon-m-sparkles" 
+                    type="button" 
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                    wire:click="go(12)"
+                    :class="{'bg-red-800 text-black':a==12}"
+                    @click="a=12"
+
+                    outlined>
+                    <x-heroicon-s-sparkles class="w-4 h-4" />
                     Sorties avec dettes
-                </x-filament::button>
-                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(14)" outlined>
+                </button>
+                <button 
+                    size="xs" 
+                    icon="heroicon-m-sparkles" 
+                    type="button" 
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                    wire:click="go(14)"
+                    :class="{'bg-red-800 text-black':a==14}" 
+                    @click="a=14"
+
+                    outlined>
+                    <x-heroicon-s-sparkles class="w-4 h-4" />
                     Résumé Journalier
-                </x-filament::button>
-                <x-filament::button size="xs" icon="heroicon-m-sparkles" type="button" class="mt-3  py-5 bg-danger text-white hover:text-black" wire:click="go(13)" outlined>
+                </button>
+                <button 
+                    size="xs" 
+                    icon="heroicon-m-sparkles" 
+                    type="button" 
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                    wire:click="go(13)"
+                    :class="{'bg-red-800 text-black':a==13}"
+                    @click="a=13"
+                    outlined>
+                    <x-heroicon-s-sparkles class="w-4 h-4" />
                     Rapport Journalier
-                </x-filament::button>
+                </button>
             </div>
         </form> 
     </x-filament::section>
     <x-filament::section>
         
         @if ($menu == $menus[0])
-            
             <livewire:loc-ajour :mois=$mois :annee=$annee>
         @endif
 
