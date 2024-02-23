@@ -18,7 +18,7 @@ class BoardChart1 extends ApexChartWidget
      *
      * @var string|null
      */
-    protected static ?string $heading = 'BoardChart1';
+    protected static ?string $heading = 'Statistiques';
 
     /**
      * Chart options (series, labels, types, size, animations...)
