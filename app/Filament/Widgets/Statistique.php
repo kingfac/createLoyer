@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Depense;
 use DateTime;
 use App\Models\Loyer;
 use App\Models\Divers;
@@ -39,9 +40,10 @@ class Statistique extends BaseWidget
         $this->annee = $this->mois->format('Y');
         $this->mois = $this->lesMois[$this->mois->format('m')];
         // nombre de locataire ayant de dettes        
-        
+        $mois = intval(NOW()->format('m'));
+
         //payement par jour
-        $data1 = Divers::whereRaw("MONTH(created_at) = DAY(NOW())")->get()->sum('montant');
+        $data1 = Depense::whereRaw(" MONTH(created_at) = '$mois' ")->get()->sum('total');
         // prevision mensuelle
         $montPrevu = Trend::query(Occupation::where('actif',true))
             ->between(
@@ -96,26 +98,28 @@ class Statistique extends BaseWidget
         }
         
         $recu = $somme;
+
+        $revenu = $recu - $data1;
         
         return [
-            Stat::make('Prevision finale',$prevu.'$')
-                ->description('Loyers perçu / prevu, pour ce mois : '.$this->mois)
+            Stat::make('Prevision finale',$prevu.' $')
+                ->description('Loyer prevu  ce mois de '.$this->mois)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('danger'),
 
-            Stat::make('Loyer perçu', $recu.'$')
-                ->description("Conerne le mois de ".$this->mois.'-'.$this->annee)
+            Stat::make('Loyer perçu', $recu.' $')
+                ->description("Loyer perçu ce mois  de ".$this->mois.'-'.$this->annee)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('warning'),
 
             Stat::make('Depenses', $data1.' $')
-                ->description("Les loyers payés aujourd'hui : ".$lelo)
+                ->description("Depenses de ".$this->mois.'-'.$this->annee)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
 
 
-            Stat::make('Loyer non payés', $data1.' Locataire(s)')
-                ->description('Dernière mise à jour : ')
+            Stat::make('Revenu', $revenu.' $')
+                ->description("Revenu de ".$this->mois.'-'.$this->annee)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('danger'),
             /* Stat::make('Dette Mensuelle', $montPrevuI - $montPayeI)
