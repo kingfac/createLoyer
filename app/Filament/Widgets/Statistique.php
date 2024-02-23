@@ -4,13 +4,14 @@ namespace App\Filament\Widgets;
 
 use DateTime;
 use App\Models\Loyer;
+use App\Models\Divers;
 use App\Models\Locataire;
 use App\Models\Occupation;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
+use Illuminate\Support\Facades\Date;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
-use Illuminate\Support\Facades\Date;
 
 class Statistique extends BaseWidget
 {
@@ -38,9 +39,9 @@ class Statistique extends BaseWidget
         $this->annee = $this->mois->format('Y');
         $this->mois = $this->lesMois[$this->mois->format('m')];
         // nombre de locataire ayant de dettes        
-
+        
         //payement par jour
-        $data1 = Loyer::whereRaw("DAY(created_at) = DAY(NOW())")->get()->sum('montant');
+        $data1 = Divers::whereRaw("MONTH(created_at) = DAY(NOW())")->get()->sum('montant');
         // prevision mensuelle
         $montPrevu = Trend::query(Occupation::where('actif',true))
             ->between(
@@ -78,7 +79,7 @@ class Statistique extends BaseWidget
 
 
 
-        $prevu = Locataire::all()->sum('occupation.montant');
+        $prevu = Locataire::all()->where('actif', true)->sum('occupation.montant');
         $recu = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
         ->selectRaw('locataires.*, loyers.created_at as dl')
         ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
@@ -97,18 +98,24 @@ class Statistique extends BaseWidget
         $recu = $somme;
         
         return [
-            Stat::make('Nombre des locataires ayant des dettes', $ctrdette.'')
+            Stat::make('Prevision finale',$prevu.'$')
+                ->description('Loyers perçu / prevu, pour ce mois : '.$this->mois)
+                ->descriptionIcon('heroicon-m-arrow-trending-up')
+                ->color('danger'),
+
+            Stat::make('Loyer perçu', $recu.'$')
                 ->description("Conerne le mois de ".$this->mois.'-'.$this->annee)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('warning'),
 
-            Stat::make('Payement journalier', $data1.' $')
+            Stat::make('Depenses', $data1.' $')
                 ->description("Les loyers payés aujourd'hui : ".$lelo)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
 
-            Stat::make('Prevision mensuelle', $recu.'$ sur '.$prevu.'$')
-                ->description('Loyers perçu / prevu, pour ce mois : '.$this->mois)
+
+            Stat::make('Loyer non payés', $data1.' Locataire(s)')
+                ->description('Dernière mise à jour : ')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('danger'),
             /* Stat::make('Dette Mensuelle', $montPrevuI - $montPayeI)

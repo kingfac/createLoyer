@@ -92,18 +92,18 @@ class StatsEvolution extends BaseWidget
 
         return [
             //
-            Stat::make('Loyer non payés', $data1.' Locataire(s)')
-                ->description('Dernière mise à jour : '.$maj1)
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->color('danger'),
-            Stat::make('Loyer en cours', $data2.' Locataire(s)')
-                ->description('Dernière mise à jour : '.$maj2)
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->color('info'),
-            Stat::make('Loyer terminé', $data3.' Locataire(s)')
-                ->description('Dernière mise à jour : '.$maj3)
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->color('success'),
+            // Stat::make('Loyer non payés', $data1.' Locataire(s)')
+            //     ->description('Dernière mise à jour : '.$maj1)
+            //     ->descriptionIcon('heroicon-m-arrow-trending-up')
+            //     ->color('danger'),
+            // Stat::make('Loyer en cours', $data2.' Locataire(s)')
+            //     ->description('Dernière mise à jour : '.$maj2)
+            //     ->descriptionIcon('heroicon-m-arrow-trending-up')
+            //     ->color('info'),
+            // Stat::make('Loyer terminé', $data3.' Locataire(s)')
+            //     ->description('Dernière mise à jour : '.$maj3)
+            //     ->descriptionIcon('heroicon-m-arrow-trending-up')
+            //     ->color('success'),
         ];
     }
 }

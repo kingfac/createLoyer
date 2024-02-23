@@ -2,14 +2,19 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Pages\LocataireGalerie as PagesLocataireGalerie;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
+use Filament\Facades\Filament;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
+use App\Filament\Widgets\BoardChart;
+use App\Filament\Widgets\BoardChart1;
+use App\Filament\Widgets\Statistique;
+use App\Filament\Widgets\StatsEvolution;
 use Filament\Http\Middleware\Authenticate;
+use App\Filament\Widgets\RapportJournalier;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Routing\Middleware\SubstituteBindings;
@@ -18,18 +23,19 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use App\Filament\Resources\LoyerResource\Pages\LocataireGalerie;
-use App\Filament\Widgets\RapportJournalier;
-use App\Filament\Widgets\Statistique;
-use App\Filament\Widgets\StatsEvolution;
-use Filament\Facades\Filament;
+use App\Filament\Pages\LocataireGalerie as PagesLocataireGalerie;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->plugins([
+                FilamentApexChartsPlugin::make()
+            ])
             ->default()
             ->id('admin')
             ->path('/')
@@ -62,10 +68,12 @@ class AdminPanelProvider extends PanelProvider
             ])
             //->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
+                // Widgets\AccountWidget::class,
                 /* Widgets\FilamentInfoWidget::class, */
                 Statistique::class,
                 StatsEvolution::class,
+                BoardChart::class,
+                BoardChart1::class,
                 RapportJournalier::class
             ])
             ->middleware([

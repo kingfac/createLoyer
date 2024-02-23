@@ -13,6 +13,7 @@
         }
     </style> --}}
     <div class="flex justify-between " >
+        {{-- {{$dettes_mois($locataire->id)}} --}}
         <div class=" w-full flex justify-between  bg-blue-600 p-6 ">
             <h1 class=" text-xl text-white uppercase">Etat personnel du locataire</h1>
             <p class="text-white opacity-5 flex-1 text-right">{{$locataire->noms}}</p>
@@ -120,7 +121,7 @@
             <div class="">
                 {{$this->form}}
             </div>
-            <div class=" flex gap-5 py-4">
+            <div class=" flex gap-5 py-4  ">
                 <button wire:click="create"  class="bg-blue-500   text-white px-5 py-2 text-center rounded-md ">
                     Créer
                 </button>
@@ -128,6 +129,17 @@
                     {{-- <x-heroicon-s-printer /> --}}
                     Imprimer
                 </a>
+                <div class=" ml-10">
+                    <div class="bg-red-500   text-white px-5 py-2 text-center rounded-md ">
+                        Dettes: 
+                    </div>
+                    <div class=" flex gap-4 px-10 justify-between  text-right">
+                        @foreach ($dettes_mois as $dette)
+                                <span class=" bg-gray-300 text-black p-3 rouded-xl">{{$dette}}</span>
+                        @endforeach
+                    </div>
+
+                </div>
             </div>
             @else
                 <div  class="flex justify-center items-center">
@@ -140,7 +152,10 @@
             @endif
             
 
+            
         </div>
+        
+    
         {{-- <h1 class=" ">Paiements effectués au mois de {{$mois}} / {{$annee}}</h1> --}}
     </div>
 
@@ -220,6 +235,7 @@
     </div>
     @endif
     
+   
 
 
 

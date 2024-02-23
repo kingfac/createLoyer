@@ -41,6 +41,7 @@ class CustomCreateLoyer extends Component implements HasForms
     public $paie_loyer;
     public $mois;
     public $x = "";
+    public $dettes_mois=[];
 
     public $Mois1 = [
         '01' => 'Janvier',
@@ -73,6 +74,7 @@ class CustomCreateLoyer extends Component implements HasForms
     public function render()
     {
         $this->remplir();
+        $this->calculDettes();
         return view('livewire.custom-create-loyer');
     }
 
@@ -873,8 +875,10 @@ class CustomCreateLoyer extends Component implements HasForms
 
     
 
-    public function calculDettes($id){
+    public function calculDettes(){
         /*------------------------calcul des dettes------------------------------------*/
+        $id = $this->locataire_id;
+
         $locataire = Locataire::where('id', $id)->first();
         $Mois1 = [
             '01' => 'Janvier',
@@ -906,7 +910,7 @@ class CustomCreateLoyer extends Component implements HasForms
         ];
       
         $rapport = [];
-        $mois_dette = [];
+        // $mois_dette = [];
         
         // $m est le mois parcouru enregistré pour le calcul de somme 
         $total = 0;
@@ -931,7 +935,7 @@ class CustomCreateLoyer extends Component implements HasForms
                             @php */
                             $total += $locataire->occupation->montant - $total_mois;
                             $rapport[] = [$locataire->loyers[$index-1]->mois ,$total_mois ,$locataire->occupation->montant, date("Y")-1];
-                            $mois_dette[] = $locataire->loyers[$index-1]->mois;
+                            $this->dettes_mois[] = $locataire->loyers[$index-1]->mois;
                         }
                     }
                     //chargement du mois suivant et calcul de la somme des loyers payess
@@ -943,7 +947,7 @@ class CustomCreateLoyer extends Component implements HasForms
                     if(count($loyers) == 1){
                         $total += $locataire->occupation->montant - $total_mois;
                         $rapport[] = [$loy->mois ,$total_mois ,$locataire->occupation->montant, date("Y")-1];
-                        $mois_dette[] = $loy->mois;
+                        $this->dettes_mois[] = $loy->mois;
                     }
                     //echo "<script>alert($loy->mois)</script>";
                 }
@@ -951,8 +955,55 @@ class CustomCreateLoyer extends Component implements HasForms
                     $total_mois += $loy->montant;
                 }
         }
-     
-        return $total;
+        // dd($this->dettes_mois);
+        // return $total;
+
+
+        $Nba = date("Y") - $this->locataire->ap; //nombre d'annee
+        $mois_encours = date("m"); //mois encours
+        $nbMois = ((13 * $Nba) - $this->locataire->mp) + date("m"); //nombre de mois total
+        $x_encour = ($Nba == 0) ? $mois_encours :  (13 - $this->locataire->mp - $nbrMois_paye); // nombre de mois de l'annee precedente s'il y a 
+    
+    
+
+    /* Affichage de mois d'arrieressss */
+    if ($this->locataire->ap != null)
+    {                                                       
+            if ($x_encour >= 0){
+                if ($x_encour > 0){    
+                    if ($Nba != 0){
+                        for ($i = ($this->locataire->mp + $nbrMois_paye); $i <= 12; $i++){
+                            $total += $this->locataire->occupation->montant;
+                            $rapport[] = [$Mois1[$i > 9 ? $i : "0".$i] ,0 ,$this->locataire->occupation->montant, date("Y")-1];
+                            $this->dettes_mois[] = $Mois1[$i > 9 ? $i : "0".$i];
+                        }
+                    }else{
+                        /* Si tout se passe dans la meme annee */
+                        for ($i = ($this->locataire->mp + $nbrMois_paye); $i <= $x_encour; $i++){
+                            $total += $this->locataire->occupation->montant;
+                            $rapport[] = [$Mois1[$i > 9 ? $i : "0".$i] ,0 ,$this->locataire->occupation->montant, date("Y")-1];
+                            $this->dettes_mois[] = $Mois1[$i > 9 ? $i : "0".$i];
+                        }
+                    }
+                }
+                if ($Nba > 0){   
+                    for ($i = 1; $i <= $mois_encours; $i++){
+                        $total += $this->locataire->occupation->montant;
+                        $rapport[] = [$Mois1[$i > 9 ? $i : "0".$i] ,0 ,$this->locataire->occupation->montant, date("Y")];
+                        $this->dettes_mois[] = $Mois1[$i > 9 ? $i : "0".$i];
+                    }
+                }
+            }
+    }
+
+
+
+
+
+
+
+
+        
         /*-----------------------fin calcul des dettes---------------------------------*/
     }
 
