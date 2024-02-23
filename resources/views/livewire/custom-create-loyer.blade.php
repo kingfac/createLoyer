@@ -129,7 +129,6 @@
                     {{-- <x-heroicon-s-printer /> --}}
                     Imprimer
                 </a>
-                <div class=" ml-10">
                     <div class="bg-red-500   text-white px-5 py-2 text-center rounded-md ">
                         Dettes: 
                     </div>
@@ -139,7 +138,6 @@
                         @endforeach
                     </div>
 
-                </div>
             </div>
             @else
                 <div  class="flex justify-center items-center">
