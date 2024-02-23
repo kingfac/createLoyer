@@ -101,9 +101,9 @@
                         
                         @endforeach
                         @if ($ctrR > 0)
-                            <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <tr class="bg-gray-200 ">
                                 <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Tautaux
+                                    Totaux
                                 </td>
                                 <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
     

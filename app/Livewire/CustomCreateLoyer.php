@@ -163,6 +163,7 @@ class CustomCreateLoyer extends Component implements HasForms
         $mois = intval($this->Mois2[$this->mois]);
         $mp = $loc->value('mp');
         $mm1=0;
+        $m_dettes=[];
         // dd($mois, $mp);
         if($mois != $mp && $mois == 1){
             // dd('coucou');
@@ -227,6 +228,7 @@ class CustomCreateLoyer extends Component implements HasForms
         if($loy_m1 != null && $mois != $mp )
         {
             $mtp = $loye_occup = Loyer::where(['locataire_id' => $this->locataire_id, 'mois' => $mv])->get()[0]->locataire->occupation->montant;
+           
             if($mtp == $loy_m1){
                 ///il peut payer
             }elseif( $loy_m1 < $mtp){
@@ -245,9 +247,28 @@ class CustomCreateLoyer extends Component implements HasForms
             }
             
         }elseif($loy_m1 == null && $mois != $mp && $mp != null ){
+            array_push($m_dettes, $mv);
+            $dernier =intval($this->Mois2[ Loyer::where(['locataire_id' => $this->locataire_id])->orderBy('id', 'DESC')->first()->mois]);
+            $new_mois = $mois-2;
+            // dd($mois, $dernier);
+            for ($i=$new_mois; $i > $dernier ; $i--) { 
+                if($i >= 10){
+                    $m = $this->Mois1[$i];
+                    array_push($m_dettes, $m);
+                }elseif($i <= 9){
+                    $m = $this->Mois1['0'.$i];
+                    array_push($m_dettes, $m);
+                }
+                # code...
+            }
+            // dd($m_dettes);
+            $af_mois = "";
+            foreach ($m_dettes as $v) {
+                $af_mois .= "$v ,";
+            }
             return Notification::make()
                 ->title('Erreur de paiement')
-                ->body("Impossible de payer ce mois car le mois de  $mv reste encore impayé.")
+                ->body("Impossible de payer ce mois car le(s) mois de ($af_mois)  reste(ent) encore impayé(s).")
                 ->success()
                 ->icon('')
                 ->iconColor('')

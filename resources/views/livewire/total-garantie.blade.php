@@ -89,7 +89,7 @@
                             $total += $totalg;
                         @endphp
                         @endforeach
-                       <tr class="text-xl" style=" font:bold; size:1.6em;">
+                       <tr class="text-xl bg-gray-200" style=" font:bold; size:1.6em;">
                         <td colspan="4" class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Total</td>
                         <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$total}} $</td>
                        </tr>
