@@ -80,24 +80,26 @@ class Statistique extends BaseWidget
         }
 
 
+        $mois = intval(NOW()->format('m'));
 
         $prevu = Locataire::all()->where('actif', true)->sum('occupation.montant');
-        $recu = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
-        ->selectRaw('locataires.*, loyers.created_at as dl')
-        ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
-        ->orderByRaw('locataires.id, loyers.created_at desc')
-        ->get();
-        $somme = 0;
-        $_id = 0;
-        foreach ($recu as $val) {
-            # code...
-            if($_id != $val->id){
-                $somme += $val->somme;
-                $_id = $val->id;
-            }
-        }
+        $recu = Loyer::whereRaw(" MONTH(created_at) =  '$mois' ")->sum('montant');
+        // $recu = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
+        // ->selectRaw('locataires.*, loyers.created_at as dl')
+        // ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
+        // ->orderByRaw('locataires.id, loyers.created_at desc')
+        // ->get();
+        // $somme = 0;
+        // $_id = 0;
+        // foreach ($recu as $val) {
+        //     # code...
+        //     if($_id != $val->id){
+        //         $somme += $val->somme;
+        //         $_id = $val->id;
+        //     }
+        // }
         
-        $recu = $somme;
+        // $recu = $somme;
 
         $revenu = $recu - $data1;
         
