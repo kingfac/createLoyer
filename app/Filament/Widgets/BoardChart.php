@@ -2,6 +2,9 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Depense;
+use App\Models\Divers;
+use App\Models\Loyer;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
 class BoardChart extends ApexChartWidget
@@ -18,7 +21,7 @@ class BoardChart extends ApexChartWidget
      *
      * @var string|null
      */
-    protected static ?string $heading = 'Statistiques';
+    protected static ?string $heading = 'Statistiques divers, dépenses et loyers perçus cette année';
 
     /**
      * Chart options (series, labels, types, size, animations...)
@@ -28,13 +31,19 @@ class BoardChart extends ApexChartWidget
      */
     protected function getOptions(): array
     {
-        return [
+        $d = NOW()->format('Y');
+        
+        $data3 = Divers::whereRaw(" YEAR(created_at) = '$d' ")->sum('total');
+        $depenses = Depense::whereRaw(" YEAR(created_at) = '$d' ")->sum('total');
+        $loyers = Loyer::whereRaw(" YEAR(created_at) = '$d' ")->sum('montant');
+
+             return [
             'chart' => [
                 'type' => 'donut',
                 'height' => 300,
             ],
-            'series' => [2, 4, 6, 10, 14],
-            'labels' => ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            'series' => [$data3, $depenses, $loyers],
+            'labels' => ['Divers', 'Dépenses', 'Loyers perçus'],
             'legend' => [
                 'labels' => [
                     'fontFamily' => 'inherit',
