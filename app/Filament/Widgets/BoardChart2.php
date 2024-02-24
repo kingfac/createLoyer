@@ -56,7 +56,7 @@ class BoardChart2 extends ApexChartWidget
                 ],
             ],
             'xaxis' => [
-                'categories' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                'categories' => ['Jan', 'Fév', 'Mars', 'Avril', 'Mais', 'Juin', 'Juillet', 'Août', 'Sept', 'Oct', 'Nov', 'Déc'],
                 'labels' => [
                     'style' => [
                         'fontFamily' => 'inherit',
