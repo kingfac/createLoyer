@@ -10,6 +10,7 @@ use App\Models\Locataire;
 use Illuminate\Support\Facades\Date;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use PHPUnit\Event\TestSuite\Loaded;
 
 class StatsEvolution extends BaseWidget
 {
@@ -46,7 +47,7 @@ class StatsEvolution extends BaseWidget
         $maj2 = '';
         $maj3 = '';
 
-        // $this->calculDettes();
+        $dettes = $this->calculDettes();
         
         //Locataires non payeee
         foreach (Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'left outer')
@@ -106,7 +107,7 @@ class StatsEvolution extends BaseWidget
                 ->description('Dernière mise à jour : '.$maj1)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('danger'),
-            Stat::make('Loyers en cours', $data2.' Locataire(s)')
+            Stat::make('Total dettes', $dettes.'$')
                 ->description('Dernière mise à jour : '.$maj2)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('info'),
@@ -125,141 +126,157 @@ class StatsEvolution extends BaseWidget
 
     public function calculDettes(){
         /*------------------------calcul des dettes------------------------------------*/
-        $dettes_mois = [];
-        $tot_g = [];
-        $locataires = Locataire::where('actif', true)->get();
+     
+        $annee_en_cours = intval(NOW()->format('Y'));
+        $mois_dettes = [];
+        $montant_dette = [];
+        
+        // $locataire = Locataire::where('id', $id)->first();
+        $Mois1 = [
+            '01' => 'Janvier',
+            '02' => 'Février',
+            '03' => 'Mars',
+            '04' => 'Avril',
+            '05' => 'Mais',
+            '06' => 'Juin',
+            '07' => 'Juillet',
+            '08' => 'Aout',
+            '09' => 'Septembre',
+            '10' => 'Octobre',
+            '11' => 'Novembre',
+            '12' => 'Décembre'
+        ];
+        $Mois2 = [
+            'Janvier' => '01',
+            'Février' => '02',
+            'Mars' => '03',
+            'Avril' => '04',
+            'Mais' => '05',
+            'Juin' => '06',
+            'Juillet' => '07',
+            'Aout' => '08',
+            'Septembre' => '09',
+            'Octobre' => '10',
+            'Novembre' => '11',
+            'Décembre' => '12'
+        ];
+        
+        $mois_en_cours = intval(NOW()->format('m'));
+
+        //on recupere tous les locataires actifs
+        $locataires = Locataire::where('actif', true)->orderBy('id','DESC')->get();
+
+        //on calcul des dettes pour chaque locataire
         foreach ($locataires as $locataire) {
             
-            $id = $locataire->id;
-    
-            $locataire = Locataire::where('id', $id)->first();
-            $Mois1 = [
-                '01' => 'Janvier',
-                '02' => 'Février',
-                '03' => 'Mars',
-                '04' => 'Avril',
-                '05' => 'Mais',
-                '06' => 'Juin',
-                '07' => 'Juillet',
-                '08' => 'Aout',
-                '09' => 'Septembre',
-                '10' => 'Octobre',
-                '11' => 'Novembre',
-                '12' => 'Décembre'
-            ];
-            $Mois2 = [
-                'Janvier' => '01',
-                'Février' => '02',
-                'Mars' => '03',
-                'Avril' => '04',
-                'Mais' => '05',
-                'Juin' => '06',
-                'Juillet' => '07',
-                'Aout' => '08',
-                'Septembre' => '09',
-                'Octobre' => '10',
-                'Novembre' => '11',
-                'Décembre' => '12'
-            ];
-          
-            $rapport = [];
-            // $mois_dette = [];
-            
-            // $m est le mois parcouru enregistré pour le calcul de somme 
-            $total = 0;
-            $m = 0; // mois encour de traitement
-            $total_mois = 0;
-            $nbrMois_paye = 0;
-    
-            /* total loyer */
-            $loyers = Loyer::where('locataire_id', $id)->orderByRaw('created_at')->get();
-            foreach ($loyers as $index => $loy)
-            {
-                    //convertir mois en nombre
-                    $mloyer = intval($Mois2[$loy->mois]);
-                    //dd( $mloyer, $loy->mois);
-                    //si ce n'est pas le meme mois qu'on traite
-                    if($m != $mloyer){
-                        if($m != 0 ){
-                            //s'il a une dette par rapport a ce mois
-                            if ($total_mois < $locataire->occupation->montant) {
-                                /* @endphp
-                                <p>{{$loc->loyers[$loop->index-1]->mois}} : {{$total_mois}} / {{$loc->occupation->montant}}</p>
-                                @php */
-                                $total += $locataire->occupation->montant - $total_mois;
-                                $rapport[] = [$locataire->loyers[$index-1]->mois ,$total_mois ,$locataire->occupation->montant, date("Y")-1];
-                                $dettes_mois[] = $locataire->loyers[$index-1]->mois;
-                            }
-                        }
-                        //chargement du mois suivant et calcul de la somme des loyers payess
-                        $m = $mloyer;
-                        $total_mois = 0;
-                        $total_mois += $loy->montant;
-                        $nbrMois_paye++;
-                        
-                        if(count($loyers) == 1){
-                            $total += $locataire->occupation->montant - $total_mois;
-                            $rapport[] = [$loy->mois ,$total_mois ,$locataire->occupation->montant, date("Y")-1];
-                            $dettes_mois[] = $loy->mois;
-                        }
-                        //echo "<script>alert($loy->mois)</script>";
-                    }
-                    else{
-                        $total_mois += $loy->montant;
-                    }
+            //on recupere le mp et ap
+            $mp_int =intval( $locataire->mp);
+            $mp_trans = '';
+            $ap_int = $locataire->ap;
+            //-------------------------------
+
+            //on transforme mp 02 => fevrier
+            if($mp_int <= 9){
+                $mp_trans = $Mois1['0'.$mp_int];
             }
-            // dd($this->dettes_mois);
-            // return $total;
-    
-    
-            $Nba = date("Y") - $locataire->ap; //nombre d'annee
-            $mois_encours = date("m"); //mois encours
-            $nbMois = ((13 * $Nba) - $locataire->mp) + date("m"); //nombre de mois total
-            $x_encour = ($Nba == 0) ? $mois_encours :  (13 - $locataire->mp - $nbrMois_paye); // nombre de mois de l'annee precedente s'il y a 
+            elseif($mp_int >= 10){
+                $mp_trans = $Mois1[$mp_int];
+            }
+            //--------------------------------
         
-        
-    
-        /* Affichage de mois d'arrieressss */
-        if ($locataire->ap != null)
-        {                                                       
-                if ($x_encour >= 0){
-                    if ($x_encour > 0){    
-                        if ($Nba != 0){
-                            for ($i = ($this->locataire->mp + $nbrMois_paye); $i <= 12; $i++){
-                                $total += $locataire->occupation->montant;
-                                $rapport[] = [$Mois1[$i > 9 ? $i : "0".$i] ,0 ,$locataire->occupation->montant, date("Y")-1];
-                                $dettes_mois[] = $Mois1[$i > 9 ? $i : "0".$i];
-                            }
-                        }else{
-                            /* Si tout se passe dans la meme annee */
-                            for ($i = ($locataire->mp + $nbrMois_paye); $i <= $x_encour; $i++){
-                                $total += $locataire->occupation->montant;
-                                $rapport[] = [$Mois1[$i > 9 ? $i : "0".$i] ,0 ,$locataire->occupation->montant, date("Y")-1];
-                                $dettes_mois[] = $Mois1[$i > 9 ? $i : "0".$i];
-                            }
-                        }
+            //on va parcourrir tous les mois a partir mp et ap jusque au mois en cours
+
+            if($ap_int == $annee_en_cours){
+                
+                for ($mois=$mp_int; $mois <= $mois_en_cours ; $mois++) { 
+
+                    $mois_n = '';
+                    //on transforme mp 02 => fevrier
+                    if($mois < 9){
+                        $mois_n = $Mois1['0'.$mois];
                     }
-                    if ($Nba > 0){   
-                        for ($i = 1; $i <= $mois_encours; $i++){
-                            $total += $locataire->occupation->montant;
-                            $rapport[] = [$Mois1[$i > 9 ? $i : "0".$i] ,0 ,$locataire->occupation->montant, date("Y")];
-                            $dettes_mois[] = $Mois1[$i > 9 ? $i : "0".$i];
-                        }
+                    elseif($mois >= 10){
+                        $mois_n = $Mois1[$mois];
                     }
+                    //--------------------------------
+
+
+                    $loyer = Loyer::where('locataire_id', $locataire->id)->whereRaw(" (mois) = '$mois_n' and (annee) = '$annee_en_cours'  ")->get();
+                    $loyer_montant = $loyer->sum('montant');
+
+                    
+                    if($loyer_montant < $locataire->occupation->montant )
+                    {
+                        
+                        array_push($montant_dette, $locataire->occupation->montant-$loyer_montant);
+                        array_push($mois_dettes, $mois_n);
+                        
+                        
+                    }
+                    
+                   
                 }
-        }
+                
+                
+            }
+
+            if($ap_int < $annee_en_cours){
+                $mois_fin = 12;
+                $mp_com = $mp_int;
+
+                for ($ap_int; $ap_int <= $annee_en_cours  ; $ap_int ++) { 
+
+                    
+                    if($ap_int == $annee_en_cours)
+                    {
+                        $mois_fin = $mois_en_cours;
+
+                    }
+                    for ($mois=$mp_com; $mois <= $mois_fin ; $mois++) { 
+    
+                        $mois_n = '';
+                        //on transforme mp 02 => fevrier
+                        if($mois <= 9){
+                            $mois_n = $Mois1['0'.$mois];
+                        }
+                        elseif($mois >= 10){
+                            $mois_n = $Mois1[$mois];
+                        }
+                        //--------------------------------
     
     
+                        $loyer = Loyer::where('locataire_id', $locataire->id)->whereRaw(" (mois) = '$mois_n' and (annee) = '$ap_int'  ")->get();
+                        $loyer_montant = $loyer->sum('montant');
     
-    
-    
-        array_push($tot_g, $total);
-    
-        // dd($tot_g);
+                        
+                        if($loyer_montant < $locataire->occupation->montant )
+                        {
+                            
+                            array_push($montant_dette, $locataire->occupation->montant-$loyer_montant);
+                            array_push($mois_dettes, $mois_n, $ap_int);
+                            
+                            
+                        }
+                        
+                         if($mois == 12){
+                             $mp_com = 1;
+                         }
+                        
+                    }
+
+                }
+
+               
+                
+            }            
             
-            /*-----------------------fin calcul des dettes---------------------------------*/
-    }
+            
+            
+            
         }
+        // dd($mois_dettes, $montant_dette, array_sum($montant_dette));
+        return array_sum($montant_dette);
+    }
 
 
 }

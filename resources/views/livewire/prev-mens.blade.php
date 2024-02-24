@@ -1,6 +1,6 @@
 @vite('resources/css/app.css') 
 <div>
-    <h1>Prévision mensuelle</h1>
+    <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Prévision mensuelle</h1>
     <?php 
         use App\Models\Loyer;
         use App\Models\Locataire;
@@ -107,6 +107,7 @@
                                                         if($m != $mloyer){
                                                             if($m != 0){
                                                                 //s'il a une dette par rapport a ce mois
+                                                                // $total_mois = 
                                                                 if ($total_mois < $loc->occupation->montant) {
                                                                     $total += $loc->occupation->montant - $total_mois;
                                                                 }
