@@ -46,7 +46,7 @@ class StatsEvolution extends BaseWidget
         $maj2 = '';
         $maj3 = '';
 
-        $this->calculDettes();
+        // $this->calculDettes();
         
         //Locataires non payeee
         foreach (Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'left outer')
