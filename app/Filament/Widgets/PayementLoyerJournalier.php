@@ -2,7 +2,6 @@
 
 namespace App\Filament\Widgets;
 
-use DateTime;
 use Filament\Tables;
 use App\Models\Loyer;
 use App\Models\Divers;
@@ -10,12 +9,10 @@ use App\Models\Garantie;
 use App\Models\Locataire;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Widgets\TableWidget as BaseWidget;
 
-class RapportJournalier extends BaseWidget
+class PayementLoyerJournalier extends BaseWidget
 {
-
     protected int | string | array $columnSpan = 'full';
     public $data;
     
@@ -59,7 +56,7 @@ class RapportJournalier extends BaseWidget
         return $table
         ->query(
             // ...
-            Locataire::query()->where('actif',true)
+            Locataire::query()->where('actif',true)->orderBy('id', 'DESC')
             
         )
         ->columns([
@@ -114,4 +111,3 @@ class RapportJournalier extends BaseWidget
         ]);
     }
 }
-

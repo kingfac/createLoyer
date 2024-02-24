@@ -28,6 +28,7 @@ use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use App\Filament\Resources\LoyerResource\Pages\LocataireGalerie;
 use App\Filament\Pages\LocataireGalerie as PagesLocataireGalerie;
 use App\Filament\Widgets\BoardChart2;
+use App\Filament\Widgets\PayementLoyerJournalier;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -75,7 +76,7 @@ class AdminPanelProvider extends PanelProvider
                 StatsEvolution::class,
                 BoardChart::class,
                 BoardChart2::class,
-                RapportJournalier::class
+                PayementLoyerJournalier::class
             ])
             ->middleware([
                 EncryptCookies::class,
