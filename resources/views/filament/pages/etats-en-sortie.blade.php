@@ -94,7 +94,7 @@
                     @click="a=6"
                     outlined>
                     <x-heroicon-s-sparkles class="w-4 h-4" />
-                    Paiements Journalier
+                    Paiement Journalier
                 </button>
                 <button 
                     size="xs" 

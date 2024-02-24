@@ -27,6 +27,7 @@ use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use App\Filament\Resources\LoyerResource\Pages\LocataireGalerie;
 use App\Filament\Pages\LocataireGalerie as PagesLocataireGalerie;
+use App\Filament\Widgets\BoardChart2;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -73,7 +74,7 @@ class AdminPanelProvider extends PanelProvider
                 Statistique::class,
                 StatsEvolution::class,
                 BoardChart::class,
-                BoardChart1::class,
+                BoardChart2::class,
                 RapportJournalier::class
             ])
             ->middleware([

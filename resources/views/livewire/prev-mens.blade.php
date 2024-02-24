@@ -1,5 +1,6 @@
 @vite('resources/css/app.css') 
 <div>
+    <h1>Prévision mensuelle</h1>
     <?php 
         use App\Models\Loyer;
         use App\Models\Locataire;
@@ -92,8 +93,9 @@
                             /* ...........nombre de locataires dans une occupation.................. */
                             
                             foreach($dt->occupations as $occup){
-                                    $sommeLoyerApay += Locataire::where('occupation_id',$occup->id)->where('actif',true)->count() * $occup->montant;
-                                    /* $sommeLoyerApay +=$occup->locataires->count() * $occup->montant; */
+                                
+                                    $sommeLoyerApay = Locataire::all()->where('occupation_id',$occup->id)->where('actif',true)->sum('occupation.montant');
+
                                     foreach ($occup->locataires as $loc) {
                                         if($loc->actif){
                                                 /* Parcourir les loyers du locataire */ 
@@ -106,9 +108,6 @@
                                                             if($m != 0){
                                                                 //s'il a une dette par rapport a ce mois
                                                                 if ($total_mois < $loc->occupation->montant) {
-                                                                    /* @endphp
-                                                                    <p>{{$loc->loyers[$loop->index-1]->mois}} : {{$total_mois}} / {{$loc->occupation->montant}}</p>
-                                                                    @php */
                                                                     $total += $loc->occupation->montant - $total_mois;
                                                                 }
                                                             }
@@ -165,15 +164,7 @@
 
                         <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                             <td class="p-4 w-4">
-                               {{-- @if ($dt->somme == 0)
-                                <div class="w-4 h-4 bg-blue-600 rounded border-gray-300  p-2"></div>
-                                @else
-                                    @if ($dt->occupation->montant == $dt->somme)
-                                    <div class="w-4 h-4 bg-green-600 rounded border-gray-300  p-2"></div>
-                                    @else
-                                    <div class="w-4 h-4 bg-red-600 rounded border-gray-300  p-2"></div>
-                                    @endif
-                                @endif  --}}
+
                             </td>
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap ">
                                 {{$dt->id}}
@@ -193,10 +184,7 @@
                             $sommeLoyerApay = 0;
                             $totDette += $total;
                             $total = 0;
-                        //    $m = 0; // mois encour de traitement
-                        //    $total_mois = 0;
-                        //    $somme_mois = [];
-                        //    $nbrMois_paye = 0;
+                    
                         @endphp
                         @endforeach
                         <tr class="bg-gray-600 dark:hover:bg-gray-700 text-white">
@@ -216,7 +204,7 @@
                                 {{$totDette}} $
                             </td>
                         </tr>
-                        <tr class="bg-gray-600 text-white">
+                        <tr class="bg-gray-200 text-black ">
                             <td class="py-4 px-6 text-sm font-medium  whitespace-nowrap ">
                             </td>
                             <td colspan="2" class="py-4 px-6 text-sm font-medium  whitespace-nowrap ">

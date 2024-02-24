@@ -47,6 +47,8 @@ class PrevisionMensuelle extends Component implements HasForms
     {
         // $this->remplir();
         return view('livewire.prevision-mensuelle');
+        
+
     }
    
 

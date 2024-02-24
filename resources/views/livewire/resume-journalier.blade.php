@@ -196,7 +196,7 @@
                                     Entrée brut du jour
                                 </td>
                                 <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                    6099
+                                    {{$entreeBrut}}
                                 </td>
                             </tr>
                             <tr>
@@ -204,7 +204,7 @@
                                     Prévision restante
                                 </td>
                                 <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                    6099
+                                    {{$prevFinale - $entreeBrut}}
                                 </td>
                             </tr>
                             <tr>

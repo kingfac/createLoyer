@@ -2,8 +2,9 @@
 
 namespace App\Livewire;
 
-use App\Models\Depense;
+use App\Models\Loyer;
 use App\Models\Divers;
+use App\Models\Depense;
 use Livewire\Component;
 use App\Models\Locataire;
 use Livewire\Attributes\On;
@@ -20,13 +21,17 @@ class ResumeJournalier extends Component
     public $data2;
     public $recu;
     public $prevFinale;
+    public $entreeBrut;
 
 
 
     protected $listeners = ['m0a' => '$refresh'];
+
+
     public function render()
     {   $this->prevFinale = Locataire::all()->where('actif', true)->sum('occupation.montant');
         $this->revFinale();
+        $this->entreeBrut();
         return view('livewire.resume-journalier');
     }
 
@@ -82,6 +87,14 @@ class ResumeJournalier extends Component
         // dd($recu);
 
     }
+
+    public function entreeBrut()
+    {
+        $date = now()->format('Y-m-d');
+
+        $this->entreeBrut = Loyer::whereRaw(" date(created_at) = '$date' ")->sum('montant');
+    }
+    
 
 
 
