@@ -42,6 +42,11 @@ class CustomCreateLoyer extends Component implements HasForms
     public $mois;
     public $x = "";
     public $dettes_mois=[];
+    public $dettes_annees = [];
+    public $dettes_montant = [];
+    public $dettes;
+    public $ap;
+    public $mp;
 
     public $Mois1 = [
         '01' => 'Janvier',
@@ -74,7 +79,7 @@ class CustomCreateLoyer extends Component implements HasForms
     public function render()
     {
         $this->remplir();
-        $this->calculDettes();
+        $this->dettes = $this->calculDettesV();
         return view('livewire.custom-create-loyer');
     }
 
@@ -250,36 +255,58 @@ class CustomCreateLoyer extends Component implements HasForms
             
         }elseif($loy_m1 == null && $mois != $mp && $mp != null ){
             array_push($m_dettes, $mv);
-            $dernier =intval($this->Mois2[ Loyer::where(['locataire_id' => $this->locataire_id])->orderBy('id', 'DESC')->first()->mois]);
-            $new_mois = $mois-2;
-            // dd($mois, $dernier);
-            for ($i=$new_mois; $i > $dernier ; $i--) { 
-                if($i >= 10){
-                    $m = $this->Mois1[$i];
-                    array_push($m_dettes, $m);
-                }elseif($i <= 9){
-                    $m = $this->Mois1['0'.$i];
-                    array_push($m_dettes, $m);
+
+            $test = Loyer::where(['locataire_id' => $this->locataire_id])->orderBy('id', 'DESC')->first();
+            if($test != null){
+
+                $dernier =intval($this->Mois2[ Loyer::where(['locataire_id' => $this->locataire_id])->orderBy('id', 'DESC')->first()->mois]);
+                // dd($dernier);
+                $new_mois = $mois-2;
+    
+                // dd($mois, $dernier);
+                for ($i=$new_mois; $i > $dernier ; $i--) { 
+                    if($i >= 10){
+                        $m = $this->Mois1[$i];
+                        array_push($m_dettes, $m);
+                    }elseif($i <= 9){
+                        $m = $this->Mois1['0'.$i];
+                        array_push($m_dettes, $m);
+                    }
+                    # code...
                 }
-                # code...
+                // dd($m_dettes);
+                $af_mois = "";
+                foreach ($m_dettes as $v) {
+                    $af_mois .= "$v ,";
+                }
+                return Notification::make()
+                    ->title('Erreur de paiement')
+                    ->body("Impossible de payer ce mois car le(s) mois de ($af_mois)  reste(ent) encore impayé(s).")
+                    ->success()
+                    ->icon('')
+                    ->iconColor('')
+                    ->duration(5000)
+                    ->persistent()
+                    ->actions([
+                        
+                    ])
+                    ->send();
             }
-            // dd($m_dettes);
-            $af_mois = "";
-            foreach ($m_dettes as $v) {
-                $af_mois .= "$v ,";
+
+            elseif ($test == null) {
+                return Notification::make()
+                    ->title('Erreur de paiement')
+                    ->body("Impossible de payer ce mois.")
+                    ->success()
+                    ->icon('')
+                    ->iconColor('')
+                    ->duration(5000)
+                    ->persistent()
+                    ->actions([
+                        
+                    ])
+                    ->send();
             }
-            return Notification::make()
-                ->title('Erreur de paiement')
-                ->body("Impossible de payer ce mois car le(s) mois de ($af_mois)  reste(ent) encore impayé(s).")
-                ->success()
-                ->icon('')
-                ->iconColor('')
-                ->duration(5000)
-                ->persistent()
-                ->actions([
-                    
-                ])
-                ->send();
         }
 
 
@@ -871,6 +898,218 @@ class CustomCreateLoyer extends Component implements HasForms
         $this->dispatch('close-modal', id: 'detail');
         //$this->dispatch('actualiser');
     }
+
+
+
+
+
+
+
+
+
+
+    public function calculDettesV(){
+        /*------------------------calcul des dettes------------------------------------*/
+     
+        $annee_en_cours = intval(NOW()->format('Y'));
+        $mois_dettes = [];
+        $annee_dettes = [];
+        $montant_dette = [];
+        
+        // $locataire = Locataire::where('id', $id)->first();
+        $Mois1 = [
+            '01' => 'Janvier',
+            '02' => 'Février',
+            '03' => 'Mars',
+            '04' => 'Avril',
+            '05' => 'Mais',
+            '06' => 'Juin',
+            '07' => 'Juillet',
+            '08' => 'Aout',
+            '09' => 'Septembre',
+            '10' => 'Octobre',
+            '11' => 'Novembre',
+            '12' => 'Décembre'
+        ];
+        $Mois2 = [
+            'Janvier' => '01',
+            'Février' => '02',
+            'Mars' => '03',
+            'Avril' => '04',
+            'Mais' => '05',
+            'Juin' => '06',
+            'Juillet' => '07',
+            'Aout' => '08',
+            'Septembre' => '09',
+            'Octobre' => '10',
+            'Novembre' => '11',
+            'Décembre' => '12'
+        ];
+        
+        $mois_en_cours = intval(NOW()->format('m'));
+
+        //on recupere tous les locataires actifs
+        $id = $this->locataire_id;
+
+        $locataires = Locataire::where(['id' => $id,'actif' => true])->orderBy('id','DESC')->get();
+        //on calcul des dettes pour chaque locataire
+        $this->ap = $locataires->value('ap');
+        $this->mp =  $locataires->value('mp');
+
+        //on verifie d abord que le ap et mp existent
+        if($locataires->value('ap') != null && $locataires->value('mp') != null){
+
+            foreach ($locataires as $locataire) {
+                
+                //on recupere le mp et ap
+                $mp_int =intval( $locataire->mp);
+                $mp_trans = '';
+                $ap_int = $locataire->ap;
+                //-------------------------------
+    
+                //on transforme mp 02 => fevrier
+                if($mp_int <= 9){
+                    $mp_trans = $Mois1['0'.$mp_int];
+                }
+                elseif($mp_int >= 10){
+                    $mp_trans = $Mois1[$mp_int];
+                }
+                //--------------------------------
+            
+                //on va parcourrir tous les mois a partir mp et ap jusque au mois en cours
+    
+                if($ap_int == $annee_en_cours){
+                    
+                    for ($mois=$mp_int; $mois <= $mois_en_cours ; $mois++) { 
+    
+                        $mois_n = '';
+                        //on transforme mp 02 => fevrier
+                        if($mois < 9){
+                            $mois_n = $Mois1['0'.$mois];
+                        }
+                        elseif($mois >= 10){
+                            $mois_n = $Mois1[$mois];
+                        }
+                        //--------------------------------
+    
+    
+                        $loyer = Loyer::where('locataire_id', $locataire->id)->whereRaw(" (mois) = '$mois_n' and (annee) = '$annee_en_cours'  ")->get();
+                        $loyer_montant = $loyer->sum('montant');
+    
+                        
+                        if($loyer_montant < $locataire->occupation->montant )
+                        {
+                            
+                            array_push($montant_dette, $locataire->occupation->montant-$loyer_montant);
+                            array_push($mois_dettes, $mois_n);
+                            array_push($annee_dettes, $ap_int);
+    
+                            
+                            
+                        }
+                        
+                       
+                    }
+                    
+                    
+                }
+    
+                if($ap_int < $annee_en_cours){
+                    $mois_fin = 12;
+                    $mp_com = $mp_int;
+    
+                    for ($ap_int; $ap_int <= $annee_en_cours  ; $ap_int ++) { 
+    
+                        
+                        if($ap_int == $annee_en_cours)
+                        {
+                            $mois_fin = $mois_en_cours;
+    
+                        }
+                        for ($mois=$mp_com; $mois <= $mois_fin ; $mois++) { 
+        
+                            $mois_n = '';
+                            //on transforme mp 02 => fevrier
+                            if($mois <= 9){
+                                $mois_n = $Mois1['0'.$mois];
+                            }
+                            elseif($mois >= 10){
+                                $mois_n = $Mois1[$mois];
+                            }
+                            //--------------------------------
+        
+        
+                            $loyer = Loyer::where('locataire_id', $locataire->id)->whereRaw(" (mois) = '$mois_n' and (annee) = '$ap_int'  ")->get();
+                            $loyer_montant = $loyer->sum('montant');
+        
+                            
+                            if($loyer_montant < $locataire->occupation->montant )
+                            {
+                                // dd($locataire->occupation->montant,$loyer_montant);
+                                
+                                array_push($montant_dette, $loyer_montant);
+                                array_push($mois_dettes, $mois_n);
+                                array_push($annee_dettes, $ap_int);
+                                
+                                
+                            }
+                            
+                             if($mois == 12){
+                                 $mp_com = 1;
+                             }
+                            
+                        }
+    
+                    }
+    
+                   
+                    
+                }            
+                
+                
+                
+                
+            }
+    
+            ///on affecte les dettes 
+            $this->dettes_mois = $mois_dettes;
+            $this->dettes_annees = $annee_dettes;
+            $this->dettes_montant = $montant_dette;
+            // dd($mois_dettes, $montant_dette, array_sum($montant_dette), $annee_dettes);
+            // return array_sum($montant_dette);
+
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     
