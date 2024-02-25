@@ -34,6 +34,14 @@ class Statistique extends BaseWidget
     
     protected function getStats(): array
     {
+        $mois = intval(NOW()->format('m'));
+        $mois_t='';
+        if($mois <= 9){
+            $mois_t =$this->lesMois['0'.$mois];
+        }elseif($mois >= 10){
+            $mois_t =$this->lesMois[$mois];
+        }
+        $ann = intval(NOW()->format('Y'));
         $this->mois = new DateTime();
         $lelo = new DateTime('now');
         $lelo = $lelo->format('d-m-Y');
@@ -43,7 +51,7 @@ class Statistique extends BaseWidget
         $mois = intval(NOW()->format('m'));
 
         //payement par jour
-        $data1 = Depense::whereRaw(" MONTH(created_at) = '$mois' ")->get()->sum('total');
+        $data1 = Depense::whereRaw(" MONTH(created_at) = '$mois' and YEAR(created_at) = '$ann' ")->get()->sum('total');
         // prevision mensuelle
         $montPrevu = Trend::query(Occupation::where('actif',true))
             ->between(
@@ -80,10 +88,9 @@ class Statistique extends BaseWidget
         }
 
 
-        $mois = intval(NOW()->format('m'));
-
+       
         $prevu = Locataire::all()->where('actif', true)->sum('occupation.montant');
-        $recu = Loyer::whereRaw(" MONTH(created_at) =  '$mois' ")->sum('montant');
+        $recu = Loyer::whereRaw(" (mois) = '$mois_t'  and YEAR(created_at) = '$ann' ")->sum('montant');
         // $recu = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
         // ->selectRaw('locataires.*, loyers.created_at as dl')
         // ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
@@ -104,24 +111,24 @@ class Statistique extends BaseWidget
         $revenu = $recu - $data1;
         
         return [
-            Stat::make('Prevision finale',$prevu.' $')
+            Stat::make('Prevision finale de '.$this->mois. ' '. $this->annee,$prevu.' $')
                 ->description('Loyer prevu  ce mois de '.$this->mois)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('danger'),
 
-            Stat::make('Loyer perçu', $recu.' $')
+            Stat::make('Loyer perçu ce mois de '.$this->mois, $recu.' $')
                 ->description("Loyer perçu ce mois  de ".$this->mois.'-'.$this->annee)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('warning'),
 
-            Stat::make('Depenses', $data1.' $')
+            Stat::make('Depenses de '.$this->mois. ' '.$this->annee, $data1.' $')
                 ->description("Depenses de ".$this->mois.'-'.$this->annee)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
 
 
-            Stat::make('Revenu', $revenu.' $')
-                ->description("Revenu de ".$this->mois.'-'.$this->annee)
+            Stat::make('Revenu du mois de '.$this->mois, $revenu.' $')
+                ->description("Revenu de ".$this->mois.'-'.$this->annee. ' (prévision finale)-(dépenses)' )
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('danger'),
             /* Stat::make('Dette Mensuelle', $montPrevuI - $montPayeI)
