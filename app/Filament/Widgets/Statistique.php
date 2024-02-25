@@ -116,7 +116,7 @@ class Statistique extends BaseWidget
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('danger'),
 
-            Stat::make('Loyer perçu de '.$this->mois, $recu.' $')
+            Stat::make('Loyer perçu de '.$this->mois. ' '.$this->annee, $recu.' $')
                 ->description("Loyer perçu de ".$this->mois.'-'.$this->annee)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('warning'),

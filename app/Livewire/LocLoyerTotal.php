@@ -34,13 +34,16 @@ class LocLoyerTotal extends Component implements HasForms, HasTable
     public function render()
     {
 
-        $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
+        $this->data = Locataire::where('actif', true)->join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
         ->selectRaw('locataires.*')
         ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
         ->orderBy('locataires.id')
         ->get();
 
-        $this->prevu = Locataire::all()->sum('occupation.montant');
+        $this->prevu = Locataire::all()->where('actif', true)->sum('occupation.montant');
+
+        // $this->prevu = Locataire::where('actif', true)->sum('occupation.montant');
+
         $this->recu = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER')
         ->selectRaw('locataires.*, loyers.created_at')
         ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
@@ -105,7 +108,7 @@ class LocLoyerTotal extends Component implements HasForms, HasTable
             $ans[$i] = $i;
         }
         return $table
-            ->query(Locataire::query()
+            ->query(Locataire::query()->where('actif', true)
             //  ->select(['locataires.*', 'loyers.montant', 'loyers.mois'])
             // ->join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER') */
             ->join('loyers', 'loyers.locataire_id', '=', 'locataires.id')

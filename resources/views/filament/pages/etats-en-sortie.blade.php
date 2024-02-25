@@ -83,7 +83,7 @@
                     @click="a=5"
                     outlined>
                     <x-heroicon-s-sparkles class="w-4 h-4" />
-                    Paiements Global
+                    Paiement Global
                 </button>
                 <button 
                     size="xs" 
