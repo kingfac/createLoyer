@@ -167,8 +167,8 @@
         @endphp
     <div>
 
-        <table class="fi-ta-table table-auto divide-y divide-gray-600 text-start dark:divide-white/5' ">
-            <h1 style=" color:red ; font-size:1em; margin-top: 15px"> Affichage des dettes</h1>
+        <table class="fi-ta-table  table-auto divide-y divide-gray-600 text-start dark:divide-white/5' ">
+            <h1 style=" color:red ; f ont-size:1em; margin-top: 15px"> Affichage des dettes</h1>
                 
                 <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: #ababab9f">
                     <tr class="text-lg font-bold">
@@ -198,6 +198,8 @@
                         $i = 0;
                         // dd(($dettes_mois));
                     @endphp
+
+                    
                     @for ($i=0; $i < count($dettes_mois); $i++) 
                     @php
                         // $total += $;
