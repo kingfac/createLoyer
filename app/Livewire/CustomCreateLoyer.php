@@ -1000,7 +1000,7 @@ class CustomCreateLoyer extends Component implements HasForms
                         if($loyer_montant < $locataire->occupation->montant )
                         {
                             
-                            array_push($montant_dette, $locataire->occupation->montant-$loyer_montant);
+                            array_push($montant_dette, $loyer_montant);
                             array_push($mois_dettes, $mois_n);
                             array_push($annee_dettes, $ap_int);
     
