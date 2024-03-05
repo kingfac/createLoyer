@@ -8,13 +8,14 @@ use Filament\Forms\Form;
 use App\Models\Occupation;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Filters\Filter;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OccupationResource\Pages;
 use App\Filament\Resources\OccupationResource\RelationManagers;
-use Filament\Tables\Filters\Filter;
 
 class OccupationResource extends Resource
 {
@@ -28,7 +29,10 @@ class OccupationResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('galerie_id')
-                    ->relationship('galerie', 'nom')
+                    ->relationship('galerie', )
+                    ->reactive()
+                    ->live()
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) =>  "{$record->nom} - {$record->num} ")
                     ->required(),
                 Forms\Components\Select::make('type_occu_id')
                     ->relationship('typeOccu', 'nom')
