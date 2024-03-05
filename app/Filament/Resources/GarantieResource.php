@@ -66,7 +66,12 @@ class GarantieResource extends Resource
                     ->sortable()
                     ->searchable(),
              
-                Tables\columns\TextColumn::make('locataire.occupation.galerie.nom'),
+                Tables\columns\TextColumn::make('Galerie')
+                    ->default(function(Model $record){
+                        $galerie = $record->locataire->occupation->galerie->nom;
+                        $num_galerie = $record->locataire->occupation->galerie->num;
+                        return "$galerie - $num_galerie";
+                    }),
                 Tables\columns\TextColumn::make('locataire.occupation.typeOccu.nom')->label("Occupation"),
                 Tables\columns\TextColumn::make('locataire.num_occupation')->label("Numéro occupation"),
                 Tables\Columns\TextColumn::make('montant')

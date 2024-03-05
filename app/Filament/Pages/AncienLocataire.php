@@ -11,6 +11,7 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Concerns\InteractsWithTable;
 
@@ -36,7 +37,12 @@ class AncienLocataire extends Page implements HasTable
                 TextColumn::make('tel')
                     ->searchable(),
                 
-                TextColumn::make('occupation.galerie.nom')
+                TextColumn::make('Galerie')
+                    ->default(function(Model $record){
+                        $galerie = $record->occupation->galerie->nom;
+                        $num_galerie = $record->occupation->galerie->num;
+                        return "$galerie - $num_galerie";
+                    })
                     ->sortable(),
                 TextColumn::make('occupation.typeOccu.nom')
                     ->label('Occupation')

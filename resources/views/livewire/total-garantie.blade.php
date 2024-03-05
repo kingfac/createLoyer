@@ -1,7 +1,7 @@
 
 {{-- @vite('resources/css/app.css') --}}
 <div class="w-full">
-    <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}">
+    <link rel="stylesheet" href="{{asset('build/assets/app-247549ac.css')}}">
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
     <div class="flex justify-between">
         <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Total garanties des locataires</h1>

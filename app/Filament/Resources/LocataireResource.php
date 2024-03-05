@@ -129,7 +129,12 @@ class LocataireResource extends Resource
                 Tables\Columns\TextColumn::make('tel')
                     ->searchable(),
                 
-                Tables\Columns\TextColumn::make('occupation.galerie.nom')
+                Tables\Columns\TextColumn::make('Galerie')
+                    ->default(function(Model $record){
+                        $galerie = $record->occupation->galerie->nom;
+                        $num_galerie = $record->occupation->galerie->num;
+                        return "$galerie - $num_galerie";
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('occupation.typeOccu.nom')
                     ->label('Occupation')
