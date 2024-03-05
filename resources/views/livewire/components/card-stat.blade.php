@@ -1,6 +1,6 @@
 
 <div class="gap-y-2 shadow py-8 px-5 flex justify-between items-center bg-gray-50 dark:bg-gray-700">
-    <link rel="stylesheet" href="{{asset('build/assets/app-247549ac.css')}}">
+    <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}">
     {{-- @vite('resources/css/app.css') --}}
     <div class="flex flex-col gap-3">
         <div class="flex items-center gap-x-2">

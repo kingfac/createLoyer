@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    {{-- <link rel="stylesheet" href="{{asset('build/assets/app-247549ac.css')}}"> --}}
+    {{-- <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}"> --}}
     <link rel="stylesheet" href="{{public_path('css.css')}}">
 </head>
 <body class="w-screen">

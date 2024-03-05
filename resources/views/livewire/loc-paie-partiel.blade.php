@@ -1,7 +1,7 @@
 <div class="w-full">
     @filamentStyles
     {{-- @vite('resources/css/app.css') --}}
-    <link rel="stylesheet" href="{{asset('build/assets/app-247549ac.css')}}">
+    <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}">
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
     
     <div class="flex justify-between">
