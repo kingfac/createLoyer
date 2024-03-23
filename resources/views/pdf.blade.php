@@ -66,8 +66,8 @@ $lelo = $lelo->format('d-m-Y');
         <td style=" width:100%">........................................................................................................................................................</td>
     </tr>
     <tr>
-        <td><b>Visa Bailleur</b> </td>
-        <td style=" width:95%; padding-right: 30px"><b>Visa Locataire</b> </td>
+        <td style="text-align:left;" colspan="3"><b>Visa Bailleur</b> </td>
+        <td style="text-align:right;" colspan="3"><b>Visa Locataire</b> </td>
         
         {{-- <span>Visa Locataire</span> --}}
     </tr>
