@@ -16,7 +16,7 @@
         {{-- {{$dettes_mois($locataire->id)}} --}}
         <div class=" w-full flex justify-between  bg-blue-600 p-6 ">
             <h1 class=" text-xl text-white uppercase">Etat personnel du locataire</h1>
-            <p class="text-white opacity-5 flex-1 text-right">{{$locataire->noms}}</p>
+            <p class="text-white flex-1 text-right">{{$locataire->noms}}</p>
             <div align='right' style=" padding-left: 10px;">
                 <x-filament::icon-button
                 icon="heroicon-m-x-mark"
@@ -31,10 +31,10 @@
        
     </div>
     <div class=" w-full p-3 bg-gray-100 flex justify-between">
-        <p class="text-black opacity-5">Galérie: {{$locataire->occupation->galerie->nom}}</p>
-        <p class="text-black opacity-5">Type occupation: {{$locataire->occupation->typeOccu->nom}}</p>
-        <p class="text-black opacity-5">Numéro occupation: {{$locataire->num_occupation}}</p>
-        <p class="text-black opacity-5">Loyer: {{$locataire->occupation->montant}} $</p>
+        <p class="text-black ">Galérie: {{$locataire->occupation->galerie->nom}}-{{$locataire->occupation->galerie->num}}</p>
+        <p class="text-black ">Type occupation: {{$locataire->occupation->typeOccu->nom}}</p>
+        <p class="text-black ">Numéro occupation: {{$locataire->num_occupation}}</p>
+        <p class="text-black ">Loyer: {{$locataire->occupation->montant}} $</p>
         <?php 
             use App\Models\Garantie;
             use App\Models\Loyer;
@@ -44,7 +44,7 @@
             $garantie = Garantie::where(['locataire_id'=> $locataire->id, 'restitution' => false])->sum('montant');
             $paie_garantie = Loyer::where(['locataire_id' => $locataire->id, 'garantie' => true])->sum('montant');
         ?>
-        <p class="text-black opacity-5">Garantie: {{$garantie - $paie_garantie ?? 'Aucune garantie'}}($)</p>
+        <p class="text-black ">Garantie: {{$garantie - $paie_garantie ?? 'Aucune garantie'}}($)</p>
     </div>
     <div class="py-8 flex justify-between items-center flex-col">
         <div class=" ">
@@ -167,7 +167,7 @@
         @endphp
     <div>
 
-        <table class="fi-ta-table  table-auto divide-y divide-gray-600 text-start dark:divide-white/5' ">
+        <table class="fi-ta-table  table-auto divide-y divide-gray-600 text-start dark:divide-white/5 w-full " ">
             <h1 style=" color:red ; f ont-size:1em; margin-top: 15px"> Affichage des dettes</h1>
                 
                 <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: #ababab9f">
