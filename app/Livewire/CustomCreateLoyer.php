@@ -487,26 +487,26 @@ class CustomCreateLoyer extends Component implements HasForms
                     else{
                         if($mp == $mois && $annee == $ap){
                             return $this->store();
-                        }else{
+                        }//else{
 
-                            $nom = $this->locataire->noms;
-                            $aff_mois = "";
-                            foreach ($mois_dette as $v) {
-                                $aff_mois .= "$v ,";
-                            }
-                            ///Modal::send();
-                            //dd($aff_mois, $nom, $total);
-                            /* Notification::make()
-                            ->title('Saved successfully')
-                            ->success()
-                            ->send(); */
-                            Notification::make()
-                            ->title("Dettes trouvées")
-                            ->body("$nom a un total des dettes de $total $, pour les mois de ($aff_mois)")
-                            ->persistent()
-                            ->danger()
-                            ->send();
-                        }
+                        //     $nom = $this->locataire->noms;
+                        //     $aff_mois = "";
+                        //     foreach ($mois_dette as $v) {
+                        //         $aff_mois .= "$v ,";
+                        //     }
+                        //     ///Modal::send();
+                        //     //dd($aff_mois, $nom, $total);
+                        //     /* Notification::make()
+                        //     ->title('Saved successfully')
+                        //     ->success()
+                        //     ->send(); */
+                        //     Notification::make()
+                        //     ->title("Dettes trouvées")
+                        //     ->body("$nom a un total des dettes de $total $, pour les mois de ($aff_mois)")
+                        //     ->persistent()
+                        //     ->danger()
+                        //     ->send();
+                        // }
                     }
                 }
                 else{
