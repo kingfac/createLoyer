@@ -17,16 +17,16 @@
             <tr>
                 <td>N°</td>
                 <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                    Noms des locataires 
+                    Noms 
                 </th>
                 <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                    Galeries
+                    Galerie
                 </th>
                 <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                    Occupations
+                    Occupation
                 </th>
                 <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                    Montant Garanties
+                    Montant Garantie
                 </th>                            
             </tr>
         </thead>
@@ -56,7 +56,7 @@
                     {{$dt->noms}}
                 </td>
                 <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{$dt->occupation->galerie->nom}}
+                    {{$dt->occupation->galerie->nom}}-{{$dt->occupation->galerie->num}}
                 </td>
                 <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{$dt->occupation->typeOccu->nom}}

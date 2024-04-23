@@ -10,6 +10,7 @@ use App\Models\Loyer;
 use Livewire\Component;
 use Filament\Tables\Table;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Actions\Action;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Contracts\HasForms;
@@ -17,6 +18,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Tables\Actions\Action as ActionsAction;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Concerns\InteractsWithTable;
 
@@ -126,6 +128,17 @@ class PaieJournalier extends Component implements HasForms, HasTable
                     return $data;
                 })->money(),
                 TextColumn::make("Date")->default(date('j-M-Y'))
+            ])->headerActions([
+                ActionsAction::make('imprimer')
+                    ->action(function(){
+                        $lelo = new DateTime('now');
+                        $lelo = $lelo->format('d-m-Y');
+                        $data = Loyer::whereRaw("DAY(created_at) = DAY(NOW())")->get();
+                        $pdf = Pdf::loadHTML(Blade::render('journalier', ['data' => $data, 'label' => 'Paiement journalier du '.$lelo]));
+                        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
+                        return response()->download('../public/storage/pdf/doc.pdf');
+                        
+                    }),
             ]);
     }
     
@@ -137,8 +150,7 @@ class PaieJournalier extends Component implements HasForms, HasTable
         $this->annee = $this->mois->format('Y');
         $this->mois = $this->lesMois[$this->mois->format('m')];
         $this->data = Loyer::whereRaw("DAY(created_at) = DAY(NOW())")->get();
-        $pdf = Pdf::loadHTML(Blade::render('journalier', ['data' => $this->data, 'label' => 'PAIEMENT JOURNALIER DU MOIS DE '.$this->mois]));
-        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
+        
     }
 
 

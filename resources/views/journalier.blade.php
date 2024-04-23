@@ -14,6 +14,9 @@
         <thead class="bg-gray-50 dark:bg-white/5">
             <tr class="text-lg font-bold" style="background-color:#abababc6;">
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    N°
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Nom
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
@@ -23,7 +26,9 @@
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Occupation
                 </td>
-    
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    mois
+                </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Loyer
                 </td>
@@ -33,20 +38,25 @@
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-200 whitespace-nowrap dark:divide-white/5">
-        
+            @php
+                $num = 1;
+            @endphp
             @foreach ($data as $dt) 
             
         
             <tr class="border-b">
-                
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;">{{$num}}</td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->locataire->noms}}
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    {{$dt->locataire->occupation->galerie->nom}}
+                    {{$dt->locataire->occupation->galerie->nom}}-{{$dt->locataire->occupation->galerie->num}}
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->locataire->occupation->typeOccu->nom}}
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{$dt->mois}}
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->montant}} $
@@ -57,7 +67,9 @@
                 
         
             </tr>
-            
+            @php
+                $num+=1;
+            @endphp
             @endforeach
         </tbody>
     </table>
