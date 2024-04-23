@@ -19,6 +19,7 @@ return new class extends Migration
             $table->double('montant');
             $table->unsignedBigInteger('locataire_id');
             //$table->foreign('locataire_id')->references('id')->on('locataires');
+            $table->integer('users_id');
             $table->boolean('garantie')->default(false); //cad garantie is not used
             $table->timestamps();
         });

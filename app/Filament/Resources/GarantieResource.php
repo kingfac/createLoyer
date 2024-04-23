@@ -6,6 +6,7 @@ use Filament\Forms;
 use App\Models\User;
 use Filament\Tables;
 use App\Models\Loyer;
+use App\Models\Depense;
 use App\Models\Garantie;
 use Filament\Forms\Form;
 use App\Models\Locataire;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Grouping\Group;
 use Illuminate\Support\Facades\Blade;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Filament\Notifications\Notification;
@@ -76,8 +78,11 @@ class GarantieResource extends Resource
                 Tables\columns\TextColumn::make('locataire.num_occupation')->label("Numéro occupation"),
                 Tables\Columns\TextColumn::make('montant')
                     ->label('Total garantie')
-                    ->summarize(Sum::make('montant')->label('Total'))
-                    ,
+                    ->summarize(Sum::make('montant')->label('Total')),
+                TextColumn::make('Intervenant')
+                    ->default(function(Garantie $record){
+                        return User::find($record->users_id)->first()->name ?? '';
+                    }),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()

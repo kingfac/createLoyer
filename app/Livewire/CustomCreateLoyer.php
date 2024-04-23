@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Illuminate\Support\Facades\Auth;
 
 class CustomCreateLoyer extends Component implements HasForms
 {
@@ -615,7 +616,8 @@ class CustomCreateLoyer extends Component implements HasForms
                     'annee' => $this->annee,
                     'locataire_id' => $this->locataire_id,
                     'observation' => $this->form->getState()['observation'],
-                    'garantie' => $this->form->getState()['garantie']
+                    'garantie' => $this->form->getState()['garantie'],
+                    'users_id' => Auth::user()->id
                 ]);
 
                 //dd($loyer_checking, 2);
@@ -776,7 +778,8 @@ class CustomCreateLoyer extends Component implements HasForms
                         'annee' => $this->annee,
                         'locataire_id' => $this->locataire_id,
                         'observation' => $this->form->getState()['observation'],
-                        'garantie' => $this->form->getState()['garantie']
+                        'garantie' => $this->form->getState()['garantie'],
+                        'users_id' => Auth::user()->id
                     ]);
             
                     $this->form->fill();
@@ -877,7 +880,7 @@ class CustomCreateLoyer extends Component implements HasForms
         //dd($this->locataire);
         $this->annee = $this->copy_annee;
         $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
-        ->selectRaw('locataires.*, loyers.montant, loyers.mois, loyers.annee, loyers.created_at as date_loyer, loyers.observation, loyers.garantie')
+        ->selectRaw('locataires.*, loyers.montant, loyers.mois, loyers.annee, loyers.created_at as date_loyer, loyers.observation, loyers.garantie, loyers.users_id')
         ->where(['loyers.locataire_id' => $this->locataire_id, 'mois' => $this->mois, 'annee' => $this->annee])
         ->orderBy('locataires.id')
         ->get();

@@ -32,10 +32,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\ReplicateAction;
 use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\LocataireResource\Pages;
+use App\Filament\Resources\LocataireResource\Pages\CreateLocataire;
 use App\Filament\Resources\LocataireResource\Pages\EditLocataire;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\LocataireResource\RelationManagers;
+use GuzzleHttp\Promise\Create;
 
 class LocataireResource extends Resource
 {
@@ -72,7 +74,8 @@ class LocataireResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('postnom')
                     ->label('Post-nom')
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->required(),
                 Forms\Components\TextInput::make('prenom')
                     ->label('Prénom')
                     ->required()
@@ -89,10 +92,12 @@ class LocataireResource extends Resource
                     ->label('Nombre de mois garantie')
                     ->hiddenOn(Pages\EditLocataire::class)
                     ->options( ["3"=>3,"4"=>4,"5"=>5,"6"=>6,"7"=>7,"8"=>8,"9"=>9,"10"=>10])
-                    ->reactive(),
+                    ->reactive()
+                    ->required(),
                 Forms\Components\TextInput::make('garantie')
                     ->numeric()
-                    ->hiddenOn(EditLocataire::class),
+                    ->hiddenOn([CreateLocataire::class,EditLocataire::class])
+                    ->required(),
 
                     /* ->minValue(fn($get) => Occupation::where('id', $get('occupation_id'))->value('montant') * intval($get('mois'))) */
                     // ->default(fn($get) => Occupation::where('id', $get('occupation_id'))->value('montant') * intval($get('mois'))),
@@ -100,14 +105,25 @@ class LocataireResource extends Resource
                 Forms\Components\Select::make('mp')
                     ->label('Mois du premier paiement')
                     ->options( ["1"=> "janvier","2"=>"février", "3"=>"mars","4"=>"avril","5"=>"mai","6"=>"juin","7"=>"juillet","8"=>"aout","9"=>"septembre","10"=>"octobre","11" => "novembre", "12" => "décembre"])
-                    ->reactive(),
-                Forms\Components\TextInput::make('ap')
+                    ->reactive()
+                    ->required(),
+                Forms\Components\Select::make('ap')
                     ->label('Année du premier paiement')
-                    ->numeric()
-                    ->maxValue(2030)
-                    ->minValue(2023)
+                    ->options(function(){
+                            
+                        return [
+                            '2023' => 2023,
+                            '2024' => 2024,
+                            '2025' => 2025,
+                            '2026' => 2026,
+                            '2027' => 2027,
+                            '2028' => 2028,
+                            '2029' => 2029,
+                            '2030' => 2030,
+                        ];
+                    })
                     ->default($currentDate->format("Y"))
-                    ->inlineLabel(),
+                    ->required(),
                     
                 Forms\Components\Toggle::make('actif')
                     ->label('Désactiver/Activer')

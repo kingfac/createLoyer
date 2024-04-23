@@ -13,6 +13,9 @@ use Filament\Tables\Columns\Summarizers\Sum;
 use App\Filament\Resources\DepenseResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\DepenseResource\RelationManagers;
+use App\Models\User;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
 
 class DepenseResource extends Resource
 {
@@ -37,6 +40,7 @@ class DepenseResource extends Resource
                     ->label('Coût unitaire')
                     ->required()
                     ->numeric(),
+                Textarea::make('observation')
             ]);
     }
 
@@ -63,6 +67,11 @@ class DepenseResource extends Resource
                 Tables\Columns\TextColumn::make('total')
                     ->money()
                     ->summarize(Sum::make()->label('Total')->money()),
+                TextColumn::make('Intervenant')
+                    ->default(function(Depense $record){
+                        return User::find($record->users_id)->first()->name ?? '';
+                    }),
+                TextColumn::make('observation')
             ])
             ->filters([
                 //

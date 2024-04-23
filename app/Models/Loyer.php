@@ -10,7 +10,7 @@ class Loyer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['mois', 'annee', 'montant', 'locataire_id','garantie', 'observation'];
+    protected $fillable = ['mois', 'annee', 'montant', 'locataire_id','garantie', 'observation','users_id'];
 
     protected $casts = [
         'mois' => 'string', 

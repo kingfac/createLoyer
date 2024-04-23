@@ -9,6 +9,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\LocataireResource;
 use App\Models\Garantie;
+use Illuminate\Support\Facades\Auth;
 
 class CreateLocataire extends CreateRecord
 {
@@ -26,6 +27,7 @@ class CreateLocataire extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         //$data['user_id'] = auth()->id();
+        $data['garantie'] = null;
         $loyer = Occupation::where('id', $data['occupation_id'])->first();
         if($data['postnom'] == null){
             $data['postnom'] = "";
@@ -75,7 +77,11 @@ class CreateLocataire extends CreateRecord
         // Runs after the form fields are saved to the database.
         //dd($this->record);
         if($this->record->garantie > 0){
-            Garantie::create(['locataire_id' => $this->record->id, 'montant' => $this->record->garantie]);
+            Garantie::create([
+                'locataire_id' => $this->record->id, 
+                'montant' => $this->record->garantie,
+                'users_id' => Auth::user()->id,
+            ]);
         }
     }
 

@@ -14,7 +14,7 @@
         <thead class="bg-gray-50 dark:bg-white/5">
             <tr class="text-lg font-bold " style="background-color:#abababc6;">
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    E
+                    N°
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Nom
@@ -38,6 +38,7 @@
        
         @php
             $_id = 0;
+            $num=1;
         @endphp
         @foreach ($data as $dt) 
         @if ($_id != $dt->id && $dt->somme < $dt->occupation->montant && $dt->somme > 0)
@@ -47,12 +48,12 @@
         <tr class="border-b">
             @if ($dt->somme == 0)
                 
-            <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: red;">#</td>
+            <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: red;">{{$num}}</td>
             @else
                @if ($dt->occupation->montant == $dt->somme)
-            <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;">#</td>
+            <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;">{{$num}}</td>
                @else
-            <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: blue;">#</td>       
+            <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: blue;">{{$num}}</td>       
                @endif 
             @endif
             <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
@@ -67,8 +68,11 @@
             <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                 {{$dt->occupation->montant - $dt->somme}} $
             </td>
-    
+            
         </tr>
+        @php
+            $num+=1;
+        @endphp
         @endif
         @endforeach
     </tbody>

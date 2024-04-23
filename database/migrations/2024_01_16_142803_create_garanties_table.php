@@ -16,6 +16,7 @@ return new class extends Migration
             $table->double('montant');
             $table->boolean('restitution')->default(false);
             $table->integer('locataire_id');
+            $table->integer('users_id');
             $table->timestamps();
         });
     }

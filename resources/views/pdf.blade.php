@@ -1,7 +1,8 @@
 <link rel="stylesheet" href="{{public_path('css.css')}}"> 
 @php
+use Rmunate\Utilities\SpellNumber;
 $lelo = new DateTime('now');
-$lelo = $lelo->format('d-m-Y');
+$lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
 @endphp
 <table style=" width:100%; font-size: 1em; font-weight: bold; color:rgb(46, 131, 211)">
     <tr  style="">
@@ -41,13 +42,10 @@ $lelo = $lelo->format('d-m-Y');
         </td>
         
     </tr> --}}
-    <tr style="">
+    <tr style="font-size: 1.1em; " class="text-bold">
         <td colspan="" style="">
             <div style="padding: 12px; background-color: rgb(135, 190, 241); width:95%">
-
-            </div>
-            <div style="padding: 12px; background-color: rgb(135, 190, 241); width:95%">
-
+                <p style=" color:white; font-size:1.3em">{{SpellNumber::value(intval($record->montant))->locale('fr')->toLetters()}} dollars américains.</p>
             </div>
             <b></b>
         </td>
@@ -60,11 +58,9 @@ $lelo = $lelo->format('d-m-Y');
         
     </tr>
     <tr>
-        <td style=" width:100%"><b>Pour :</b> ............................................................................................................................................</td>
+        <td style="width:100%"><b>Pour :</b>{{$record->observation ?? '(aucune observation)'}}</td>
     </tr>
-    <tr>
-        <td style=" width:100%">........................................................................................................................................................</td>
-    </tr>
+   
     <tr>
         <td style="text-align:left;" colspan="3"><b>Visa Bailleur</b> </td>
         <td style="text-align:right;" colspan="3"><b>Visa Locataire</b> </td>

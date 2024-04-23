@@ -19,6 +19,7 @@ return new class extends Migration
             $table->double('cu');
             $table->boolean('entreprise')->default(false);
             $table->double('total')->virtualAs('(qte*cu)');
+            $table->integer('users_id');
             $table->timestamps();
         });
     }

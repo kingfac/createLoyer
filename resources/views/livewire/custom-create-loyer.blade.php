@@ -39,6 +39,7 @@
             use App\Models\Garantie;
             use App\Models\Loyer;
             use App\Models\Locataire;
+            use App\Models\User;
 
 
             $garantie = Garantie::where(['locataire_id'=> $locataire->id, 'restitution' => false])->sum('montant');
@@ -101,6 +102,9 @@
                     Reste
                 </th>
                 <th scope="col" colspan="3" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                    Intervenant
+                </th>
+                <th scope="col" colspan="3" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Observation
                 </th>
                
@@ -117,6 +121,7 @@
             @foreach ($data as $ly) 
             @php
                 $total += $ly->montant;
+                $intervenant = User::find($ly->users_id)->first()->name;
             @endphp
             <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                 
@@ -133,7 +138,9 @@
                 <td colspan="3" class="border w-32 py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
                     {{$ly->occupation->montant - $total}} $
                 </td>
-
+                <td colspan="3" class="border w-32 py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
+                    {{$intervenant ?? '' }} 
+                </td>
                 <td colspan="3" class="border w-32 py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
                     {{$ly->observation ?? 'Aucune observation'}} 
                 </td>

@@ -11,7 +11,7 @@ class Garantie extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['montant','restitution','locataire_id'];
+    protected $fillable = ['montant','restitution','locataire_id','users_id'];
 
 
     public function locataire(): BelongsTo {

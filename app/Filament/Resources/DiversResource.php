@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use Closure;
 use Filament\Forms;
+use App\Models\User;
 use Filament\Tables;
 use App\Models\Divers;
 use Filament\Forms\Get;
@@ -11,6 +12,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Grid;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Radio;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -20,7 +22,6 @@ use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\DiversResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\DiversResource\RelationManagers;
-use Filament\Tables\Filters\Filter;
 
 class DiversResource extends Resource
 {
@@ -109,15 +110,19 @@ class DiversResource extends Resource
                    /*  TextColumn::make('total')->default( function(Divers $d){
                         return $d->cu*$d->qte;
                     })->money() */
-                    TextColumn::make('total')
+                TextColumn::make('total')
+                    ->money()
+                    ->summarize(
+                        Sum::make()
+                        ->label('Total général')
                         ->money()
-                        ->summarize(
-                            Sum::make()
-                            ->label('Total général')
-                            ->money()
-                        )
-                        ->label('Total')
-                    ,
+                    )
+                    ->label('Total')
+                ,
+                TextColumn::make('Intervenant')
+                    ->default(function(Divers $record){
+                        return User::find($record->users_id)->first()->name ?? '';
+                    })
                     
                 // Tables\Columns\TextColumn::make('total')
                 //     ->label('cu')
