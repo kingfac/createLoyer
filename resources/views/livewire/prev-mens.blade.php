@@ -171,7 +171,7 @@
                                 {{$dt->id}}
                             </td>
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap ">
-                                {{$dt->nom}}
+                                {{$dt->nom}}-{{$dt->num}}
                             </td>
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap ">
                                  {{$sommeLoyerApay}} $

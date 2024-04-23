@@ -67,7 +67,26 @@ class EtatsEnSortie extends Page implements HasForms
                     Select::make('mois')
                         ->options(['Janvier' => 'Janvier','Février' => 'Février','Mars' => 'Mars','Avril' => 'Avril','Mais' => 'Mais','Juin' => 'Juin','Juillet' => 'Juillet','Aout' => 'Aout','Septembre' => 'Septembre','Octobre' => 'Octobre','Novembre' => 'Novembre','Décembre' => 'Décembre'])
                         ->label("Mois")
-                        ->default('Janvier')
+                        ->default(function(){
+                            $lesMois = [
+                                '01' => 'Janvier',
+                                '02' => 'Février',
+                                '03' => 'Mars',
+                                '04' => 'Avril',
+                                '05' => 'Mais',
+                                '06' => 'Juin',
+                                '07' => 'Juillet',
+                                '08' => 'Aout',
+                                '09' => 'Septembre',
+                                '10' => 'Octobre',
+                                '11' => 'Novembre',
+                                '12' => 'Décembre'
+                            ];
+                            $currentDate = new DateTime();
+                            $currentDate = $currentDate->format('m');
+                            return $lesMois[$currentDate];
+
+                        })
                         ->required(),
                     TextInput::make('annee')
                         ->label('Année')

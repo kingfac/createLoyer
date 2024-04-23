@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Storage;
 class DiverLocataire extends Component
 {
     public $data;
-    public $divers;
     public $locataires;
     public $locataire_id;
+
+
     public function render()
     {
         $this->data = Locataire::where('actif', true)->get();
-        $this->divers = Divers::where('locataire_id', $this->locataire_id)->get();
-        $pdf = Pdf::loadHTML(Blade::render('divers', ['data' => $this->data]));
+        $pdf = Pdf::loadHTML(Blade::render('totaldivers', ['data' => $this->data, 'label' => 'Locataires avec paiements partiels du mois de ', 'inverse' =>true]));
         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         
         return view('livewire.diver-locataire');
