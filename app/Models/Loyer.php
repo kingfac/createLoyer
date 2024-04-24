@@ -19,6 +19,7 @@ class Loyer extends Model
         'locataire_id' => 'integer',
         'garantie' => 'boolean',
         'observation' => 'string', 
+        'users_id' => 'integer',
         'created_at' => 'datetime'
     ];
 

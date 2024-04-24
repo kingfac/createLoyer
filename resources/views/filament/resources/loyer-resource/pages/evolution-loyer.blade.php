@@ -2,7 +2,6 @@
 @php
     use App\Models\Loyer;
 @endphp
-{{--@vite('resources/css/app.css')--}}
 {{-- <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}"> --}}
 <x-filament-panels::page>
     

@@ -644,6 +644,7 @@ class CustomCreateLoyer extends Component implements HasForms
                             'mois' => $Mois1[$i > 9 ? $i : '0'.$i],
                             'annee' => $this->annee,
                             'locataire_id' => $this->locataire_id,
+                            'users_id' => Auth::user()->id,
                             'observation' => $this->form->getState()['observation'],
                             'garantie' => $this->form->getState()['garantie'],
                             'created_at' => $lelo
@@ -660,6 +661,7 @@ class CustomCreateLoyer extends Component implements HasForms
                             'locataire_id' => $this->locataire_id,
                             'observation' => $this->form->getState()['observation'],
                             'garantie' => $this->form->getState()['garantie'],
+                            'users_id' => Auth::user()->id,
                             'created_at' => $lelo
                         ];
                         $moiss[] = $Mois1[$ctrA > 9 ? $ctrA : '0'.$ctrA];
@@ -680,6 +682,7 @@ class CustomCreateLoyer extends Component implements HasForms
                             'locataire_id' => $this->locataire_id,
                             'observation' => $this->form->getState()['observation'],
                             'garantie' => $this->form->getState()['garantie'],
+                            'users_id' => Auth::user()->id,
                             'created_at' => $lelo
                         ];
                         $moiss[] = $Mois1[$nbr > 9 ? $nbr : '0'.$nbr];
@@ -693,6 +696,7 @@ class CustomCreateLoyer extends Component implements HasForms
                             'locataire_id' => $this->locataire_id,
                             'observation' => $this->form->getState()['observation'],
                             'garantie' => $this->form->getState()['garantie'],
+                            'users_id' => Auth::user()->id,
                             'created_at' => $lelo
                         ];
                         $moiss[] = $Mois1[$nbr > 9 ? $nbr : '0'.$nbr];
