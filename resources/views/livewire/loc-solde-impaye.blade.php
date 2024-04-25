@@ -47,12 +47,16 @@
                         @php
                             $_id = 0;
                             $ctrR = 0;
+                            $lM = 0;
+                            $lP = 0;
                         @endphp
                         @foreach ($data as $dt) 
                         @if ($_id != $dt->id && $dt->somme == null)
                         @php
                             $_id = $dt->id;
                             $ctrR +=1;
+                            $lM +=  $dt->occupation->montant;
+                            $lP += $dt->somme ?? 0;
                         @endphp
                         
                           
@@ -72,13 +76,27 @@
                                 {{$dt->somme ?? 0}} $
                             </td>                           
                         </tr>
-                        
                         @endif
                         @endforeach
-
-                        
-                       
+                        <tr>
+                         
                     </tbody>
+                    <tfoot class=" bg-gray-300">
+                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            Totaux
+                        </td>
+                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        </td>
+                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{$lM}}$
+                        </td>
+                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{$lP}}$
+                        </td>   
+                        
+                    </tr>
+                    </tfoot>
+                    
                 </table>
             </div>
         </div>

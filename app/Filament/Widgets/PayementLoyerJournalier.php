@@ -2,13 +2,19 @@
 
 namespace App\Filament\Widgets;
 
+use DateTime;
+use App\Models\User;
 use Filament\Tables;
 use App\Models\Loyer;
 use App\Models\Divers;
 use App\Models\Garantie;
 use App\Models\Locataire;
 use Filament\Tables\Table;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Tables\Actions\Action;
+use Illuminate\Support\Facades\Blade;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Facades\Storage;
 use Filament\Widgets\TableWidget as BaseWidget;
 
 class PayementLoyerJournalier extends BaseWidget
@@ -69,15 +75,17 @@ class PayementLoyerJournalier extends BaseWidget
                 ->money(), */
             /* TextColumn::make('mois')->label('Mois'),
             TextColumn::make('created_at')->label('Heure')->time(), */
-            TextColumn::make("Periode")->default(function(Locataire $record){
+            TextColumn::make("Loyer payé")->default(function(Locataire $record){
                 $moiss = [];
                 foreach (Loyer::where('locataire_id', $record->id)
                 ->whereRaw('DATE(created_at) = CURDATE()')
                 ->distinct('mois')
-                ->get('mois') as $loy) {
+                ->get(['mois','montant','users_id']) as $loy) {
                     # code...
-                    $moiss[] = $loy->mois;
+                    $nom = User::find($loy->users_id);
+                    $moiss[] = $loy->mois.'('.$loy->montant.'$, '.'chez: '.$nom->name.')';
                 }
+                // dd($loyers);
                 return $moiss;
             }),
             TextColumn::make("Garantie")->default(function(Locataire $record){
@@ -101,13 +109,40 @@ class PayementLoyerJournalier extends BaseWidget
                 foreach (Loyer::where('locataire_id', $record->id)
                 ->whereRaw('DATE(created_at) = CURDATE()')->get() as $loy) {
                     // dd($this->Mois2[$loy->mois], date('m'));
-                    if($this->Mois2[$loy->mois] != date('m')){
+                    if($this->Mois2[$loy->mois] < date('m')){
                         $data += $loy->montant;
                     }
                 }
                 return $data;
+                
             })->money(),
+            // TextColumn::make("a")->label("Anticipatif")->default(function(Locataire $record){
+            //     $data = 0;
+
+            //     foreach (Loyer::where('locataire_id', $record->id)
+            //     ->whereRaw('DATE(created_at) = CURDATE()')->get() as $loy) {
+            //         // dd($this->Mois2[$loy->mois], date('m'));
+            //         if($this->Mois2[$loy->mois] > date('m')){
+            //             $data += $loy->montant;
+            //         }
+            //     }
+            //     return $data;
+                
+            // })->money(),
+
             TextColumn::make("Date")->default(date('j-M-Y'))
+        ])->headerActions([
+            Action::make('Imprimer')
+                ->action(function(){
+                    $lelo = new DateTime('now');
+                    $lelo = $lelo->format('d-m-Y');
+                    $locs = Locataire::where('actif',true)->orderBy('id', 'DESC')->get();
+                    // $data = Loyer::whereRaw("DAY(created_at) = DAY(NOW())")->get();
+                    $pdf = Pdf::loadHTML(Blade::render('dash_journalier', ['locs' => $locs, 'label' => ' Payement Loyer,Garantie, Divers Journaliers  du '.$lelo]));
+                    Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
+                    return response()->download('../public/storage/pdf/doc.pdf');
+                    
+                })
         ]);
     }
 }

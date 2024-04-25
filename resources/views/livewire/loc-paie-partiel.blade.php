@@ -95,10 +95,10 @@
                             <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
                             </td>      
                             <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$total_paye}}
+                                {{$total_paye}}$
                             </td>         
                             <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$total_reste}}
+                                {{$total_reste}}$
                             </td>                                
                         </tr>
                        
