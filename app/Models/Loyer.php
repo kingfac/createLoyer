@@ -26,4 +26,8 @@ class Loyer extends Model
     public function locataire() : BelongsTo {
         return $this->belongsTo(Locataire::class);
     }
+
+    public function user(): BelongsTo{
+        return $this->belongsTo(User::class);
+    }
 }

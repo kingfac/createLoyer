@@ -48,4 +48,8 @@ class User extends Authenticatable
     public function depenses(): HasMany{
         return $this->hasMany(Depense::class);
     }
+
+    public function loyers(): HasMany{
+        return $this->hasMany(Loyer::class);
+    }
 }
