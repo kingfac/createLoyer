@@ -1,6 +1,11 @@
 
 {{-- @vite('resources/css/app.css') --}}
 <div class="w-full">
+    @php
+        use App\Models\Depense;
+        use App\Models\Loyer;
+        use Carbon\Carbon;
+    @endphp
     <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}">
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
     <div class="flex justify-between">
@@ -193,7 +198,7 @@
                             </tr>
                             <tr>
                                 <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                    Entrée brut du jour
+                                    Entrées brut du jour
                                 </td>
                                 <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                     {{$entreeBrut}}
@@ -209,18 +214,32 @@
                             </tr>
                             <tr>
                                 <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                    Solde du 05!01!2021
+                                    Solde du {{Carbon::yesterday()->format('d-m-Y')}}
                                 </td>
                                 <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                    6099
+                                    @php
+                                        $total_depA=0;
+                                        $total_loyA=0;
+                                        $depensesA = Depense::whereDate('created_at', Carbon::yesterday())->get();
+                                        foreach ($depensesA as $depenseA) {
+                                            # code...
+                                            $total_depA += $depenseA->qte*$depenseA->cu;
+                                        }
+                                        $loys = Loyer::whereDate('created_at', Carbon::yesterday())->get();
+                                        foreach ($loys as $loy) {
+                                            # code...
+                                            $total_loyA += $loy->montant;
+                                        }
+                                    @endphp
+                                    {{$total_loyA + $total_depA}}
                                 </td>
                             </tr>
                             <tr>
                                 <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                    Entrée du jour
+                                    Entrées du jour
                                 </td>
                                 <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                    6099
+                                    {{$entreeBrut}}
                                 </td>
                             </tr>
                             <tr>
@@ -228,15 +247,23 @@
                                     Dépenses du jour
                                 </td>
                                 <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                    6099
+                                    @php
+                                        $total_dep=0;
+                                        $depenses = Depense::whereDate('created_at', Carbon::today())->get();
+                                        foreach ($depenses as $depense) {
+                                            # code...
+                                            $total_dep += $depense->qte*$depense->cu;
+                                        }
+                                    @endphp
+                                    {{$total_dep}}$
                                 </td>
                             </tr>
                             <tr>
                                 <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                    SOlde du jour
+                                    Solde du jour
                                 </td>
                                 <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                    6099
+                                    {{$entreeBrut-$total_dep}}$
                                 </td>
                             </tr>
                             <tr>
@@ -244,7 +271,7 @@
                                     Solde final
                                 </td>
                                 <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                    6099
+                                    {{$total_loyA + $total_depA+($entreeBrut-$total_dep)}}$
                                 </td>
                             </tr>
 

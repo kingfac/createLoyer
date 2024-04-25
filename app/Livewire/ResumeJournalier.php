@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Loyer;
 use App\Models\Divers;
 use App\Models\Depense;
+use App\Models\Garantie;
 use Livewire\Component;
 use App\Models\Locataire;
 use Livewire\Attributes\On;
@@ -92,7 +93,7 @@ class ResumeJournalier extends Component
     {
         $date = now()->format('Y-m-d');
 
-        $this->entreeBrut = Loyer::whereRaw(" date(created_at) = '$date' ")->sum('montant');
+        $this->entreeBrut = Loyer::whereRaw(" date(created_at) = '$date' ")->sum('montant') + Garantie::whereRaw(" date(created_at) = '$date' ")->sum('montant');
     }
     
 
