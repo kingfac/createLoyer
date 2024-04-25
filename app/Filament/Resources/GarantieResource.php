@@ -29,6 +29,7 @@ use App\Filament\Resources\GarantieResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\GarantieResource\RelationManagers;
 
+
 class GarantieResource extends Resource
 {
     protected static ?string $model = Garantie::class;
@@ -111,6 +112,12 @@ class GarantieResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Action::make('imprimer')
+                    ->action(function(Model $record):void {
+                       
+                    })
+                    ->button()
+                    ->icon('heroicon-m-printer')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
