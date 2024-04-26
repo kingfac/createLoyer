@@ -16,10 +16,12 @@ use Filament\Resources\Resource;
 use Illuminate\Support\Facades\DB;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Grouping\Group;
+use Filament\Forms\Components\Select;
 use Illuminate\Support\Facades\Blade;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -28,6 +30,7 @@ use Filament\Tables\Columns\Summarizers\Sum;
 use App\Filament\Resources\GarantieResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\GarantieResource\RelationManagers;
+
 
 class GarantieResource extends Resource
 {
@@ -110,7 +113,7 @@ class GarantieResource extends Resource
 
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

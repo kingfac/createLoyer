@@ -244,7 +244,8 @@ class CustomLoyer extends Component implements HasForms
     }
 
     public function imprimer($dt){
-        
+        $loyer = Loyer::where('locataire_id')->get();
+        dd($loyer);
     }
 
 }
