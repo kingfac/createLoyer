@@ -18,6 +18,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\GarantieResource;
+use Illuminate\Support\Facades\Auth;
 
 class ListGaranties extends ListRecords
 {
@@ -49,11 +50,6 @@ class ListGaranties extends ListRecords
                         // dd($record->montant);
                         /*-----------------------calcul de la restitution------------------------------*/
                         $garanties = Garantie::where('locataire_id',$data['locataire_id'])->sum('montant');
-                        
-                        
-                        
-                        
-                        
                         
                         /*------------------------calcul des dettes------------------------------------*/
                         $this->locataire = Locataire::where('id', $data['locataire_id'])->first();
@@ -188,18 +184,13 @@ class ListGaranties extends ListRecords
                        
                         /*-----------------------fin calcul des dettes---------------------------------*/
                         
-                        // dd($total, $rapport);
-
-                        
-                        
-                        
-                        
+            
                         $restitution = $garanties-$paiements-$total;
-                        // dd($restitution);
     
                         $restitution = Garantie::create([
                             'montant' => $restitution,
                             'locataire_id' => $data['locataire_id'],
+                            'users_id' => Auth::user()->id,
                             'restitution' => true,
                         ]);
                         $g = Garantie::where('locataire_id',$data['locataire_id'])->orderBy('restitution')->get();
