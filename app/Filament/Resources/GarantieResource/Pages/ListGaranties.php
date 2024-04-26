@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\GarantieResource\Pages;
 
+use DateTime;
 use App\Models\Loyer;
 use Filament\Actions;
 use App\Models\Garantie;
@@ -11,6 +12,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Forms\Components\Select;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
@@ -38,7 +40,7 @@ class ListGaranties extends ListRecords
                         ->required()
                         ->validationMessages(['required' => 'Veuillez séléctionner un locataire']),
 
-                    ])
+                ])
                 ->action(function(array $data){
                     $paiements = Loyer::where('locataire_id', $data['locataire_id'])->where('garantie',true)->sum('montant');
                     $r_exist = Garantie::where(['locataire_id'=>$data['locataire_id'], 'restitution'=> true])->first();
@@ -223,7 +225,28 @@ class ListGaranties extends ListRecords
                                 ])
                                 ->send();
                     }
-                })
+             
+                }),
+                Action::make('imprimer')
+                    ->button()
+                    ->icon('heroicon-m-printer')
+                    ->form([
+                        Select::make('locataire_id')
+                            ->label('Locataire')
+                            ->options(Locataire::query()->pluck('noms', 'id'))
+                            ->searchable()
+                            ->required()
+                    ])
+                    ->action(function(array $data){
+                        $lelo = new DateTime('now');
+                        $lelo = $lelo->format('d-m-Y');
+
+                        $loc = Locataire::find($data["locataire_id"]);
+
+                        $pdf = Pdf::loadHTML(Blade::render('locataire_gar', ['loc' => $loc, 'label' => 'Total Garentie']));
+                        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
+                        return response()->download('../public/storage/pdf/doc.pdf');
+                    })
         ];
     }
 }

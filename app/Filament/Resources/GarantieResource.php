@@ -16,10 +16,12 @@ use Filament\Resources\Resource;
 use Illuminate\Support\Facades\DB;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Grouping\Group;
+use Filament\Forms\Components\Select;
 use Illuminate\Support\Facades\Blade;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -111,13 +113,7 @@ class GarantieResource extends Resource
 
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Action::make('imprimer')
-                    ->action(function(Model $record):void {
-                       
-                    })
-                    ->button()
-                    ->icon('heroicon-m-printer')
+                Tables\Actions\EditAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

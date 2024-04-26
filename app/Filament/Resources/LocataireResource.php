@@ -137,7 +137,7 @@ class LocataireResource extends Resource
     {
 
         
-        return $table
+         return $table
             ->columns([
                 
                 Tables\Columns\TextColumn::make('noms')
@@ -210,12 +210,12 @@ class LocataireResource extends Resource
                     ->sortable(),
                 
             ])
-            ->filters([
-                //
-                //SelectFilter::make('occupation_id')->relationship('occupation', 'galerie.nom')->label('Galerie'),
-                SelectFilter::make('Galerie')->relationship('occupation','galerie.nom'),
-                SelectFilter::make('occupation_id')->relationship('occupation', 'typeOccu.nom')->label('Occupation'),
-            ])
+            // ->filters([
+            //     //
+            //     //SelectFilter::make('occupation_id')->relationship('occupation', 'galerie.nom')->label('Galerie'),
+            //     SelectFilter::make('Galerie')->relationship('occupation','galerie.nom'),
+            //     SelectFilter::make('occupation_id')->relationship('occupation', 'typeOccu.nom')->label('Occupation'),
+            // ])
             ->actions([
                 //Tables\Actions\EditAction::make(),
                 // Tables\Actions\Action::make('pdf') 

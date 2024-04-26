@@ -20,6 +20,7 @@ $lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
             <h4>Kin, le {{$lelo}}</h4>
             <h4 class="p-2 bg-gray-200" style="width: 100%;">Montant :  <b style="padding: 5px; background-color:rgb(98, 172, 241); width:100%;color:white">{{ $record->montant }} $ </b></h4>
             <h4>Loyer de : {{$record->mois}}-{{$record->annee}}</h4>
+            <h4>Intervenant : {{Auth::user()->name}}</h4>
         </td>
         
     </tr>
@@ -35,17 +36,11 @@ $lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
         <td><b>Somme de (en toutes lettres)</b> <b style="padding: 5px; background-color:gray; width:100%;"></b>  </td>    
     </tr>
     
-    {{-- <tr>
-        <td colspan="1">Pour : </td>
-        <td colspan="3" style="padding: 5px; background-color:gray; width:100%">
-            <b ></b> 
-        </td>
-        
-    </tr> --}}
+    
     <tr style="font-size: 1.1em; " class="text-bold">
         <td colspan="" style="">
             <div style="padding: 12px; background-color: rgb(135, 190, 241); width:95%">
-                <p style=" color:white; font-size:1.3em">{{SpellNumber::value(intval($record->montant))->locale('fr')->toLetters()}} dollars américains.</p>
+                <p style=" color:white; font-size:1.3em; text-transform: capitalize;">{{SpellNumber::value(intval($record->montant))->locale('fr')->toLetters()}} dollars américains.</p>
             </div>
             <b></b>
         </td>
@@ -58,26 +53,14 @@ $lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
         
     </tr>
     <tr>
-        <td style="width:100%"><b>Pour :</b>{{$record->observation ?? '(aucune observation)'}}</td>
+        <td style="width:100%"><b>Pour :</b>{{$record->observation ?? ' Le loyer du mois de (d\') '.$record->mois}}</td>
     </tr>
    
     <tr>
         <td style="text-align:left;" colspan="3"><b>Visa Bailleur</b> </td>
-        <td style="text-align:right;" colspan="3"><b>Visa Locataire</b> </td>
-        
-        {{-- <span>Visa Locataire</span> --}}
+        <td style="text-align:right;" colspan="3"><b>Visa Locataire</b> </td>        
     </tr>
     
-   {{--  <tr class="">
-        <td>Occupation {{ $record->locataire->occupation->ref }} </td>
-    </tr>
-    <tr class="">
-        <td>
-            C/{{ $record->locataire->occupation->galerie->commune->nom }},
-            Av/{{ $record->locataire->occupation->galerie->av }}, 
-            N° {{ $record->locataire->occupation->galerie->num }}
-        </td>
-    </tr> --}}
 </table>
 
 

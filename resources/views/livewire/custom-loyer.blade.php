@@ -255,14 +255,14 @@
                                            tooltip="Imprimer"
                                            wire:click="imprimer({{$dt->id}})"
                                        /> --}}
-                                   <x-filament::icon-button
-                                       icon="heroicon-s-eye"
-                                       tag="a"
-                                       label="Detail"
-                                       tooltip="Voir le detail"
-                                       wire:click="detail({{$dt->id}})"
-                                   />
-                                   </td>
+                                        <x-filament::icon-button
+                                            icon="heroicon-s-eye"
+                                            tag="a"
+                                            label="Detail"
+                                            tooltip="Voir le detail"
+                                            wire:click="detail({{$dt->id}})"
+                                        />
+                                        </td>
                                 </tr>
                                 @endif
                                 @endif
@@ -282,7 +282,6 @@
         </div>
         @endif
 
-        
     </div>
     
        
