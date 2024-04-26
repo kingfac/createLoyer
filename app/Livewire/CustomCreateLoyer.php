@@ -730,6 +730,7 @@ class CustomCreateLoyer extends Component implements HasForms
                         'mois' => $Mois1[$i > 9 ? $i : '0'.$i],
                         'annee' => $this->annee,
                         'locataire_id' => $this->locataire_id,
+                        'users_id' => Auth::user()->id,
                         'observation' => $this->form->getState()['observation'],
                         'garantie' => $this->form->getState()['garantie'],
                         'created_at' => $lelo
@@ -810,6 +811,7 @@ class CustomCreateLoyer extends Component implements HasForms
                     'locataire_id' => $this->locataire_id,
                     'observation' => $this->form->getState()['observation'],
                     'garantie' => $this->form->getState()['garantie'],
+                    'users_id' => Auth::user()->id,
                     'created_at' => $lelo
                 ];
                 $moiss = [];
@@ -829,6 +831,7 @@ class CustomCreateLoyer extends Component implements HasForms
                             'locataire_id' => $this->locataire_id,
                             'observation' => $this->form->getState()['observation'],
                             'garantie' => $this->form->getState()['garantie'],
+                            'users_id' => Auth::user()->id,
                             'created_at' => $lelo
                         ];
                         $moiss[] = $Mois1[$i > 9 ? $i : '0'.$i];
@@ -855,6 +858,7 @@ class CustomCreateLoyer extends Component implements HasForms
                         'locataire_id' => $this->locataire_id,
                         'observation' => $this->form->getState()['observation'],
                         'garantie' => $this->form->getState()['garantie'],
+                        'users_id' => Auth::user()->id,
                         'created_at' => $lelo
                     ];
                     $moiss[] = $Mois1[$nbr > 9 ? $nbr : '0'.$nbr];
