@@ -67,10 +67,10 @@
                 <div  class="flex justify-center items-center">
                     <p>Le locataire a déjà liberé l'occupation {{$locataire->num_occupation}}</p>
                 </div>
-                <button type="" class="bg-blue-500 text-white p-4 rounded-md" target="_blank">
-                    <x-heroicon-s-printer />
+                <a href="/storage/pdf/doc.pdf" class="bg-blue-500  text-white px-5 py-2 rounded-md" target="_blank">
+                    {{-- <x-heroicon-s-printer /> --}}
                     Imprimer
-                </button>
+                </a>
             @endif
             
 
