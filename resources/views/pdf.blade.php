@@ -20,7 +20,6 @@ $lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
             <h4>Kin, le {{$lelo}}</h4>
             <h4 class="p-2 bg-gray-200" style="width: 100%;">Montant :  <b style="padding: 5px; background-color:rgb(98, 172, 241); width:100%;color:white">{{ $record->montant }} $ </b></h4>
             <h4>Loyer de : {{$record->mois}}-{{$record->annee}}</h4>
-            <h4>Intervenant : {{Auth::user()->name}}</h4>
         </td>
         
     </tr>
@@ -53,7 +52,12 @@ $lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
         
     </tr>
     <tr>
-        <td style="width:100%"><b>Pour :</b>{{$record->observation ?? ' Le loyer du mois de (d\') '.$record->mois}}</td>
+        <td style="width:100%"><b>Pour :</b>{{$record->observation ?? ' Loyer du mois de (d\') '.$record->mois}}, 
+        @if ($record->garantie)
+            Type de paiement : Avec garantie
+        @else
+            Type de paiement : Sans garantie
+        @endif</td>
     </tr>
    
     <tr>
