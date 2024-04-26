@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="{{public_path('css.css')}}"> 
-
+@php
+    use Carbon\Carbon;
+@endphp
 
 <div class="w-full">
 
@@ -17,6 +19,9 @@
                     </div>
                 </td>
                 <td style="text-align:right;" colspan="3">
+                    @php
+                        $lelo = Carbon::today()->format('d-m-Y');
+                    @endphp
                     <h4>Kin, le {{$lelo}}</h4>
                 </td>
             </tr>

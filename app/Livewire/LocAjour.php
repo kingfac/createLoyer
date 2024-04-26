@@ -60,7 +60,7 @@ class LocAjour extends Component //implements HasForms, HasTable
             ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
             ->orderBy('locataires.id')
             ->get();
-        $pdf = Pdf::loadHTML(Blade::render('evolution', ['data' => $this->data, 'label' => 'LOCATAIRE À JOUR DU MOIS DE '.$this->mois]));
+        $pdf = Pdf::loadHTML(Blade::render('evolution', ['data' => $this->data, 'label' => 'Locataires à jours de '.$this->mois.' '.$this->annee]));
         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
     }
 

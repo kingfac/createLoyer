@@ -16,7 +16,7 @@
             
         /> --}}
     </div>
-    {{-- {{$this->table}} --}}
+    {{$this->table}}
 
     <link rel="stylesheet" href="{{public_path('css.css')}}"> 
 
@@ -30,7 +30,7 @@
     @endphp
     
     
-    <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'">
+    {{-- <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'">
             
         <thead class="bg-gray-50 dark:bg-white/5">
             <tr class="text-lg font-bold" style="background-color:#abababc6;">
@@ -122,7 +122,7 @@
                             <p>-----------</p>
                         @endforelse
                         {{-- {{$l->created_at}}  --}}
-                    </td>
+                    {{-- </td>
                     
             
                 </tr>
@@ -142,11 +142,11 @@
             <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;">{{$somme_divers}}$</td>
             
         </tfoot>
-    </table>
-    @php
-        $lelo = new DateTime('now');
+    </table> 
+    @php --}}
+        {{-- $lelo = new DateTime('now');
         $lelo = $lelo->format('d-m-Y');
-    @endphp
+    @endphp --}}
 
     <div class="w-full" style=" text-align:right; margin-top:30px;">
         <p>Aujourd'hui le, {{$lelo}}</p>

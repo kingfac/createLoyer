@@ -61,6 +61,8 @@
                             $ctrR = 0;
                             $total_paye=0;
                             $total_reste=0;
+                            $loyer_mens = 0;
+
                         @endphp
                         @foreach ($data as $dt) 
                      
@@ -89,7 +91,7 @@
                                 {{$dt->noms}}
                             </td>
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$dt->occupation->galerie->nom}} / {{$dt->occupation->typeOccu->nom}}
+                                {{$dt->occupation->galerie->nom}}-{{$dt->occupation->galerie->num}} / {{$dt->occupation->typeOccu->nom}}
                             </td>
                             {{-- <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 @php
@@ -99,6 +101,9 @@
                             </td> --}}
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$dt->occupation->montant}}$
+                                @php
+                                    $loyer_mens += $dt->occupation->montant;
+                                @endphp
                             </td>
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$dt->somme ?? 0}} $
@@ -121,13 +126,13 @@
                             <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
                             </td>      
                             <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
-                                {{-- {{$total_paye}} --}}
+                                {{$loyer_mens}} $
                             </td>         
                             <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$total_paye}}$
+                                {{$total_paye}} $
                             </td>     
                             <td class="py-4 px-6 text-sm font-medium bg-gray-200 text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$total_reste}}$
+                                {{$total_reste}} $
                             </td>                              
                         </tr>
                        
