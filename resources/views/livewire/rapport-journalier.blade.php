@@ -24,7 +24,7 @@
                     Periode
                 </th>  
                 <th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                    Garentie
+                    Garantie
                 </th>  
                 <th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Divers
@@ -101,7 +101,7 @@
                         @if ($loyer->garantie == true)
                             {{$loyer->montant}} $
                         @else
-                            Sans garentie
+                            Sans garantie
                         @endif
                     </td>
                     <td class="border py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">

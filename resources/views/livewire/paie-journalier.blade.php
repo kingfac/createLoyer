@@ -72,12 +72,12 @@
                 $divers = Divers::where('locataire_id', $loc->id)->whereRaw("DAY(created_at) = DAY(NOW())")->get();
                 $garanties = Garantie::where('locataire_id', $loc->id)->whereRaw("DAY(created_at) = DAY(NOW())")->get();
             @endphp
-            @if ($loyers->sum('montant') != 0 || $divers->sum('qte') != 0 || $garantie->sum('montant') != 0)
+            @if ($loyers->sum('montant') != 0 || $divers->sum('qte') != 0 || $garanties->sum('montant') != 0)
                 
                 <tr class="border-b">
                     <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;">{{$num}}</td>
                     <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                        {{$loc->noms}}
+                        {{$loc->noms}} 
                         
                     </td>
                     <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">

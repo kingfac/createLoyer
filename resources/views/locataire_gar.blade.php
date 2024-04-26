@@ -47,7 +47,13 @@
                     Occupation
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    Garantie
+                    Garantie payée
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    Garantie utilisée
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    Reste
                 </td>
             </tr>
         </thead>
@@ -80,10 +86,20 @@
                                 $admin1 = User::find($garantie->users_id);
                                 $somme_garantie += $garantie->montant
                             @endphp
-                            <p>{{$garantie->montant}} $ ({{$admin1->name}})</p>
+                            <p>{{$somme_garantie}} $</p>
                         @empty
                             <p>-----------</p>
                         @endforelse
+                    </td>
+                    <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                       
+                            @php
+                                $utilisee = Loyer::where(['locataire_id'=> $loc->id,'garantie'=>true])->sum('montant');
+                            @endphp
+                            <p>{{$utilisee}} $</p>
+                    </td>
+                    <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                       {{$restitution}}
                     </td>
                 </tr>
                 @php
@@ -91,10 +107,10 @@
                 @endphp
             @endif
         </tbody>
-        <tfoot>
+        {{-- <tfoot>
             <td class="py-5 fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color:rgb(46, 131, 211);" colspan="4">Total</td>
             <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color:rgb(46, 131, 211);font-weight:bold">{{$somme_garantie}}$</td>
-        </tfoot>
+        </tfoot> --}}
     </table>
     @php
         $lelo = new DateTime('now');

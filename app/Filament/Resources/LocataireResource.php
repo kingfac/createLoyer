@@ -38,6 +38,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\LocataireResource\RelationManagers;
 use GuzzleHttp\Promise\Create;
+use Illuminate\Support\Facades\Auth;
 
 class LocataireResource extends Resource
 {
@@ -319,6 +320,7 @@ class LocataireResource extends Resource
                             'mp' => $data['mp'],
                             'num_occupation' => $data['num_occupation'],
                             'ap' => $data['ap'],
+                            'users_id' => Auth::user()->id,
                             'actif' => $data['actif'],
 
                         ]);

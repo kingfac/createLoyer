@@ -53,7 +53,12 @@ $lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
         
     </tr>
     <tr>
-        <td style="width:100%"><b>Pour :</b>{{$record->observation ?? ' Le loyer du mois de (d\') '.$record->mois}}</td>
+        <td style="width:100%"><b>Pour :</b>{{$record->observation ?? ' Loyer du mois de (d\') '.$record->mois}}, 
+        @if ($record->garantie)
+            Type de paiement : Avec garantie
+        @else
+            Type de paiement : Sans garantie
+        @endif</td>
     </tr>
    
     <tr>
