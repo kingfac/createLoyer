@@ -59,6 +59,9 @@
         @php
             $_id = 0;
             $num=1;
+            $t1=0;
+            $t2=0;
+            $t3=0;
         @endphp
         @foreach ($data as $dt) 
         @if ($_id != $dt->id && $dt->somme < $dt->occupation->montant && $dt->somme > 0)
@@ -92,9 +95,31 @@
         </tr>
         @php
             $num+=1;
+            $t1+=$dt->occupation->montant;
+            $t2+=$dt->somme;
+            $t3+=$dt->occupation->montant - $dt->somme;
         @endphp
         @endif
         @endforeach
+
+        <tfoot>
+            <tr class="border-b">
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="">Totaux</td>
+                
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{$t1}} $
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{$t2}} $
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{$t3}} $
+                </td>
+                
+            </tr>
+        </tfoot>
     </tbody>
     
     
