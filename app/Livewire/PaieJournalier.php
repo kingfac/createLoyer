@@ -31,6 +31,9 @@ class PaieJournalier extends Component implements HasForms, HasTable
     
 
     public $mois;
+    public $label = 'paiement Journalier';
+    public $lelo;
+    public $locs;
     public $annee;
     public $lesMois = [
         '01' => 'Janvier',
@@ -65,6 +68,12 @@ class PaieJournalier extends Component implements HasForms, HasTable
     {
         $this->remplir();
         return view('livewire.paie-journalier');
+    }
+
+    public function mount(){
+        $this->lelo = new DateTime('now');
+        $this->lelo = $this->lelo->format('d-m-Y');
+        $this->locs = Locataire::where('actif',true)->orderBy('id', 'DESC')->get();
     }
 
     public function table(Table $table): Table
