@@ -11,7 +11,7 @@ $lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
                 use App\Models\User;
             @endphp
 
-            <div class=" text-center" style="">
+            <div class=" text-start" style="">
                 {{-- <img src="{{public_path('logo.png')}}"> --}}
                 <h2>MILLE ET UNE MERVEILLE</h2>
                 <h3>N.R.C. 53666 - Id. Nat. : 01-910-N 40270 K</h3>

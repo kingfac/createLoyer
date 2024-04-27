@@ -90,7 +90,7 @@ class PaieJournalier extends Component implements HasForms, HasTable
             ->columns([
                 // ...
                 TextColumn::make('noms')->label('Locataire'),
-                TextColumn::make('occupation')->label('Galerie')
+                TextColumn::make('ro')->label('Galerie')
                     ->default(function(Locataire $record){
                         return $record->occupation->galerie->nom.'-'.$record->occupation->galerie->num;
                     }),
@@ -147,7 +147,7 @@ class PaieJournalier extends Component implements HasForms, HasTable
                         $lelo = new DateTime('now');
                         $lelo = $lelo->format('d-m-Y');
                         $data = Loyer::whereRaw("DAY(created_at) = DAY(NOW())")->get();
-                        $pdf = Pdf::loadHTML(Blade::render('journalier', ['data' => $data, 'label' => 'Paiement journalier du '.$lelo]));
+                        $pdf = Pdf::loadHTML(Blade::render('journalier', ['data' => $data, 'label' => 'Paiement journalier du '.$lelo]))->setPaper('a4', 'landscape');
                         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
                         return response()->download('../public/storage/pdf/doc.pdf');
                         

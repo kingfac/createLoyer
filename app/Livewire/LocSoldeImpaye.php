@@ -34,7 +34,7 @@ class LocSoldeImpaye extends Component //implements HasForms, HasTable
         ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
         ->orderBy('locataires.id')
         ->get();
-        $pdf = Pdf::loadHTML(Blade::render('inverse', ['data' => $this->data, 'label' => 'Locataires avec soldes impayés du mois de '.$this->mois, 'inverse' =>true]));
+        $pdf = Pdf::loadHTML(Blade::render('inverse', ['data' => $this->data, 'label' => 'Locataires avec soldes impayés du mois de '.$this->mois, 'inverse' =>true]))->setPaper('a4', 'landscape');
         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return view('livewire.loc-solde-impaye');
     }
