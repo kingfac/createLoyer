@@ -236,8 +236,6 @@ class ListGaranties extends ListRecords
                     ->action(function(array $data){
                         $lelo = new DateTime('now');
                         $lelo = $lelo->format('d-m-Y');
-
-
                         $paiements = Loyer::where('locataire_id', $data['locataire_id'])->where('garantie',true)->sum('montant');
                     $r_exist = Garantie::where(['locataire_id'=>$data['locataire_id'], 'restitution'=> true])->first();
                     if($r_exist == null){

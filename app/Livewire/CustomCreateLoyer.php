@@ -703,13 +703,11 @@ class CustomCreateLoyer extends Component implements HasForms
                     }
                 }
                 
-                // dd($reste, $nbr, $data);
                 Loyer::insert($data);
                 $records = Loyer::where(['locataire_id' => $this->locataire_id])
                     ->whereRaw("created_at = ?", [$lelo])
                     ->orderBy('created_at')
                     ->get();
-                    //dd($records);
                 $this->form->fill();
                 $this->dispatch('loyer-created');
                 $this->remplir();
@@ -718,10 +716,8 @@ class CustomCreateLoyer extends Component implements HasForms
                         Blade::render('anticipatif', ['records' => $records])
                     )->stream();
                 }, 'loyerAnticipatif.pdf');
-                //dd($mt, $reste);
             }
             else{
-                // dd('coucou');
                 
                 for ($i=$mois_en_numeric_start; $i < $this->form->getState()['nbr'] + $mois_en_numeric_start ; $i++) { 
                     # code...
@@ -737,11 +733,6 @@ class CustomCreateLoyer extends Component implements HasForms
                     ];
                     $moiss[] = $Mois1[$i > 9 ? $i : '0'.$i];
                 }
-                //dd($data);
-                //$nbr = $this->form->getState()['montant'] / $this->locataire->occupation->montant;
-                //$rest = $this->locataire->occupation->montant * 0.8571428571429;
-                //dd('Toza na cas mususu', $nbr, $rest);
-                //dd($moiss, $data);
                 Loyer::insert($data);
                 $records = Loyer::whereIn('mois', $moiss)->where(['annee' => $this->annee, 'locataire_id' => $this->locataire_id])->get();
                 $this->form->fill();
@@ -756,19 +747,14 @@ class CustomCreateLoyer extends Component implements HasForms
             }
         }
         else if($loyer_checking == $this->locataire->occupation->montant){
-            // dd($loyer_checking, 100);
 
-            //dd("Loyer déjà payé pour ce mois-ci");
             Notification::make()
                 ->title("Erreur")
                 ->body("Loyer déjà payé pour ce mois-ci")
                 ->warning()
                 ->send();
-            //return false;
             $this->form->fill();
-            //$this->dispatch('loyer-created');
             $this->remplir();
-            //echo "<script>alert('Loyer déjà payé pour ce mois-ci')</script>";
         }
         else{
             
@@ -819,10 +805,8 @@ class CustomCreateLoyer extends Component implements HasForms
     
                 $nbr = intval(($this->form->getState()['montant'] - $mt_paye) / $this->locataire->occupation->montant);
                 $reste = ($this->form->getState()['montant'] - $mt_paye) - ($this->locataire->occupation->montant * $nbr);
-                //dd($nbr, $reste);
                 $ctrA = 0;
                 for ($i=$mois_en_numeric_start+1; $i < $nbr + $mois_en_numeric_start + 1 ; $i++) { 
-                    # code...
                     if($i <= 12){
                         $data[] =[
                             'montant' => $this->locataire->occupation->montant,
@@ -839,7 +823,6 @@ class CustomCreateLoyer extends Component implements HasForms
                 }
     
                 if($reste > 0){
-                    // dd($nbr);
                     if($nbr == 0){
                         $nbr = $mois_en_numeric_start + 1;
                     }
@@ -848,8 +831,6 @@ class CustomCreateLoyer extends Component implements HasForms
                     }
                     $nbr=$nbr > 12 ? 1: $nbr ;
                     if($data[count($data)-1]['mois'] == $Mois1[$nbr > 9 ? $nbr : '0'.$nbr] ) $nbr++;
-                    // $this->annee=$nbr > 12 ? date('Y')+1: $this->annee ;
-                    // dd($reste, $nbr,$data[count($data)-1]);
 
                     $data[] =[
                         'montant' => $reste,
@@ -863,11 +844,8 @@ class CustomCreateLoyer extends Component implements HasForms
                     ];
                     $moiss[] = $Mois1[$nbr > 9 ? $nbr : '0'.$nbr];
                 }
-                // dd($moiss, $data);
-                // dd($reste, $nbr, $data);
                 Loyer::insert($data);
                 $records = Loyer::whereIn('mois', $moiss)
-                    //->where(['annee' => $this->annee, 'locataire_id' => $this->locataire_id])
                     ->whereRaw("created_at = ?  and locataire_id = $this->locataire_id", [$lelo])
                     ->get();
                 $this->form->fill();
@@ -885,7 +863,6 @@ class CustomCreateLoyer extends Component implements HasForms
     }
     
     public function remplir(){
-        //dd($this->locataire);
         $this->annee = $this->copy_annee;
         $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
         ->selectRaw('locataires.*, loyers.montant, loyers.mois, loyers.annee, loyers.created_at as date_loyer, loyers.observation, loyers.garantie, loyers.users_id')
@@ -901,10 +878,15 @@ class CustomCreateLoyer extends Component implements HasForms
         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
     }
 
-    public function imprimer($ly){
-        dd($ly);
+
+    public function imprimer($a){
+        // dd($a);
+        $pdf = Pdf::loadHTML(Blade::render('pay_loy', ['record' => $a,'label' => 'Payement Loyer']));
+        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
+        return response()->download('../public/storage/pdf/doc.pdf');
         
     }
+
 
     public function fermer(){
         

@@ -72,9 +72,6 @@
                     Imprimer
                 </a>
             @endif
-            
-
-            
         </div>
         
     
@@ -107,7 +104,6 @@
                 <th scope="col" colspan="3" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Observation
                 </th>
-               
             </tr>
         </thead>
     
@@ -124,8 +120,6 @@
                 $intervenant = User::find($ly->users_id)->first()->name;
             @endphp
             <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                
-                
                 <td colspan="3" class="border w-32 py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
                     {{$ly->date_loyer}}
                 </td>
@@ -144,8 +138,15 @@
                 <td colspan="3" class="border w-32 py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
                     {{$ly->observation ?? 'Aucune observation'}} 
                 </td>
-
-                
+                <td>
+                     <x-filament::icon-button
+                            icon="heroicon-o-printer"
+                            tag="a"
+                            label="Detail"
+                            tooltip="Imprimer"
+                            wire:click="imprimer({{$ly}})"
+                    />
+                </td>
             </tr>
             @endforeach
             <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
