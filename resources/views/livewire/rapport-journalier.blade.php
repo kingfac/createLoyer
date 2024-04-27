@@ -64,6 +64,15 @@
             </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+            @php
+                $lm=0;
+                $tot_div=0;
+                $td=0;
+                $tj=0;
+                $tf=0;
+                $tm=0;
+                $tv=0;
+            @endphp
             @foreach ($data as $loyer)
             
                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -96,6 +105,9 @@
                     </td>
                     <td class="border py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
                         {{$loyer->mois}}({{$loyer->montant}}$)
+                        @php
+                            $lm+=$loyer->montant;   
+                        @endphp
                     </td>
                     <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
                         @if ($loyer->garantie == true)
@@ -112,6 +124,9 @@
                         @endphp
                         @if ($diver != null)
                             {{ $diver->qte * $diver->cu}} $
+                            @php
+                                $tot_div+=$diver->qte * $diver->cu;
+                            @endphp
                         @else
                             0 $
                         @endif
@@ -126,24 +141,29 @@
                         if ($moisEncours >= 10 && $moisEncours <= 12) {
                             echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'. 
                                         $this->lesMois[$moisEncours] == $loyer->mois ? $loyer->montant.' $' : 0 .' $'
+                                        
                                  .'</td>';
+                                 $td+= $loyer->montant;
                             
                         }
                         if ($moisEncours < 0 || $moisEncours == 0 ){
                             echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'. 
                                         $moisAff=$this->lesMois[$moisEncours + 12] == $loyer->mois ? $loyer->montant.' $' : 0 .' $'
                                  .'</td>';
+                                 $tj+= $loyer->montant;
                                 
                         }
                         if($moisEncours > 12){
                             echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'. 
                                         $moisAff = $this->lesMois[$moisEncours - 13 ] == $loyer->mois ? $loyer->montant.' $' : 0 .' $'
                                 .'</td>';
+                                $tf+= $loyer->montant;
                         }
                         if($moisEncours >=1 && $moisEncours<10){
                             echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'.
                                         $moisAff = $this->lesMois['0'.$moisEncours] == $loyer->mois ? $loyer->montant.' $' : 0 .' $'
                                  .'</td>';
+                                 $tm+= $loyer->montant;
                         }
                     }
                     @endphp
@@ -155,30 +175,38 @@
             @endforeach
         </tbody>
         <tfoot>
-            {{-- <tr class="border-b">
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="">Totaux</td>
+            <tr class="border-b" style=" background-color:rgb(194, 189, 189)">
+                <td class="fi-ta-cell  text-center  p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="">Totaux</td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
+                <td class="fi-ta-cell text-center  p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    200
+                    
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell  text-center p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
+                <td class="fi-ta-cell text-center p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{$lm}} $
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell text-center  p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
+                <td class="fi-ta-cell  text-center p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{$tot_div}} $
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell text-center  p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
+                <td class="fi-ta-cell text-center  p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{-- {{$td}} --}}
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell  text-center p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
+                <td class="fi-ta-cell text-center  p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{-- {{$tj}} --}}
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{-- {{$tf}} --}}
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{-- {{$tm}} --}}
                 </td>
                 
-            </tr> --}}
+            </tr>
         </tfoot>
     </table>
 {{--     <p>{{$data}}</p>
