@@ -1,6 +1,9 @@
 <link rel="stylesheet" href="{{public_path('css.css')}}"> 
 
 <div class="w-screen">
+    @php
+        use Carbon\Carbon;
+    @endphp
 
     <div class=" text-center">
         <table style=" width:100%; font-size: 1em; font-weight: bold; color:rgb(46, 131, 211)">

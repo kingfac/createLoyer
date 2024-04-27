@@ -68,7 +68,10 @@ class PayementLoyerJournalier extends BaseWidget
         ->columns([
             // ...
             TextColumn::make('noms')->label('Locataire'),
-            TextColumn::make('occupation.galerie.nom')->label('Galerie'),
+            TextColumn::make('un')->label('Galerie')
+            ->default(function(Locataire $record){
+                return $record->occupation->galerie->nom.'-'.$record->occupation->galerie->num;
+            }),
             TextColumn::make('occupation.typeOccu.nom')->label('Occupation'),
             /* TextColumn::make('montant')->label('Loyer payé')
                 ->summarize(Sum::make()->money()->label('Total'))

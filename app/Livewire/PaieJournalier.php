@@ -90,7 +90,10 @@ class PaieJournalier extends Component implements HasForms, HasTable
             ->columns([
                 // ...
                 TextColumn::make('noms')->label('Locataire'),
-                TextColumn::make('occupation.galerie.nom')->label('Galerie'),
+                TextColumn::make('occupation')->label('Galerie')
+                    ->default(function(Locataire $record){
+                        return $record->occupation->galerie->nom.'-'.$record->occupation->galerie->num;
+                    }),
                 TextColumn::make('occupation.typeOccu.nom')->label('Occupation'),
               
                 TextColumn::make("Loyer")->default(function(Locataire $record){
