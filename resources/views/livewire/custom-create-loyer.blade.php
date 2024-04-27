@@ -141,10 +141,10 @@
                 <td>
                      <x-filament::icon-button
                             icon="heroicon-o-printer"
-                            tag="a"
-                            label="Detail"
-                            tooltip="Imprimer"
-                            wire:click="imprimer({{$ly}})"
+                            {{-- tag="a" --}}
+                            {{-- label="Detail" --}}
+                            {{-- tooltip="Imprimer" --}}
+                            wire:click="imprimer({{$ly}},{{$ly}})"
                     />
                 </td>
             </tr>

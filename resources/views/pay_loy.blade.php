@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="{{public_path('css.css')}}"> 
 @php
     use Rmunate\Utilities\SpellNumber;
+    use App\Models\User;
     $lelo = new DateTime('now');
     $lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
 @endphp
@@ -21,8 +22,11 @@
         <td style="text-align:right;" colspan="3">
             <h4>Kin, le {{$lelo}}</h4>
             <h4 class="p-2 bg-gray-200" style="width: 100%;">Montant :  <b style="padding: 5px; background-color:rgb(98, 172, 241); width:100%;color:white">{{ $record["montant"] }} $ </b></h4>
-            {{-- <h4>Loyer de : {{$record->mois}}-{{$record->annee}}</h4>
-            <h4>Intervenant : {{Auth::user()->name}}</h4> --}}
+            <h4>Loyer de : {{$record['mois']}}-{{$record['annee']}}</h4>
+            @php
+                $nom = User::find($record['users_id']);
+            @endphp
+            <h4>Intervenant : {{$nom->name}}</h4>
         </td>     
     </tr>
 </table>
