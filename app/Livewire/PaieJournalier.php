@@ -83,6 +83,7 @@ class PaieJournalier extends Component implements HasForms, HasTable
         return $table
             ->query(
                 // ...
+                
                 Locataire::query()
                 
             )
@@ -92,17 +93,17 @@ class PaieJournalier extends Component implements HasForms, HasTable
                 TextColumn::make('occupation.galerie.nom')->label('Galerie'),
                 TextColumn::make('occupation.typeOccu.nom')->label('Occupation'),
               
-                TextColumn::make("Periode")->default(function(Locataire $record){
+                TextColumn::make("Loyer")->default(function(Locataire $record){
                     $moiss = [];
                     $current_data = NOW()->format('Y-m-d');
                     foreach (Loyer::where('locataire_id', $record->id)
                     ->whereRaw(" DATE(created_at) = '$current_data' ")
                     ->distinct('mois')
-                    ->get('mois') as $loy) {
+                    ->get(['mois','montant']) as $loy) {
                         # code...
-                        $moiss[] = $loy->mois;
+                        $moiss[] = $loy->montant;
                     }
-                    return $moiss;
+                    return array_sum($moiss).'$';
                 }),
 
                 TextColumn::make("Garantie")->default(function(Locataire $record){

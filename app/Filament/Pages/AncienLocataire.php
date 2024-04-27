@@ -57,7 +57,7 @@ class AncienLocataire extends Page implements HasTable
                     ->default(function(Locataire $record){
                         // dd($record);
                         $montant = Garantie::where(['locataire_id'=> $record->id, 'restitution'=>true])->get();
-                        return $montant->value('montant');
+                        return $montant->value('montant').'$';
                     })
                     ->sortable(),
                 TextColumn::make('occupation.montant')
@@ -72,6 +72,7 @@ class AncienLocataire extends Page implements HasTable
                 TextColumn::make('mp')
                     ->dateTime("M")
                     ->sortable(),
+                    
                 
             ])
             ->filters([

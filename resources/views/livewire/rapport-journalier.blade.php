@@ -21,7 +21,7 @@
                     libelle
                 </th>
                 <th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                    Periode
+                    Periode(Loyer)
                 </th>  
                 <th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Garantie
@@ -71,7 +71,7 @@
                         {{$loyer->locataire->noms}}
                     </td>
                     <td class="border py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
-                        {{$loyer->locataire->occupation->galerie->nom}}
+                        {{$loyer->locataire->occupation->galerie->nom}}-{{$loyer->locataire->occupation->galerie->num}}
                     </td>
                     <td class="border py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
                         @php
@@ -95,7 +95,7 @@
                         {{$result}}
                     </td>
                     <td class="border py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
-                        {{$loyer->mois}}
+                        {{$loyer->mois}}({{$loyer->montant}}$)
                     </td>
                     <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
                         @if ($loyer->garantie == true)
@@ -154,6 +154,32 @@
                 </tr>
             @endforeach
         </tbody>
+        <tfoot>
+            {{-- <tr class="border-b">
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="">Totaux</td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    200
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </td>
+                
+            </tr> --}}
+        </tfoot>
     </table>
 {{--     <p>{{$data}}</p>
  --}}</div>

@@ -27,7 +27,7 @@ class Caisse extends Page implements HasForms
     {
         return $form
             ->schema([
-                DatePicker::make('date'),
+                // DatePicker::make('date'),
         ])
         ->columns(4)
         ->statePath('data');

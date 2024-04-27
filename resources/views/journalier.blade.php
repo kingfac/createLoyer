@@ -1,9 +1,30 @@
 <link rel="stylesheet" href="{{public_path('css.css')}}"> 
 
 <div class="w-screen">
+    @php
+        use Carbon\Carbon;
+    @endphp
 
     <div class=" text-center">
-        <img src="{{public_path('logo.png')}}">
+        <table style=" width:100%; font-size: 1em; font-weight: bold; color:rgb(46, 131, 211)">
+            <tr  style="">
+                <td  style="">
+        
+                    <div class="text-start" style="">
+                        <h2>MILLE ET UNE MERVEILLE</h2>
+                        <h3>N.R.C. 53666 - Id. Nat. : 01-910-N 40270 K</h3>
+                        <h3>Av. Tshuapa N°90 C./Kinshasa</h3>
+                        <h3 style=" border-bottom:solid 1px; borcer-bottom-width:100px;">Tel. : 0850758588 - 0816567028</h3>
+                    </div>
+                </td>
+                <td style="text-align:right;" colspan="3">
+                    @php
+                        $lelo = Carbon::today()->format('d-m-Y');
+                    @endphp
+                    <h4>Kin, le {{$lelo}}</h4>
+                </td>
+            </tr>
+        </table>
         <h2>{{$label}}</h2>
     </div>
     
@@ -40,6 +61,7 @@
         <tbody class="divide-y divide-gray-200 whitespace-nowrap dark:divide-white/5">
             @php
                 $num = 1;
+                $tot_montant=0;
             @endphp
             @foreach ($data as $dt) 
             
@@ -60,6 +82,9 @@
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->montant}} $
+                    @php
+                        $tot_montant+=$dt->montant;
+                    @endphp
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->created_at}} 
@@ -72,6 +97,27 @@
             @endphp
             @endforeach
         </tbody>
+        <tfoot>
+            <tr class="border-b " style="background-color: rgb(230, 230, 230)">
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;"></td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    Total
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{$tot_montant}} $    
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </td>
+                
+        
+            </tr>
+        </tfoot>
     </table>
     @php
         $lelo = new DateTime('now');
