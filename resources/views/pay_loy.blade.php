@@ -31,7 +31,7 @@
     </tr>
 </table>
 
-<div class="text-center b-2 bg-gray-500 mb-2" style="font-size: 2em;padding:10px; color:rgb(46, 131, 211)">RECU LOYER</div>
+<div class="text-center b-2 bg-gray-500 mb-2" style="font-size: 1.5em;padding:10px; color:rgb(46, 131, 211)">RECU LOYER N° {{$record["di"]}}</div>
 
 <table class="w-full mb-2" style=" color:rgb(46, 131, 211)">
     <tr style="font-size: 1.1em; " class="text-bold">

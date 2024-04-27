@@ -97,8 +97,8 @@
                                 $admin = User::find($loyer->users_id);
                                 $somme_loyer += $loyer->montant;
                             @endphp
-                            <p>{{$loyer->mois}}</p>
-                            <p>({{$loyer->montant}}$, {{$admin->name}})</p>
+                            <p>{{$loyer->mois}}({{$loyer->montant}}$, {{$admin->name}})</p>
+                            {{-- <p></p> --}}
                         @empty
                             <p>-----------</p>
                         @endforelse

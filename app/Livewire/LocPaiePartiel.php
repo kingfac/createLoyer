@@ -25,7 +25,7 @@ class LocPaiePartiel extends Component
         ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
         ->orderBy('locataires.id')
         ->get();
-        $pdf = Pdf::loadHTML(Blade::render('partiel', ['data' => $this->data, 'label' => 'Locataires avec paiements partiels du mois de '.$this->mois, 'inverse' =>true]))->setPaper('a4', 'landscape');
+        $pdf = Pdf::loadHTML(Blade::render('partiel', ['data' => $this->data, 'label' => 'Locataires avec paiements partiels du mois de '.$this->mois, 'inverse' =>true]))->setPaper('a4', 'portrait');
         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return view('livewire.loc-paie-partiel');
     }

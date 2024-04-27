@@ -141,8 +141,7 @@ class PayementLoyerJournalier extends BaseWidget
                     $lelo = $lelo->format('d-m-Y');
                     $locs = Locataire::where('actif',true)->orderBy('id', 'DESC')->get();
                     // $data = Loyer::whereRaw("DAY(created_at) = DAY(NOW())")->get();
-                    $pdf = Pdf::loadHTML(Blade::render('dash_journalier', ['locs' => $locs, 'label' => ' ,Garantie, Divers Journaliers  du '.$lelo]))->setPaper('a4', 'landscape');
-                    // Pdf::setPaper($pdf,'paysage');
+                    $pdf = Pdf::loadHTML(Blade::render('dash_journalier', ['locs' => $locs, 'label' => ' Payement Loyer,Garantie, Divers Journaliers  du '.$lelo]))->setPaper('a4', 'landscape');
                     Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
                     return response()->download('../public/storage/pdf/doc.pdf');
                     

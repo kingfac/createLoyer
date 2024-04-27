@@ -778,8 +778,9 @@ class CustomCreateLoyer extends Component implements HasForms
                     $this->remplir();
                     return response()->streamDownload(function () use ($loyer) {
                         //dd($loyer, "sisi");
-                        echo Pdf::loadHtml(Blade::render('pdf', ['record' => $loyer]))->setPaper('a4', 'landscape')->stream();
+                        echo Pdf::loadHtml(Blade::render('pdf', ['record' => $loyer]))->setPaper('a4', 'portrait')->stream();
                     }, '1.pdf');
+                    //landscape
                 } catch (Exception $ex) {
                     //throw $th;
                     dd($ex->getMessage());
@@ -850,9 +851,7 @@ class CustomCreateLoyer extends Component implements HasForms
                 $this->dispatch('loyer-created');
                 $this->remplir();
                 return response()->streamDownload(function () use ($records) {
-                    echo Pdf::loadHtml(
-                        Blade::render('anticipatif', ['records' => $records])
-                    )->stream();
+                    echo Pdf::loadHtml(Blade::render('anticipatif', ['records' => $records]))->setPaper('a4', 'portrait')->stream();
                 }, 'loyerAnticipatif.pdf');
             }
         }
@@ -863,13 +862,13 @@ class CustomCreateLoyer extends Component implements HasForms
     public function remplir(){
         $this->annee = $this->copy_annee;
         $this->data = Locataire::join('loyers', '.locataire_id', '=', 'locataires.id')
-        ->selectRaw('locataires.*, loyers.montant, loyers.mois, loyers.annee, loyers.created_at as date_loyer, loyers.observation, loyers.garantie, loyers.users_id')
+        ->selectRaw('locataires.*, loyers.montant, loyers.mois, loyers.annee, loyers.created_at as date_loyer, loyers.observation, loyers.garantie,loyers.id as di, loyers.users_id')
         ->where(['loyers.locataire_id' => $this->locataire_id, 'mois' => $this->mois, 'annee' => $this->annee])
         ->orderBy('locataires.id')
         ->get();
 
         //pdf
-        $pdf = Pdf::loadHTML(Blade::render('situation', ['data' => $this->data, 'label' => 'SITUATION PERSONNELLE DU LOCATAIRE ', 'mois' => $this->mois, 'annee' => $this->annee, 'locataire' => $this->locataire]))->setPaper('a4', 'landscape');
+        $pdf = Pdf::loadHTML(Blade::render('situation', ['data' => $this->data, 'label' => 'SITUATION PERSONNELLE DU LOCATAIRE ', 'mois' => $this->mois, 'annee' => $this->annee, 'locataire' => $this->locataire]))->setPaper('a4', 'portrait');
         //$pdf->save(public_path().'/pdf/doc.pdf');
         
         //$pdf = Pdf::loadHTML(Blade::render('evolution', ['data' => $this->data, 'label' => 'LOCATAIRE À JOUR DU MOIS DE '.$this->mois]));
@@ -879,7 +878,7 @@ class CustomCreateLoyer extends Component implements HasForms
 
     public function imprimer($a,$m){
         // dd($m['mois']);
-        $pdf = Pdf::loadHTML(Blade::render('pay_loy', ['record' => $a,'label' => 'Payement Loyer']))->setPaper('a4', 'landscape');
+        $pdf = Pdf::loadHTML(Blade::render('pay_loy', ['record' => $a,'label' => 'Payement Loyer']))->setPaper('a4', 'portrait');
         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return response()->download('../public/storage/pdf/doc.pdf');
         
