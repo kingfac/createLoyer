@@ -15,7 +15,7 @@
     <div class="flex justify-between " >
         {{-- {{$dettes_mois($locataire->id)}} --}}
         <div class=" w-full flex justify-between  bg-blue-600 p-6 ">
-            <h1 class=" text-xl text-white uppercase">Etat personnel du locataire</h1>
+            <h1 class=" text-xl text-white uppercase" style=" font-weight : bold;">Etat personnel du locataire</h1>
             <p class="text-white flex-1 text-right">{{$locataire->noms}}</p>
             <div align='right' style=" padding-left: 10px;">
                 <x-filament::icon-button
@@ -175,7 +175,7 @@
         @endphp
     <div>
 
-        <h1 style=" color:white ; padding-left:15px; font-size:1.5em; backgound:blue; margin-top: 20px ; font-weight : bold " class="bg-blue-600"> Affichage des dettes</h1>
+        <h1 style=" color:white ; padding-left:15px; font-size:1.3em; backgound:blue; margin-top: 20px ; font-weight : bold; text-transform:uppercase " class="bg-blue-600"> Affichage des dettes</h1>
 
         <table class="fi-ta-table  table-auto divide-y divide-gray-600 text-start dark:divide-white/5 w-full "  style="">
                 
