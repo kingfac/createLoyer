@@ -59,7 +59,7 @@
                 </button>
                 <a href="/storage/pdf/doc.pdf" class="bg-blue-500  text-white px-5 py-2 rounded-md" target="_blank">
                     {{-- <x-heroicon-s-printer /> --}}
-                    Imprimer
+                    Imprimer situation personnelle locataire
                 </a>
                    
             </div>
@@ -175,8 +175,9 @@
         @endphp
     <div>
 
-        <table class="fi-ta-table  table-auto divide-y divide-gray-600 text-start dark:divide-white/5 w-full " ">
-            <h1 style=" color:#3b82f6 ; font-size:1.5em; margin-top: 15px ; font-weight : bold "> Affichage des dettes</h1>
+        <h1 style=" color:white ; padding-left:15px; font-size:1.5em; backgound:blue; margin-top: 20px ; font-weight : bold " class="bg-blue-600"> Affichage des dettes</h1>
+
+        <table class="fi-ta-table  table-auto divide-y divide-gray-600 text-start dark:divide-white/5 w-full "  style="">
                 
                 <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: #ababab9f">
                     <tr class="text-lg font-bold">
