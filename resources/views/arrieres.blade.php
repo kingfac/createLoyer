@@ -42,8 +42,8 @@
         
     @endphp
 
-    <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}">
-    {{-- If your happiness depends on money, you will never be happy with yourself. --}}
+<link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}">
+{{-- If your happiness depends on money, you will never be happy with yourself. --}}
 
     @php
     $lelo = new DateTime('now');
@@ -70,11 +70,6 @@
             </td>
         </tr>
     </table>
-
-    <div class="text-center text-2xl b-2 bg-gray-500 mb-2" style="font-weight:bold;padding:15px">{{$label}}</div>
-
-
-
 
 
     <div class="flex justify-between">
