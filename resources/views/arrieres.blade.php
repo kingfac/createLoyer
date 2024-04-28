@@ -3,11 +3,12 @@
 
 
 {{-- @vite('resources/css/app.css') --}}
-<div class="w-full">
+<div class="">
 
     <?php 
         use App\Models\Loyer;
     ?>
+
 
     @php
         $Mois1 = [
@@ -43,24 +44,57 @@
 
     <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}">
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
+
+    @php
+    $lelo = new DateTime('now');
+    $lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
+@endphp
+<div class="font-serif" >
+    <table style=" width:100%; font-size: 1em; font-weight: bold;" class="">
+        <tr  style="">
+            <td  style="">
+
+                <div class="text-start " style="">
+                    {{-- <img src="{{public_path('logo.png')}}"> --}}
+                    <h2>MILLE ET UNE MERVEILLE</h2>
+                    <h3>N.R.C. 53666 - Id. Nat. : 01-910-N 40270 K</h3>
+                    <h3>Av. Tshuapa N°90 C./Kinshasa</h3>
+                    <h3 style="">Tel. : 0850758588 - 0816567028</h3>
+                </div>
+            </td>
+            <td style="text-align:right;" colspan="3">
+                <h4>Kin, le {{$lelo}}</h4>
+                {{-- <h4 class="p-2 bg-gray-200" style="width: 100%;">Montant :  <b style="padding: 5px; background-color:rgb(98, 172, 241); width:100%;color:white">{{ $record->montant }} $ </b></h4>
+                <h4>Loyer de : {{$record->mois}}-{{$record->annee}}</h4> --}}
+                <h4>Intervenant : {{Auth::user()->name}}</h4>
+            </td>
+        </tr>
+    </table>
+
+    <div class="text-center text-2xl b-2 bg-gray-500 mb-2" style="font-weight:bold;padding:15px">{{$label}}</div>
+
+
+
+
+
     <div class="flex justify-between">
         <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Arriérés des locataires</h1>
         {{--  {{ $this->form }}
         {{ $this->table }} --}}
-        <x-filament::icon-button
+        {{-- <x-filament::icon-button
             icon="heroicon-o-printer"
             tag="a"
             label="imprimer"
-            wire:click="imprimer"
+            tooltip="Imprimer"
             href="/storage/pdf/doc.pdf"
             target="_blank"
                 
-        />
+        /> --}}
     </div>
     <div class="overflow-x-auto shadow-md sm:rounded-lg">
         <div class="inline-block min-w-full align-middle">
             <div class="overflow-hidden ">
-                <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">
+                <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'" border="0.2">
                     <thead class="bg-gray-100 dark:bg-gray-700">
                         <tr>
                             <td>N°</td>

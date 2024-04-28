@@ -32,10 +32,10 @@
         <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'" style="color:rgb(46, 131, 211)">
             <tr>
                 <td>
-                    <h3>NOM DU LOCATAIRE</h3>
+                    <h3>LOCATAIRE</h3>
                 </td>
                 <td>
-                    <h2>{{$locataire->noms}}</h2>
+                    <h2 style=" font-weight:bold">{{$locataire->noms}}</h2>
                 </td>
             </tr>
             <tr>
@@ -51,13 +51,13 @@
             </td>
             <tr>
                 <td>
-                    <h2>{{$locataire->occupation->galerie->nom}}</h2>
+                    <h2 style=" font-weight:bold">{{$locataire->occupation->galerie->nom}}</h2>
                 </td>
                 <td>
-                    <h2>{{$locataire->occupation->typeOccu->nom}}</h2>
+                    <h2 style=" font-weight:bold">{{$locataire->occupation->typeOccu->nom}}</h2>
                 </td>
                 <td>
-                    <h2>{{$locataire->occupation->montant}} $</h2>
+                    <h2 style=" font-weight:bold">{{$locataire->occupation->montant}} $</h2>
                 </td>
             </tr>
     

@@ -64,7 +64,7 @@
                                 {{$dt->noms}}
                             </td>
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$dt->occupation->galerie->nom}}
+                                {{$dt->occupation->galerie->nom}}-{{$dt->occupation->galerie->num}}
                             </td>
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$dt->occupation->typeOccu->nom}}

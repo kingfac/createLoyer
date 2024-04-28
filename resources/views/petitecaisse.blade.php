@@ -1,19 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    {{-- <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}"> --}}
-    <link rel="stylesheet" href="{{public_path('css.css')}}">
-</head>
-<body class="w-screen">
+<link rel="stylesheet" href="{{public_path('css.css')}}"> 
+
+<div class="w-screen">
     @php
         use Carbon\Carbon;
     @endphp
-    <div class=" text-center w-full">
-        
+
+    <div class=" text-center">
         <table style=" width:100%; font-size: 1em; font-weight: bold; color:rgb(46, 131, 211)">
             <tr  style="">
                 <td  style="">
@@ -33,101 +25,75 @@
                 </td>
             </tr>
         </table>
+        {{-- <h1 style=" color:white ;width:100%; padding-left:15px; font-size:1.3em; backgound:blue; margin-top: 20px ; font-weight : bold; text-transform:uppercase " class="bg-blue-600"></h1> --}}
+
+        <h2 style="  text-transform:uppercase; font-size:1.3em; ">{{$label}}</h2>
     </div>
     
-    <div class="text-center text-xl  b-2 bg-blue-500 mb-2">{{$label}}</div>
     
-    <table class="w-full table-auto divide-y divide-gray-200 text-start">
+    
+    <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'">
             
         <thead class="bg-gray-50 dark:bg-white/5">
-            <tr class="text-lg font-bold " style="background-color:#abababc6;">
+            <tr class="text-lg font-bold" style="background-color:#abababc6;">
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    N°
+                    Loyers
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    Nom
+                    Garanties
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    Loyer à payer
-                </td>
-    
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    Loyer payé
+                    Divers
                 </td>
     
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    Reste
+                    Solde petite caisse
                 </td>
             </tr>
         </thead>
-    
-    
-    <tbody class="divide-y divide-gray-200 whitespace-nowrap dark:divide-white/5">
-       
-        @php
-            $_id = 0;
-            $tot_lp=0;
-            $tot_somme=0;
-            $tot_reste=0;
-            $num=1;
-        @endphp
-        @foreach ($data as $dt) 
-        @if ($_id != $dt->id )
-        @php
-            $_id = $dt->id;
-        @endphp
-        <tr class="border-b">
-            @if ($dt->somme==$dt->occupation->montant)
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="">{{$num}}</td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    {{$dt->noms}}
-                </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    {{$dt->occupation->montant}}$
-                    @php
-                        $tot_lp += $dt->occupation->montant;
-                    @endphp
-                </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    {{$dt->somme ?? 0}} $
-                    @php
-                        $tot_somme += $dt->somme;
-                    @endphp
-                </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    {{$dt->occupation->montant - $dt->somme}} $
-                    @php
-                        $tot_reste += $dt->occupation->montant - $dt->somme;
-                        $num+=1;
-                    @endphp
-                </td>
-                
-            @endif
-    
-        </tr>
-        @endif
-        @endforeach
-        <tfoot>
+        <tbody class="divide-y divide-gray-200 whitespace-nowrap dark:divide-white/5">
+            @php
+                $num = 1;
+                $tot_montant=0;
+            @endphp 
             <tr class="border-b">
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="">Totaux</td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{$loyers->sum('montant')}} $
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    {{$tot_lp}} $
+                    {{$garanties}} $
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    {{$tot_somme}} $
+                    @php
+                        $total = 0;
+                    @endphp
+                    @foreach ($depenses as $depense)
+                        @php
+                            $total += $depenses->sum('qte') * $depenses->sum('cu')
+                        @endphp
+                    @endforeach
+                    {{$total}} $
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    {{$tot_reste}} $
+                    {{$total+$garanties+$loyers->sum('montant')}} $
                 </td>
             </tr>
-        </tfoot>
-    </tbody>
-    
-    
+        
+        </tbody>
+        {{-- <tfoot>
+            <tr class="border-b " style="background-color: rgb(230, 230, 230)">
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    Total
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </td>
+               
+        
+            </tr>
+        </tfoot> --}}
     </table>
-
     @php
         $lelo = new DateTime('now');
         $lelo = $lelo->format('d-m-Y');
@@ -136,5 +102,4 @@
     <div class="w-full" style=" text-align:right; margin-top:30px;">
         <p>Aujourd'hui le, {{$lelo}}</p>
     </div>
-</body>
-</html>
+</div>

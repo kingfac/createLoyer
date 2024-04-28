@@ -2,8 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Models\Locataire;
 use Livewire\Component;
+use App\Models\Locataire;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Storage;
 
 class LocArrieres extends Component
 {
@@ -17,5 +20,11 @@ class LocArrieres extends Component
 
     public function remplir(){
         $this->locataires = Locataire::all();
+    }
+
+    public function imprimer(){
+        $pdf = Pdf::loadHTML(Blade::render('arrieres', ['locataires' =>  $this->locataires,'label' => 'Arriérés des locataires']))->setPaper('a4', 'portrait');
+        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
+        return response()->download('../public/storage/pdf/doc.pdf');
     }
 }

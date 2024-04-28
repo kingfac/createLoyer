@@ -45,9 +45,9 @@
                 <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Occupation
                 </th>
-                {{-- <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Besoin
-                </th> --}}
+                </th>
                 <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Montant divers
                 </th>                            
@@ -83,6 +83,9 @@
                 </td>
                 <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{$dt->occupation->typeOccu->nom}}
+                </td>
+                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{$dt->besoin}}
                 </td>
                 <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{-- {{$dt->occupation->montant}}$ --}}

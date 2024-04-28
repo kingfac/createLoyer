@@ -55,6 +55,8 @@
     {{-- </div> --}}
 
 
+    <h1 style=" color:white ; padding-left:15px; font-size:1.3em; backgound:blue; margin-top: 20px ; font-weight : bold; text-transform:uppercase " class="bg-blue-600">Grande caisse</h1>
+
 
     <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'">
         
@@ -68,6 +70,9 @@
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Depenses
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    Solde actuel
                 </td>
     
                 {{-- <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
@@ -90,6 +95,17 @@
                 <tr class="border-b">
                     <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;">
                         {{$loyersA->sum('montant')}}$
+                    </td>
+                    <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;">
+                        @php
+                            $total = 0;
+                        @endphp
+                        @foreach ($depenses as $depense)
+                            @php
+                                $total += $depenses->sum('qte') * $depenses->sum('cu')
+                            @endphp
+                        @endforeach
+                        {{$total}}$
                     </td>
                     <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;">
                         @php
