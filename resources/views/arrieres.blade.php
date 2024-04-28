@@ -3,7 +3,7 @@
 
 
 {{-- @vite('resources/css/app.css') --}}
-<div class="">
+<div class="w-full">
 
     <?php 
         use App\Models\Loyer;
@@ -94,7 +94,7 @@
     <div class="overflow-x-auto shadow-md sm:rounded-lg">
         <div class="inline-block min-w-full align-middle">
             <div class="overflow-hidden ">
-                <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'" border="0.2">
+                <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">
                     <thead class="bg-gray-100 dark:bg-gray-700">
                         <tr>
                             <td>N°</td>
