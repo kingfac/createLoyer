@@ -19,7 +19,7 @@ class DiverLocataire extends Component
     public function render()
     {
         $this->data = Locataire::where('actif', true)->get();
-        $pdf = Pdf::loadHTML(Blade::render('totaldivers', ['data' => $this->data, 'label' => 'Locataires avec paiements partiels du mois de ', 'inverse' =>true]))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadHTML(Blade::render('totaldivers', ['data' => $this->data, 'label' => 'Locataires avec paiements partiels du mois de ', 'inverse' =>true]))->setPaper('a4', 'landscape');
         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         
         return view('livewire.diver-locataire');
