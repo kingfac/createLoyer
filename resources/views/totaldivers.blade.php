@@ -85,7 +85,9 @@
                     {{$dt->occupation->typeOccu->nom}}
                 </td>
                 <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{$dt->besoin}}
+                    @foreach ($dt->divers as $div)
+                        <p>{{$loop->index+=1}}.{{$div->besoin}}   </p>
+                    @endforeach
                 </td>
                 <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{-- {{$dt->occupation->montant}}$ --}}
@@ -93,9 +95,9 @@
                     @foreach ($dt->divers as $div)
                         @php
                             $totalg += ($div->qte*$div->cu);
-                        @endphp
+                            @endphp
+                            <p>{{$loop->index+=1}}.{{($div->qte*$div->cu)}} $</p>
                     @endforeach
-                    {{$totalg}} $
                 </td>
                
             </tr>
