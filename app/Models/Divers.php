@@ -11,7 +11,7 @@ class Divers extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['locataire_id','besoin','    ','cu', 'entreprise','users_id'];
+    protected $fillable = ['locataire_id','besoin','qte','cu', 'entreprise','users_id'];
     
     public function locataire() : BelongsTo{
         return $this->belongsTo(Locataire::class);

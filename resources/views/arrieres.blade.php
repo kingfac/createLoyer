@@ -3,7 +3,7 @@
 
 
 {{-- @vite('resources/css/app.css') --}}
-<div class="w-full">
+<div class="">
 
     <?php 
         use App\Models\Loyer;
@@ -50,7 +50,7 @@
     $lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
 @endphp
 <div class="font-serif" >
-    <table style=" width:100%; font-size: 1em; font-weight: bold;" class="">
+    <table style=" font-size: 1em; font-weight: bold;" class="">
         <tr  style="">
             <td  style="">
 
