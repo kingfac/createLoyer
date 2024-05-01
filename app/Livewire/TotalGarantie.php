@@ -17,7 +17,7 @@ class TotalGarantie extends Component
     public function render()
     {
         $this->data = Locataire::where('actif', true)->get();
-        $pdf = Pdf::loadHTML(Blade::render('totalgarantie', ['data' => $this->data]))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadHTML(Blade::render('totalgarantie', ['data' => $this->data]))->setPaper('a4', 'landscap');
         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return view('livewire.total-garantie');
     }
