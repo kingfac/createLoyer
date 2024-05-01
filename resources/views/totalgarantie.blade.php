@@ -32,10 +32,10 @@
     
     
     
-    <table class="">
+    <table class="" style=" width:100%">
         <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: #ababab9f">
             <tr>
-                <td>N°</td>
+                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">N°</th>
                 <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Noms 
                 </th>
@@ -69,19 +69,19 @@
             $totalg = 0
             @endphp
             <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 border-b">
-                <td class="p-4 w-4">
+                <td class="py-1  w-4">
                     {{$loop->index + 1}}
                 </td>
-                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td class="py-1 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{$dt->noms}}
                 </td>
-                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td class="py-1 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{$dt->occupation->galerie->nom}}-{{$dt->occupation->galerie->num}}
                 </td>
-                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td class="py-1 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{$dt->occupation->typeOccu->nom}}
                 </td>
-                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td class="py-1 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{-- {{$dt->occupation->montant}}$ --}}
                     
                     @foreach ($dt->garanties as $gar)
