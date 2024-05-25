@@ -65,17 +65,17 @@
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     @php
-                        $total = 0;
+                        $totaldivers = 0;
                     @endphp
-                    @foreach ($depenses as $depense)
+                    @foreach ($divers as $diver)
                         @php
-                            $total += $depenses->sum('qte') * $depenses->sum('cu')
+                            $totaldivers += $diver->qte*$diver->cu;
                         @endphp
                     @endforeach
-                    {{$total}} $
+                    {{$totaldivers}}$
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    {{$total+$garanties+$loyers->sum('montant')}} $
+                    {{$totaldivers+$garanties+$loyers->sum('montant')}} $
                 </td>
             </tr>
         

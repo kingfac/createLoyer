@@ -893,13 +893,6 @@ class CustomCreateLoyer extends Component implements HasForms
 
 
 
-
-
-
-
-
-
-
     public function calculDettesV(){
         /*------------------------calcul des dettes------------------------------------*/
      
@@ -1073,35 +1066,6 @@ class CustomCreateLoyer extends Component implements HasForms
 
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     

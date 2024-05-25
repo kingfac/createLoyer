@@ -34,8 +34,14 @@
                                 Occupations
                             </th>
                             <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                Montant Garanties
-                            </th>                            
+                                Garantie payée
+                            </th>            
+                            <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                Garantie utilisée
+                            </th>    
+                            <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                Reste
+                            </th>                    
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -44,6 +50,9 @@
                             $_id = 0;
                             $ctrR = 0;
                             $total = 0;
+                            $totalGarLoyer=0;
+                            $totalGu=0;
+                
                         @endphp
                         
                         @foreach ($data as $dt) 
@@ -79,7 +88,25 @@
                                     @endphp
                                 @endif
                                 @endforeach
+
+                                {{-- on recupère tous les loyers payés avec la garantie --}}
+                                @foreach ($dt->loyers as $loyer)
+                                    @if ($loyer->garantie)
+                                        @php
+                                            $totalGarLoyer += $loyer->montant;
+                                        @endphp
+                                    @endif
+                                @endforeach
+                                @php
+                                    $totalGu+=$totalGarLoyer;
+                                @endphp
                                 {{$totalg}} $
+                            </td>
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$totalGarLoyer}} $
+                            </td>
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$totalg-$totalGarLoyer}} $
                             </td>
                            
                         </tr>
@@ -90,8 +117,11 @@
                         @endphp
                         @endforeach
                        <tr class="text-xl bg-gray-200" style=" font:bold; size:1.6em;">
-                        <td colspan="4" class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Total</td>
+                        <td colspan="4" class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Totaux</td>
                         <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$total}} $</td>
+                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$totalGu}} $</td>
+                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$total-$totalGu}} $</td>
+
                        </tr>
                     </tbody>
                 </table>

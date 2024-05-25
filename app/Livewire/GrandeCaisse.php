@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\Depense;
+use App\Models\Divers;
+use App\Models\Garantie;
 use App\Models\Loyer;
 use Carbon\Carbon;
 use Filament\Forms\Form;
@@ -14,9 +16,9 @@ use Livewire\Component;
 class GrandeCaisse extends Component
 {
 
-    public $loyersA; // loyers du jour avant (yesterday)
-    public $depensesA; // depenses du jour avant
+    public $soldepetite; // lsolde de la petite caisse
     public $depenses; // depenses du jour J
+    public $soldeA = 500000;
 
     public function render()
     {
@@ -24,26 +26,21 @@ class GrandeCaisse extends Component
     }
 
     public function mount(){
-        $this->loyersA = Loyer::whereDate('created_at', Carbon::yesterday())->get();
-        $this->depensesA = Depense::whereDate('created_at', Carbon::yesterday())->get();
-        $this->depenses = Depense::whereDate('created_at', Carbon::today())->get();
+        $divers = Divers::whereDate('created_at', Carbon::today())->get();
+        $totDivers=0;
+        foreach ($divers as $diver) {
+            $totDivers += $diver->qte*$diver->cu;
+        }
+        $this->soldepetite = 
+            Loyer::whereDate('created_at', Carbon::today())->sum("montant")
+        + Garantie::whereDate('created_at', Carbon::today())->where('restitution', false)->sum("montant")
+        + $totDivers;
+    
+        foreach (Depense::whereDate('created_at', Carbon::today())->get() as $depense) {
+            # code...
+            $this->depenses += $depense->qte*$depense->cu;
+        }
         
     }
 
-    // public function form(Table $table): Table{
-    //     return $table
-    //         ->query(Garantie::where('restitution', true)->where('montant','<', 0))
-    //         ->columns([
-    //             TextColumn::make('locataire.noms'),
-    //             TextColumn::make('locataire.occupation.galerie.nom'),
-    //             TextColumn::make('locataire.occupation.typeOccu.nom')
-    //                 ->label('Type occupation'),
-    //             TextColumn::make('locataire.num_occupation')
-    //                 ->label('Numéro occupation'),
-    //             TextColumn::make('montant')
-    //                 ->label('Dette'),
-    //             TextColumn::make('created_at')
-    //                 ->label('Date de sortie')
-    //         ]);
-    // }
-}
+ }
