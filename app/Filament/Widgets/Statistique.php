@@ -96,7 +96,7 @@ class Statistique extends BaseWidget
         $revenu = $recu - $data1;
         
         return [
-            Stat::make('Prevision finale de '.$this->mois. ' '. $this->annee,$prevu.' $')
+            Stat::make('Prevision finale de '.$this->mois. ' '. $this->annee,$prevu+$this->calculDettesV().' $')
                 ->description('Loyer prevu de '.$this->mois.' + dettes antérieures')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('danger'),

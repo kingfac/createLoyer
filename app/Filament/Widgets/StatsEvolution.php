@@ -104,19 +104,19 @@ class StatsEvolution extends BaseWidget
         return [
             //
             Stat::make('Loyers non payés', $data1.' Locataire(s)')
-                ->description('Dernière mise à jour : '.$maj1)
+                // ->description('Dernière mise à jour : '.$maj1)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('danger'),
-            Stat::make('Total dettes', $dettes.'$')
-                ->description('Dernière mise à jour : '.$maj2)
+            Stat::make('Total dettes antérieures', $dettes.'$')
+                // ->description('Derni'.$maj2)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('info'),
             Stat::make('Payement Divers journalier', $data3.' $')
-                ->description('Dernière mise à jour : '.$maj3)
+                // ->description('Dernière mise à jour : '.$maj3)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
             Stat::make('Payement garantie journalier', $data4.' $')
-                ->description('Dernière mise à jour : '.$maj3)
+                // ->description('Dernière mise à jour : '.$maj3)
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
         ];
