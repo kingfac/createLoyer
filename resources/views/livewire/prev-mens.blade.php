@@ -1,6 +1,19 @@
 @vite('resources/css/app.css') 
 <div>
-    <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Prévision mensuelle</h1>
+    <div class="flex justify-between">
+        <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Prévision mensuelle</h1>
+        <x-filament::icon-button
+            icon="heroicon-o-printer"
+            tag="a"
+            label="imprimer"
+            tooltip="Imprimer"
+            wire:click="imprimer"
+            target="_blank"
+        />
+        {{-- <button class="bg-blue-600 my-3 px-5 py-2 text-white rounded-md" wire:click="imprimer">Imprimer</button> --}}
+        
+    </div>
+
     <?php 
         use App\Models\Loyer;
         use App\Models\Locataire;

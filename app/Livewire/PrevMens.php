@@ -15,8 +15,11 @@ class PrevMens extends Component
     public $annee;
     public $mois;
     public $data;
+    public $bic = "ffdfdfd";
 
     protected $listeners = ['m10a' => '$refresh'];
+    
+   
 
     public function render()
     {
@@ -38,5 +41,9 @@ class PrevMens extends Component
 
     public function remplir(){
         $this->data = Galerie::orderBy('id')->get();
+    }
+
+    public function imprimer(){
+        dd('fshhfd');
     }
 }
