@@ -74,7 +74,7 @@
                 $tv=0;
             @endphp
             @foreach ($data as $loyer)
-            
+                
                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                     <td colspan="3" class="border w-32 py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
                         {{$loyer->locataire->noms}}
@@ -132,7 +132,19 @@
                         @endif
                     </td>
                     <td class="border py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
-                        Dettes
+                        @php
+                            $sommeLoyerMois = Loyer::where('locataire_id',$loyer->locataire_id)
+                                                   ->where('mois', $loyer->mois)
+                                                //    ->where('annee', $loyer->annee)
+                                                   ->where('created_at','<=', $loyer->created_at)
+                                                   ->sum('montant');
+                            $loyerApayer = $loyer->locataire->occupation->montant;
+                            $dettes =$loyerApayer - $sommeLoyerMois;
+                            
+                        @endphp
+                        @if ($dettes > 0)
+                            {{$dettes}} $
+                        @endif
                     </td>
                     @php
                     $moisAff = '';
@@ -140,7 +152,7 @@
                         $moisEncours = (intVal(now()->format('m'))-4) + $i;
                         if ($moisEncours >= 10 && $moisEncours <= 12) {
                             echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'. 
-                                        $this->lesMois[$moisEncours] == $loyer->mois ? $loyer->montant.' $' : 0 .' $'
+                                        $this->lesMois[$moisEncours] == $loyer->mois ? $loyer->montant.' $' : null
                                         
                                  .'</td>';
                                  $td+= $loyer->montant;
@@ -148,20 +160,20 @@
                         }
                         if ($moisEncours < 0 || $moisEncours == 0 ){
                             echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'. 
-                                        $moisAff=$this->lesMois[$moisEncours + 12] == $loyer->mois ? $loyer->montant.' $' : 0 .' $'
+                                        $moisAff=$this->lesMois[$moisEncours + 12] == $loyer->mois ? $loyer->montant.' $' :null
                                  .'</td>';
                                  $tj+= $loyer->montant;
                                 
                         }
                         if($moisEncours > 12){
                             echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'. 
-                                        $moisAff = $this->lesMois[$moisEncours - 13 ] == $loyer->mois ? $loyer->montant.' $' : 0 .' $'
+                                        $moisAff = $this->lesMois[$moisEncours - 13 ] == $loyer->mois ? $loyer->montant.' $' : null
                                 .'</td>';
                                 $tf+= $loyer->montant;
                         }
                         if($moisEncours >=1 && $moisEncours<10){
                             echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'.
-                                        $moisAff = $this->lesMois['0'.$moisEncours] == $loyer->mois ? $loyer->montant.' $' : 0 .' $'
+                                        $moisAff = $this->lesMois['0'.$moisEncours] == $loyer->mois ? $loyer->montant.' $' : null
                                  .'</td>';
                                  $tm+= $loyer->montant;
                         }
@@ -209,5 +221,5 @@
             </tr>
         </tfoot>
     </table>
-{{--     <p>{{$data}}</p>
- --}}</div>
+    {{-- {{dd($data)}} --}}
+ </div>

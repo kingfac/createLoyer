@@ -18,6 +18,7 @@ class RapportJournalier extends Component
 {
     
     public $data;
+    public $dataGroupe;
     public $mois;
     public $annee;
     public $lesMois = [
@@ -69,7 +70,12 @@ class RapportJournalier extends Component
         
     }
     public function remplir(){
-        $this->data = Loyer::whereRaw("DATE(created_at)=?",now()->format('Y-m-d'))->get();    }
+        // $this->data = Loyer::whereRaw("DATE(created_at)=?",now()->format('Y-m-d'))->get();
+        $this->data = Loyer::whereDate('created_at', now())
+                            ->orderBy('locataire_id')
+                            ->get();
+     
+    }
 
 
 }

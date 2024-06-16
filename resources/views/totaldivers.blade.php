@@ -32,10 +32,10 @@
     
     
     
-    <table class="">
+    <table class="" style=" width:100%;">
         <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: #ababab9f">
             <tr>
-                <td>N°</td>
+                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">N°</th>
                 <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Noms 
                 </th>
@@ -72,32 +72,37 @@
             $totalg = 0
             @endphp
             <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 border-b">
-                <td class="p-4 w-4">
+                <td class=" px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white w-4">
                     {{$loop->index + 1}}
                 </td>
-                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td class=" px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{$dt->noms}}
                 </td>
-                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td class=" px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{$dt->occupation->galerie->nom}}-{{$dt->occupation->galerie->num}}
                 </td>
-                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td class=" px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{$dt->occupation->typeOccu->nom}}
                 </td>
-                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    @foreach ($dt->divers as $div)
+                <td class=" px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    @forelse ($dt->divers as $div)
                         <p>{{$loop->index+=1}}.{{$div->besoin}}   </p>
-                    @endforeach
+                    @empty
+                        <p>Aucun besoin</p>
+                    @endforelse
+                    
                 </td>
                 <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{-- {{$dt->occupation->montant}}$ --}}
                     
-                    @foreach ($dt->divers as $div)
+                    @forelse ($dt->divers as $div)
                         @php
                             $totalg += ($div->qte*$div->cu);
                             @endphp
-                            <p>{{$loop->index+=1}}.{{($div->qte*$div->cu)}} $</p>
-                    @endforeach
+                            <p>{{($div->qte*$div->cu)}} $</p>
+                    @empty
+                        <p>0 $</p>
+                    @endforelse
                 </td>
                
             </tr>
@@ -107,11 +112,12 @@
                 $total += $totalg;
             @endphp
             @endforeach
-           <tr class="text-xl border-b" style=" font:bold; size:1.6em;">
-            <td colspan="4" class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Total</td>
-            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$total}} $</td>
-           </tr>
+           
         </tbody>
+        <tr class="text-xl border-b" style=" font:bold; size:1.6em;">
+            <td colspan="5" class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Total</td>
+            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$total}} $</td>
+        </tr>
     </table>
     @php
         $lelo = new DateTime('now');

@@ -4,26 +4,19 @@ namespace App\Livewire;
 
 use App\Models\Galerie;
 use Livewire\Component;
-use App\Models\Locataire;
 use Livewire\Attributes\On;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Storage;
 
-class PrevMens extends Component
+class PrevsMens extends Component
 {
     public $annee;
     public $mois;
     public $data;
-    public $bic = "ffdfdfd";
 
-    protected $listeners = ['m10a' => '$refresh'];
-    
-   
+    // protected $listeners = ['m10a' => '$refresh'];
 
     public function render()
     {
-        return view('livewire.prev-mens');
+        return view('livewire.prevs-mens');
     }
 
     public function mount(){
@@ -43,4 +36,7 @@ class PrevMens extends Component
         $this->data = Galerie::orderBy('id')->get();
     }
 
+    public function imprimer(){
+        dd('df');
+    }
 }

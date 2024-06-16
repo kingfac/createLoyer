@@ -2,6 +2,7 @@
     @vite('resources/css/app.css')
         @php
             use Carbon\Carbon;
+            $totaldivers=0;
         @endphp
         {{-- Because she competes with no one, no one can compete with her. --}}
             <div class="flex justify-between mb-10">
@@ -48,21 +49,18 @@
                             {{$loyers->sum('montant')}}$
                         </td>
                         <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;">
-                            @php
-                                $total = 0;
-                            @endphp
-                            @foreach ($depenses as $depense)
-                                @php
-                                    $total += $depenses->sum('qte') * $depenses->sum('cu')
-                                @endphp
-                            @endforeach
                             {{$garanties}}$
                         </td>
                         <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;">
-                            {{$total}}$
+                            @foreach ($divers as $diver)
+                                @php
+                                    $totaldivers += $diver->qte*$diver->cu;
+                                @endphp
+                            @endforeach
+                            {{$totaldivers}}$
                         </td>
                         <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;">
-                            {{$total+$garanties+$loyers->sum('montant')}}$
+                            {{$loyers->sum('montant')+$garanties+$totaldivers}}$
                         </td>
                     </tr>
             </tbody>
