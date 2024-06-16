@@ -15,6 +15,8 @@ class LocArrieres extends Component
     public function render()
     {
         $this->remplir();
+        $pdf = Pdf::loadHTML(Blade::render('arrieres', ['locataires' =>  $this->locataires,'label' => 'Arriérés des locataires']))->setPaper('a4', 'portrait');
+        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return view('livewire.loc-arrieres');
     }
 
@@ -25,6 +27,6 @@ class LocArrieres extends Component
     public function imprimer(){
         $pdf = Pdf::loadHTML(Blade::render('arrieres', ['locataires' =>  $this->locataires,'label' => 'Arriérés des locataires']))->setPaper('a4', 'landscape');
         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
-        return response()->download('../public/storage/pdf/doc.pdf');
+        // return response()->download('../public/storage/pdf/doc.pdf');
     }
 }

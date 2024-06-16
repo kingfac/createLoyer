@@ -3,7 +3,7 @@
     <div class="flex  justify-between">
         <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Rapport du mois de {{$mois}} {{$annee}} </h1>
         
-        {{-- <x-filament::icon-button
+        <x-filament::icon-button
             icon="heroicon-o-printer"
             tag="a"
             label="imprimer"
@@ -11,7 +11,7 @@
             href="/storage/pdf/doc.pdf"
             target="_blank"
             
-        /> --}}
+        />
     </div>
     {{$this->table}}
 </div>

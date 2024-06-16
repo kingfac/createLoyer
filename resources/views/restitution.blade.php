@@ -12,6 +12,7 @@ $lelo = $lelo->format('d-m-Y');
             <div class=" text-center" style="">
                 {{-- <img src="{{public_path('logo.png')}}"> --}}
                 <h2>MILLE ET UNE MERVEILLE</h2>
+                <h3>RCCM/15-B-9122</h3>
                 <h3>N.R.C. 53666 - Id. Nat. : 01-910-N 40270 K</h3>
                 <h3>Av. Tshuapa N°90 C./Kinshasa</h3>
                 <h3 style=" border-bottom:solid 1px; borcer-bottom-width:100px;">Tel. : 0850758588 - 0816567028</h3>

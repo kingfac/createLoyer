@@ -1,9 +1,10 @@
 {{--  --}}
+<link rel="stylesheet" href="{{public_path('css.css')}}"> 
 
 
 
 {{-- @vite('resources/css/app.css') --}}
-<div class="">
+<div class="w-full">
 
     <?php 
         use App\Models\Loyer;
@@ -42,22 +43,22 @@
         
     @endphp
 
-<link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}">
-{{-- If your happiness depends on money, you will never be happy with yourself. --}}
+    {{-- <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}"> --}}
+    {{-- If your happiness depends on money, you will never be happy with yourself. --}}
 
     @php
-    $lelo = new DateTime('now');
-    $lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
-@endphp
+        $lelo = new DateTime('now');
+        $lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
+    @endphp
 <div class="font-serif" >
-    <table style=" font-size: 1em; font-weight: bold;" class="">
+    <table style=" width:100%; font-size: 1em; font-weight: bold; color:rgb(46, 131, 211)">
         <tr  style="">
             <td  style="">
 
                 <div class="text-start " style="">
-                    {{-- <img src="{{public_path('logo.png')}}"> --}}
                     <h2>MILLE ET UNE MERVEILLE</h2>
-                    <h3>N.R.C. 53666 - Id. Nat. : 01-910-N 40270 K</h3>
+                    <h3>RCCM/15-B-9122</h3>
+                    <h3>N.R.C. 53666 - Id. Nat. : 01-910-N 40270K</h3>
                     <h3>Av. Tshuapa N°90 C./Kinshasa</h3>
                     <h3 style="">Tel. : 0850758588 - 0816567028</h3>
                 </div>
@@ -70,31 +71,19 @@
             </td>
         </tr>
     </table>
+    <div class="text-center b-2 bg-gray-500 mb-2">ARRIERES DES LOCATAIRES</div>
 
 
-    <div class="flex justify-between">
-        <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Arriérés des locataires</h1>
-        {{--  {{ $this->form }}
-        {{ $this->table }} --}}
-        {{-- <x-filament::icon-button
-            icon="heroicon-o-printer"
-            tag="a"
-            label="imprimer"
-            tooltip="Imprimer"
-            href="/storage/pdf/doc.pdf"
-            target="_blank"
-                
-        /> --}}
-    </div>
+
     <div class="overflow-x-auto shadow-md sm:rounded-lg">
-        <div class="inline-block min-w-full align-middle">
+        <div class="inline-block  align-center">
             <div class="overflow-hidden ">
-                <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">
-                    <thead class="bg-gray-100 dark:bg-gray-700">
+                <table style=" background-color: rgb(223, 223, 223); width:100%; border-collapse:collapse" >
+                    <thead class="bg:gray-100 dark:bg-gray-700" style="background-color:gray">
                         <tr>
-                            <td>N°</td>
-                            <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                Noms des locataires 
+                            <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">N°</td>
+                            <th scope="col" class="py-3  px-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                Noms 
                             </th>
                             <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                 Galeries
@@ -104,7 +93,11 @@
                             </th>
                             <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                 Loyers
-                            </th>                            
+                            </th>      
+                            <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                Loyers
+                            </th>         
+                                          
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -129,11 +122,11 @@
                             <td class="p-4 w-4">
                                 {{$loop->index + 1}}
                             </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4  text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$loc->noms}}
                             </td>
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$loc->occupation->galerie->nom}}
+                                {{$loc->occupation->galerie->nom}}-{{$loc->occupation->galerie->num}}
                             </td>
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$loc->occupation->typeOccu->nom}}
@@ -141,7 +134,7 @@
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$loc->occupation->montant}}$
                             </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4  text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{-- {{$loc->mp}}
                                 {{$loc->ap}} --}}
                                 @php
