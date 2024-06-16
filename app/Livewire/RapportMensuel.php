@@ -437,7 +437,13 @@ class RapportMensuel extends Component implements HasForms,HasTable
 
                 TextColumn::make('Taux de réalisation')
                     ->default(function(Galerie $record){
-                        return round((($this->MontantCeMois($record))/$this->getSomme($record))*100,2);
+                        if($this->getSomme($record) != 0){
+                            $result = round((($this->MontantCeMois($record))/$this->getSomme($record))*100,2);
+                        }
+                        else{
+                            $result = 0;
+                        }
+                        return $result;
                         
                     })
                     ->suffix(' %'),
