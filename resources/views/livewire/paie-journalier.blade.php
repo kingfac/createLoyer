@@ -6,18 +6,8 @@
             $lelo = $lelo->format('d-m-Y');
         @endphp
         <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Paiement journalier du {{$lelo}}</h1>
-        {{-- <x-filament::icon-button
-            icon="heroicon-o-printer"
-            tag="a"
-            label="imprimer"
-            tooltip="Imprimer"
-            href="/storage/pdf/doc.pdf"
-            target="_blank"
-            
-        /> --}}
     </div>
     {{$this->table}}
-
     <link rel="stylesheet" href="{{public_path('css.css')}}"> 
 
 <div class="">
