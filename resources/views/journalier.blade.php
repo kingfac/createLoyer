@@ -13,8 +13,9 @@
                 <td  style="">
         
                     <div class="text-start" style="">
-                        <h2>MILLE ET UNE MERVEILLE</h2> 
-                        <h3>N.R.C. 53666 - Id. Nat. : 01-910-N 40270 K</h3>
+                        <h2>MILLE ET UNE MERVEILLE</h2>
+                        <h3>RCCM/15-B-9122</h3>
+                        <h3>N.R.C. 53666 - Id. Nat. : 01-910-N 40270K</h3>
                         <h3>Av. Tshuapa N°90 C./Kinshasa</h3>
                         <h3 style=" border-bottom:solid 1px; borcer-bottom-width:100px;">Tel. : 0850758588 - 0816567028</h3>
                     </div>
@@ -105,7 +106,7 @@
                     @endphp
                     {{$montantAPayer - $sommesloyerPayer}} $
                 </td>
-                
+
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->created_at}} 
                 </td>

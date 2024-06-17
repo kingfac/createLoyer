@@ -1,8 +1,7 @@
 {{--  --}}
+<link rel="stylesheet" href="{{public_path('css.css')}}"> 
 
-
-
-{{-- @vite('resources/css/app.css') --}}
+@vite('resources/css/app.css')
 <div class="w-full">
 
     <?php 
@@ -41,7 +40,7 @@
         
     @endphp
 
-    <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}">
+    {{-- <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}"> --}}
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
     <div class="flex justify-between">
         <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Arriérés des locataires</h1>
@@ -51,7 +50,7 @@
             icon="heroicon-o-printer"
             tag="a"
             label="imprimer"
-            wire:click="imprimer"
+            {{-- wire:click="imprimer" --}}
             href="/storage/pdf/doc.pdf"
             target="_blank"
                 

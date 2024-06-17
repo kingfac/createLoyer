@@ -12,7 +12,7 @@
         <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Resumé journalier de {{ $mois }} {{$annee}}</h1>
         {{--  {{ $this->form }}
         {{ $this->table }} --}}
-        {{-- <x-filament::icon-button
+        <x-filament::icon-button
             icon="heroicon-o-printer"
             tag="a"
             label="imprimer"
@@ -20,7 +20,7 @@
             href="/storage/pdf/doc.pdf"
             target="_blank"
                 
-        /> --}}
+        />
     </div>
     <div class="overflow-x-auto shadow-md sm:rounded-lg">
         <div class="inline-block min-w-full align-middle">
@@ -59,7 +59,7 @@
                         </tr>
 
                     </thead>
-                    @if($data != null || $data != null)
+                    @if($data != null)
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
 
                             @php
@@ -121,34 +121,39 @@
                             </tr>
                             @endforeach
 
+                            @if ($data2 != null)
+                                @foreach ($data2 as $dt) 
+                                <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                    
+                                    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{-- {{$dt->cu*$dt->qte}} --}}
+                                    </td>
+                                    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{$dt->cu*$dt->qte}}
 
-                            @foreach ($data2 as $dt) 
-                            <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                    </td>
+                                    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{$dt->besoin}}
+                                    </td>
+                                </tr>
+                        
+
+                                @endforeach
+                                <tr class="text-xl" style=" font:bold; size:1.6em;">
+                                    <td colspan="4" class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Total</td>
+                                    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$total}} $</td>
+                                </tr>
                                 
-                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{-- {{$dt->cu*$dt->qte}} --}}
-                                </td>
-                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{$dt->cu*$dt->qte}}
-
-                                </td>
-                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{$dt->besoin}}
-
-                                </td>
-                            </tr>
-                    
-
-                            @endforeach
+                            @else
+                                <span>Pas de données disponible</span>
+                            @endif
                             
-                            <tr class="text-xl" style=" font:bold; size:1.6em;">
-                                <td colspan="4" class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Total</td>
-                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$total}} $</td>
-                                
-                            </tr>
 
                         </tbody>
-                    @endif    
+                        
+                    @else
+                        <span>Pas de données disponible</span>
+                    @endif  
                         
                 </table>
 

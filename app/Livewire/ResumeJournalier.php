@@ -10,6 +10,7 @@ use Livewire\Component;
 use App\Models\Locataire;
 use Livewire\Attributes\On;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Storage;
 
@@ -53,7 +54,7 @@ class ResumeJournalier extends Component
 
     public function remplir(){
 
-        $this->data = Depense::all();
+        $this->data = Depense::whereDate('created_at','=', Carbon::today())->get();
         $date = now()->format('Y-m-d');
         $this->data1 = Divers::where('entreprise',true)->whereRaw("date(created_at) = '$date' ")->get();
         $this->data2 = Divers::where('entreprise',false)->whereRaw("date(created_at) = '$date' ")->get();

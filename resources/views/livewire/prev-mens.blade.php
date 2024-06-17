@@ -7,10 +7,10 @@
             tag="a"
             label="imprimer"
             tooltip="Imprimer"
-            wire:click="imprimer"
-            target="_blank"
+            href="/storage/pdf/doc.pdf"
+            {{-- wire:click="imprimer" --}}
+            target="_blank"  
         />
-        {{-- <button class="bg-blue-600 my-3 px-5 py-2 text-white rounded-md" wire:click="imprimer">Imprimer</button> --}}
         
     </div>
 
@@ -52,14 +52,6 @@
     <div class="overflow-x-auto shadow-md sm:rounded-lg">
         <div class="inline-block min-w-full align-middle">
             <div class="overflow-hidden ">
-                <x-filament::icon-button
-                    icon="heroicon-o-printer"
-                    tag="a"
-                    label="imprimer"
-                    tooltip="Imprimer"
-                    wire:click="imprimer"
-                    target="_blank"  
-                />
                 <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">
                     <thead class="bg-gray-100 dark:bg-gray-700">
                         <tr>
