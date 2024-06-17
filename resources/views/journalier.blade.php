@@ -3,6 +3,8 @@
 <div class="w-screen">
     @php
         use Carbon\Carbon;
+        use App\Models\Loyer;
+
     @endphp
 
     <div class=" text-center">
@@ -11,7 +13,7 @@
                 <td  style="">
         
                     <div class="text-start" style="">
-                        <h2>MILLE ET UNE MERVEILLE</h2>
+                        <h2>MILLE ET UNE MERVEILLE</h2> 
                         <h3>N.R.C. 53666 - Id. Nat. : 01-910-N 40270 K</h3>
                         <h3>Av. Tshuapa N°90 C./Kinshasa</h3>
                         <h3 style=" border-bottom:solid 1px; borcer-bottom-width:100px;">Tel. : 0850758588 - 0816567028</h3>
@@ -53,6 +55,9 @@
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Loyer
                 </td>
+                <td>
+                    Dettes
+                </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Date
                 </td>
@@ -86,6 +91,17 @@
                         $tot_montant+=$dt->montant;
                     @endphp
                 </td>
+                <td>
+                    @php
+                        $sommesloyerPayer = Loyer::where('locataire_id', $dt->locataire_id)
+                                                  ->where('mois', $dt->mois)
+                                                  ->where('created_at', '<=', $dt->created_at)
+                                                  ->sum('montant');
+
+                        $montantAPayer = $dt->locataire->occupation->montant;
+                    @endphp
+                    {{$montantAPayer - $sommesloyerPayer}} $
+                </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->created_at}} 
                 </td>
@@ -113,6 +129,33 @@
                     {{$tot_montant}} $    
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    @php
+                        $sommeDette = 0;
+                        $sommesLoyerPaye = 0;
+                        $dette = 0;
+
+                        // Tableau pour stocker les locataires et les mois déjà traités
+                        $dejaTraites = [];
+
+                        foreach ($data as $value) {
+                            // Crée une clé unique pour chaque combinaison locataire_id et mois
+                            $cleUnique = $value->locataire_id . '-' . $value->mois;
+
+                            // Vérifie si cette combinaison a déjà été traitée
+                            if (!isset($dejaTraites[$cleUnique])) {
+                                // Marque cette combinaison comme traitée
+                                $dejaTraites[$cleUnique] = true;
+                                $sommesLoyerPaye = Loyer::where('locataire_id', $value->locataire_id)
+                                ->where('mois', $value->mois)       
+                                ->sum('montant');
+
+                                $dette = $value->locataire->occupation->montant - $sommesLoyerPaye;
+                                $sommeDette += $dette;
+                            }
+                        }
+
+                    @endphp
+                    {{$sommeDette}}$
                 </td>
                 
         
