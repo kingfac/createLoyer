@@ -50,6 +50,9 @@ class PrevisionMensuelle extends Component implements HasForms
         
 
     }
-   
+    
+    public function imprimer(){
+        
+    }
 
 }

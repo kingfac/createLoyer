@@ -44,7 +44,9 @@
                     tag="a"
                     label="imprimer"
                     tooltip="Imprimer"
-                    wire:click="imprimer"
+                    href="/storage/pdf/doc.pdf"
+
+                    {{-- wire:click="imprimer" --}}
                     target="_blank"  
                 />
                 <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">

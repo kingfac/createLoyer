@@ -20,6 +20,17 @@ class PrevMens extends Component
 
     public function render()
     {
+        ///modifier le pdf ici
+        // $this->galeries = Galerie::all();
+        // $pdf = Pdf::loadHTML(Blade::render('rapport_mensuel', [
+        //     'galeries' =>  $this->galeries,
+        //     'label' => 'Rapport mensuel de '.$this->mois. " ".$this->annee,
+        //     'mois' => $this->mois,
+        //     'annee' => $this->annee
+            
+        // ]))->setPaper('a4', 'landscape');
+        // Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
+
         return view('livewire.prev-mens');
     }
 
