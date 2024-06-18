@@ -123,7 +123,7 @@
         <tr class="border-b">
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="">{{$num}}</td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" colspan="2">
-                    {{$dt->nom}}
+                    {{$dt->nom}}-{{$dt->num}}
                 </td>
 
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
@@ -143,7 +143,7 @@
                         }
                         
                     @endphp
-                    {{$sommeMont}}
+                    {{$sommeMont}}$
                 </td>
                 <td>
                     @php
