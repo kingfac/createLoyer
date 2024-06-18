@@ -1,9 +1,365 @@
 <link rel="stylesheet" href="{{public_path('css.css')}}"> 
-@php
-    use Carbon\Carbon;
-@endphp
 
 <div class="w-full">
+    @php
+        use Carbon\Carbon;
+        use App\Models\Loyer;
+        use App\Models\Galerie;
+        use App\Models\Garantie;
+        use App\Models\Locataire;
+        
+    
+        $lesMois = [
+            '01' => 'Janvier',
+            '02' => 'Février',
+            '03' => 'Mars',
+            '04' => 'Avril',
+            '05' => 'Mais',
+            '06' => 'Juin',
+            '07' => 'Juillet',
+            '08' => 'Aout',
+            '09' => 'Septembre',
+            '10' => 'Octobre',
+            '11' => 'Novembre',
+            '12' => 'Décembre'
+        ];
+    
+        function getAnciennesGaranties($record,$mois,$annee)
+        {
+            $Mois2 = [
+                'Janvier' => '01',
+                'Février' => '02',
+                'Mars' => '03',
+                'Avril' => '04',
+                'Mais' => '05',
+                'Juin' => '06',
+                'Juillet' => '07',
+                'Aout' => '08',
+                'Septembre' => '09',
+                'Octobre' => '10',
+                'Novembre' => '11',
+                'Décembre' => '12'
+            ];
+            $galerie = Galerie::where('id', $record->id)->first();
+            $occups = $galerie->occupations;
+            $locs=[];
+            $somme=[];
+            $sommeA=[];
+            $sommeL=[];
+            $sommeLA=[];
+            $mois = intval($Mois2[$mois]);
+    
+            foreach($occups as $occup){
+                foreach ($occup->locataires as $locataire) {
+                    # code...
+                    if($locataire->actif){
+                        array_push($locs, $locataire);
+                    }
+                }
+            }
+            foreach ($locs as $loc) {
+                // $id = $loc[]
+                $loyersGarantie = Loyer::where('locataire_id', $loc->id)->where('garantie',true)->whereMonth('created_at','=', $mois)->whereYear('created_at', $annee)->get();
+                $loyersGarantieA = Loyer::where('locataire_id', $loc->id)->where('garantie',true)->get();
+    
+                $garanties = Garantie::where('locataire_id',$loc->id)->where('restitution',false)->whereMonth('created_at','=', $mois)->whereYear('created_at', $annee)->get();
+                $garantiesA = Garantie::where('locataire_id',$loc->id)->where('restitution',false)->get();
+                array_push($somme,$garanties->sum('montant'));
+                array_push($sommeA,$garantiesA->sum('montant'));
+                array_push($sommeL,$loyersGarantie->sum('montant'));
+                array_push($sommeLA,$loyersGarantieA->sum('montant'));
+            }
+            //calcul des anciennes garanties
+                           
+            return (array_sum($sommeA)-array_sum($sommeLA))-(array_sum($somme)-array_sum($somme));
+        }
+
+         /* fonction qui renvoie les nouvelles garanties */
+     function getNouvellesGaranties($record,$mois,$annee)
+    {
+        $Mois2 = [
+                'Janvier' => '01',
+                'Février' => '02',
+                'Mars' => '03',
+                'Avril' => '04',
+                'Mais' => '05',
+                'Juin' => '06',
+                'Juillet' => '07',
+                'Aout' => '08',
+                'Septembre' => '09',
+                'Octobre' => '10',
+                'Novembre' => '11',
+                'Décembre' => '12'
+            ];
+        $galerie = Galerie::where('id', $record->id)->first();
+        $occups = $galerie->occupations;
+        $locs=[];
+        $somme=[];
+        $mois = intval($Mois2[$mois]);
+
+        foreach($occups as $occup){
+            foreach ($occup->locataires as $locataire) {
+                # code...
+                if($locataire->actif){
+                    array_push($locs, $locataire);
+                }
+            }
+        }
+        foreach ($locs as $loc) {
+            $garanties = Garantie::where('locataire_id',$loc->id)->whereMonth('created_at','=', $mois)->whereYear('created_at', $annee)->get();
+            array_push($somme,$garanties->sum('montant'));
+        }
+        //calcul des anciennes garanties
+                       
+        return array_sum($somme);
+    }
+
+    function getDettesAnterieuresPercues($record,$mois,$annee)
+    {
+        $Mois2 = [
+                'Janvier' => '01',
+                'Février' => '02',
+                'Mars' => '03',
+                'Avril' => '04',
+                'Mais' => '05',
+                'Juin' => '06',
+                'Juillet' => '07',
+                'Aout' => '08',
+                'Septembre' => '09',
+                'Octobre' => '10',
+                'Novembre' => '11',
+                'Décembre' => '12'
+            ];
+        
+        /////////////////////////////////////
+        $galerie = Galerie::where('id', $record->id)->first();
+        $mois = intval($Mois2[$mois]);
+        $somme=[];
+        $occups = $galerie->occupations;
+        $locs=[];
+
+        foreach($occups as $occup){
+            array_push($locs, $occup->locataires);
+        }
+        foreach ($locs as $loc) {
+            foreach ($loc as $lo) {     
+                if($lo->actif){
+
+                    // ici je n arrive pas a obtenir les loyers dont le mois est < au mois actuel
+                    $loyers = Loyer::where('locataire_id',$lo->id)->whereRaw(" (mois) != '$mois' and  YEAR(created_at) = $annee and MONTH(created_at) = '$mois'  and YEAR(created_at) =  '$annee' ")->get();
+                    // dd($loyers);
+                    // dd($loyers->count(), $lo->noms);
+                    if($loyers->count() >= 1){
+    
+                        foreach ($loyers as $loyer) {
+                            // dd(($loyer->mois), $lo->noms,$loyer->id);
+                            # code...
+                            if(intval($Mois2[$loyer->mois]) <  $mois){
+                                array_push($somme,$loyer->montant);  
+                            }
+                        }
+                    }
+    
+                    // array_push($somme,$loyers->sum("montant"));  
+                }           
+
+                
+            }
+        }
+
+    
+        return array_sum($somme);
+    }
+
+    function MontantMois($record,$mois,$annee){
+
+        $Mois2 = [
+                'Janvier' => '01',
+                'Février' => '02',
+                'Mars' => '03',
+                'Avril' => '04',
+                'Mais' => '05',
+                'Juin' => '06',
+                'Juillet' => '07',
+                'Aout' => '08',
+                'Septembre' => '09',
+                'Octobre' => '10',
+                'Novembre' => '11',
+                'Décembre' => '12'
+            ];
+
+            $lesMois = [
+            '01' => 'Janvier',
+            '02' => 'Février',
+            '03' => 'Mars',
+            '04' => 'Avril',
+            '05' => 'Mais',
+            '06' => 'Juin',
+            '07' => 'Juillet',
+            '08' => 'Aout',
+            '09' => 'Septembre',
+            '10' => 'Octobre',
+            '11' => 'Novembre',
+            '12' => 'Décembre'
+        ];
+            
+        $galerie = Galerie::where('id', $record->id)->first();
+       
+        $occups = $galerie->occupations;
+        $locs=[];
+        foreach($occups as $occup){
+            array_push($locs, $occup->locataires);
+        }
+        $somme=[];
+        // $mois_suivant =  $lesMois['0'.$mois +1];
+       
+
+        foreach ($locs as $loc) {
+            foreach ($loc as $lo) {                
+                $loyers = Loyer::where('locataire_id',$lo->id)->whereRaw(" (mois) = '$mois' ")->sum('montant');
+                array_push($somme,$loyers);
+            }
+        }
+
+        return array_sum($somme);
+    }
+
+    function MontantMoisSuivant($record,$mois,$annee){
+
+    $Mois2 = [
+            'Janvier' => '01',
+            'Février' => '02',
+            'Mars' => '03',
+            'Avril' => '04',
+            'Mais' => '05',
+            'Juin' => '06',
+            'Juillet' => '07',
+            'Aout' => '08',
+            'Septembre' => '09',
+            'Octobre' => '10',
+            'Novembre' => '11',
+            'Décembre' => '12'
+    ];
+
+        $lesMois = [
+        '01' => 'Janvier',
+        '02' => 'Février',
+        '03' => 'Mars',
+        '04' => 'Avril',
+        '05' => 'Mais',
+        '06' => 'Juin',
+        '07' => 'Juillet',
+        '08' => 'Aout',
+        '09' => 'Septembre',
+        '10' => 'Octobre',
+        '11' => 'Novembre',
+        '12' => 'Décembre'
+    ];
+        
+    $galerie = Galerie::where('id', $record->id)->first();
+    $mois = intval($Mois2[$mois]);
+
+    $occups = $galerie->occupations;
+    $locs=[];
+    foreach($occups as $occup){
+        array_push($locs, $occup->locataires);
+    }
+    $somme=[];
+    // $mois_suivant =  $lesMois['0'.$mois +1];
+    $mois_suivant = '0'.$mois +1;
+    $mois_suivant = $lesMois[$mois_suivant];
+
+    foreach ($locs as $loc) {
+        foreach ($loc as $lo) {                
+            $loyers = Loyer::where('locataire_id',$lo->id)->whereRaw(" (mois) = '$mois_suivant' ")->sum('montant');
+            array_push($somme,$loyers);
+        }
+    }
+
+    return array_sum($somme);
+}
+
+    function getSomme($gal,$mois):int
+    {
+        $Mois2 = [
+            'Janvier' => '01',
+            'Février' => '02',
+            'Mars' => '03',
+            'Avril' => '04',
+            'Mais' => '05',
+            'Juin' => '06',
+            'Juillet' => '07',
+            'Aout' => '08',
+            'Septembre' => '09',
+            'Octobre' => '10',
+            'Novembre' => '11',
+            'Décembre' => '12'
+        ];
+
+            $mois = intval($Mois2[$mois]);
+
+            $occups = $gal->occupations;
+            $somme_occu = $occups->sum('montant');
+            $locs=[];
+            $somme_locs=[];
+            foreach($occups as $occup){
+                array_push($locs, $occup->locataires->where('actif',true));
+            }
+
+            foreach ($locs as $loc) {
+                foreach ($loc as $lo) {                
+                    array_push($somme_locs, $lo->occupation->montant);
+                }
+            }
+
+            $loyers_locs = array_sum($somme_locs);
+            
+        return $loyers_locs;
+    }
+
+    function getSortieDette($gal,$mois,$annee){
+        $Mois2 = [
+            'Janvier' => '01',
+            'Février' => '02',
+            'Mars' => '03',
+            'Avril' => '04',
+            'Mais' => '05',
+            'Juin' => '06',
+            'Juillet' => '07',
+            'Aout' => '08',
+            'Septembre' => '09',
+            'Octobre' => '10',
+            'Novembre' => '11',
+            'Décembre' => '12'
+        ];
+        $occups = $gal->occupations;
+            $somme_occu = $occups->sum('montant');
+
+        
+            $locs=[];
+            $somme_sortie_dette=[];
+            $moiss = intval($Mois2[$mois]);
+
+            foreach($occups as $occup){
+                array_push($locs, $occup->locataires->where('actif',false));
+            }
+
+            foreach ($locs as $loc) {
+                foreach ($loc as $lo) {           
+                    $sm = Garantie::where(['locataire_id' , $lo->id, 'restitution' == true])->whereRaw(["MONTH(created_at) == $moiss "]); 
+                    // dd($sm != null);
+                    if($sm!= null){
+
+                        array_push($somme_sortie_dette, 1);
+                    }
+                }
+            }
+
+            $nbr = array_sum($somme_sortie_dette);
+            return $nbr;
+    }
+
+    @endphp
 
     <div class=" text-center">
         {{-- <img src="{{public_path('logo.png')}}"> --}}
@@ -41,7 +397,7 @@
                 <thead class="bg-gray-100 dark:bg-gray-700" style="background-color:gray">
                     <tr>
                         <th  scope="col" class="py-3 px-2 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">N°</th>
-                        <th scope="col" class="py-3 px-2 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                        <th scope="col" class="py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                             Galerie
                         </th>
                         <th scope="col" class="py-3 px-2 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
@@ -64,7 +420,10 @@
                         </th>   
                         <th scope="col" class="py-3 px-2 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                             Montant attendu
-                        </th>              
+                        </th>       
+                        <th scope="col" class="py-3 px-2 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                            Montant non perçu
+                        </th>        
                         <th scope="col" class="py-3 px-2 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                             Taux de réalisation
                         </th> 
@@ -79,10 +438,54 @@
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$loop->index +1 }}
                             </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$galerie->nom}}-{{$galerie->num}}
+                            <td class="py-4  text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$galerie->nom}}-{{$galerie->num}}$
                             </td>
-                            
+                            <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{getAnciennesGaranties($galerie,$mois,$annee)}}$
+                            </td>
+                            <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{getNouvellesGaranties($galerie,$mois,$annee)}}$
+                            </td>
+                            <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{getDettesAnterieuresPercues($galerie,$mois,$annee)}}$
+                            </td>
+                            <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{MontantMois($galerie,$mois,$annee)}}$
+                            </td>
+                            <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{MontantMoisSuivant($galerie,$mois,$annee)}}$
+                            </td>
+                            <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{
+                                    getNouvellesGaranties($galerie,$mois,$annee)+
+                                    getDettesAnterieuresPercues($galerie,$mois,$annee)+
+                                    MontantMois($galerie,$mois,$annee)+
+                                    MontantMoisSuivant($galerie,$mois,$annee)
+                                }}$
+                            </td>
+                            <td class="py-4  px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{getSomme($galerie,$mois)}}$
+                            </td>
+                            <td class="py-4  px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{getSomme($galerie,$mois)-MontantMois($galerie,$mois,$annee)}}$
+                            </td>
+                            @php
+                                $result=0;
+                                if(getSomme($galerie,$mois) != 0){
+                                    $result = round(((MontantMois($galerie,$mois,$annee))/getSomme($galerie,$mois))*100,2);
+                                }
+                                else{
+                                    $result = 0;
+                                }
+                            @endphp
+                            <td class="py-4  px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{$result}}%
+                            </td>
+                            <td class="py-4  px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{getSortieDette($galerie,$mois,$annee)}}
+                            </td>
+
                         </tr>
                     @empty
                         

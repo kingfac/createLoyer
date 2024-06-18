@@ -295,7 +295,29 @@ class RapportMensuel extends Component implements HasForms,HasTable
         return array_sum($somme);
     }
 
-    public function MontantCeMois($record){
+    public function MontantMois($record){
+        $galerie = Galerie::where('id', $record->id)->first();
+        $mois = $this->mois;
+        $occups = $galerie->occupations;
+        $locs=[];
+        foreach($occups as $occup){
+            array_push($locs, $occup->locataires);
+        }
+        $somme=[];
+        // $mois_suivant =  $this->lesMois['0'.$mois +1];
+     
+
+        foreach ($locs as $loc) {
+            foreach ($loc as $lo) {                
+                $loyers = Loyer::where('locataire_id',$lo->id)->whereRaw(" (mois) = '$mois' ")->sum('montant');
+                array_push($somme,$loyers);
+            }
+        }
+
+        return array_sum($somme);
+    }
+
+    public function MontantSuivantMois($record){
         $galerie = Galerie::where('id', $record->id)->first();
         $mois = intval($this->Mois2[$this->mois]);
 
@@ -351,7 +373,7 @@ class RapportMensuel extends Component implements HasForms,HasTable
                 TextColumn::make('Montant(loyer) perçu Ce mois')
                     ->default(function(Galerie $record){
 
-                        return $this->MontantCeMois($record);
+                        return $this->MontantMois($record);
                     })   
                     ->label(function(){
                         $mois = intval($this->Mois2[$this->mois]);
@@ -360,7 +382,7 @@ class RapportMensuel extends Component implements HasForms,HasTable
                     ->suffix(' $'),
                 TextColumn::make('Montant perçu au mois suivant')
                     ->default(function(Galerie $record){
-                            
+                            return $this->MontantSuivantMois($record);
                         })
                         ->label(function(){
                             $mois = intval($this->Mois2[$this->mois]);
@@ -424,13 +446,13 @@ class RapportMensuel extends Component implements HasForms,HasTable
                 ->suffix(' $'),
                 TextColumn::make('Montant attendu')
                     ->default(function(Galerie $record){
-                        return $this->getSomme(Galerie::where('id',$record->id)->first());
+                        return $this->getSomme($record);
                     })
                     ->suffix(' $'),
                 
                 TextColumn::make('Montant non perçu')
                     ->default(function (Galerie $record){
-                        return $this->getSomme(Galerie::where('id',$record->id)->first())-$this->MontantCeMois($record);
+                        return $this->getSomme($record)-$this->MontantMois($record);
                         // return $this->getLoyerGalerie(Galerie::where('id',$record->id)->first(), $this->mois,$this->annee) - $this->getSomme(Galerie::where('id',$record->id)->first());
                     })
                     ->suffix(' $'),
@@ -438,7 +460,7 @@ class RapportMensuel extends Component implements HasForms,HasTable
                 TextColumn::make('Taux de réalisation')
                     ->default(function(Galerie $record){
                         if($this->getSomme($record) != 0){
-                            $result = round((($this->MontantCeMois($record))/$this->getSomme($record))*100,2);
+                            $result = round((($this->MontantMois($record))/$this->getSomme($record))*100,2);
                         }
                         else{
                             $result = 0;
