@@ -439,7 +439,7 @@
                                 {{$loop->index +1 }}
                             </td>
                             <td class="py-4  text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$galerie->nom}}-{{$galerie->num}}$
+                                {{$galerie->nom}}-{{$galerie->num}}
                             </td>
                             <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{getAnciennesGaranties($galerie,$mois,$annee)}}$
