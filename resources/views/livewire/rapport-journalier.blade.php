@@ -1,10 +1,10 @@
-@vite('resources/css/app.css')
 @php
     use App\Models\Loyer;
     use App\Models\Divers;
-
-@endphp 
+    
+    @endphp 
 <div style="overflow: scroll">
+    @vite('resources/css/app.css')
     <div class="flex justify-between">
         <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Journal de caisse</h1>
     </div>

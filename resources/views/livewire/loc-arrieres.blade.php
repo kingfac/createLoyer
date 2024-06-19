@@ -1,8 +1,8 @@
 {{--  --}}
-<link rel="stylesheet" href="{{public_path('css.css')}}"> 
 
-@vite('resources/css/app.css')
 <div class="w-full">
+    @vite('resources/css/app.css')
+    <link rel="stylesheet" href="{{public_path('css.css')}}"> 
 
     <?php 
         use App\Models\Loyer;

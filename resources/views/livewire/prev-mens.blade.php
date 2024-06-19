@@ -1,5 +1,5 @@
-@vite('resources/css/app.css') 
 <div>
+    @vite('resources/css/app.css') 
     <div class="flex justify-between">
         <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Prévision mensuelle</h1>
         <x-filament::icon-button

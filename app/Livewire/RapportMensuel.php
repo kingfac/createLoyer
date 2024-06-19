@@ -177,7 +177,6 @@ class RapportMensuel extends Component implements HasForms,HasTable
     
     public function render()
     {
-        $this->galeries = Galerie::all();
         $pdf = Pdf::loadHTML(Blade::render('rapport_mensuel', [
             'galeries' =>  $this->galeries,
             'label' => 'Rapport mensuel de '.$this->mois. " ".$this->annee,
@@ -490,8 +489,14 @@ class RapportMensuel extends Component implements HasForms,HasTable
     }
 
     public function remplir(){
+
         $this->annee = $this->mois->format('Y');
         $this->mois = $this->lesMois[$this->mois->format('m')];
+    }
+
+    public function mount(){
+        $this->galeries = Galerie::all();
+
     }
 
 

@@ -359,6 +359,17 @@
             return $nbr;
     }
 
+    $aG=0;
+    $nG=0;
+    $dA=0;
+    $cM=0;
+    $mS=0;
+    $tP=0;
+    $mA=0;
+    $mN=0;
+    $tR=0;
+    $sD=0;
+
     @endphp
 
     <div class=" text-center">
@@ -394,7 +405,7 @@
     <div class="inline-block min-w-full align-center">
         <div class="overflow-hidden ">
             <table style=" background-color: rgb(223, 223, 223)">
-                <thead class="bg-gray-100 dark:bg-gray-700" style="background-color:gray">
+                <thead class="bg-gray-100 dark:bg-gray-700" style="background-color:rgb(192, 192, 192)">
                     <tr>
                         <th  scope="col" class="py-3 px-2 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">N°</th>
                         <th scope="col" class="py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
@@ -443,32 +454,63 @@
                             </td>
                             <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{getAnciennesGaranties($galerie,$mois,$annee)}}$
+                                @php
+                                    $aG += getAnciennesGaranties($galerie,$mois,$annee);
+                                @endphp
                             </td>
                             <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{getNouvellesGaranties($galerie,$mois,$annee)}}$
+                                @php
+                                    $nG += getNouvellesGaranties($galerie,$mois,$annee);
+                                @endphp
                             </td>
                             <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{getDettesAnterieuresPercues($galerie,$mois,$annee)}}$
+                                @php
+                                    $dA += getDettesAnterieuresPercues($galerie,$mois,$annee);
+                                @endphp
                             </td>
                             <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{MontantMois($galerie,$mois,$annee)}}$
+                                @php
+                                    $cM += MontantMois($galerie,$mois,$annee);
+                                @endphp
                             </td>
                             <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{MontantMoisSuivant($galerie,$mois,$annee)}}$
+
+                                @php
+                                    $mS += MontantMoisSuivant($galerie,$mois,$annee);
+                                @endphp
                             </td>
                             <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{
-                                    getNouvellesGaranties($galerie,$mois,$annee)+
+                                @php
+                                    $val = getNouvellesGaranties($galerie,$mois,$annee)+
                                     getDettesAnterieuresPercues($galerie,$mois,$annee)+
                                     MontantMois($galerie,$mois,$annee)+
-                                    MontantMoisSuivant($galerie,$mois,$annee)
+                                    MontantMoisSuivant($galerie,$mois,$annee);
+
+                                    $tP += $val;
+                                @endphp
+                                {{
+                                    $val
                                 }}$
+
+                                
                             </td>
                             <td class="py-4  px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{getSomme($galerie,$mois)}}$
+
+                                @php
+                                    $mA += getSomme($galerie,$mois);
+                                @endphp
                             </td>
                             <td class="py-4  px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{getSomme($galerie,$mois)-MontantMois($galerie,$mois,$annee)}}$
+
+                                @php
+                                    $mN += getSomme($galerie,$mois)-MontantMois($galerie,$mois,$annee);
+                                @endphp
                             </td>
                             @php
                                 $result=0;
@@ -478,18 +520,40 @@
                                 else{
                                     $result = 0;
                                 }
+
+                                $tR += $result;
                             @endphp
                             <td class="py-4  px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$result}}%
                             </td>
                             <td class="py-4  px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{getSortieDette($galerie,$mois,$annee)}}
+                                @php
+                                    $sD += getSortieDette($galerie,$mois,$annee);
+                                @endphp
                             </td>
 
                         </tr>
                     @empty
                         
                     @endforelse
+
+                    <tr class="text-xl bg-gray-200" style=" font:bold; size:1.6em;">
+                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"> Totaux</td>
+                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"> </td>
+
+                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$aG}} $</td>
+                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$nG}} $</td>
+                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$dA}} $</td>
+                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$cM}} $</td>
+                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$mS}} $</td>
+                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$tP}} $</td>
+                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$mA}} $</td>
+                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$mN}} $</td>
+                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$tR}}%</td>
+                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$sD}}</td>
+
+                    </tr>
                 </tbody>
             </table>
             @php

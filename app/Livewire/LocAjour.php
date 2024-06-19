@@ -34,13 +34,12 @@ class LocAjour extends Component //implements HasForms, HasTable
 
     public function render()
     {
+        $this->remplir();
 
         return view('livewire.loc-ajour');
     }
 
-    public function mount(){
-        $this->remplir();
-    }
+   
 
     #[On('m0')] 
     public function update($mois, $annee)
@@ -48,8 +47,8 @@ class LocAjour extends Component //implements HasForms, HasTable
         // ...
         $this->annee = $annee;
         $this->mois = $mois;
-        $this->dispatch('m0a');
         $this->remplir();
+        $this->dispatch('m0a');
         
     }
 

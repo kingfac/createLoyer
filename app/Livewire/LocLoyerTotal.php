@@ -71,7 +71,7 @@ class LocLoyerTotal extends Component implements HasForms, HasTable
         // ...
         $this->annee = $annee;
         $this->mois = $mois;
-        $this->remplir();
+        // $this->remplir();
         $this->dispatch('m5a');
     }
 
