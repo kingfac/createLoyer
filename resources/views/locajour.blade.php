@@ -38,7 +38,7 @@
     
     <div class="text-center text-xl  b-2 bg-blue-500 mb-2">{{$label}}</div>
     
-    <table class="w-full table-auto divide-y divide-gray-200 text-start">
+    <table class="w-full table-auto divide-y divide-gray-200 text-start" style=" width:100%; background-color: rgb(223, 223, 223)">
             
         <thead class="bg-gray-50 dark:bg-white/5">
             <tr class="text-lg font-bold " style="background-color:#abababc6;">

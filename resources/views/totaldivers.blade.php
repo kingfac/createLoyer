@@ -33,8 +33,8 @@
     
     
     
-    <table class="" style=" width:100%;">
-        <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: #ababab9f">
+    <table class="" style=" width:100%; background-color: rgb(223, 223, 223)">
+        <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: gray">
             <tr>
                 <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">N°</th>
                 <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
