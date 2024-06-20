@@ -37,8 +37,14 @@
                                 Besoins
                             </th>
                             <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                Montants
+                                Quantité
                             </th>                            
+                            <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                Coût unitaire
+                            </th>                            
+                            <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                                Total
+                            </th>                                                       
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -83,6 +89,22 @@
                                 </ul>
                             </td>
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                @forelse ($dt->divers as $gar)
+                                    <li>{{$gar->qte}}</li>
+                                        
+                                    @empty
+                                        0
+                                    @endforelse
+                            </td>
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                @forelse ($dt->divers as $gar)
+                                    <li>{{$gar->cu}}</li>
+                                        
+                                    @empty
+                                        0
+                                    @endforelse
+                            </td>
+                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{-- {{$dt->occupation->montant}}$ --}}
                                 @foreach ($dt->divers as $gar)
                                     @php
@@ -108,7 +130,7 @@
                         @endphp
                         @endforeach
                        <tr class="text-xl bg-gray-200" style=" font:bold; size:1.6em;">
-                            <td colspan="5" class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Total Général</td>
+                            <td colspan="7" class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Total Général</td>
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$total}} $</td>
                        </tr>
                     </tbody>
