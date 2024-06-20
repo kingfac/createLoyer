@@ -50,8 +50,14 @@
                     Besoin
                 </th>
                 <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                    Montant divers
-                </th>                            
+                    Quantité
+                </th>   
+                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                    Coût unitaire
+                </th>                           
+                <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                    Total
+                </th>                           
             </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -93,6 +99,22 @@
                     @endforelse
                     
                 </td>
+                <td class=" px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    @forelse ($dt->divers as $div)
+                        <p>{{$div->qte}}   </p>
+                    @empty
+                        <p>0 </p>
+                    @endforelse
+                    
+                </td>
+                <td class=" px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    @forelse ($dt->divers as $div)
+                        <p>{{$div->cu}} $  </p>
+                    @empty
+                        <p>0 $</p>
+                    @endforelse
+                    
+                </td>
                 <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{-- {{$dt->occupation->montant}}$ --}}
                     
@@ -116,7 +138,7 @@
            
         </tbody>
         <tr class="text-xl border-b" style=" font:bold; size:1.6em;">
-            <td colspan="5" class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Total</td>
+            <td colspan="7" class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Total</td>
             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$total}} $</td>
         </tr>
     </table>
