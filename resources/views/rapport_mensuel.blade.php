@@ -452,38 +452,38 @@
                             <td class="py-4  text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$galerie->nom}}-{{$galerie->num}}
                             </td>
-                            <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{getAnciennesGaranties($galerie,$mois,$annee)}}$
                                 @php
                                     $aG += getAnciennesGaranties($galerie,$mois,$annee);
                                 @endphp
                             </td>
-                            <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{getNouvellesGaranties($galerie,$mois,$annee)}}$
                                 @php
                                     $nG += getNouvellesGaranties($galerie,$mois,$annee);
                                 @endphp
                             </td>
-                            <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{getDettesAnterieuresPercues($galerie,$mois,$annee)}}$
                                 @php
                                     $dA += getDettesAnterieuresPercues($galerie,$mois,$annee);
                                 @endphp
                             </td>
-                            <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{MontantMois($galerie,$mois,$annee)}}$
                                 @php
                                     $cM += MontantMois($galerie,$mois,$annee);
                                 @endphp
                             </td>
-                            <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{MontantMoisSuivant($galerie,$mois,$annee)}}$
 
                                 @php
                                     $mS += MontantMoisSuivant($galerie,$mois,$annee);
                                 @endphp
                             </td>
-                            <td class="py-4 px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 @php
                                     $val = getNouvellesGaranties($galerie,$mois,$annee)+
                                     getDettesAnterieuresPercues($galerie,$mois,$annee)+
@@ -498,14 +498,14 @@
 
                                 
                             </td>
-                            <td class="py-4  px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4  px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{getSomme($galerie,$mois)}}$
 
                                 @php
                                     $mA += getSomme($galerie,$mois);
                                 @endphp
                             </td>
-                            <td class="py-4  px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4  px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{getSomme($galerie,$mois)-MontantMois($galerie,$mois,$annee)}}$
 
                                 @php
@@ -523,10 +523,10 @@
 
                                 $tR += $result;
                             @endphp
-                            <td class="py-4  px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4  px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$result}}%
                             </td>
-                            <td class="py-4  px-5 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="py-4  px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{getSortieDette($galerie,$mois,$annee)}}
                                 @php
                                     $sD += getSortieDette($galerie,$mois,$annee);
@@ -539,19 +539,19 @@
                     @endforelse
 
                     <tr class="text-xl bg-gray-200" style=" font:bold; size:1.6em;">
-                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"> Totaux</td>
-                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"> </td>
+                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"> Totaux</td>
+                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"> </td>
 
-                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$aG}} $</td>
-                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$nG}} $</td>
-                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$dA}} $</td>
-                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$cM}} $</td>
-                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$mS}} $</td>
-                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$tP}} $</td>
-                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$mA}} $</td>
-                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$mN}} $</td>
-                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$tR}}%</td>
-                        <td class="py-4 px-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$sD}}</td>
+                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$aG}} $</td>
+                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$nG}} $</td>
+                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$dA}} $</td>
+                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$cM}} $</td>
+                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$mS}} $</td>
+                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$tP}} $</td>
+                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$mA}} $</td>
+                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$mN}} $</td>
+                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$tR}}%</td>
+                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$sD}}</td>
 
                     </tr>
                 </tbody>
