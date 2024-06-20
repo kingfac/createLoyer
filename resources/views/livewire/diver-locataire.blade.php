@@ -56,69 +56,73 @@
                         @endphp
                         
                         @foreach ($data as $dt) 
-                        
+                      
                         @php
                             $ctrR += 1;
+                            // dd($dt->divers);
                             //$total += $dt->montant;
                         @endphp
                         
                         @php
                         $totalg = 0
                         @endphp
-                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <td class="p-4 w-4">
-                                {{$loop->index + 1}}
-                            </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$dt->noms}}
-                            </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$dt->occupation->galerie->nom}}-{{$dt->occupation->galerie->num}}
-                            </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{$dt->occupation->typeOccu->nom}}
-                            </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                <ul>
-                                    @forelse ($dt->divers as $gar)
-                                    <li>{{$loop->index + 1}}. {{$gar->besoin}}</li>
-                                        
-                                    @empty
-                                        Aucun besoin
-                                    @endforelse
-                                </ul>
-                            </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                @forelse ($dt->divers as $gar)
-                                    <li>{{$gar->qte}}</li>
-                                        
-                                    @empty
-                                        0
-                                    @endforelse
-                            </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                @forelse ($dt->divers as $gar)
-                                    <li>{{$gar->cu}}</li>
-                                        
-                                    @empty
-                                        0
-                                    @endforelse
-                            </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{-- {{$dt->occupation->montant}}$ --}}
-                                @foreach ($dt->divers as $gar)
-                                    @php
-                                        $totalg += $gar->total;
-                                    @endphp
-                                     <ul>
-                                         <li>{{$gar->total}}$</li>
+                        @if ($dt->divers != null)
+                            <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                <td class="p-4 w-4">
+                                    {{$loop->index + 1}}
+                                </td>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{$dt->noms}}
+                                </td>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{$dt->occupation->galerie->nom}}-{{$dt->occupation->galerie->num}}
+                                </td>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{$dt->occupation->typeOccu->nom}}
+                                </td>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <ul>
+                                        @forelse ($dt->divers as $gar)
+                                        <li>{{$loop->index + 1}}. {{$gar->besoin}}</li>
+                                            
+                                        @empty
+                                            Aucun besoin
+                                        @endforelse
                                     </ul>
-                                @endforeach
-                                @if ($totalg == 0)
-                                    0$
-                                @endif
-                            </td>
-                        </tr>
+                                </td>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    @forelse ($dt->divers as $gar)
+                                        <li>{{$gar->qte}}</li>
+                                            
+                                        @empty
+                                            0
+                                        @endforelse
+                                </td>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    @forelse ($dt->divers as $gar)
+                                        <li>{{$gar->cu}}</li>
+                                            
+                                        @empty
+                                            0
+                                        @endforelse
+                                </td>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{-- {{$dt->occupation->montant}}$ --}}
+                                    @foreach ($dt->divers as $gar)
+                                        @php
+                                            $totalg += $gar->total;
+                                        @endphp
+                                        <ul>
+                                            <li>{{$gar->total}}$</li>
+                                        </ul>
+                                    @endforeach
+                                    @if ($totalg == 0)
+                                        0$
+                                    @endif
+                                </td>
+                            </tr>
+                            
+                        @endif
 
 {{--                         
                         <tr class="text-xl" style=" font:bold; size:1.6em;">

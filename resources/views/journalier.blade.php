@@ -4,7 +4,8 @@
     @php
         use Carbon\Carbon;
         use App\Models\Loyer;
-
+        use App\Models\Divers;
+        $tot_div = 0;
     @endphp
 
     <div class=" text-center">
@@ -33,41 +34,41 @@
     
     
     
-    <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'">
+    <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'" style=" background-color: rgb(223, 223, 223); ">
             
         <thead class="bg-gray-50 dark:bg-white/5">
             <tr class="text-lg font-bold" style="background-color:#abababc6;">
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     N°
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Nom
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Galerie
                 </td>
     
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Occupation
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     mois
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Loyer
                 </td>
-                <td>fg
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Dettes
                 </td>
-                <td>
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Divers
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Date
                 </td>
             </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200 whitespace-nowrap dark:divide-white/5">
+        <tbody class="divide-y divide-gray-200 whitespace-nowrap dark:divide-white/5" >
             @php
                 $num = 1;
                 $tot_montant=0;
@@ -76,20 +77,20 @@
             
         
             <tr class="border-b">
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;">{{$num}}</td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;">{{$num}}</td>
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->locataire->noms}}
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->locataire->occupation->galerie->nom}}-{{$dt->locataire->occupation->galerie->num}}
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->locataire->occupation->typeOccu->nom}}
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->mois}}
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->montant}} $
                     @php
                         $tot_montant+=$dt->montant;
@@ -106,8 +107,20 @@
                     @endphp
                     {{$montantAPayer - $sommesloyerPayer}} $
                 </td>
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    @php
+                        $current_date = NOW()->format('Y-m-d');
+                        $divers = Divers::where('locataire_id',$dt->locataire_id)
+                                            ->whereRaw(" DATE(created_at) = '$current_date' ")
+                                            ->sum('total');
 
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                        $tot_div += $divers;
+
+                    @endphp
+                    {{$divers}} $
+                </td>
+
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->created_at}} 
                 </td>
                 
@@ -120,20 +133,18 @@
         </tbody>
         <tfoot>
             <tr class="border-b " style="background-color: rgb(230, 230, 230)">
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;"></td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    Total
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;">Totaux</td>
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;"></td>
+
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="color: green;"></td>
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$tot_montant}} $    
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     @php
                         $sommeDette = 0;
                         $sommesLoyerPaye = 0;
@@ -161,6 +172,11 @@
 
                     @endphp
                     {{$sommeDette}}$
+                </td>
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{$tot_div}} $
+                </td>
+                <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                 </td>
                 
         
