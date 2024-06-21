@@ -50,6 +50,9 @@
                 <td scope="col" class=" px-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Galerie
                 </td>
+                <td scope="col" class=" px-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                    Type occup
+                </td>
 
                 <td  scope="col" class=" px-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Num occup
