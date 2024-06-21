@@ -40,24 +40,24 @@
         
         <thead class="bg-gray-100 dark:bg-gray-700"  style="background-color: rgb(218, 218, 218)">
             <tr class="border-b">
-                <td scope="col" class=" pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                <td scope="col" class=" px-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     N°
                 </td>
-                <td scope="col" class=" pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                <td scope="col" class=" px-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Locataire
                 </td>
 
-                <td scope="col" class=" pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                <td scope="col" class=" px-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Galerie
                 </td>
 
-                <td  scope="col" class=" pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                <td  scope="col" class=" px-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Num occup
                 </td>
-                <td scope="col" class=" pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                <td scope="col" class=" px-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Total
                 </td>
-                <td scope="col"  class=" pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                <td scope="col"  class=" px-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Date de sortie
                 </td>
                
