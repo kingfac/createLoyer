@@ -438,7 +438,7 @@
                         <th scope="col" class="py-3 px-2 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                             Taux de réalisation
                         </th> 
-                        <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                        <th scope="col" class="py-3 px-2     text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                             Sorties avec dettes
                         </th>
                     </tr>
