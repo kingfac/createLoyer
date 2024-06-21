@@ -446,44 +446,44 @@
                 <tbody class="divide-y divide-gray-200 whitespace-nowrap dark:divide-white/5">
                     @forelse ($galeries as $galerie)
                         <tr class="border-b">
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{$loop->index +1 }}
                             </td>
-                            <td class="py-4  text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{$galerie->nom}}-{{$galerie->num}}
                             </td>
-                            <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{getAnciennesGaranties($galerie,$mois,$annee)}}$
                                 @php
                                     $aG += getAnciennesGaranties($galerie,$mois,$annee);
                                 @endphp
                             </td>
-                            <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{getNouvellesGaranties($galerie,$mois,$annee)}}$
                                 @php
                                     $nG += getNouvellesGaranties($galerie,$mois,$annee);
                                 @endphp
                             </td>
-                            <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{getDettesAnterieuresPercues($galerie,$mois,$annee)}}$
                                 @php
                                     $dA += getDettesAnterieuresPercues($galerie,$mois,$annee);
                                 @endphp
                             </td>
-                            <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{MontantMois($galerie,$mois,$annee)}}$
                                 @php
                                     $cM += MontantMois($galerie,$mois,$annee);
                                 @endphp
                             </td>
-                            <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{MontantMoisSuivant($galerie,$mois,$annee)}}$
 
                                 @php
                                     $mS += MontantMoisSuivant($galerie,$mois,$annee);
                                 @endphp
                             </td>
-                            <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 @php
                                     $val = getNouvellesGaranties($galerie,$mois,$annee)+
                                     getDettesAnterieuresPercues($galerie,$mois,$annee)+
@@ -498,14 +498,14 @@
 
                                 
                             </td>
-                            <td class="py-4  px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{getSomme($galerie,$mois)}}$
 
                                 @php
                                     $mA += getSomme($galerie,$mois);
                                 @endphp
                             </td>
-                            <td class="py-4  px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{getSomme($galerie,$mois)-MontantMois($galerie,$mois,$annee)}}$
 
                                 @php
@@ -523,10 +523,10 @@
 
                                 $tR += $result;
                             @endphp
-                            <td class="py-4  px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{$result}}%
                             </td>
-                            <td class="py-4  px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{getSortieDette($galerie,$mois,$annee)}}
                                 @php
                                     $sD += getSortieDette($galerie,$mois,$annee);
@@ -539,19 +539,19 @@
                     @endforelse
 
                     <tr class="text-xl bg-gray-200" style=" font:bold; size:1.6em;">
-                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"> Totaux</td>
-                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white"> </td>
+                        <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3"> Totaux</td>
+                        <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3"> </td>
 
-                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$aG}} $</td>
-                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$nG}} $</td>
-                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$dA}} $</td>
-                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$cM}} $</td>
-                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$mS}} $</td>
-                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$tP}} $</td>
-                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$mA}} $</td>
-                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$mN}} $</td>
-                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$tR}}%</td>
-                        <td class="py-4 px-3 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$sD}}</td>
+                        <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">{{$aG}} $</td>
+                        <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">{{$nG}} $</td>
+                        <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">{{$dA}} $</td>
+                        <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">{{$cM}} $</td>
+                        <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">{{$mS}} $</td>
+                        <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">{{$tP}} $</td>
+                        <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">{{$mA}} $</td>
+                        <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">{{$mN}} $</td>
+                        <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">{{$tR}}%</td>
+                        <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">{{$sD}}</td>
 
                     </tr>
                 </tbody>

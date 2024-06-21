@@ -34,10 +34,10 @@
     
     
     
-    <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'" style=" background-color: rgb(223, 223, 223); ">
+    <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5" >
             
-        <thead class="bg-gray-50 dark:bg-white/5">
-            <tr class="text-lg font-bold" style="background-color:#abababc6;">
+        <thead class="bg-gray-50 dark:bg-white/5" style="background-color:#abababc6;">
+            <tr class="text-lg font-bold" >
                 <td class="fi-ta-cell px-3 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     N°
                 </td>

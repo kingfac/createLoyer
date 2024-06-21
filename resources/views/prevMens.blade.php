@@ -122,6 +122,9 @@
         @endphp
         <tr class="border-b">
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="">{{$num}}</td>
+                @php
+                    $num +=1;
+                @endphp
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->nom}}-{{$dt->num}}
                 </td>
