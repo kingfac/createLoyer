@@ -33,8 +33,8 @@
     
     
     
-    <table class="" style=" width:100%; background-color: rgb(223, 223, 223)">
-        <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: gray">
+    <table class="" style=" width:100%;">
+        <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: rgb(218, 218, 218)">
             <tr>
                 <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">N°</th>
                 <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
@@ -79,19 +79,19 @@
             $totalg = 0
             @endphp
             <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 border-b">
-                <td class=" px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white w-4">
+                <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$loop->index + 1}}
                 </td>
-                <td class=" px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->noms}}
                 </td>
-                <td class=" px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->occupation->galerie->nom}}-{{$dt->occupation->galerie->num}}
                 </td>
-                <td class=" px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->occupation->typeOccu->nom}}
                 </td>
-                <td class=" px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     @forelse ($dt->divers as $div)
                         <p>{{$loop->index+=1}}.{{$div->besoin}}   </p>
                     @empty
@@ -99,7 +99,7 @@
                     @endforelse
                     
                 </td>
-                <td class=" px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     @forelse ($dt->divers as $div)
                         <p>{{$div->qte}}   </p>
                     @empty
@@ -107,7 +107,7 @@
                     @endforelse
                     
                 </td>
-                <td class=" px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     @forelse ($dt->divers as $div)
                         <p>{{$div->cu}} $  </p>
                     @empty
@@ -115,7 +115,7 @@
                     @endforelse
                     
                 </td>
-                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{-- {{$dt->occupation->montant}}$ --}}
                     
                     @forelse ($dt->divers as $div)
@@ -138,8 +138,8 @@
            
         </tbody>
         <tr class="text-xl border-b" style=" font:bold; size:1.6em;">
-            <td colspan="7" class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Total</td>
-            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$total}} $</td>
+            <td colspan="7" class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3"">Total</td>
+            <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">{{$total}} $</td>
         </tr>
     </table>
     @php

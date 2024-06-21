@@ -68,8 +68,8 @@
     
     <div class="text-center text-xl  b-2 bg-blue-500 mb-2">{{$label}}</div>
     
-    <table class="w-full table-auto divide-y divide-gray-200 text-start" style=" width:100%; background-color: rgb(223, 223, 223)">
-        <thead class="bg-gray-50 dark:bg-white/5">
+    <table class="w-full table-auto divide-y divide-gray-200 text-start" >
+        <thead class="bg-gray-50 dark:bg-white/5" style="background-color: rgb(218, 218, 218)">
             <tr class="text-lg font-bold " style="background-color:#abababc6;">
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     N°
@@ -228,7 +228,7 @@
             $total = 0;                  
          @endphp
         @endforeach
-        <tfoot>
+        <tfoot style="background-color: rgb(218, 218, 218)">
             <tr class="border-b bg-gray-100">
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     Total

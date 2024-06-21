@@ -65,7 +65,7 @@ class SortieDette extends Component implements HasForms,HasTable
                     ->action(function(){
                         $gar = Garantie::where('restitution', true)->where('montant','<', 0)->get();
 
-                        $pdf = Pdf::loadHTML(Blade::render('sortiedette', ['garanties' => $gar, 'label' => 'Sorties avec dettes']))->setPaper('a4','landscape');
+                        $pdf = Pdf::loadHTML(Blade::render('sortiedette', ['garanties' => $gar, 'label' => 'Sorties avec dettes']))->setPaper('a4','portrait');
                         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
                         return response()->download('../public/storage/pdf/doc.pdf');
                     })

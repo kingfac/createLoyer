@@ -71,30 +71,30 @@
             </td>
         </tr>
     </table>
-    <div class="text-center b-2 bg-gray-500 mb-2">ARRIERES DES LOCATAIRES</div>
+    <div class="text-center b-2 bg-gray-500 mb-2">Arriérés des locqtaires</div>
 
 
 
     <div class="overflow-x-auto shadow-md sm:rounded-lg">
         <div class="inline-block  align-center">
             <div class="overflow-hidden ">
-                <table style=" background-color: rgb(223, 223, 223); width:100%; border-collapse:collapse" >
-                    <thead class="bg:gray-100 dark:bg-gray-700" style="background-color:gray">
+                <table style="width:100%; border-collapse:collapse" >
+                    <thead class="bg:gray-100 dark:bg-gray-700" style="background-color: rgb(218, 218, 218)">
                         <tr>
-                            <td scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">N°</td>
-                            <th scope="col" class="py-3  px-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                            <td scope="col" class="py-1 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">N°</td>
+                            <th scope="col" class="py-1  px-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                 Noms 
                             </th>
-                            <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                            <th scope="col" class="py-1 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                 Galeries
                             </th>
-                            <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                            <th scope="col" class="py-1 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                 Occupations
                             </th>
-                            <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                            <th scope="col" class="py-1 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                 Loyers
                             </th>      
-                            <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                            <th scope="col" class="py-1 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                 Arriérés
                             </th>         
                                           
@@ -118,23 +118,23 @@
                         @php
                         $totalg = 0
                         @endphp
-                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <td class="p-4 w-4">
+                        <tr class="border-b">
+                            <td class="fi-ta-cell px-6 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{$loop->index + 1}}
                             </td>
-                            <td class="py-4  text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-6 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{$loc->noms}}
                             </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-6 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{$loc->occupation->galerie->nom}}-{{$loc->occupation->galerie->num}}
                             </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-6 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{$loc->occupation->typeOccu->nom}}
                             </td>
-                            <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-6 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{$loc->occupation->montant}}$
                             </td>
-                            <td class="py-4  text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <td class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                                 {{-- {{$loc->mp}}
                                 {{$loc->ap}} --}}
                                 @php
@@ -245,9 +245,9 @@
                             $total += $totalg;
                         @endphp
                         @endforeach
-                       <tr class="text-xl" style=" font:bold; size:1.6em;">
-                        <td colspan="5" class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">Total des arriérés</td>
-                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$total}} $</td>
+                       <tr style="background-color: rgb(218, 218, 218)">
+                        <td colspan="5" class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">Total des arriérés</td>
+                        <td class="fi-ta-cell px-6 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">{{$total}} $</td>
                        </tr>
                     </tbody>
                 </table>

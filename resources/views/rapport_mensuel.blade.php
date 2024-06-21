@@ -404,8 +404,8 @@
 <div class="overflow-x-auto shadow-md sm:rounded-lg">
     <div class="inline-block min-w-full align-center">
         <div class="overflow-hidden ">
-            <table style=" background-color: rgb(223, 223, 223)">
-                <thead class="bg-gray-100 dark:bg-gray-700" style="background-color:rgb(192, 192, 192)">
+            <table class="w-full table-auto divide-y divide-gray-200 text-start">
+                <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: rgb(218, 218, 218)">
                     <tr>
                         <th  scope="col" class="py-3 px-2 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">N°</th>
                         <th scope="col" class="py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
@@ -443,9 +443,9 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                <tbody class="divide-y divide-gray-200 whitespace-nowrap dark:divide-white/5">
                     @forelse ($galeries as $galerie)
-                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <tr class="border-b">
                             <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{$loop->index +1 }}
                             </td>

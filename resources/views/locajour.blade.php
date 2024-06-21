@@ -38,27 +38,29 @@
     
     <div class="text-center text-xl  b-2 bg-blue-500 mb-2">{{$label}}</div>
     
-    <table class="w-full table-auto divide-y divide-gray-200 text-start" style=" width:100%; background-color: rgb(223, 223, 223)">
+    <table class="w-full table-auto divide-y divide-gray-200 text-start" >
             
-        <thead class="bg-gray-50 dark:bg-white/5">
-            <tr class="text-lg font-bold " style="background-color:#abababc6;">
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+        <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: rgb(218, 218, 218)">
+            <tr>
+                <th scope="col" class="py-1 px-0 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     N°
-                </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    Nom
-                </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    Loyer à payer
-                </td>
-    
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </th>
+                <th scope="col" class="py-1 px-0 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                    Locataire
+                </th>
+                <th scope="col" class="py-1 px-0 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                    Galerie
+                </th>
+                <th scope="col" class="py-1 px-0 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                    Type Occup
+                </th>
+                <th scope="col" class="py-1 px-0 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                    Loyer mensuel
+                </th>
+                <th scope="col" class="py-1 px-0 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Loyer payé
-                </td>
-    
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    Reste
-                </td>
+                </th>
+                
             </tr>
         </thead>
     
@@ -79,9 +81,15 @@
         @endphp
         <tr class="border-b">
             @if ($dt->somme==$dt->occupation->montant)
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="">{{$num}}</td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white" class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="">{{$num}}</td>
+                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white" class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->noms}}
+                </td>
+                <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white" class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{$dt->occupation->galerie->nom}}
+                </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    {{$dt->occupation->typeOccu->nom}}
                 </td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->occupation->montant}}$
@@ -95,24 +103,30 @@
                         $tot_somme += $dt->somme;
                     @endphp
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                {{-- <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->occupation->montant - $dt->somme}} $
                     @php
                         $tot_reste += $dt->occupation->montant - $dt->somme;
                         $num+=1;
                     @endphp
-                </td>
+                </td> --}}
+               @php
+                   $num += 1;
+               @endphp
                 
             @endif
     
         </tr>
         @endif
         @endforeach
-        <tfoot>
+        <tfoot style="background-color: rgb(218, 218, 218)">
             <tr class="border-b">
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style="">Totaux</td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                 </td>
+                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                </td>
+             
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$tot_lp}} $
                 </td>

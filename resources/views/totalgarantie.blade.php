@@ -37,9 +37,9 @@
 <div class="overflow-x-auto shadow-md sm:rounded-lg">
     <div class="inline-block min-w-full align-center">
         <div class="overflow-hidden ">
-            <table style=" background-color: rgb(223, 223, 223)">
-                <thead class="bg-gray-100 dark:bg-gray-700" style="background-color:gray">
-                    <tr>
+            <table class="w-full table-auto divide-y divide-gray-200 text-start">
+                <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: rgb(218, 218, 218)">
+                    <tr class="border-b">
                         <th  scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">N°</th>
                         <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                             Noms des locataires 
@@ -61,7 +61,7 @@
                         </th>                    
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                <tbody class="divide-y divide-gray-200 whitespace-nowrap dark:divide-white/5">
 
                     @php
                         $_id = 0;
@@ -82,20 +82,20 @@
                     @php
                     $totalg = 0
                     @endphp
-                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <tr class="border-b">
                         <td class="p-4 w-4">
                             {{$loop->index + 1}}
                         </td>
-                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <td class="fi-ta-cell px-6 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" >
                             {{$dt->noms}}
                         </td>
-                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <td class="fi-ta-cell px-6 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" >
                             {{$dt->occupation->galerie->nom}}-{{$dt->occupation->galerie->num}}
                         </td>
-                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <td class="fi-ta-cell px-6 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" >
                             {{$dt->occupation->typeOccu->nom}}
                         </td>
-                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <td class="fi-ta-cell px-6 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" >
                             {{-- {{$dt->occupation->montant}}$ --}}
                             
                             @foreach ($dt->garanties as $gar)
@@ -119,10 +119,10 @@
                             @endphp
                             {{$totalg}} $
                         </td>
-                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <td class="fi-ta-cell px-6 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" >
                             {{$totalGarLoyer}} $
                         </td>
-                        <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <td class="fi-ta-cell px-6 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" >
                             {{$totalg-$totalGarLoyer}} $
                         </td>
                        

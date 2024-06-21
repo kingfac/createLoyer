@@ -1,30 +1,33 @@
 <link rel="stylesheet" href="{{public_path('css.css')}}"> 
 @php
+    use Carbon\Carbon;
     $lelo = new DateTime('now');
     $lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
 @endphp
 <div class="font-serif" >
-    <table style=" width:100%; font-size: 1em; font-weight: bold;" class="">
-        <tr  style="">
-            <td  style="">
-
-                <div class="text-start " style="">
-                    {{-- <img src="{{public_path('logo.png')}}"> --}}
-                    <h2>MILLE ET UNE MERVEILLE</h2>
-                    <h3>RCCM/15-B-9122</h3>
-                    <h3>N.R.C. 53666 - Id. Nat. : 01-910-N 40270K</h3>
-                    <h3>Av. Tshuapa N°90 C./Kinshasa</h3>
-                    <h3 style="">Tel. : 0850758588 - 0816567028</h3>
-                </div>
-            </td>
-            <td style="text-align:right;" colspan="3">
-                <h4>Kin, le {{$lelo}}</h4>
-                {{-- <h4 class="p-2 bg-gray-200" style="width: 100%;">Montant :  <b style="padding: 5px; background-color:rgb(98, 172, 241); width:100%;color:white">{{ $record->montant }} $ </b></h4>
-                <h4>Loyer de : {{$record->mois}}-{{$record->annee}}</h4> --}}
-                <h4>Intervenant : {{Auth::user()->name}}</h4>
-            </td>
-        </tr>
-    </table>
+    <div class=" text-center w-full">
+        
+        <table style=" width:100%; font-size: 1em; font-weight: bold; color:rgb(46, 131, 211)">
+            <tr  style="">
+                <td  style="">
+        
+                    <div class="text-start" style="">
+                        <h2>MILLE ET UNE MERVEILLE</h2>
+                        <h3>RCCM/15-B-9122</h3>
+                        <h3>N.R.C. 53666 - Id. Nat. : 01-910-N 40270K</h3>
+                        <h3>Av. Tshuapa N°90 C./Kinshasa</h3>
+                        <h3 style=" border-bottom:solid 1px; borcer-bottom-width:100px;">Tel. : 0850758588 - 0816567028</h3>
+                    </div>
+                </td>
+                <td style="text-align:right;" colspan="3">
+                    @php
+                        $lelo = Carbon::today()->format('d-m-Y');
+                    @endphp
+                    <h4>Kin, le {{$lelo}}</h4>
+                </td>
+            </tr>
+        </table>
+    </div>
 
     <div class="text-center text-2xl b-2 bg-gray-500 mb-2" style="font-weight:bold;padding:15px">{{$label}}</div>
 
@@ -33,9 +36,9 @@
    
     
         
-    <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'" border="0.2">
+    <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5" border="0.2">
         
-        <thead class="bg-gray-50 dark:bg-white/5" style=" background-color:rgb(214, 210, 210)">
+        <thead class="bg-gray-50 dark:bg-white/5"  style="background-color: rgb(218, 218, 218)">
             <tr class="text-lg font-bold">
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     N°
@@ -107,7 +110,7 @@
                 <td>{{$total}} $</td>
             </tr> --}}
         </tbody>
-        <tfoot style=" background-color:rgb(220, 219, 219)">
+        <tfoot style="background-color: rgb(218, 218, 218)">
             <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                 Total
             </td>
