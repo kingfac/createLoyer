@@ -51,9 +51,6 @@
                     Galerie
                 </td>
 
-                <td scope="col" class=" pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                    Type occup
-                </td>
                 <td  scope="col" class=" pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Num occup
                 </td>
@@ -98,7 +95,7 @@
                         {{$record->montant}} $
                     </td>
                     <td  class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                        {{$record->created_at}}
+                        {{$record->created_at->format('d-m-Y')}}
                     </td>
                 
                     
