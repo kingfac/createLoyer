@@ -74,7 +74,7 @@
                 $num=1;
             @endphp
             @foreach ($garanties as $record)
-                <tr class="hover:bg-white/5 dark:hover:bg-white/5">
+                <tr class="hover:bg-white/5 dark:hover:bg-white/5 border-b">
                     <td  class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                         {{$num}}
                         @php
@@ -94,7 +94,7 @@
                         {{$record->locataire->num_occupation}}
                     </td>
 
-                    <td  class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3"></td>
+                    <td  class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                         {{$record->montant}} $
                     </td>
                     <td  class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
