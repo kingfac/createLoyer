@@ -71,7 +71,7 @@
             </td>
         </tr>
     </table>
-    <div class="text-center b-2 bg-gray-500 mb-2">Arriérés des locqtaires</div>
+    <div class="text-center b-2 bg-gray-500 mb-2">Arriérés des locataires</div>
 
 
 
