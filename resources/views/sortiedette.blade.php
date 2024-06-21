@@ -4,7 +4,7 @@
     $lelo = new DateTime('now');
     $lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
 @endphp
-<div class="font-serif" >
+<div class="" >
     <div class=" text-center w-full">
         
         <table style=" width:100%; font-size: 1em; font-weight: bold; color:rgb(46, 131, 211)">
@@ -36,31 +36,31 @@
    
     
         
-    <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5" border="0.2">
+    <table class="" style=" width:100%;">
         
-        <thead class="bg-gray-50 dark:bg-white/5"  style="background-color: rgb(218, 218, 218)">
-            <tr class="text-lg font-bold">
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+        <thead class="bg-gray-100 dark:bg-gray-700"  style="background-color: rgb(218, 218, 218)">
+            <tr class="border-b">
+                <td scope="col" class="py-3 pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     N°
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td scope="col" class="py-3 pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Locataire
                 </td>
 
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td scope="col" class="py-3 pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Galerie
                 </td>
 
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td scope="col" class="py-3 pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Type occup
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td  scope="col" class="py-3 pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Num occup
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td scope="col" class="py-3 pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Total
                 </td>
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                <td scope="col"  class="py-3 pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Date de sortie
                 </td>
                

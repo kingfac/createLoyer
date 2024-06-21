@@ -29,7 +29,7 @@
         </table>
     </div>
     
-    <div class="text-center b-2 bg-gray-500 mb-2">TOTAL DIVERS</div>
+    <div class="text-center b-2 bg-gray-500 mb-2">Total divers</div>
     
     
     
