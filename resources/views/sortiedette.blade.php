@@ -40,27 +40,27 @@
         
         <thead class="bg-gray-100 dark:bg-gray-700"  style="background-color: rgb(218, 218, 218)">
             <tr class="border-b">
-                <td scope="col" class="py-3 pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                <td scope="col" class=" pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     N°
                 </td>
-                <td scope="col" class="py-3 pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                <td scope="col" class=" pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Locataire
                 </td>
 
-                <td scope="col" class="py-3 pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                <td scope="col" class=" pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Galerie
                 </td>
 
-                <td scope="col" class="py-3 pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                <td scope="col" class=" pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Type occup
                 </td>
-                <td  scope="col" class="py-3 pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                <td  scope="col" class=" pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Num occup
                 </td>
-                <td scope="col" class="py-3 pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                <td scope="col" class=" pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Total
                 </td>
-                <td scope="col"  class="py-3 pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
+                <td scope="col"  class=" pxx-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Date de sortie
                 </td>
                
@@ -75,29 +75,29 @@
             @endphp
             @foreach ($garanties as $record)
                 <tr class="hover:bg-white/5 dark:hover:bg-white/5">
-                    <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    <td  class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                         {{$num}}
                         @php
                             $num+=1;
                         @endphp
                     </td>
-                    <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    <td  class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                         {{$record->locataire->noms}}
                     </td>
-                    <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    <td  class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                         {{$record->locataire->occupation->galerie->nom. '-'.$record->locataire->occupation->galerie->num}}
                     </td>
-                    <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    <td  class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                         {{$record->locataire->occupation->typeOccu->nom}}
                     </td>
-                    <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    <td  class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                         {{$record->locataire->num_occupation}}
                     </td>
 
-                    <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    <td  class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3"></td>
                         {{$record->montant}} $
                     </td>
-                    <td class="fi-ta-cell  first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                    <td  class="fi-ta-cell px-2 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                         {{$record->created_at}}
                     </td>
                 
