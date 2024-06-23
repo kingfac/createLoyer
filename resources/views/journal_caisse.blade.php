@@ -1,32 +1,61 @@
-<div>
-    {{-- Close your eyes. Count to one. That is how long forever feels. --}}
-    <div class="flex  justify-between">
-        @php
-            $lelo = new DateTime('now');
-            $lelo = $lelo->format('d-m-Y');
-        @endphp
-        <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Paiement journalier du {{$lelo}}</h1>
-    </div>
-    {{$this->table}}
-    <link rel="stylesheet" href="{{public_path('css.css')}}"> 
+<link rel="stylesheet" href="{{public_path('css.css')}}"> 
 
-<div class="">
-
+<div class="w-screen">
     @php
+        use Carbon\Carbon;
         use App\Models\Loyer;
-        use App\Models\User;
         use App\Models\Divers;
-        use App\Models\Garantie;
+        $tot_div = 0;
+
+        $lesMois = [
+        '01' => 'Janvier',
+        '02' => 'Février',
+        '03' => 'Mars',
+        '04' => 'Avril',
+        '05' => 'Mais',
+        '06' => 'Juin',
+        '07' => 'Juillet',
+        '08' => 'Aout',
+        '09' => 'Septembre',
+        '10' => 'Octobre',
+        '11' => 'Novembre',
+        '12' => 'Décembre'
+    ];  
     @endphp
+
+    <div class=" text-center">
+        <table style=" width:100%; font-size: 1em; font-weight: bold; color:rgb(46, 131, 211)">
+            <tr  style="">
+                <td  style="">
+        
+                    <div class="text-start" style="">
+                        <h2>MILLE ET UNE MERVEILLE</h2>
+                        <h3>RCCM/15-B-9122</h3>
+                        <h3>N.R.C. 53666 - Id. Nat. : 01-910-N 40270K</h3>
+                        <h3>Av. Tshuapa N°90 C./Kinshasa</h3>
+                        <h3 style=" border-bottom:solid 1px; borcer-bottom-width:100px;">Tel. : 0850758588 - 0816567028</h3>
+                    </div>
+                </td>
+                <td style="text-align:right;" colspan="3">
+                    @php
+                        $lelo = Carbon::today()->format('d-m-Y');
+                    @endphp
+                    <h4>Kin, le {{$lelo}}</h4>
+                </td>
+            </tr>
+        </table>
+        <h2>{{$label}}</h2>
+    </div>
+    
     
     <table class="overflow-x-scroll">
         <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: #ababab9f">
             <tr class=" ">
                 <th scope="col" colspan="3" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                    Noms des Clients 
+                    Locataire 
                 </th>
                 <th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                    Galeries
+                    Galerie
                 </th>
                 <th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     libelle
@@ -49,22 +78,22 @@
                         $moisEncours = (intVal(now()->format('m'))-4) + $i;
                         if ($moisEncours >= 10 && $moisEncours <= 12) {
                             echo '<th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">'.
-                                $this->lesMois[$moisEncours] 
+                                $lesMois[$moisEncours] 
                             .'</th>';
                         }
                         if ($moisEncours < 0 || $moisEncours == 0 ){
                             echo '<th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">'.
-                                $this->lesMois[$moisEncours + 12]
+                                $lesMois[$moisEncours + 12]
                             .'</th>';
                         }
                         if($moisEncours > 12){
                             echo '<th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">'.
-                                $this->lesMois[$moisEncours - 13 ]
+                                $lesMois[$moisEncours - 13 ]
                             .'</th>';
                         }
                         if($moisEncours >=1 && $moisEncours<10){
                             echo '<th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">'.
-                                $this->lesMois['0'.$moisEncours]
+                                $lesMois['0'.$moisEncours]
                             .'</th>';    
                         }
                     }
@@ -163,7 +192,7 @@
                         $moisEncours = (intVal(now()->format('m'))-4) + $i;
                         if ($moisEncours >= 10 && $moisEncours <= 12) {
                             echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'. 
-                                        $this->lesMois[$moisEncours] == $loyer->mois ? $loyer->montant.' $' : null
+                                        $lesMois[$moisEncours] == $loyer->mois ? $loyer->montant.' $' : null
                                         
                                  .'</td>';
                                  $td+= $loyer->montant;
@@ -171,20 +200,20 @@
                         }
                         if ($moisEncours < 0 || $moisEncours == 0 ){
                             echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'. 
-                                        $moisAff=$this->lesMois[$moisEncours + 12] == $loyer->mois ? $loyer->montant.' $' :null
+                                        $moisAff=$lesMois[$moisEncours + 12] == $loyer->mois ? $loyer->montant.' $' :null
                                  .'</td>';
                                  $tj+= $loyer->montant;
                                 
                         }
                         if($moisEncours > 12){
                             echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'. 
-                                        $moisAff = $this->lesMois[$moisEncours - 13 ] == $loyer->mois ? $loyer->montant.' $' : null
+                                        $moisAff = $lesMois[$moisEncours - 13 ] == $loyer->mois ? $loyer->montant.' $' : null
                                 .'</td>';
                                 $tf+= $loyer->montant;
                         }
                         if($moisEncours >=1 && $moisEncours<10){
                             echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'.
-                                        $moisAff = $this->lesMois['0'.$moisEncours] == $loyer->mois ? $loyer->montant.' $' : null
+                                        $moisAff = $lesMois['0'.$moisEncours] == $loyer->mois ? $loyer->montant.' $' : null
                                  .'</td>';
                                  $tm+= $loyer->montant;
                         }
@@ -232,11 +261,13 @@
             </tr>
         </tfoot>
     </table>
-    
 
+    @php
+        $lelo = new DateTime('now');
+        $lelo = $lelo->format('d-m-Y');
+    @endphp
 
     <div class="w-full" style=" text-align:right; margin-top:30px;">
         <p>Aujourd'hui le, {{$lelo}}</p>
     </div>
-</div>
 </div>

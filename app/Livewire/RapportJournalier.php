@@ -5,14 +5,17 @@ namespace App\Livewire;
 use App\Models\Loyer;
 use App\Models\Galerie;
 use Livewire\Component;
+use App\Models\Locataire;
 use Filament\Tables\Table;
 use Livewire\Attributes\On;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
+use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
-use App\Models\Locataire;
 
 class RapportJournalier extends Component 
 {
@@ -54,6 +57,14 @@ class RapportJournalier extends Component
     protected $listeners = ['m13a' => '$refresh'];
     public function render()
     {
+        $pdf = Pdf::loadHTML(Blade::render('journal_caisse', [
+            'data' =>  $this->data,
+            'label' => "Journal de caisse",
+            'mois' => $this->mois,
+            'annee' => $this->annee
+            
+        ]))->setPaper('a3', 'landscape');
+        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return view('livewire.rapport-journalier');
     }
     public function mount(){

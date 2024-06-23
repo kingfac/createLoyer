@@ -88,7 +88,8 @@
                 {{$dt->noms}}
             </td>
             <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                {{$dt->occupation->galerie->nom}}
+                {{$dt->occupation->galerie->nom}}-{{$dt->occupation->galerie->num}}
+            </td>
             </td>
             <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                 {{$dt->occupation->typeOccu->nom}}

@@ -74,6 +74,8 @@
             $tot_lp=0;
             $tot_somme=0;
             $tot_reste=0;
+            $num=1;
+
         @endphp
         @foreach ($data as $dt) 
         @if ($_id != $dt->id )
@@ -81,7 +83,10 @@
             $_id = $dt->id;
         @endphp
         <tr class="border-b">
-                <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" >{{$loop->index+1}}</td>
+                <td class="fi-ta-cell px-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" >{{$num}}</td>
+                @php
+                    $num +=1;
+                @endphp
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$dt->noms}}
                 </td>

@@ -69,7 +69,7 @@ class PaieJournalier extends Component implements HasForms, HasTable
         $this->remplir();
         return view('livewire.paie-journalier');
     }
-
+  
     public function mount(){
         $this->lelo = new DateTime('now');
         $this->lelo = $this->lelo->format('d-m-Y');
@@ -162,7 +162,11 @@ class PaieJournalier extends Component implements HasForms, HasTable
         $lelo = $lelo->format('d-m-Y');
         $this->annee = $this->mois->format('Y');
         $this->mois = $this->lesMois[$this->mois->format('m')];
+        // $this->data = Loyer::whereRaw("DAY(created_at) = DAY(NOW())")->get();
+        $lelo = new DateTime('now');
+        $lelo = $lelo->format('d-m-Y');
         $this->data = Loyer::whereRaw("DAY(created_at) = DAY(NOW())")->get();
+
         
     }
 

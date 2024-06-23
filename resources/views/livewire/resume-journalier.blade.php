@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}">
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
     <div class="flex justify-between">
-        <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Resumé journalier de {{ $mois }} {{$annee}}</h1>
+        <h1 class="text-2xl font-bold" style= "padding-bottom: 25px;">Resumé journalier de {{ $mois }} {{$annee}}</h1>
         {{--  {{ $this->form }}
         {{ $this->table }} --}}
         <x-filament::icon-button

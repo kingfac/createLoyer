@@ -5,17 +5,30 @@
     @endphp 
 <div style="overflow: scroll">
     @vite('resources/css/app.css')
-    <div class="flex justify-between">
+
+
+    <div class="flex  justify-between">
         <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Journal de caisse</h1>
+        {{-- <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Rapport du mois de {{$mois}} {{$annee}} </h1> --}}
+        
+        <x-filament::icon-button
+            icon="heroicon-o-printer"
+            tag="a"
+            label="imprimer"
+            tooltip="Imprimer"
+            href="/storage/pdf/doc.pdf"
+            target="_blank"
+            
+        />
     </div>
     <table class="overflow-x-scroll">
         <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: #ababab9f">
             <tr class=" ">
                 <th scope="col" colspan="3" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                    Noms des Clients 
+                    Locataire
                 </th>
                 <th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                    Galeries
+                    Galerie
                 </th>
                 <th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     libelle
@@ -43,7 +56,7 @@
                         }
                         if ($moisEncours < 0 || $moisEncours == 0 ){
                             echo '<th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">'.
-                                $this->lesMois[$moisEncours + 12]
+                                    lesMois[$moisEncours + 12]
                             .'</th>';
                         }
                         if($moisEncours > 12){
