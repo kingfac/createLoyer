@@ -7,17 +7,17 @@
 @endphp
 
 
-<table style=" width:100%; font-size: 1em; font-weight: bold; color:rgb(46, 131, 211)">
+<table style=" width:100%; font-size: 0.7em; font-weight: bold; color:rgb(46, 131, 211)">
     <tr  style="">
         <td  style="">
 
-            <div class=" text-start font-serif" style="">
+            <div class=" text-start" style="">
                 {{-- <img src="{{public_path('logo.png')}}"> --}}
-                <h2>MILLE ET UNE MERVEILLE</h2>
-                <h3>RCCM/15-B-9122</h3>
-                <h3>N.R.C. 53666 - Id. Nat. : 01-910-N 40270K</h3>
-                <h3>Av. Tshuapa N°90 C./Kinshasa</h3>
-                <h3 style="borcer-bottom-width:100px;">Tel. : 0850758588 - 0816567028</h3>
+                <h1>MILLE ET UNE MERVEILLE</h1>
+                <h2>RCCM/15-B-9122</h2>
+                <h2>N.R.C. 53666 - Id. Nat. : 01-910-N 40270K</h2>
+                <h2>Siège social av. Tshuapa N°90 C/Kinshasa</h2>
+                <h2 style="borcer-bottom-width:100px;">Tel. : 0850758588 - 0816567028</h2>
             </div>
         </td>
         <td style="text-align:right;" colspan="3">
@@ -32,10 +32,10 @@
     </tr>
 </table>
 
-<div class="text-center b-2 bg-gray-500 mb-2" style="font-size: 1.5em;padding:10px; color:rgb(46, 131, 211)">RECU LOYER N° {{$record["di"]}}</div>
+<div class="text-center b-2 bg-gray-500 mb-2" style="font-size: 1em;padding:10px; color:rgb(46, 131, 211)">RECU LOYER N° {{$record["di"]}}</div>
 
 <table class="w-full mb-2" style=" color:rgb(46, 131, 211)">
-    <tr style="font-size: 1.1em; " class="text-bold">
+    <tr class="text-bold">
         @php
             use App\Models\Locataire;
 
@@ -49,17 +49,17 @@
     </tr>
     
     
-    <tr style="font-size: 1.1em; " class="text-bold">
+    <tr class="text-bold">
         <td colspan="" style="">
             <div style="padding: 12px; background-color: rgb(135, 190, 241); width:95%">
-                <p style=" color:white; font-size:1.3em; text-transform: capitalize;">{{SpellNumber::value(intval($record["montant"]))->locale('fr')->toLetters()}} dollars américains.</p>
+                <p style=" color:white; font-size:0.9em; text-transform: capitalize;">{{SpellNumber::value(intval($record["montant"]))->locale('fr')->toLetters()}} dollars américains.</p>
             </div>
             <b></b>
         </td>
         
     </tr>
     <tr style="">
-        <td colspan="" style="padding: 12px; background-color:rgb(135, 190, 241; width:100%">
+        <td colspan="" style="padding: 5px; background-color:rgb(135, 190, 241; width:100%">
             <b></b>
         </td>
         
@@ -73,7 +73,7 @@
         @endif</td>
     </tr>
    
-    <tr>
+    <tr style="font-size: 0.7em">
         <td style="text-align:left;" colspan="3"><b>Visa Bailleur</b> </td>
         <td style="text-align:right;" colspan="3"><b>Visa Locataire</b> </td>        
     </tr>    

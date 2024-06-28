@@ -198,7 +198,7 @@ class ListGaranties extends ListRecords
                         return response()->streamDownload(function () use ($g, $paiements) {
                             echo Pdf::loadHtml(
                                 Blade::render('restitution', ['data' => $g, 'loyers'=> $paiements])
-                            )->stream();
+                            )->setPaper('a5','portrait')->stream();
                         }, '1.pdf'); 
     
                     }

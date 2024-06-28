@@ -183,7 +183,7 @@ class RapportMensuel extends Component implements HasForms,HasTable
             'mois' => $this->mois,
             'annee' => $this->annee
             
-        ]))->setPaper('a4', 'landscape');
+        ]))->setPaper('a3', 'landscape');
         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return view('livewire.rapport-mensuel');
     }

@@ -3,8 +3,8 @@
         $lelo = new DateTime('now');
         $lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
     @endphp
-    <div class="font-serif" style="color:rgb(46, 131, 211)">
-        <table style=" width:100%; font-size: 1em; font-weight: bold;" class="">
+    <div class="" style="color:rgb(46, 131, 211)">
+        <table style=" width:100%; font-size: 1em;" class="">
             <tr  style="">
                 <td  style="">
     
@@ -123,13 +123,25 @@
     
                    
                     
+                    @endforeach
                 </tr>
-                @endforeach
+                
+            </tbody>
+            
+            <hr>
+
+            <tfoot>
                 <tr class="text-lg font-bold bg-gray-50">
                     <td class="">Total</td>
                     <td>{{$total}} $</td>
                 </tr>
-            </tbody>
+                <tr class="text-lg font-bold bg-gray-50">
+                  
+                </tr>
+                <tr class="text-lg font-bold bg-gray-50">
+                  
+                </tr>
+            </tfoot>
     
         
         </table>

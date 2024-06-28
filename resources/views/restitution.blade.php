@@ -38,45 +38,16 @@ $lelo = $lelo->format('d-m-Y');
     <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'">
         <tr>
             <td>
-                <h4 class="text-lg font-bold">Locataire: </h4></h4>
-            </td>
-            <td colspan="4">
-                <h4>{{$data[0]->locataire->noms}}</h4>
+                <h2 class=""><span class="text-lg font-bold">Locataire: </span>{{$data[0]->locataire->noms}}, Galerie:{{$data[0]->locataire->occupation->galerie->nom}}-{{$data[0]->locataire->occupation->galerie->num}}|{{$data[0]->locataire->occupation->typeOccu->nom}}|{{$data[0]->locataire->occupation->montant}} $</h2></h4>
             </td>
         </tr>
-        <tr class="text-lg font-bold">
-            <td>
-                <h4>Galerie</h4>
-            </td>
-            <td>
-                <h4>Type occupation</h4>
-            </td>
-            <td>
-                <h4>Loyer</h4>
-            </td>
-            <td>
-                <h4> Garanties utilisées</h4>
-            </td>
-            <td>
-                <h4>Montant à restituer</h4>
-            </td>
+        <tr class="">
+            <h2> <span class="text-lg font-bold">Garantie utilisée:</span> {{$loyers}} $</h2>
         <tr>
-            <td>
-                <h4>{{$data[0]->locataire->occupation->galerie->nom}}</h4>
-            </td>
-            <td>
-                <h4>{{$data[0]->locataire->occupation->typeOccu->nom}}</h4>
-            </td>
-            <td>
-                <h4>{{$data[0]->locataire->occupation->montant}} $</h4>
-            </td>
-            <td>
-                <h4>{{$loyers}} $</h4>
-            </td>
-            <td>
-                <h4>   {{$data[$data->count()-1]->montant}} $</h4>
-            </td>
+        <tr>
+            <h2><span class="text-lg font-bold">Montant à restituer:</span> {{$data[$data->count()-1]->montant}} $</h2>
         </tr>
+    
 
     </table>
     <hr>
@@ -97,7 +68,7 @@ $lelo = $lelo->format('d-m-Y');
                 </td>
 
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    Garanties payées
+                    Montant
                 </td>
             </tr>
         </thead>
