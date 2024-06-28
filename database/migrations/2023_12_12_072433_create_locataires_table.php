@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('locataires', function (Blueprint $table) {
             $table->id();
+            $table->string('matricule')->nullable();
             $table->string('nom');
             $table->string('postnom')->nullable();
             $table->string('prenom');

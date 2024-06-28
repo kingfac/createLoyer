@@ -140,7 +140,8 @@ class LocataireResource extends Resource
         
          return $table
             ->columns([
-                
+                Tables\Columns\TextColumn::make('matricule')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('noms')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tel')

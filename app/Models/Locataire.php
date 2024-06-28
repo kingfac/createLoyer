@@ -11,7 +11,7 @@ class Locataire extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'postnom',  'prenom', 'tel', 'garantie', 'occupation_id','actif', 'nbr', 'mp', 'ap', 'num_occupation'];
+    protected $fillable = ['nom', 'postnom', 'matricule', 'prenom', 'tel', 'garantie', 'occupation_id','actif', 'nbr', 'mp', 'ap', 'num_occupation'];
     protected $casts = [
         'nom' => 'string', 
         'postnom' => 'string', 

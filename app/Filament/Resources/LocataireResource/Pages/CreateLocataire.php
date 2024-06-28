@@ -9,6 +9,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\LocataireResource;
 use App\Models\Garantie;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class CreateLocataire extends CreateRecord
@@ -28,6 +29,8 @@ class CreateLocataire extends CreateRecord
     {
         //$data['user_id'] = auth()->id();
         $data['garantie'] = null;
+
+
         $loyer = Occupation::where('id', $data['occupation_id'])->first();
         if($data['postnom'] == null){
             $data['postnom'] = "";
@@ -60,11 +63,12 @@ class CreateLocataire extends CreateRecord
         }
 
         //dd($data);
+        // dd($data);
         return $data;
     }
 
     protected function beforeCreate():void{
-        //dd($this->record->garantie);
+        // dd($this->record);
     }
 
     protected function getCancelFormAction(): Action
@@ -74,8 +78,17 @@ class CreateLocataire extends CreateRecord
 
     protected function afterCreate(): void
     {
+        $code='';
+        //generer le code de confirmation
+        $user_ramdom_key1 = "012386746458446454474846545343535366876575756456789";
+        srand((double)microtime()*time());
+        for($i=1; $i<=6; $i++) {
+            $code .= $user_ramdom_key1[rand()%strlen($user_ramdom_key1)];
+        }
         // Runs after the form fields are saved to the database.
-        //dd($this->record);
+        // dd($this->record);
+        $this->record->update(['matricule' => $code]);
+        // dd('reuo');
         if($this->record->garantie > 0){
             Garantie::create([
                 'locataire_id' => $this->record->id, 
