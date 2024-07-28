@@ -27,8 +27,10 @@ class AncienLocataire extends Page implements HasTable
     public static function table(Table $table):Table {
         
         return $table
-                ->query(Locataire::where('actif', false))
-                ->columns([
+            ->query(function(){
+                return Locataire::query()->where('actif', false);
+            })
+            ->columns([
                 TextColumn::make('matricule'),
                 TextColumn::make('noms')
                     ->searchable(),
@@ -37,7 +39,7 @@ class AncienLocataire extends Page implements HasTable
                 
                 TextColumn::make('Galerie')
                     ->default(function(Model $record){
-                        $galerie = $record->occupation->galerie;
+                        $galerie = $record->occupation->galerie->nom;
                         $num_galerie = $record->occupation->galerie->num;
                         return "$galerie - $num_galerie";
                     })
@@ -51,7 +53,9 @@ class AncienLocataire extends Page implements HasTable
                     ->searchable(),
                 TextColumn::make('jjj')
                     ->label('Montant restitué($)')
+                    /* ->money() */
                     ->default(function(Locataire $record){
+                        // dd($record);
                         $montant = Garantie::where(['locataire_id'=> $record->id, 'restitution'=>true])->get();
                         return $montant->value('montant').'$';
                     })
@@ -72,6 +76,7 @@ class AncienLocataire extends Page implements HasTable
                 
             ])
             ->filters([
+                //
                 //SelectFilter::make('occupation_id')->relationship('occupation', 'galerie.nom')->label('Galerie'),
                 // SelectFilter::make('Galerie')->relationship('occupation','galerie.nom'),
                 // SelectFilter::make('occupation_id')->relationship('occupation', 'typeOccu.nom')->label('Occupation'),
@@ -82,15 +87,16 @@ class AncienLocataire extends Page implements HasTable
                
             ]) 
             ->bulkActions([
-            ]);
+               
+                ]);
+                
             
-           
-        
-    }
-    // protected static ?int $navigationSort = 5;
+            
+        }
+        // protected static ?int $navigationSort = 5;
 
-    public static function getNavigationBadge(): ?string
-    {
-        return Locataire::all()->where('actif', false)->count();   
+        public static function getNavigationBadge(): ?string
+        {
+            return Locataire::all()->where('actif', false)->count();   
+        }
     }
-}
