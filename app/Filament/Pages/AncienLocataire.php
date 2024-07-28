@@ -37,9 +37,12 @@ class AncienLocataire extends Page implements HasTable
                 
                 TextColumn::make('Galerie')
                     ->default(function(Model $record){
-                        $galerie = $record->occupation->galerie->nom;
-                        $num_galerie = $record->occupation->galerie->num;
-                        return "$galerie - $num_galerie";
+                        if($record != null){
+                            $galerie = $record->occupation->galerie->nom;
+                            $num_galerie = $record->occupation->galerie->num;
+                            return "$galerie - $num_galerie";
+                        }
+                        return "";
                     })
                     ->sortable(),
                 TextColumn::make('occupation.typeOccu.nom')
