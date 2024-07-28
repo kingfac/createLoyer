@@ -35,16 +35,7 @@ class AncienLocataire extends Page implements HasTable
                 TextColumn::make('tel')
                     ->searchable(),
                 
-                TextColumn::make('Galerie')
-                    ->default(function(Model $record){
-                        if($record != null){
-                            $galerie = $record->occupation->galerie->nom;
-                            $num_galerie = $record->occupation->galerie->num;
-                            return "$galerie - $num_galerie";
-                        }
-                        return "";
-                    })
-                    ->sortable(),
+               
                 TextColumn::make('occupation.typeOccu.nom')
                     ->label('Occupation')
                     ->sortable(),
@@ -54,9 +45,7 @@ class AncienLocataire extends Page implements HasTable
                     ->searchable(),
                 TextColumn::make('jjj')
                     ->label('Montant restitué($)')
-                    /* ->money() */
                     ->default(function(Locataire $record){
-                        // dd($record);
                         $montant = Garantie::where(['locataire_id'=> $record->id, 'restitution'=>true])->get();
                         return $montant->value('montant').'$';
                     })
@@ -77,7 +66,6 @@ class AncienLocataire extends Page implements HasTable
                 
             ])
             ->filters([
-                //
                 //SelectFilter::make('occupation_id')->relationship('occupation', 'galerie.nom')->label('Galerie'),
                 SelectFilter::make('Galerie')->relationship('occupation','galerie.nom'),
                 SelectFilter::make('occupation_id')->relationship('occupation', 'typeOccu.nom')->label('Occupation'),
@@ -88,18 +76,6 @@ class AncienLocataire extends Page implements HasTable
                
             ]) 
             ->bulkActions([
-                // Tables\Actions\BulkActionGroup::make([
-                //     Tables\Actions\DeleteBulkAction::make(),
-                //     Tables\Actions\BulkAction::make('Imprimer la selection')->action(function (Collection $record){
-                //         // dd($record);
-                //         return response()->streamDownload(function () use ($record) {
-                //             echo Pdf::loadHtml(
-                //                 Blade::render('listlocgalerie', ['record' => $record])
-                //             )->stream();
-                //         }, random_int(0,1000) . '_list_locataire_galerie.pdf');
-
-                //     })->icon('heroicon-o-printer')->color('red')
-                // ]),
             ]);
             
            
