@@ -27,10 +27,8 @@ class AncienLocataire extends Page implements HasTable
     public static function table(Table $table):Table {
         
         return $table
-            ->query(function(){
-                return Locataire::query()->where('actif', false);
-            })
-            ->columns([
+                ->query(Locataire::where('actif', false))
+                ->columns([
                 
                 TextColumn::make('noms')
                     ->searchable(),

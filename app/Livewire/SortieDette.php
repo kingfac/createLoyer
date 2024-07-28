@@ -41,13 +41,8 @@ class SortieDette extends Component implements HasForms,HasTable
                 TextColumn::make('locataire.noms'),
                 TextColumn::make('Galerie')
                     ->default(function(Garantie $record){
-                        if($record != null){
-
-                            $gal = $record->locataire->occupation->galerie->nom. '-'.$record->locataire->occupation->galerie->num;
-                            return $gal;
-                        }
-
-                        return "";
+                        $gal = $record->locataire->occupation->galerie->nom. '-'.$record->locataire->occupation->galerie->num;
+                        return $gal;
                     }),
                 TextColumn::make('locataire.occupation.typeOccu.nom')
                     ->label('Type occupation'),
