@@ -65,7 +65,7 @@ class LocataireResource extends Resource
                     ->live()
                     ->required()
                     ->validationMessages([ 'required' => 'Ce champ est obligatoire'])
-                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->galerie->nom} | {$record->typeOccu->nom} ({$record->montant} $)")
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->galerie->nom} | {$record->typeOccu->nom} | $record->ref | ({$record->montant} $)")
                     ->required(),
                 Forms\Components\TextInput::make('num_occupation')
                     ->label('Numéro occupation')
