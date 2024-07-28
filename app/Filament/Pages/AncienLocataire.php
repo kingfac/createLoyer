@@ -29,7 +29,7 @@ class AncienLocataire extends Page implements HasTable
         return $table
                 ->query(Locataire::where('actif', false))
                 ->columns([
-                
+                TextColumn::make('matricule'),
                 TextColumn::make('noms')
                     ->searchable(),
                 TextColumn::make('tel')
