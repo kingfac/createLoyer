@@ -35,7 +35,13 @@ class AncienLocataire extends Page implements HasTable
                 TextColumn::make('tel')
                     ->searchable(),
                 
-               
+                TextColumn::make('Galerie')
+                    ->default(function(Model $record){
+                        $galerie = $record->occupation->galerie;
+                        $num_galerie = $record->occupation->galerie->num;
+                        return "$galerie - $num_galerie";
+                    })
+                    ->sortable(),
                 TextColumn::make('occupation.typeOccu.nom')
                     ->label('Occupation')
                     ->sortable(),
@@ -67,7 +73,7 @@ class AncienLocataire extends Page implements HasTable
             ])
             ->filters([
                 //SelectFilter::make('occupation_id')->relationship('occupation', 'galerie.nom')->label('Galerie'),
-                SelectFilter::make('Galerie')->relationship('occupation','galerie.nom'),
+                // SelectFilter::make('Galerie')->relationship('occupation','galerie.nom'),
                 SelectFilter::make('occupation_id')->relationship('occupation', 'typeOccu.nom')->label('Occupation'),
             ])
             ->actions([
