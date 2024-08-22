@@ -119,6 +119,6 @@ class OccupationResource extends Resource
     {
         return static::getModel()::all()->count();   
     }
-
+    
     
 }

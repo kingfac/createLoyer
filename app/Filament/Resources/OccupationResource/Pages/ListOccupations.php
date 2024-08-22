@@ -16,4 +16,6 @@ class ListOccupations extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    
 }
