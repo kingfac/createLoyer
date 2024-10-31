@@ -238,7 +238,7 @@ class LocataireResource extends Resource
                 //     $pdf = pdf::loadHTML(Blade::render('factureGarantie', ['record' => $record]));
                 //     $pdf->save(public_path().'/pdf/doc.pdf');
                     
-                    
+                        
 
                     //return response()->view('factureGarantie', ['record' => $record]);
                     

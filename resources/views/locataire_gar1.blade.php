@@ -13,11 +13,8 @@
         $lelo = new DateTime('now');
         $lelo = $lelo->format('d-m-Y').' à '.$lelo->format('H:i');
 
-        $garanties = Garantie::where('locataire_id', $loc->id)->get();
-
     @endphp
 
-    @forelse ($garanties as $garantie)
         <table style=" width:100%; font-size: 0.7em; font-weight: bold; color:rgb(46, 131, 211); padding-top:10px">
             <tr  style="">
                 <td  style="">
@@ -87,7 +84,7 @@
         </table>
 
         <hr>
-    @empty
+    {{-- @empty
         <div style="font-size: 1.1em; " class="text-bold">
             <span colspan="" style="">
                 <div style="padding: 12px; background-color: rgb(135, 190, 241); width:95%">
@@ -97,7 +94,7 @@
             </span>
             
         </div>
-    @endforelse
+    @endforelse --}}
 
   
    

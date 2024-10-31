@@ -383,7 +383,7 @@ class ListGaranties extends ListRecords
 
                         $loc = Locataire::find($data["locataire_id"]);
 
-                        $pdf = Pdf::loadHTML(Blade::render('locataire_gar', ['loc' => $loc, 'restitution' => $restitution, 'label' => 'Total garantie']))->setPaper('a4','landscape');
+                        $pdf = Pdf::loadHTML(Blade::render('locataire_gar', ['loc' => $loc, 'restitution' => $restitution, 'label' => 'Total garantie']))->setPaper('a5','portrait');
                         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
                         return response()->download('../public/storage/pdf/doc.pdf');
                     })
