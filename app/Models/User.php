@@ -3,11 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Mail\UserMail;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -51,5 +53,13 @@ class User extends Authenticatable
 
     public function loyers(): HasMany{
         return $this->hasMany(Loyer::class);
+    }
+
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            // Envoie l'email de bienvenue avec le mot de passe en clair
+            Mail::to($user->email)->send(new UserMail($user, $user->plaintext_password));
+        });
     }
 }
