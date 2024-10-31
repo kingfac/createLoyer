@@ -94,6 +94,7 @@ class CustomLoyer extends Component implements HasForms
             ->orderBy('locataires.id')
             ->orderBy('somme', 'ASC')
             ->where('noms', 'like', '%' . $recherche . '%')
+            ->Orwhere('matricule', 'like','%' . $recherche . '%')
             ->where('actif', true)
             //->orWhere('noms', 'like', '%' . $gal . '%')
             ->get();

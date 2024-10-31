@@ -974,7 +974,7 @@ class CustomCreateLoyer extends Component implements HasForms
     
                         $mois_n = '';
                         //on transforme mp 02 => fevrier
-                        if($mois < 9){
+                        if($mois <= 9){
                             $mois_n = $Mois1['0'.$mois];
                         }
                         elseif($mois >= 10){
