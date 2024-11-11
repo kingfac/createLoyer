@@ -75,7 +75,7 @@
         </div>
         
     
-        <h1 class=" ">Paiements effectués au mois de {{$mois}} / {{$annee}}</h1>
+        <h1 class=" ">Paiements effectués au mois de {{$*}} / {{$annee}}</h1>
     </div>
 
     @if (count($data) > 0)

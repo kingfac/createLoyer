@@ -19,11 +19,12 @@ $lelo = $lelo->format('d-m-Y');
                 <h2>N.R.C. 53666 - Id. Nat. : 01-910-N 40270K</h2>
                 <h2>Siège social av. Tshuapa N°90 C/Kinshasa</h2>
                 <h2 style="borcer-bottom-width:100px;">Tel. : 0850758588 - 0816567028</h2>
-            </div>
+            </div>  
         </td>
         <td style="text-align:right;" colspan="3">
             <h4>Kin, le {{$lelo}}</h4>
             <h4 class="p-2 bg-gray-200" style="width: 100%;">Montant :  <b style="padding: 5px; background-color:rgb(98, 172, 241); width:100%;color:white">{{ $records[0]->montant  }} $ </b></h4>
+            <h4>Payé le :  {{$records[0]->created_at}}</h4>
             <h4>Loyer de :  {{$records[0]->mois}}-{{$records[0]->annee}}</h4>
             @php
                 $nom = User::find($records[0]['users_id']);

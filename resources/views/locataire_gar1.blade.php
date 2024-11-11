@@ -32,7 +32,6 @@
                     <h4>Kin, le {{$lelo}}</h4>
                     <h4 class="p-2 bg-gray-200" style="width: 100%;">Montant :  <b style="padding: 5px; background-color:rgb(98, 172, 241); width:100%;color:white">{{ $garantie->montant  }} $ </b></h4>
                     <h4>Payée le :  {{$garantie->created_at}}</h4>
-                
                     <h4>Intervenant : {{Auth::user()->name}}</h4>
                 </td>     
             </tr>
