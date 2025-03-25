@@ -23,7 +23,7 @@ class EvolutionLoyer extends Page
     {
         $this->mois = $mois;
         $this->data = Locataire::all();
-        static::authorizeResourceAccess();
+        // static::authorizeResourceAccess();
         //dd($mois);
     }
 
