@@ -9,6 +9,7 @@ use Pages\EvolutionLoyer;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Filament\Resources\LoyerResource\Pages;
+use Filament\Support\Enums\MaxWidth;
 
 
 class LoyerLoc extends Page implements HasForms
@@ -25,15 +26,21 @@ class LoyerLoc extends Page implements HasForms
 
     public static function getNavigationBadge(): ?string
     {
-        return Loyer::all()->count();   
+        return Loyer::all()->count();
     }
 
     public static function getPages(): array
     {
         return [
-           
+
             'evolution' => Pages\EvolutionLoyer::route('/{mois}/evolution'),
+            //'evolution' => Pages\EvolutionLoyer::route('/{mois}/{annee}/evolution'),
         ];
+    }
+
+    public function getMaxContentWidth(): MaxWidth
+    {
+        return MaxWidth::Full;
     }
 
 }

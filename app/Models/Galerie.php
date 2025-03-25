@@ -12,12 +12,12 @@ class Galerie extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'av', 'num', 'commune_id'];
+    protected $fillable = ['nom', 'av', 'num', 'commune_id', 'actif'];
 
     protected $casts = [
-        'nom' => 'string', 
-        'av' => 'string', 
-        'num' => 'string', 
+        'nom' => 'string',
+        'av' => 'string',
+        'num' => 'string',
         'commune_id' => 'integer'
     ];
 

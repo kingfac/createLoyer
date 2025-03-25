@@ -66,6 +66,8 @@ class LocataireResource extends Resource
                     ->required()
                     ->validationMessages([ 'required' => 'Ce champ est obligatoire'])
                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->galerie->nom} | {$record->typeOccu->nom} | $record->ref | ({$record->montant} $)")
+                    ->searchable()
+                    ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('num_occupation')
                     ->label('Numéro occupation')
@@ -102,7 +104,7 @@ class LocataireResource extends Resource
 
                     /* ->minValue(fn($get) => Occupation::where('id', $get('occupation_id'))->value('montant') * intval($get('mois'))) */
                     // ->default(fn($get) => Occupation::where('id', $get('occupation_id'))->value('montant') * intval($get('mois'))),
-                
+
                 Forms\Components\Select::make('mp')
                     ->label('Mois du premier paiement')
                     ->options( ["1"=> "janvier","2"=>"février", "3"=>"mars","4"=>"avril","5"=>"mai","6"=>"juin","7"=>"juillet","8"=>"aout","9"=>"septembre","10"=>"octobre","11" => "novembre", "12" => "décembre"])
@@ -111,7 +113,7 @@ class LocataireResource extends Resource
                 Forms\Components\Select::make('ap')
                     ->label('Année du premier paiement')
                     ->options(function(){
-                            
+
                         return [
                             '2023' => 2023,
                             '2024' => 2024,
@@ -125,19 +127,19 @@ class LocataireResource extends Resource
                     })
                     ->default($currentDate->format("Y"))
                     ->required(),
-                    
+
                 Forms\Components\Toggle::make('actif')
                     ->label('Désactiver/Activer')
                     ->default(true)
-                    
-                    
+
+
             ]);
     }
 
     public static function table(Table $table): Table
     {
 
-        
+
          return $table
             ->columns([
                 Tables\Columns\TextColumn::make('matricule')
@@ -146,7 +148,7 @@ class LocataireResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tel')
                     ->searchable(),
-                
+
                 Tables\Columns\TextColumn::make('Galerie')
                     ->default(function(Model $record){
                         $galerie = $record->occupation->galerie->nom;
@@ -184,7 +186,7 @@ class LocataireResource extends Resource
                     ->default(function(Model $record){
                         $ConvMois = [
                             1 => "janvier",
-                            2 =>"février", 
+                            2 =>"février",
                             3 =>"mars",
                             4 =>"avril",
                             5 =>"mai",
@@ -193,7 +195,7 @@ class LocataireResource extends Resource
                             8 =>"aout",
                             9 =>"septembre",
                             10 =>"octobre",
-                            11  => "novembre", 
+                            11  => "novembre",
                             12  => "décembre"
                         ];
                         // dd($record->mp);
@@ -210,7 +212,7 @@ class LocataireResource extends Resource
                     ->label('Date')
                     ->dateTime()
                     ->sortable(),
-                
+
             ])
             // ->filters([
             //     //
@@ -220,34 +222,34 @@ class LocataireResource extends Resource
             // ])
             ->actions([
                 //Tables\Actions\EditAction::make(),
-                // Tables\Actions\Action::make('pdf') 
+                // Tables\Actions\Action::make('pdf')
                 // ->label('Garantie.pdf')
                 // ->color('success')
                 // // ->icon('heroicon-s-download')
                 // ->action(function (Model $record) {
-                   
+
                 //     $options = [
                 //         'isHtml5ParserEnabled'=> true,
-                //         'isPhpEnabled' => true,    
+                //         'isPhpEnabled' => true,
                 //         'isPhpEnabled'=> true,
                 //         'isPhpEnabled'=> true,
                 //         'isHtml5ParserEnabled'=> true,
                 //         'isHtml5ParserEnabled'=> true,
                 //     ];
-                    
+
                 //     $pdf = pdf::loadHTML(Blade::render('factureGarantie', ['record' => $record]));
                 //     $pdf->save(public_path().'/pdf/doc.pdf');
-                    
-                        
+
+
 
                     //return response()->view('factureGarantie', ['record' => $record]);
-                    
-                    
-                    
+
+
+
                     //return response()->file(public_path().'/pdf/doc.pdf', ['content-type'=>'application/pdf']);
                 //     return true;
                 // })
-                // ->url('/pdf/doc.pdf', true), 
+                // ->url('/pdf/doc.pdf', true),
                 Action::make('dupliquer')
                     ->form([
                         Select::make('occupation_id')
@@ -275,20 +277,20 @@ class LocataireResource extends Resource
                             ->default(NOW()->format("Y"))
                             ->inlineLabel()
                             ->required(),
-                            
+
                         Forms\Components\Toggle::make('actif')
                             ->label('Désactiver/Activer')
                             ->default(true)
                             ->onColor('primary')
                             ->offColor('danger')
-                            
+
 
                         ])
                     ->action(function(array $data, Locataire $record){
                         // dd($record);
                         /* verifications befor created garantie */
                         $loyer = Occupation::where('id', $data['occupation_id'])->first();
-                        
+
                         if($data['garantie'] == 0 && $data['nbr'] == null){
                             /* Notification::make()
                             ->warning()
@@ -296,14 +298,14 @@ class LocataireResource extends Resource
                             ->body("Garantie ou mois garantie doit être renseigné pour valider
                             le formulaire")
                             ->persistent()
-                            
+
                             ->send();
                             $this->halt(); */
                             //Rien A faire pena awa
                             $data['nbr'] = 0;
                             $data['garantie'] = 0;
                         }
-                        
+
                         elseif($data['garantie'] == 0 && $data['nbr'] != null){
                             $data['garantie'] = $loyer->montant * intval($data['nbr']);
                         }
@@ -340,12 +342,12 @@ class LocataireResource extends Resource
                             ->duration(5000)
                             ->persistent()
                             ->actions([
-                                
+
                             ])
                             ->send();
                     })
-               
-            ]) 
+
+            ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -381,7 +383,7 @@ class LocataireResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::where('actif', true)->count();   
+        return static::getModel()::where('actif', true)->count();
     }
 
 
@@ -390,5 +392,5 @@ class LocataireResource extends Resource
         return parent::getEloquentQuery()->where('actif', true)->orderBy('noms');
     }
 
-    
+
 }

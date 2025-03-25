@@ -1,6 +1,6 @@
 <div>
     <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}">
-    
+
     {{-- Nothing in the world is as soft and yielding as water. --}}
     {{-- <style>
         h1{
@@ -9,7 +9,7 @@
         }
 
         h2{
-            
+
         }
     </style> --}}
     <div class="flex justify-between " >
@@ -27,15 +27,15 @@
                 />
             </div>
         </div>
-        
-       
+
+
     </div>
     <div class=" w-full p-3 bg-gray-100 flex justify-between">
         <p class="text-black ">Galérie: {{$locataire->occupation->galerie->nom}}-{{$locataire->occupation->galerie->num}}</p>
         <p class="text-black ">Type occupation: {{$locataire->occupation->typeOccu->nom}}</p>
         <p class="text-black ">Numéro occupation: {{$locataire->num_occupation}}</p>
         <p class="text-black ">Loyer: {{$locataire->occupation->montant}} $</p>
-        <?php 
+        <?php
             use App\Models\Garantie;
             use App\Models\Loyer;
             use App\Models\Locataire;
@@ -61,7 +61,7 @@
                     {{-- <x-heroicon-s-printer /> --}}
                     Imprimer situation personnelle locataire
                 </a>
-                   
+
             </div>
             @else
                 <div  class="flex justify-center items-center">
@@ -73,15 +73,15 @@
                 </a>
             @endif
         </div>
-        
-    
-        <h1 class=" ">Paiements effectués au mois de {{$*}} / {{$annee}}</h1>
+
+
+        <h1 class=" ">Paiements effectués au mois de {{$mois}} / {{$annee}}</h1>
     </div>
 
     @if (count($data) > 0)
-        
+
     <table class="fi-ta-table w-full table-auto divide-y divide-gray-600 text-start dark:divide-white/5'">
-        
+
         <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: #ababab9f">
             <tr class="text-lg font-bold">
                 <th scope="col" colspan="3" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
@@ -106,15 +106,15 @@
                 </th>
             </tr>
         </thead>
-    
+
 
         <tbody class="divide-y divide-gray-200  dark:divide-white/5">
-        
+
             @php
                 $_id = 0;
                 $total = 0;
             @endphp
-            @foreach ($data as $ly) 
+            @foreach ($data as $ly)
             @php
                 $total += $ly->montant;
                 $intervenant = User::find($ly->users_id)->first()->name;
@@ -127,16 +127,16 @@
                     {{$ly->montant ?? 0}} $
                 </td>
                 <td colspan="3" class="border w-32 py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
-                    {{$ly->garantie ? 'Avec garantie' : 'Sans garantie'}} 
+                    {{$ly->garantie ? 'Avec garantie' : 'Sans garantie'}}
                 </td>
                 <td colspan="3" class="border w-32 py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
                     {{$ly->occupation->montant - $total}} $
                 </td>
                 <td colspan="3" class="border w-32 py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
-                    {{$intervenant ?? '' }} 
+                    {{$intervenant ?? '' }}
                 </td>
                 <td colspan="3" class="border w-32 py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
-                    {{$ly->observation ?? 'Aucune observation'}} 
+                    {{$ly->observation ?? 'Aucune observation'}}
                 </td>
                 <td>
                      <x-filament::icon-button
@@ -155,7 +155,7 @@
             </tr>
         </tbody>
 
-    
+
     </table>
     @else
     <div class=" flex justify-center" style="padding: 10px; ">
@@ -171,36 +171,36 @@
         @php
 
             $lo = Locataire::where('id',$locataire_id)->first();
-            
+
         @endphp
     <div>
 
         <h1 style=" color:white ; padding-left:15px; font-size:1.3em; backgound:blue; margin-top: 20px ; font-weight : bold; text-transform:uppercase " class="bg-blue-600"> Affichage des dettes</h1>
 
         <table class="fi-ta-table  table-auto divide-y divide-gray-600 text-start dark:divide-white/5 w-full "  style="">
-                
+
                 <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: #ababab9f">
                     <tr class="text-lg font-bold">
                         <th scope="col" colspan="3" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                             Mois
                         </th>
-    
+
                         <th scope="col" colspan="3" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                             Année
                         </th>
                         <th scope="col" colspan="3" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                             Loyer payé
                         </th>
-    
+
                         <th scope="col" colspan="3" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                             Dette
                         </th>
                     </tr>
                 </thead>
-            
-    
+
+
                 <tbody class="divide-y divide-gray-200  dark:divide-white/5">
-                
+
                     @php
                         $_id = 0;
                         $total = 0;
@@ -208,30 +208,33 @@
                         // dd(($dettes_mois));
                     @endphp
 
-                    
-                    @for ($i=0; $i < count($dettes_mois); $i++) 
+
+                    @for ($i=0; $i < count($dettes_mois); $i++)
                     @php
                         // $total += $;
                     @endphp
                     <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                        
-                        
+
+
                         <td colspan="3" class="border w-32 py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
+                            {{-- Le mois du payement du loyer ou de la dette --}}
                             {{$dettes_mois[$i]}}
                         </td>
                         <td colspan="3" class="border w-32 py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
+                            {{-- L'annee de payement du loyer ou de la dette --}}
                             {{$dettes_annees[$i]}}
                         </td>
                         <td colspan="3" class="border w-32 py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
+                            {{-- Montant du loyer payé --}}
                             {{$dettes_montant[$i]}} $
                         </td>
                         <td colspan="3" class="border w-32 py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
                             @php
-                                $total += $lo->occupation->montant - array_sum($dettes_montant);
+                                $total += $lo->occupation->montant - $dettes_montant[$i];
                             @endphp
-                            {{$lo->occupation->montant - array_sum($dettes_montant)}} $
+                            {{$lo->occupation->montant - $dettes_montant[$i]}} $
                         </td>
-                        
+
                     </tr>
                     @endfor
                     <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -241,17 +244,17 @@
                         <td colspan="3" class="border w-32 py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">{{$total}} $</td>
                     </tr>
                 </tbody>
-    
-            
+
+
             </table>
-            
-    
+
+
         @else
             <div>
                 <span style=" width:100%; color:red; text-align:center; text-decoration:underline"> Veuillez spécifier le premier mois de paiement ou année de paiement du locataire pour afficher ses dettes.</span>
             </div>
         @endif
-        
 
-    </div>    
+
+    </div>
  </div>

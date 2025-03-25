@@ -59,7 +59,7 @@ class User extends Authenticatable
     {
         static::created(function ($user) {
             // Envoie l'email de bienvenue avec le mot de passe en clair
-            Mail::to($user->email)->send(new UserMail($user, $user->plaintext_password));
+            //Mail::to($user->email)->send(new UserMail($user, $user->plaintext_password));
         });
     }
 }

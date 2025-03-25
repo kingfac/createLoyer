@@ -1,14 +1,18 @@
 {{-- <link rel="stylesheet" href="{{asset('build/assets/app-514a0b6d.css')}}"> --}}
 @php
     use App\Models\Loyer;
+    use App\Models\Galerie;
+    use App\Models\TypeOccu;
+    use App\Models\Locataire;
 @endphp
+
 {{-- <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}"> --}}
 <x-filament-panels::page>
-    
+
     <x-filament::breadcrumbs :breadcrumbs="[
         '/loyer-loc' => 'Loyer',
         '/loyer/janvier/evolution' => 'Evolution',
-        
+
     ]" />
     {{-- {{$data}} --}}
     <div class="flex justify-between">
@@ -17,7 +21,7 @@
     </div>
     <div style="" class="grid grid-cols-4 gap-5">
 
-    
+
     @foreach ($data as $loc)
         @php
             $somme = Loyer::where(['locataire_id' => $loc->id, 'mois' => $mois])->sum('montant');
@@ -27,12 +31,12 @@
         <div style="" class="p-4 bg-{{$color}}-600 rounded-lg shadow-xl hover:bg-{{$color}}-50">
             <b class="px-2 py-1 rounded-lg bg-white text-black shadow-lg" >{{$loop->index + 1}}</b>
             <span class="px-2 text-lg font-bold text-white">Locataire {{$loc->nom}} </span>
-            
+
             <div class="flex justify-center {{-- items-center text-center --}}">
                 <p class="py-2 font-bold text-xl text-white">{{$somme}}$ / {{$loyer}}$</p>
             </div>
         </div>
         @endforeach
     </div>
-    
+
 </x-filament-panels::page>

@@ -61,16 +61,16 @@ class GarantieResource extends Resource
         return $table
             ->query(function(Builder $query){
                 $locsactifs = DB::table('locataires')->select('id')->where('actif', true);
- 
-                
+
+
                 return Garantie::query()->whereIn('locataire_id', $locsactifs)->where('restitution',false)->where('montant', '>', 0);
             })
             ->columns([
-                
+
                 Tables\Columns\TextColumn::make('locataire.noms')
                     ->sortable()
                     ->searchable(),
-             
+
                 Tables\columns\TextColumn::make('Galerie')
                     ->default(function(Model $record){
                         $galerie = $record->locataire->occupation->galerie->nom;
@@ -94,7 +94,7 @@ class GarantieResource extends Resource
                     ->dateTime()
                     ->label('Date')
                     ->sortable()
-                
+
             ])
             ->defaultGroup('locataire.id')->modelLabel("locataire.noms")
 
@@ -103,7 +103,7 @@ class GarantieResource extends Resource
                 Group::make('locataire.noms')
                     ->collapsible(),
             ]) */
-            
+
             // ->groupsOnly()
             ->filters([
                 SelectFilter::make('locataire_nom')->relationship('locataire', 'noms')->label('Locataire'),
@@ -140,7 +140,8 @@ class GarantieResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::all()->count();   
+        $locsactifs = DB::table('locataires')->select('id')->where('actif', true);
+        return static::getModel()::whereIn('locataire_id', $locsactifs)->where('restitution',false)->where('montant', '>', 0)->count();
     }
 
     // public static function getEloquentQuery(): Builder{
@@ -151,7 +152,7 @@ class GarantieResource extends Resource
 
 // return $table
 //             ->columns([
-                
+
 //                 Tables\Columns\TextColumn::make('locataire.noms')
 //                     ->sortable()
 //                     ->searchable(),
@@ -173,8 +174,7 @@ class GarantieResource extends Resource
 //                     ->dateTime()
 //                     ->label('Date')
 //                     ->sortable()
-                
+
 //             ])
 //             ->defaultGroup('locataire.num_occupation')->modelLabel("locataire.noms")
 
-            

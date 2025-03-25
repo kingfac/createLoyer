@@ -30,7 +30,7 @@ class LocPaiePartiel extends Component
         return view('livewire.loc-paie-partiel');
     }
 
-    #[On('m2')] 
+    #[On('m2')]
     public function update($mois, $annee)
     {
         // ...

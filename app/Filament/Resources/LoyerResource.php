@@ -94,7 +94,7 @@ class LoyerResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->searchable()
-            
+
             ->filters([
                 //
                 SelectFilter::make('mois')->options(['Janvier' => 'Janvier','Février' => 'Février','Mars' => 'Mars','Avril' => 'Avril','Mais' => 'Mai','Juin' => 'Juin','Juillet' => 'Juillet','Aout' => 'Aout','Septembre' => 'Septembre','Octobre' => 'Octobre','Novembre' => 'Novembre','Décembre' => 'Décembre']),
@@ -105,7 +105,7 @@ class LoyerResource extends Resource
             ])
             ->actions([
                 //Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('pdf') 
+                Tables\Actions\Action::make('pdf')
                 ->label('PDF')
                 ->icon('heroicon-o-printer')
                 ->color('success')
@@ -116,14 +116,15 @@ class LoyerResource extends Resource
                             Blade::render('pdf', ['record' => $record])
                         )->stream();
                     }, $record->id.'1.pdf');
-                }), 
+                }),
 
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->paginated([10, 25, 50, 100, 'all']);
     }
 
     public static function getRelations(): array
@@ -153,6 +154,6 @@ class LoyerResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::all()->count();   
+        return static::getModel()::all()->count();
     }
 }

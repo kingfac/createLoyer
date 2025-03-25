@@ -12,8 +12,9 @@ class CreateGalerie extends CreateRecord
     protected static string $resource = GalerieResource::class;
     //protected static bool $Create = false;
     protected static ?string $title = 'Créer galerie';
-    
-    protected static bool $canCreateAnother = false;
+
+    protected static bool $canCreateAnother = true;
+    //protected static bool $canCreate = false;
 
     protected function getRedirectUrl(): string
     {

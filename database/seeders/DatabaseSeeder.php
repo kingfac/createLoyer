@@ -51,32 +51,32 @@ class DatabaseSeeder extends Seeder
             ['nom' => 'Nsele'],
             ['nom' => 'Selembao']
         ];
-        $record = Commune::insert($communes);
+        Commune::insert($communes);
         // Les roles
         $role = Role::create(['name' => 'Gerant']);
         $role2 = Role::create(['name' => 'Boss']);
         $role3 = Role::create(['name' => 'Caissier']);
         $user = User::find(1)->first();
         $user->assignRole($role);
-        
+
         // Les permissions
         $permisision2 = Permission::create(['name' => 'create Occupation']);
         $permisision6 = Permission::create(['name' => 'edit Occupation']);
         $permisision8 = Permission::create(['name' => 'delete Occupation']);
-        
+
         $permisision3 = Permission::create(['name' => 'create Type Occus']);
         $permisision5 = Permission::create(['name' => 'edit Type Occus']);
         $permisision9 = Permission::create(['name' => 'delete Type Occus']);
-        
+
         $permisision1 = Permission::create(['name' => 'create Galerie']);
         $permisision4 = Permission::create(['name' => 'edit Galerie']);
         $permisision7 = Permission::create(['name' => 'delete Galerie']);
 
-        
+
         $permisision10 = Permission::create(['name' => 'create Locataire']);
         $permisision12 = Permission::create(['name' => 'edit Locataire']);
         $permisision14 = Permission::create(['name' => 'delete Locataire']);
-        
+
         $permisision11 = Permission::create(['name' => 'create Loyer']);
         $permisision13 = Permission::create(['name' => 'edit Loyer']);
         $permisision15 = Permission::create(['name' => 'delete Loyer']);

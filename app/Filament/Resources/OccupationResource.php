@@ -29,14 +29,18 @@ class OccupationResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('galerie_id')
-                    ->relationship('galerie', )
+                    ->relationship('galerie', modifyQueryUsing:fn(Builder $query) => $query->where('actif', true))
                     ->reactive()
                     ->live()
                     ->getOptionLabelFromRecordUsing(fn (Model $record) =>  "{$record->nom} - {$record->num} ")
+                    ->searchable()
+                    ->preload()
                     ->required(),
                 Forms\Components\Select::make('type_occu_id')
                     ->relationship('typeOccu', 'nom')
                     ->label('Type occupation')
+                    ->searchable()
+                    ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('ref')
                     ->label('Référence')
@@ -117,8 +121,8 @@ class OccupationResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::all()->count();   
+        return static::getModel()::all()->count();
     }
-    
-    
+
+
 }

@@ -21,7 +21,7 @@ class PayementLoyerJournalier extends BaseWidget
 {
     protected int | string | array $columnSpan = 'full';
     public $data;
-    
+
 
     public $mois;
     public $annee;
@@ -54,16 +54,18 @@ class PayementLoyerJournalier extends BaseWidget
         'Décembre' => '12'
     ];
 
-        
-    
+
+
 
     public function table(Table $table): Table
     {
         return $table
         ->query(
             // ...
-            Locataire::query()->where('actif',true)->orderBy('id', 'DESC')
-            
+            Locataire::query()->join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
+            ->whereRaw('DATE(loyers.created_at) = CURDATE()')
+            ->orderBy('locataires.id', 'DESC')
+
         )
         ->columns([
             // ...
@@ -101,7 +103,7 @@ class PayementLoyerJournalier extends BaseWidget
             // ->summarize(Sum::make())
             ->money(),
             TextColumn::make("DD")->label('Divers')->default(function(Locataire $record){
-                
+
                 return Divers::where('locataire_id', $record->id)
                 ->whereRaw('DATE(created_at) = CURDATE()')
                 ->sum('total');
@@ -117,7 +119,7 @@ class PayementLoyerJournalier extends BaseWidget
                     }
                 }
                 return $data;
-                
+
             })->money(),
             // TextColumn::make("a")->label("Anticipatif")->default(function(Locataire $record){
             //     $data = 0;
@@ -130,10 +132,10 @@ class PayementLoyerJournalier extends BaseWidget
             //         }
             //     }
             //     return $data;
-                
+
             // })->money(),
 
-            TextColumn::make("Date")->default(date('j-M-Y'))
+            TextColumn::make("loyers.created_at")->label("Date")
         ])->headerActions([
             Action::make('Imprimer')
                 ->action(function(){
@@ -144,7 +146,7 @@ class PayementLoyerJournalier extends BaseWidget
                 $pdf = Pdf::loadHTML(Blade::render('dash_journalier', ['locs' => $locs, 'label' => ' Payement Loyer,Garantie, Divers Journaliers  du '.$lelo]))->setPaper('a4', 'landscape');
                     Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
                     return response()->download('../public/storage/pdf/doc.pdf');
-                    
+
                 })
         ]);
     }

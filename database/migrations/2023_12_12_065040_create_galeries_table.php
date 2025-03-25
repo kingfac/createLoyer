@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nom');
             $table->string('av');
             $table->string('num');
+            $table->boolean('actif')->default(true);
             $table->unsignedBigInteger('commune_id');
             //$table->foreign('commune_id')->references('id')->on('communes');
             $table->timestamps();

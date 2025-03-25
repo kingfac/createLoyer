@@ -31,7 +31,7 @@ class ListGaranties extends ListRecords
             Actions\CreateAction::make(),
             Action::make('Restituer garantie')
                 ->form([
-                    
+
                     Select::make('locataire_id')
                         ->relationship(
                             'locataire',
@@ -39,18 +39,20 @@ class ListGaranties extends ListRecords
                             )
                         ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->noms} | {$record->occupation->typeOccu->nom} |{$record->num_occupation} ")
                         ->required()
-                        ->validationMessages(['required' => 'Veuillez séléctionner un locataire']),
+                        ->validationMessages(['required' => 'Veuillez séléctionner un locataire'])
+                        ->searchable()
+                        ->preload(),
 
                 ])
                 ->action(function(array $data){
                     $paiements = Loyer::where('locataire_id', $data['locataire_id'])->where('garantie',true)->sum('montant');
                     $r_exist = Garantie::where(['locataire_id'=>$data['locataire_id'], 'restitution'=> true])->first();
                     if($r_exist == null){
-                        
+
                         // dd($record->montant);
                         /*-----------------------calcul de la restitution------------------------------*/
                         $garanties = Garantie::where('locataire_id',$data['locataire_id'])->sum('montant');
-                        
+
                         /*------------------------calcul des dettes------------------------------------*/
                         $this->locataire = Locataire::where('id', $data['locataire_id'])->first();
                         $Mois1 = [
@@ -83,15 +85,15 @@ class ListGaranties extends ListRecords
                         ];
                         $_id = 0;
                         $ctrR = 0;
-                        
+
                         $sommeGarentie = 0;
                         $sommeLoyerApay = 0;
                         $sommeLoyerPay = 0;
                         $voir = 0;
                         $rapport = [];
                         $mois_dette = [];
-                        
-                        // $m est le mois parcouru enregistré pour le calcul de somme 
+
+                        // $m est le mois parcouru enregistré pour le calcul de somme
                         $total = 0;
                         $m = 0; // mois encour de traitement
                         $total_mois = 0;
@@ -126,7 +128,7 @@ class ListGaranties extends ListRecords
                                     $total_mois = 0;
                                     $total_mois += $loy->montant;
                                     $nbrMois_paye++;
-                                    
+
                                     if(count($loyers) == 1){
                                         $total += $this->locataire->occupation->montant - $total_mois;
                                         $rapport[] = [$loy->mois ,$total_mois ,$this->locataire->occupation->montant, date("Y")-1];
@@ -141,22 +143,22 @@ class ListGaranties extends ListRecords
                         /* if(count($rapport) == 0 && $total_mois > 0){
                             $rapport[] = [$this->mois ,$total_mois ,$this->locataire->occupation->montant, date("Y")-1];
                         } */
-                        
+
                         //dd($total_mois);
                         //dd($total, $rapport, $total_mois, $nbrMois_paye, $this->mois);
                         /* Affichage des arrieres s'il y a */
                             $Nba = date("Y") - $this->locataire->ap; //nombre d'annee
                             $mois_encours = date("m"); //mois encours
                             $nbMois = ((13 * $Nba) - $this->locataire->mp) + date("m"); //nombre de mois total
-                            $x_encour = ($Nba == 0) ? $mois_encours :  (13 - $this->locataire->mp - $nbrMois_paye); // nombre de mois de l'annee precedente s'il y a 
-                        
-                        
+                            $x_encour = ($Nba == 0) ? $mois_encours :  (13 - $this->locataire->mp - $nbrMois_paye); // nombre de mois de l'annee precedente s'il y a
+
+
 
                         /* Affichage de mois d'arrieressss */
                         if ($this->locataire->ap != null)
-                        {                                                       
+                        {
                                 if ($x_encour >= 0){
-                                    if ($x_encour > 0){    
+                                    if ($x_encour > 0){
                                         if ($Nba != 0){
                                             for ($i = ($this->locataire->mp + $nbrMois_paye); $i <= 12; $i++){
                                                 $total += $this->locataire->occupation->montant;
@@ -172,7 +174,7 @@ class ListGaranties extends ListRecords
                                             }
                                         }
                                     }
-                                    if ($Nba > 0){   
+                                    if ($Nba > 0){
                                         for ($i = 1; $i <= $mois_encours; $i++){
                                             $total += $this->locataire->occupation->montant;
                                             $rapport[] = [$Mois1[$i > 9 ? $i : "0".$i] ,0 ,$this->locataire->occupation->montant, date("Y")];
@@ -181,12 +183,12 @@ class ListGaranties extends ListRecords
                                     }
                                 }
                         }
-                       
+
                         /*-----------------------fin calcul des dettes---------------------------------*/
-                        
-            
+
+
                         $restitution = $garanties-$paiements-$total;
-    
+
                         $restitution = Garantie::create([
                             'montant' => $restitution,
                             'locataire_id' => $data['locataire_id'],
@@ -199,8 +201,8 @@ class ListGaranties extends ListRecords
                             echo Pdf::loadHtml(
                                 Blade::render('restitution', ['data' => $g, 'loyers'=> $paiements])
                             )->setPaper('a5','portrait')->stream();
-                        }, '1.pdf'); 
-    
+                        }, '1.pdf');
+
                     }
                     else{
                         Notification::make()
@@ -212,11 +214,11 @@ class ListGaranties extends ListRecords
                             ->duration(5000)
                             ->persistent()
                             ->actions([
-                                
+
                                 ])
                                 ->send();
                     }
-             
+
                 }),
 
                 Action::make('imprimer')
@@ -239,11 +241,11 @@ class ListGaranties extends ListRecords
                         $paiements = Loyer::where('locataire_id', $data['locataire_id'])->where('garantie',true)->sum('montant');
                     $r_exist = Garantie::where(['locataire_id'=>$data['locataire_id'], 'restitution'=> true])->first();
                     if($r_exist == null){
-                        
+
                         // dd($record->montant);
                         /*-----------------------calcul de la restitution------------------------------*/
                         $garanties = Garantie::where('locataire_id',$data['locataire_id'])->sum('montant');
-                        
+
                         /*------------------------calcul des dettes------------------------------------*/
                         $this->locataire = Locataire::where('id', $data['locataire_id'])->first();
                         $Mois1 = [
@@ -276,15 +278,15 @@ class ListGaranties extends ListRecords
                         ];
                         $_id = 0;
                         $ctrR = 0;
-                        
+
                         $sommeGarentie = 0;
                         $sommeLoyerApay = 0;
                         $sommeLoyerPay = 0;
                         $voir = 0;
                         $rapport = [];
                         $mois_dette = [];
-                        
-                        // $m est le mois parcouru enregistré pour le calcul de somme 
+
+                        // $m est le mois parcouru enregistré pour le calcul de somme
                         $total = 0;
                         $m = 0; // mois encour de traitement
                         $total_mois = 0;
@@ -319,7 +321,7 @@ class ListGaranties extends ListRecords
                                     $total_mois = 0;
                                     $total_mois += $loy->montant;
                                     $nbrMois_paye++;
-                                    
+
                                     if(count($loyers) == 1){
                                         $total += $this->locataire->occupation->montant - $total_mois;
                                         $rapport[] = [$loy->mois ,$total_mois ,$this->locataire->occupation->montant, date("Y")-1];
@@ -334,22 +336,22 @@ class ListGaranties extends ListRecords
                         /* if(count($rapport) == 0 && $total_mois > 0){
                             $rapport[] = [$this->mois ,$total_mois ,$this->locataire->occupation->montant, date("Y")-1];
                         } */
-                        
+
                         //dd($total_mois);
                         //dd($total, $rapport, $total_mois, $nbrMois_paye, $this->mois);
                         /* Affichage des arrieres s'il y a */
                             $Nba = date("Y") - $this->locataire->ap; //nombre d'annee
                             $mois_encours = date("m"); //mois encours
                             $nbMois = ((13 * $Nba) - $this->locataire->mp) + date("m"); //nombre de mois total
-                            $x_encour = ($Nba == 0) ? $mois_encours :  (13 - $this->locataire->mp - $nbrMois_paye); // nombre de mois de l'annee precedente s'il y a 
-                        
-                        
+                            $x_encour = ($Nba == 0) ? $mois_encours :  (13 - $this->locataire->mp - $nbrMois_paye); // nombre de mois de l'annee precedente s'il y a
+
+
 
                         /* Affichage de mois d'arrieressss */
                         if ($this->locataire->ap != null)
-                        {                                                       
+                        {
                                 if ($x_encour >= 0){
-                                    if ($x_encour > 0){    
+                                    if ($x_encour > 0){
                                         if ($Nba != 0){
                                             for ($i = ($this->locataire->mp + $nbrMois_paye); $i <= 12; $i++){
                                                 $total += $this->locataire->occupation->montant;
@@ -365,7 +367,7 @@ class ListGaranties extends ListRecords
                                             }
                                         }
                                     }
-                                    if ($Nba > 0){   
+                                    if ($Nba > 0){
                                         for ($i = 1; $i <= $mois_encours; $i++){
                                             $total += $this->locataire->occupation->montant;
                                             $rapport[] = [$Mois1[$i > 9 ? $i : "0".$i] ,0 ,$this->locataire->occupation->montant, date("Y")];
@@ -375,10 +377,10 @@ class ListGaranties extends ListRecords
                                 }
                         }
                     }
-                       
+
                         /*-----------------------fin calcul des dettes---------------------------------*/
-                        
-            
+
+
                         $restitution = $garanties-$paiements-$total;
 
                         $loc = Locataire::find($data["locataire_id"]);

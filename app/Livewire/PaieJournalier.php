@@ -28,7 +28,7 @@ class PaieJournalier extends Component implements HasForms, HasTable
     use InteractsWithForms;
 
     public $data;
-    
+
 
     public $mois;
     public $label = 'paiement Journalier';
@@ -63,13 +63,13 @@ class PaieJournalier extends Component implements HasForms, HasTable
         'Novembre' => '11',
         'Décembre' => '12'
     ];
-    
+
     public function render()
     {
         $this->remplir();
         return view('livewire.paie-journalier');
     }
-  
+
     public function mount(){
         $this->lelo = new DateTime('now');
         $this->lelo = $this->lelo->format('d-m-Y');
@@ -78,14 +78,17 @@ class PaieJournalier extends Component implements HasForms, HasTable
 
     public function table(Table $table): Table
     {
-       
-        
+
+
         return $table
             ->query(
                 // ...
-                
-                Locataire::query()
-                
+
+                Locataire::query()->join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
+                ->whereRaw('DATE(loyers.created_at) = CURDATE()')
+                ->selectRaw('locataires.*')
+                ->orderBy('locataires.id', 'DESC')
+
             )
             ->columns([
                 // ...
@@ -95,7 +98,7 @@ class PaieJournalier extends Component implements HasForms, HasTable
                         return $record->occupation->galerie->nom.'-'.$record->occupation->galerie->num;
                     }),
                 TextColumn::make('occupation.typeOccu.nom')->label('Occupation'),
-              
+
                 TextColumn::make("Loyer")->default(function(Locataire $record){
                     $moiss = [];
                     $current_data = NOW()->format('Y-m-d');
@@ -111,17 +114,17 @@ class PaieJournalier extends Component implements HasForms, HasTable
 
                 TextColumn::make("Garantie")->default(function(Locataire $record){
                     $current_date = NOW()->format('Y-m-d');
-                    
+
                     return Garantie::where(['locataire_id' => $record->id, 'restitution' => false])
                     ->whereRaw(" DATE(created_at) = '$current_date' ")
                     ->sum('montant');
                 })
                 ->summarize(Sum::make()->label('Total')->money())
                 ->money(),
-                
+
                 TextColumn::make("DD")->label('Divers')->default(function(Locataire $record){
                     $current_date = NOW()->format('Y-m-d');
-                    
+
                     return Divers::where('locataire_id', $record->id)
                     ->whereRaw(" DATE(created_at) = '$current_date' ")
                     ->sum('total');
@@ -150,11 +153,11 @@ class PaieJournalier extends Component implements HasForms, HasTable
                         $pdf = Pdf::loadHTML(Blade::render('journalier', ['data' => $data, 'label' => 'Paiement journalier du '.$lelo]))->setPaper('a4', 'landscape');
                         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
                         return response()->download('../public/storage/pdf/doc.pdf');
-                        
+
                     }),
             ]);
     }
-    
+
 
     public function remplir(){
         $this->mois = new DateTime();
@@ -167,11 +170,11 @@ class PaieJournalier extends Component implements HasForms, HasTable
         $lelo = $lelo->format('d-m-Y');
         $this->data = Loyer::whereRaw("DAY(created_at) = DAY(NOW())")->get();
 
-        
+
     }
 
 
 
-    
-   
+
+
 }

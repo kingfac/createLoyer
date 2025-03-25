@@ -8,9 +8,9 @@
         <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Paiement journalier du {{$lelo}}</h1>
     </div>
     {{$this->table}}
-    <link rel="stylesheet" href="{{public_path('css.css')}}"> 
+    <link rel="stylesheet" href="{{public_path('css.css')}}">
 
-<div class="">
+<div class="" style="overflow: auto;">
 
     @php
         use App\Models\Loyer;
@@ -18,12 +18,12 @@
         use App\Models\Divers;
         use App\Models\Garantie;
     @endphp
-    
+
     <table class="overflow-x-scroll">
         <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: #ababab9f">
             <tr class=" ">
                 <th scope="col" colspan="3" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                    Noms des Clients 
+                    Noms des Clients
                 </th>
                 <th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Galeries
@@ -33,23 +33,23 @@
                 </th>
                 <th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Periode(Loyer)
-                </th>  
+                </th>
                 <th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Garantie
-                </th>  
+                </th>
                 <th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Divers
                 </th>
                 <th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Dettes
-                </th> 
+                </th>
                 @php
                     $moisEncours = intVal(now()->format('m'))-4;
                     for($i = 0 ; $i < 5; $i++) {
                         $moisEncours = (intVal(now()->format('m'))-4) + $i;
                         if ($moisEncours >= 10 && $moisEncours <= 12) {
                             echo '<th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">'.
-                                $this->lesMois[$moisEncours] 
+                                $this->lesMois[$moisEncours]
                             .'</th>';
                         }
                         if ($moisEncours < 0 || $moisEncours == 0 ){
@@ -65,13 +65,13 @@
                         if($moisEncours >=1 && $moisEncours<10){
                             echo '<th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">'.
                                 $this->lesMois['0'.$moisEncours]
-                            .'</th>';    
+                            .'</th>';
                         }
                     }
                 @endphp
                 <th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Datte
-                </th>    
+                </th>
             </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -85,7 +85,7 @@
                 $tv=0;
             @endphp
             @foreach ($data as $loyer)
-                
+
                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                     <td colspan="3" class="border w-32 py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
                         {{$loyer->locataire->noms}}
@@ -117,7 +117,7 @@
                     <td class="border py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
                         {{$loyer->mois}}({{$loyer->montant}}$)
                         @php
-                            $lm+=$loyer->montant;   
+                            $lm+=$loyer->montant;
                         @endphp
                     </td>
                     <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
@@ -151,7 +151,7 @@
                                                    ->sum('montant');
                             $loyerApayer = $loyer->locataire->occupation->montant;
                             $dettes =$loyerApayer - $sommeLoyerMois;
-                            
+
                         @endphp
                         @if ($dettes > 0)
                             {{$dettes}} $
@@ -162,22 +162,22 @@
                     for ($i=0; $i < 5; $i++) {
                         $moisEncours = (intVal(now()->format('m'))-4) + $i;
                         if ($moisEncours >= 10 && $moisEncours <= 12) {
-                            echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'. 
+                            echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'.
                                         $this->lesMois[$moisEncours] == $loyer->mois ? $loyer->montant.' $' : null
-                                        
+
                                  .'</td>';
                                  $td+= $loyer->montant;
-                            
+
                         }
                         if ($moisEncours < 0 || $moisEncours == 0 ){
-                            echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'. 
+                            echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'.
                                         $moisAff=$this->lesMois[$moisEncours + 12] == $loyer->mois ? $loyer->montant.' $' :null
                                  .'</td>';
                                  $tj+= $loyer->montant;
-                                
+
                         }
                         if($moisEncours > 12){
-                            echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'. 
+                            echo '<td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">'.
                                         $moisAff = $this->lesMois[$moisEncours - 13 ] == $loyer->mois ? $loyer->montant.' $' : null
                                 .'</td>';
                                 $tf+= $loyer->montant;
@@ -190,7 +190,7 @@
                         }
                     }
                     @endphp
-                    
+
                     <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
                         {{now()->format('d-m-Y')}}
                     </td>
@@ -204,7 +204,7 @@
                 </td>
                 <td class="fi-ta-cell text-center  p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
-                    
+
                 </td>
                 <td class="fi-ta-cell  text-center p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3" style=""></td>
                 <td class="fi-ta-cell text-center p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
@@ -228,11 +228,11 @@
                 <td class="fi-ta-cell p-0 text-center first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$lm}}
                 </td>
-                
+
             </tr>
         </tfoot>
     </table>
-    
+
 
 
     <div class="w-full" style=" text-align:right; margin-top:30px;">

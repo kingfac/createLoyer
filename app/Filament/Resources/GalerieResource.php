@@ -24,8 +24,8 @@ class GalerieResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?int $navigationSort = 2;
-    
-    
+
+
 
     public static function form(Form $form): Form
     {
@@ -77,12 +77,19 @@ class GalerieResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make("Désactiver")
+                ->action(function (Galerie $record) {
+                    //dd($record->nom);//
+                    $record->actif = false;
+                    $record->save();
+                })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     // Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->query(Galerie::where('actif', true));
     }
 
     public static function getRelations(): array
@@ -92,7 +99,7 @@ class GalerieResource extends Resource
         ];
     }
 
-    
+
 
     public static function getPages(): array
     {
@@ -105,20 +112,20 @@ class GalerieResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::all()->count();   
+        return static::getModel()::where('actif', true)->count();
     }
 
 
     public static function getActions(){
         return [
-            
+
         ];
     }
 
 
-    
 
-    
 
-    
+
+
+
 }

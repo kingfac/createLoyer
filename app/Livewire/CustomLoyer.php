@@ -27,7 +27,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 class CustomLoyer extends Component implements HasForms
 {
 
-    
+
     use InteractsWithForms;
 
     public ?array $dataf = [];
@@ -40,27 +40,47 @@ class CustomLoyer extends Component implements HasForms
 
     public $selectedGal;
     public $selectedOccu = '';
-    
+    public $rows ;
+    public $start_page = 1;
+    public $total_page;
+    public $perPage = 2;
+    public $perPageOptions = [2, 5, 10, 25, 50, 100]; // Options for per page selection
+    public $offset;
+
+
 
     protected $listeners = ['actualiser1' => '$refresh'];
 
     public function render()
     {
         //dd(Loyer::whereRaw("DAY(created_at) = DAY(NOW())")->get()->sum('montant'));
+        $this->rows = Locataire::where('actif', true)->count();
+        $this->offset = ($this->start_page - 1) * $this->perPage + 1;
+        //if($this->offset > 4) dd($this->offset);
+
+        $this->total_page = ceil($this->rows/$this->perPage);
         $this->remplir($this->recherche, $this->selectedGal);
-        
+
+
+        //dd($this->offset, $this->perPage, $this->total_page);
         return view('livewire.custom-loyer');
     }
 
-    #[On('close-modal')] 
+    #[On('close-modal')]
     public function actualiser()
     {
         // ...
-        $this->remplir();
+        //$this->remplir();
         $this->dt1 = null;
         $this->mois = $this->form->getState()['mois'];
         $this->annee = $this->form->getState()['annee'];
         //$this->dispatch('actualiser1');
+    }
+
+    public function updatedPerPage()
+    {
+        $this->start_page = 1; // Reset to first page when perPage changes
+        //$this->remplir($this->recherche, $this->selectedGal);
     }
 
     public function clear(){
@@ -72,7 +92,8 @@ class CustomLoyer extends Component implements HasForms
         $this->form->fill();
         $this->mois = $this->form->getState()['mois'];
         $this->annee = $this->form->getState()['annee'];
-        $this->remplir();
+
+        //$this->remplir();
     }
 
     public function remplir($recherche = '', $gal = ''){
@@ -85,8 +106,9 @@ class CustomLoyer extends Component implements HasForms
             ->get();
         }
         else{
-            
+
         } */
+
         $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER')
             //->join('occupations', 'loyers.locataire_id', '=', 'locataires.id', 'LEFT OUTER')
             ->selectRaw('locataires.*, loyers.created_at')
@@ -97,9 +119,17 @@ class CustomLoyer extends Component implements HasForms
             ->Orwhere('matricule', 'like','%' . $recherche . '%')
             ->where('actif', true)
             //->orWhere('noms', 'like', '%' . $gal . '%')
+            ->skip($this->offset)//
+            ->take($this->perPage)//
+            // ->offset(0)
+            // ->limit(5)
             ->get();
 
         //$this->data = $this->data->paginate(10);
+    }
+    public function gotoPage($page)
+    {
+        $this->start_page = max(1, min($page, ceil($this->rows / $this->perPage)));
     }
 
   /*   public function table(Table $table): Table
@@ -135,7 +165,7 @@ class CustomLoyer extends Component implements HasForms
             ->schema([
                 Section::make()->schema([
 
-                    
+
                     Select::make('mois')
                         ->options(['Janvier' => 'Janvier','Février' => 'Février','Mars' => 'Mars','Avril' => 'Avril','Mais' => 'Mai','Juin' => 'Juin','Juillet' => 'Juillet','Aout' => 'Aout','Septembre' => 'Septembre','Octobre' => 'Octobre','Novembre' => 'Novembre','Décembre' => 'Décembre'])
                         ->label("Mois")
@@ -168,7 +198,7 @@ class CustomLoyer extends Component implements HasForms
                                 'Novembre' => '11',
                                 'Décembre' => '12'
                             ];
-                          
+
                             $date = NOW();
                             $mois =$date->format('m');
 
@@ -181,7 +211,7 @@ class CustomLoyer extends Component implements HasForms
                         ->label('Année')
                         ->default($currentDate->format("Y"))
                         ->options(function(){
-                            
+
                             return [
                                 '2023' => 2023,
                                 '2024' => 2024,
@@ -206,7 +236,7 @@ class CustomLoyer extends Component implements HasForms
                             //$this->resetTable();
                             $this->remplir();
                         })
-                        
+
                         ->size(ActionSize::ExtraLarge),
                         Actions\Action::make('Evolution')
                         ->icon('heroicon-o-eye')
@@ -216,14 +246,14 @@ class CustomLoyer extends Component implements HasForms
                            $this->evolution();
                         })
                         ->size(ActionSize::ExtraLarge)
-                        
+
                     ])->columnSpan(2),
-                    
+
                 ])
                 ->columns(7)
 
             ])
-            
+
             ->statePath('dataf');
     }
 
@@ -233,7 +263,7 @@ class CustomLoyer extends Component implements HasForms
         $this->dt1 = $dt;
         $this->mois = $this->form->getState()['mois'];
         $this->annee = $this->form->getState()['annee'];
-        
+
         //dd($dt);
         //$this->remplir();
 
@@ -241,7 +271,7 @@ class CustomLoyer extends Component implements HasForms
     }
 
     public function evolution(){
-        return response()->redirectTo('/loyers/'.$this->form->getState()['mois'].'/'.$this->form->getState()['annee'].'/evolution');
+        return response()->redirectTo('loyers/'.$this->form->getState()['mois'].'/'.$this->form->getState()['annee'].'/evolution');
     }
 
     public function imprimer($dt){
