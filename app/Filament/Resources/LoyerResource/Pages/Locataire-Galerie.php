@@ -5,7 +5,7 @@ namespace App\Filament\Resources\LoyerResource\Pages;
 use App\Filament\Resources\LoyerResource;
 use Filament\Resources\Pages\Page;
 
-class Locataire-Galerie extends Page
+class LocataireGalerie extends Page
 {
     protected static string $resource = LoyerResource::class;
 
