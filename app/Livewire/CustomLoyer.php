@@ -43,8 +43,8 @@ class CustomLoyer extends Component implements HasForms
     public $rows ;
     public $start_page = 1;
     public $total_page;
-    public $perPage = 2;
-    public $perPageOptions = [2, 5, 10, 25, 50, 100]; // Options for per page selection
+    public $perPage = 25;
+    public $perPageOptions = [25, 50, 100]; // Options for per page selection
     public $offset;
 
 
@@ -117,11 +117,10 @@ class CustomLoyer extends Component implements HasForms
             ->orderBy('somme', 'ASC')
             ->where('noms', 'like', '%' . $recherche . '%')
             ->Orwhere('matricule', 'like','%' . $recherche . '%')
-            ->where('actif', true)
             //->orWhere('noms', 'like', '%' . $gal . '%')
-            ->skip($this->offset)//
+            ->skip(($this->start_page - 1) * $this->perPage)//
             ->take($this->perPage)//
-            // ->offset(0)
+            // // ->offset(0)
             // ->limit(5)
             ->get();
 
