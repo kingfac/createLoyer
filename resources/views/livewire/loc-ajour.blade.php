@@ -7,6 +7,7 @@
         <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Locataire à jour du mois de : {{ $mois }}</h1>
         {{--  {{ $this->form }}
         {{ $this->table }} --}}
+
         <x-filament::icon-button
             icon="heroicon-o-printer"
             tag="a"
@@ -14,7 +15,7 @@
             tooltip="Imprimer"
             href="/storage/pdf/doc.pdf"
             target="_blank"
-                
+
         />
     </div>
     <div class="overflow-x-auto shadow-md sm:rounded-lg">
@@ -44,7 +45,7 @@
                             <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                                 Loyer payé
                             </th>
-                            
+
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -55,14 +56,14 @@
                             $somme =0;
                             $somme1 =0;
                         @endphp
-                        @foreach ($data as $dt) 
+                        @foreach ($data as $dt)
                         @if ($_id != $dt->id && $dt->occupation->montant == $dt->somme)
                         @php
                             $_id = $dt->id;
                             $ctrR +=1 ;
                         @endphp
-                        
-                          
+
+
                     <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                         <td class="p-4 w-4">
                             @if ($dt->somme == 0)
@@ -94,11 +95,11 @@
                         <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{$dt->somme ?? 0}} $
                         </td>
-                           
+
                     </tr>
-                        
+
                         @endif
-                        
+
                         @endforeach
                         @if ($ctrR > 0)
                             <tr class="bg-gray-200 ">
@@ -106,13 +107,13 @@
                                     Totaux
                                 </td>
                                 <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-    
+
                                 </td>
                                 <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-    
+
                                 </td>
                                 <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-    
+
                                 </td>
                                 <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{$somme}} $
@@ -121,10 +122,39 @@
                                     {{$somme1}} $
                                 </td>
                             </tr>
-                            
+
                         @endif
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div class="pagination py-5 flex justify-between">
+            <p>Par pages : {{$perPage}}</p>
+            <div>
+                <label for="perPage">Items per page:</label>
+                <select wire:model.change="perPage" id="perPage" class="px-5">
+                    @foreach ($perPageOptions as $option)
+                        <option value="{{ $option }}">{{ $option }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                @if ($total_page > 1)
+                    @if ($start_page > 1)
+                        <button wire:click="gotoPage({{ $start_page - 1 }})" class="border p-2 cursor-pointer"><</button>
+                    @endif
+
+                    @for ($i = 1; $i <= $total_page; $i++)
+                        <button wire:click="gotoPage({{ $i }})"
+                            @if ($i == $start_page) style="font-weight: bold;" @endif  class="p-2 border cursor-pointer">
+                            {{ $i }}
+                        </button>
+                    @endfor
+
+                    @if ($start_page < $total_page)
+                        <button wire:click="gotoPage({{ $start_page + 1 }})" class="p-2 border cursor-pointer">></button>
+                    @endif
+                @endif
             </div>
         </div>
        {{--  <div class="text-orange-400">kfkf</div>
@@ -140,7 +170,7 @@
     </div>
 
     {{-- <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'">
-        
+
             <thead class="bg-gray-50 dark:bg-white/5">
                 <tr class="text-lg font-bold">
                     <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
@@ -158,19 +188,19 @@
                     </td>
                 </tr>
             </thead>
-        
+
 
         <tbody class="divide-y divide-gray-200 whitespace-nowrap dark:divide-white/5">
-           
+
             @php
                 $_id = 0;
             @endphp
-            @foreach ($data as $dt) 
+            @foreach ($data as $dt)
             @if ($_id != $dt->id && $dt->occupation->montant == $dt->somme)
             @php
                 $_id = $dt->id;
             @endphp
-            <tr>       
+            <tr>
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$loop->index + 1}}
                 </td>
@@ -188,7 +218,7 @@
             @endforeach
         </tbody>
 
-       
+
     </table> --}}
 
 </div>

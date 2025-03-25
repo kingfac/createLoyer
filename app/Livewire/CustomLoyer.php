@@ -55,9 +55,6 @@ class CustomLoyer extends Component implements HasForms
     {
         //dd(Loyer::whereRaw("DAY(created_at) = DAY(NOW())")->get()->sum('montant'));
         $this->rows = Locataire::where('actif', true)->count();
-        $this->offset = ($this->start_page - 1) * $this->perPage + 1;
-        //if($this->offset > 4) dd($this->offset);
-
         $this->total_page = ceil($this->rows/$this->perPage);
         $this->remplir($this->recherche, $this->selectedGal);
 
