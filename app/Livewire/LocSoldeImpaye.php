@@ -82,7 +82,7 @@ class LocSoldeImpaye extends Component //implements HasForms, HasTable
                 ->where('loyers.mois', $this->mois)
                 ->where('loyers.annee', $this->annee);
         })
-        ->groupBy('locataires.id')
+        ->groupBy('locataires.matricule')
         ->orderBy('locataires.id')
         ->get();
 
