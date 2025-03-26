@@ -73,6 +73,31 @@ class LocSoldeImpaye extends Component //implements HasForms, HasTable
         //     ->get(),
         //     'label' => 'Locataires avec soldes impayés du mois de '.$this->mois, 'inverse' =>true]))->setPaper('a4', 'landscape');
         // Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
+
+        // Optimize the query
+        $data = Locataire::select('locataires.*')
+        ->selectRaw('COALESCE(SUM(loyers.montant), 0) as total_loyer') // Use COALESCE to handle cases with no loyer
+        ->leftJoin('loyers', function($join) {
+            $join->on('loyers.locataire_id', '=', 'locataires.id')
+                ->where('loyers.mois', $this->mois)
+                ->where('loyers.annee', $this->annee);
+        })
+        ->groupBy('locataires.id')
+        ->orderBy('locataires.id')
+        ->get();
+
+        // Prepare the data for the PDF
+        $pdfData = Blade::render('inverse', [
+            'data' => $data,
+            'label' => 'Locataires avec soldes impayés du mois de ' . $this->mois,
+            'inverse' => true
+        ]);
+
+        // Generate the PDF
+        $pdf = Pdf::loadHTML($pdfData)->setPaper('a4', 'landscape');
+
+        // Store the PDF
+        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
     }
 
 
