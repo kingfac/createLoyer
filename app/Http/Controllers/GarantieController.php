@@ -17,7 +17,7 @@ class GarantieController extends Controller
         // Génère le PDF avec les données de garantie
         $pdf = Pdf::loadHtml(
             Blade::render('locataire_gar1', ['garantie' => $garantie])
-        )->setPaper('a5', 'portrait');
+        )->setPaper('a5', 'landscape');
 
         // Télécharge le PDF en tant que réponse
         return response()->streamDownload(function () use ($pdf) {

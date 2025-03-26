@@ -200,7 +200,7 @@ class ListGaranties extends ListRecords
                         return response()->streamDownload(function () use ($g, $paiements) {
                             echo Pdf::loadHtml(
                                 Blade::render('restitution', ['data' => $g, 'loyers'=> $paiements])
-                            )->setPaper('a5','portrait')->stream();
+                            )->setPaper('a5','landscape')->stream();
                         }, '1.pdf');
 
                     }
@@ -385,7 +385,7 @@ class ListGaranties extends ListRecords
 
                         $loc = Locataire::find($data["locataire_id"]);
 
-                        $pdf = Pdf::loadHTML(Blade::render('locataire_gar', ['loc' => $loc, 'restitution' => $restitution, 'label' => 'Total garantie']))->setPaper('a5','portrait');
+                        $pdf = Pdf::loadHTML(Blade::render('locataire_gar', ['loc' => $loc, 'restitution' => $restitution, 'label' => 'Total garantie']))->setPaper('a5','landscape');
                         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
                         return response()->download('../public/storage/pdf/doc.pdf');
                     })

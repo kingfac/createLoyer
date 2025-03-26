@@ -174,11 +174,11 @@ return array(
          /**
           * The default paper orientation.
           *
-          * The orientation of the page (portrait or landscape).
+          * The orientation of the page (landscape or landscape).
           *
           * @var string
           */
-        'default_paper_orientation' => "portrait",
+        'default_paper_orientation' => "landscape",
 
         /**
          * The default font family

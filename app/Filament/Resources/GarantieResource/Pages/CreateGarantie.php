@@ -36,16 +36,16 @@ class CreateGarantie extends CreateRecord
 
     // protected function afterCreate()
     // {
-    
+
     //         // dd($this->record);
 
     //     // $loc = Locataire::find($data["locataire_id"]);
 
-    //     $pdf = Pdf::loadHTML(Blade::render('locataire_gar1', ['garantie' => $this->record]))->setPaper('a5','portrait');
+    //     $pdf = Pdf::loadHTML(Blade::render('locataire_gar1', ['garantie' => $this->record]))->setPaper('a5','landscape');
     //     Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
-        
+
 
     //     return response()->download('../public/storage/pdf/doc.pdf');
-        
+
     // }
 }

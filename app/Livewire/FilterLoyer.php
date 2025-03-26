@@ -40,13 +40,13 @@ class FilterLoyer extends Component implements HasForms, HasTable
         ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
         ->orderBy('locataires.id')
         ->get();
-        $pdf = pdf::loadHTML(Blade::render('ev', ['data' => $this->data, 'label' => 'Evolution des paiements de '.$this->mois. ' '.$this->annee]))->setPaper('a4', 'portrait');
+        $pdf = pdf::loadHTML(Blade::render('ev', ['data' => $this->data, 'label' => 'Evolution des paiements de '.$this->mois. ' '.$this->annee]))->setPaper('a4', 'landscape');
         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return view('livewire.filter-loyer');
     }
 
 
-    #[On('m4')] 
+    #[On('m4')]
     public function update($mois, $annee)
     {
         // ...
@@ -55,8 +55,8 @@ class FilterLoyer extends Component implements HasForms, HasTable
         $this->dispatch('m4a');
     }
 
-    
-    
+
+
     public function table(Table $table): Table
     {
         $ans = [];
@@ -72,16 +72,16 @@ class FilterLoyer extends Component implements HasForms, HasTable
             ->withSum(
                 [
                     'loyers' => fn($query) => $query->where(['mois'=>$this->mois, 'annee'=>$this->annee])
-                ], 
+                ],
                 'montant'
             )
             ->groupBy(['locataires.id', 'locataires.noms'])
             )
-            
+
             ->columns([
                 TextColumn::make('S')
                     ->colors([
-                        
+
                         'succTextColumness' => static fn ($record): bool => $record->occupation->montant == $record->loyers_sum_montant,
                         'danger' => static fn ($record): bool => $record->loyers_sum_montant == 0,
                         'info' => static fn ($record): bool => $record->loyers_sum_montant > 0 && $record->loyers_sum_montant < $record->occupation->montant,

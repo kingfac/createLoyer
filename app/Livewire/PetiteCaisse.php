@@ -19,7 +19,7 @@ class PetiteCaisse extends Component
     public $garanties;
     public $divers;
     public $total_dep=0;
-    
+
     public function render()
     {
         return view('livewire.petite-caisse');
@@ -39,7 +39,7 @@ class PetiteCaisse extends Component
 
     public function imprimer(){
 
-        $pdf = Pdf::loadHTML(Blade::render('petitecaisse', ['loyers' => $this->loyers,'divers' => $this->divers, 'garanties' => $this->garanties, 'label' => 'Petite caisse']))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadHTML(Blade::render('petitecaisse', ['loyers' => $this->loyers,'divers' => $this->divers, 'garanties' => $this->garanties, 'label' => 'Petite caisse']))->setPaper('a4', 'landscape');
         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return response()->download('../public/storage/pdf/doc.pdf');
     }
