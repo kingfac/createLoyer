@@ -65,14 +65,14 @@ class LocSoldeImpaye extends Component //implements HasForms, HasTable
 
     public function mount():void
     {
-        $pdf = Pdf::loadHTML(Blade::render('inverse', [
-            'data' =>  Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'left outer')
-            ->selectRaw('locataires.*')
-            ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
-            ->orderBy('locataires.id')
-            ->get(),
-            'label' => 'Locataires avec soldes impayés du mois de '.$this->mois, 'inverse' =>true]))->setPaper('a4', 'landscape');
-        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
+        // $pdf = Pdf::loadHTML(Blade::render('inverse', [
+        //     'data' =>  Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'left outer')
+        //     ->selectRaw('locataires.*')
+        //     ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
+        //     ->orderBy('locataires.id')
+        //     ->get(),
+        //     'label' => 'Locataires avec soldes impayés du mois de '.$this->mois, 'inverse' =>true]))->setPaper('a4', 'landscape');
+        // Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
     }
 
 
