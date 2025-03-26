@@ -15,6 +15,10 @@ use Filament\Tables\Contracts\HasTable;
 use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
+use App\Exports\LocatairesExport;
+use Maatwebsite\Excel\Facades\Excel;
+
+
 
 class LocSoldeImpaye extends Component //implements HasForms, HasTable
 {
@@ -65,28 +69,29 @@ class LocSoldeImpaye extends Component //implements HasForms, HasTable
 
     public function mount():void
     {
-        // $pdf = Pdf::loadHTML(Blade::render('inverse', [
-        //     'data' =>  Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'left outer')
-        //     ->selectRaw('locataires.*')
-        //     ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
-        //     ->orderBy('locataires.id')
-        //     ->get(),
-        //     'label' => 'Locataires avec soldes impayés du mois de '.$this->mois, 'inverse' =>true]))->setPaper('a4', 'landscape');
-        // Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
+
+
 
         // Optimize the query
-        $data = Locataire::select('locataires.*')
-        ->selectRaw('COALESCE(SUM(loyers.montant), 0) as total_loyer') // Use COALESCE to handle cases with no loyer
-        ->leftJoin('loyers', function($join) {
-            $join->on('loyers.locataire_id', '=', 'locataires.id')
-                ->where('loyers.mois', $this->mois)
-                ->where('loyers.annee', $this->annee);
-        })
-        ->groupBy('locataires.matricule')
-        ->orderBy('locataires.id')
+        // $data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'left outer')
+        // ->selectRaw('locataires.*')
+        // ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
+        // ->orderBy('locataires.id')
+        // ->get();
+        $data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'left outer')
+        ->selectRaw('
+            locataires.id,
+            locataires.noms,
+            locataires.occupation_id,
+            SUM(loyers.montant) as somme
+        ')
+        ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
+        ->groupBy('locataires.id', 'locataires.noms', 'locataires.occupation_id')
+        ->with('occupation.galerie', 'occupation.typeOccu')
         ->get();
 
-        // Prepare the data for the PDF
+        //dd($data);
+
         $pdfData = Blade::render('inverse', [
             'data' => $data,
             'label' => 'Locataires avec soldes impayés du mois de ' . $this->mois,
@@ -95,9 +100,18 @@ class LocSoldeImpaye extends Component //implements HasForms, HasTable
 
         // Generate the PDF
         $pdf = Pdf::loadHTML($pdfData)->setPaper('a4', 'landscape');
+        // $pdf = new Mpdf();
 
         // Store the PDF
         Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
+        // $pdf->WriteHTML($pdfData);
+        // $pdf->Output('pdf/doc.pdf', 'F');
+        $this->exportExcel();
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new LocatairesExport($this->mois, $this->annee), 'locataires_impayes.xlsx');
     }
 
 
