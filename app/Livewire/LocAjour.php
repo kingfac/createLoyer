@@ -89,17 +89,7 @@ class LocAjour extends Component implements HasForms, HasTable
 
     public function remplir()
     {
-        $this->rows = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'left outer')
-        ->selectRaw('
-            locataires.id,
-            locataires.noms,
-            locataires.occupation_id,
-            SUM(loyers.montant) as somme
-        ')
-        ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
-        ->groupBy('locataires.id', 'locataires.noms', 'locataires.occupation_id')
-        ->orderBy('locataires.id')
-        ->count();
+        $this->rows = Locataire::where('actif', true)->count();
         //if($this->offset > 4) dd($this->offset);
 
         $this->total_page = ceil($this->rows/$this->perPage);
