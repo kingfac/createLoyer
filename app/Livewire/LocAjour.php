@@ -41,10 +41,7 @@ class LocAjour extends Component implements HasForms, HasTable
 
     public function render()
     {
-        $this->rows = Locataire::where('actif', true)->count();
-        //if($this->offset > 4) dd($this->offset);
 
-        $this->total_page = ceil($this->rows/$this->perPage);
         $this->remplir();
 
         return view('livewire.loc-ajour');
@@ -90,7 +87,15 @@ class LocAjour extends Component implements HasForms, HasTable
 
     }
 
-    public function remplir(){
+    public function remplir()
+    {
+        $this->rows = Locataire::where('actif',true)->join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
+        ->selectRaw('locataires.*')
+        ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
+        ->orderBy('locataires.id')->count();
+        //if($this->offset > 4) dd($this->offset);
+
+        $this->total_page = ceil($this->rows/$this->perPage);
 
         $this->data = Locataire::where('actif',true)->join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
             ->selectRaw('locataires.*')
