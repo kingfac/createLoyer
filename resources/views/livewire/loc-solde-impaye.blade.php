@@ -18,7 +18,7 @@
 
         />
         <button wire:click="exportExcel" class="px-4 py-2 bg-green-500 rounded">
-            Export to Excel
+            Exporter en Excel
         </button>
     </div>
     <style>
