@@ -50,7 +50,7 @@ class LocatairesExport implements FromCollection, WithHeadings, WithMapping, Wit
         ')
         ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
         ->groupBy('locataires.id', 'locataires.noms', 'locataires.occupation_id')
-            ->orderBy('locataires.id')
+        ->orderBy('locataires.id')
             ->get();
 
         // Calculate Totals
