@@ -38,9 +38,15 @@ class LocSoldeImpaye extends Component //implements HasForms, HasTable
 
     public function render()
     {
-        $this->rows = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
-        ->selectRaw('locataires.*')
+        $this->rows = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'left outer')
+        ->selectRaw('
+            locataires.id,
+            locataires.noms,
+            locataires.occupation_id,
+            SUM(loyers.montant) as somme
+        ')
         ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
+        ->groupBy('locataires.id', 'locataires.noms', 'locataires.occupation_id')
         ->orderBy('locataires.id')->count();
         $this->total_page = ceil($this->rows/$this->perPage);
 
