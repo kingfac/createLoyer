@@ -27,19 +27,7 @@ class LocPaiePartiel extends Component
 
     public function render()
     {
-        $this->rows = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id', 'left outer')
-        ->selectRaw('
-            locataires.id,
-            locataires.noms,
-            locataires.occupation_id,
-            SUM(loyers.montant) as somme
-        ')
-        ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
-        ->groupBy('locataires.id', 'locataires.noms', 'locataires.occupation_id')
-        ->orderBy('locataires.id')->count();
-        //if($this->offset > 4) dd($this->offset);
 
-        $this->total_page = ceil($this->rows/$this->perPage);
         $this->data = Locataire::join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
         ->selectRaw('locataires.*')
         ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
@@ -47,6 +35,8 @@ class LocPaiePartiel extends Component
         ->skip(($this->start_page - 1) * $this->perPage)//
         ->take($this->perPage)//
         ->get();
+        $this->rows = $this->data->count();
+        $this->total_page = ceil($this->rows/$this->perPage);
         // $pdf = Pdf::loadHTML(Blade::render('partiel', ['data' => $this->data, 'label' => 'Locataires avec paiements partiels du mois de '.$this->mois, 'inverse' =>true]))->setPaper('a4', 'landscape');
         // Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return view('livewire.loc-paie-partiel');

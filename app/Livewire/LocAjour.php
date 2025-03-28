@@ -110,6 +110,7 @@ class LocAjour extends Component implements HasForms, HasTable
         //     ->get(),
         //     'label' => 'Locataires à jours de '.$this->mois.' '.$this->annee]))->setPaper('a4', 'landscape');
         // Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
+        $this->total_page = ceil($this->data->count()/$this->perPage);
     }
 
     public function gotoPage($page)
