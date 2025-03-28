@@ -3,6 +3,8 @@
 <div class="w-full">
 
     <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}">
+
+
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
     <div class="flex justify-between">
         <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Locataire à jour du mois de : {{ $mois }}</h1>
@@ -22,8 +24,14 @@
             Export to Excel
         </button>
     </div>
-    <div>
+    <style>
+        table {
+            width: 100%;
+        }
+    </style>
+    <div class="">
         {{-- {{ $this->table}} --}}
+        <div>{!! $htmlContent !!}</div>
     </div>
     <div class="overflow-x-auto shadow-md sm:rounded-lg">
         <div class="inline-block min-w-full align-middle">

@@ -21,12 +21,19 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LocAjourExport;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
-class LocAjour extends Component implements HasForms, HasTable
+
+
+
+
+
+class LocAjour extends Component //implements HasForms, HasTable
 {
 
-    use InteractsWithTable;
-    use InteractsWithForms;
+    // use InteractsWithTable;
+    // use InteractsWithForms;
+    //use WithPagination;
 
     public $annee;
     public $mois;
@@ -36,6 +43,7 @@ class LocAjour extends Component implements HasForms, HasTable
     public $total_page;
     public $perPage = 25;
     public $perPageOptions = [25, 50, 100]; // Options for per page selection
+    public $htmlContent;
 
     protected $listeners = ['m0a' => '$refresh'];
 
@@ -44,8 +52,10 @@ class LocAjour extends Component implements HasForms, HasTable
 
         $this->remplir();
 
+
         return view('livewire.loc-ajour');
     }
+
     public function table(Table $table): Table
     {
         return $table
@@ -69,9 +79,36 @@ class LocAjour extends Component implements HasForms, HasTable
         ]);
     }
 
+
     public function mount():void
     {
-        //$this->exportExcel();
+
+        Excel::store(new LocAjourExport($this->mois, $this->annee), 'public/etat/data.xlsx');
+        $filePath = public_path('storage/etat/data.xlsx');
+
+
+        // Load the Excel file using PHPSpreadsheet
+        $spreadsheet = IOFactory::load($filePath);
+
+        // Convert the first sheet's data to HTML for display
+        $writer = IOFactory::createWriter($spreadsheet, 'Html');
+        $this->htmlContent = $writer->save('php://output');
+    }
+
+    private function convertToHtml($spreadsheet)
+    {
+        // Write the spreadsheet to an HTML string
+        // $writer = new Html($spreadsheet);
+        //$writer = new $htmlWriter($spreadsheet);
+
+        // Capture the HTML output and return it
+        // ob_start();
+        // $writer->save('php://output');
+        // $html = ob_get_clean();
+        $writer = IOFactory::createWriter($spreadsheet, 'Html');
+
+        return $writer->save('php://output');
+
     }
 
 

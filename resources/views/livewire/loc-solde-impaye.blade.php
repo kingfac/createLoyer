@@ -21,6 +21,15 @@
             Export to Excel
         </button>
     </div>
+    <style>
+        table {
+            width: 100%;
+        }
+    </style>
+    <div class="">
+        {{-- {{ $this->table}} --}}
+        <div>{!! $htmlContent !!}</div>
+    </div>
 
     <div class="overflow-x-auto shadow-md sm:rounded-lg bg-red-500">
         <div class="inline-block min-w-full align-middle">

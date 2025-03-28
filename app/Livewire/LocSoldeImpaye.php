@@ -17,6 +17,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 use App\Exports\LocatairesExport;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 
 
@@ -33,6 +34,7 @@ class LocSoldeImpaye extends Component //implements HasForms, HasTable
     public $total_page;
     public $perPage = 25;
     public $perPageOptions = [25, 50, 100]; // Options for per page selection
+    public $htmlContent;
 
     protected $listeners = ['m3a' => '$refresh'];
 
@@ -107,6 +109,16 @@ class LocSoldeImpaye extends Component //implements HasForms, HasTable
         // // $pdf->WriteHTML($pdfData);
         // // $pdf->Output('pdf/doc.pdf', 'F');
         //$this->exportExcel();
+        Excel::store(new LocatairesExport($this->mois, $this->annee), 'public/etat/data.xlsx');
+        $filePath = public_path('storage/etat/data.xlsx');
+
+
+        // Load the Excel file using PHPSpreadsheet
+        $spreadsheet = IOFactory::load($filePath);
+
+        // Convert the first sheet's data to HTML for display
+        $writer = IOFactory::createWriter($spreadsheet, 'Html');
+        $this->htmlContent = $writer->save('php://output');
     }
 
     public function exportExcel()
