@@ -106,7 +106,7 @@ class LocSoldeImpaye extends Component //implements HasForms, HasTable
         // Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         // // $pdf->WriteHTML($pdfData);
         // // $pdf->Output('pdf/doc.pdf', 'F');
-        $this->exportExcel();
+        //$this->exportExcel();
     }
 
     public function exportExcel()

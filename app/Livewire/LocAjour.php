@@ -19,12 +19,14 @@ use Filament\Tables\Contracts\HasTable;
 use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\LocAjourExport;
 
-class LocAjour extends Component //implements HasForms, HasTable
+class LocAjour extends Component implements HasForms, HasTable
 {
 
-    /* use InteractsWithTable;
-    use InteractsWithForms; */
+    use InteractsWithTable;
+    use InteractsWithForms;
 
     public $annee;
     public $mois;
@@ -46,6 +48,33 @@ class LocAjour extends Component //implements HasForms, HasTable
         $this->remplir();
 
         return view('livewire.loc-ajour');
+    }
+    public function table(Table $table): Table
+    {
+        return $table
+            ->query(
+                Locataire::where('locataires.actif',true)->join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
+                ->selectRaw('
+                    locataires.id,
+                    locataires.noms,
+                    locataires.occupation_id')
+                ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
+                ->groupBy('locataires.id', 'locataires.noms', 'locataires.occupation_id')
+                ->orderBy('locataires.id')
+        )
+        // ->modifyQueryUsing(function ($query) {
+        //     return $query->havingRaw('somme = occupation.montant'); // Exclure ceux qui ont tout payé
+        // })
+        ->columns([
+            TextColumn::make('noms'),
+            TextColumn::make('somme'),
+            TextColumn::make('occupation.nom'),
+        ]);
+    }
+
+    public function mount():void
+    {
+        //$this->exportExcel();
     }
 
 
@@ -71,14 +100,14 @@ class LocAjour extends Component //implements HasForms, HasTable
             ->take($this->perPage)//
             ->get();
 
-        $pdf = Pdf::loadHTML(Blade::render('locajour', [
-            'data' => Locataire::where('actif',true)->join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
-            ->selectRaw('locataires.*')
-            ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
-            ->orderBy('locataires.id')
-            ->get(),
-            'label' => 'Locataires à jours de '.$this->mois.' '.$this->annee]))->setPaper('a4', 'landscape');
-        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
+        // $pdf = Pdf::loadHTML(Blade::render('locajour', [
+        //     'data' => Locataire::where('actif',true)->join('loyers', 'loyers.locataire_id', '=', 'locataires.id')
+        //     ->selectRaw('locataires.*')
+        //     ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
+        //     ->orderBy('locataires.id')
+        //     ->get(),
+        //     'label' => 'Locataires à jours de '.$this->mois.' '.$this->annee]))->setPaper('a4', 'landscape');
+        // Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
     }
 
     public function gotoPage($page)
@@ -86,7 +115,9 @@ class LocAjour extends Component //implements HasForms, HasTable
         $this->start_page = max(1, min($page, ceil($this->rows / $this->perPage)));
     }
 
-
-
+    public function exportExcel()
+    {
+        return Excel::download(new LocAjourExport($this->mois, $this->annee), 'LocAjour.xlsx');
+    }
 
 }

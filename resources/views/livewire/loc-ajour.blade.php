@@ -1,6 +1,7 @@
 
 {{-- @vite('resources/css/app.css') --}}
 <div class="w-full">
+
     <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}">
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
     <div class="flex justify-between">
@@ -17,6 +18,12 @@
             target="_blank"
 
         />
+        <button wire:click="exportExcel" class="px-4 py-2 bg-green-500 rounded">
+            Export to Excel
+        </button>
+    </div>
+    <div>
+        {{-- {{ $this->table}} --}}
     </div>
     <div class="overflow-x-auto shadow-md sm:rounded-lg">
         <div class="inline-block min-w-full align-middle">
