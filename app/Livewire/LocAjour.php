@@ -28,6 +28,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 
 
+
 class LocAjour extends Component //implements HasForms, HasTable
 {
 
@@ -83,8 +84,8 @@ class LocAjour extends Component //implements HasForms, HasTable
     public function mount():void
     {
 
-        Excel::store(new LocAjourExport($this->mois, $this->annee), 'public/etat/data.xlsx');
-        $filePath = public_path('storage/etat/data.xlsx');
+        Excel::store(new LocAjourExport($this->mois, $this->annee), 'public/etat/ajour.xlsx');
+        $filePath = public_path('storage/etat/ajour.xlsx');
 
 
         // Load the Excel file using PHPSpreadsheet
@@ -92,7 +93,11 @@ class LocAjour extends Component //implements HasForms, HasTable
 
         // Convert the first sheet's data to HTML for display
         $writer = IOFactory::createWriter($spreadsheet, 'Html');
-        $this->htmlContent = $writer->save('php://output');
+        ob_start();
+        $writer->save('php://output');
+        $htmlOutput = ob_get_clean();
+        preg_match('/<table.*?<\/table>/s', $htmlOutput, $matches);
+        $this->htmlContent = $matches[0] ?? 'No data found';
     }
 
     private function convertToHtml($spreadsheet)

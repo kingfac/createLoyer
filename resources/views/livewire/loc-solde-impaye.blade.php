@@ -6,24 +6,24 @@
 
    {{--  {{ $this->form }}
     {{ $this->table }} --}}
-    <div class="flex  justify-between items-center">
-        <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Locataires avec soldes impayés : {{ $mois }}</h1>
+    <div class="flex justify-between items-center" style="margin-bottom: 25px;">
+        <h1 class="text-2xl font-bold" >Locataires avec soldes impayés : {{ $mois }}</h1>
         <x-filament::icon-button
-            icon="heroicon-o-printer"
+            icon="heroicon-o-table-cells"
             tag="a"
-            label="imprimer"
-            tooltip="Imprimer"
-            href="/storage/pdf/doc.pdf"
+            label="Export to Excel"
+            tooltip="Export to Excel"
+            href="/storage/etat/solde.xlsx"
             target="_blank"
 
         />
-        <button wire:click="exportExcel" class="px-4 py-2 bg-green-500 rounded">
-            Exporter en Excel
-        </button>
     </div>
     <style>
         table {
             width: 100%;
+        }
+        tr{
+            border-bottom: solid 1px;
         }
     </style>
     <div class="">
@@ -31,7 +31,8 @@
         <div>{!! $htmlContent !!}</div>
     </div>
 
-    <div class="overflow-x-auto shadow-md sm:rounded-lg bg-red-500">
+
+    {{-- <div class="overflow-x-auto shadow-md sm:rounded-lg bg-red-500">
         <div class="inline-block min-w-full align-middle">
             <div class="overflow-hidden ">
                 <table class=" divide-y divide-gray-200 table-fixed dark:divide-gray-700 w-full">
@@ -146,6 +147,7 @@
     <div class="flex justify-center items-center text-2xl text-red-400 p-10">
         <h1>Pas de données disponibles...</h1>
     </div>
-    @endif
+    @endif --}}
+
 
 </div>

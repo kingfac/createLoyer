@@ -18,6 +18,8 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use App\Exports\LocatairesExport;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Writer\Html;
+
 
 
 
@@ -109,8 +111,8 @@ class LocSoldeImpaye extends Component //implements HasForms, HasTable
         // // $pdf->WriteHTML($pdfData);
         // // $pdf->Output('pdf/doc.pdf', 'F');
         //$this->exportExcel();
-        Excel::store(new LocatairesExport($this->mois, $this->annee), 'public/etat/data.xlsx');
-        $filePath = public_path('storage/etat/data.xlsx');
+        Excel::store(new LocatairesExport($this->mois, $this->annee), 'public/etat/solde.xlsx');
+        $filePath = public_path('storage/etat/solde.xlsx');
 
 
         // Load the Excel file using PHPSpreadsheet
@@ -118,7 +120,11 @@ class LocSoldeImpaye extends Component //implements HasForms, HasTable
 
         // Convert the first sheet's data to HTML for display
         $writer = IOFactory::createWriter($spreadsheet, 'Html');
-        $this->htmlContent = $writer->save('php://output');
+        ob_start();
+        $writer->save('php://output');
+        $htmlOutput = ob_get_clean();
+        preg_match('/<table.*?<\/table>/s', $htmlOutput, $matches);
+        $this->htmlContent = $matches[0] ?? 'No data found';
     }
 
     public function exportExcel()

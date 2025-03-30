@@ -12,28 +12,30 @@
         {{ $this->table }} --}}
 
         <x-filament::icon-button
-            icon="heroicon-o-printer"
+            icon="heroicon-o-table-cells"
             tag="a"
-            label="imprimer"
-            tooltip="Imprimer"
-            href="/storage/pdf/doc.pdf"
+            label="Export to Excel"
+            tooltip="Export to Excel"
+            href="/storage/etat/ajour.xlsx"
             target="_blank"
 
         />
-        <button wire:click="exportExcel" class="px-4 py-2 bg-green-500 rounded">
+        {{-- <button wire:click="exportExcel" class="px-4 py-2 bg-green-500 rounded">
             Export to Excel
-        </button>
+        </button> --}}
     </div>
     <style>
         table {
             width: 100%;
         }
+        tr{
+            border-bottom: solid 1px;
+        }
     </style>
     <div class="">
-        {{-- {{ $this->table}} --}}
         <div>{!! $htmlContent !!}</div>
     </div>
-    <div class="overflow-x-auto shadow-md sm:rounded-lg">
+    {{-- <div class="overflow-x-auto shadow-md sm:rounded-lg">
         <div class="inline-block min-w-full align-middle">
             <div class="overflow-hidden ">
                 <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">
@@ -172,17 +174,13 @@
                 @endif
             </div>
         </div>
-       {{--  <div class="text-orange-400">kfkf</div>
-        <div class="text-yellow-400">kfkf</div>
-        <div class="text-blue-400">kfkf</div>
-        <div class="text-green-400">kfkf</div>
-        <div class="text-slate-400">kfkf</div> --}}
+
         @if ($ctrR == 0)
         <div class="flex justify-center items-center text-2xl text-red-400 p-10">
             <h1>Pas de données disponibles...</h1>
         </div>
         @endif
-    </div>
+    </div> --}}
 
     {{-- <table class="fi-ta-table w-full table-auto divide-y divide-gray-200 text-start dark:divide-white/5'">
 

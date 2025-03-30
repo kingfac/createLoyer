@@ -10,6 +10,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class LocPaiePartiel extends Component
 {
@@ -22,6 +23,7 @@ class LocPaiePartiel extends Component
     public $total_page;
     public $perPage = 25;
     public $perPageOptions = [25, 50, 100]; // Options for per page selection
+    public $htmlContent;
 
     protected $listeners = ['m2a' => '$refresh'];
 
@@ -40,6 +42,21 @@ class LocPaiePartiel extends Component
         // $pdf = Pdf::loadHTML(Blade::render('partiel', ['data' => $this->data, 'label' => 'Locataires avec paiements partiels du mois de '.$this->mois, 'inverse' =>true]))->setPaper('a4', 'landscape');
         // Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return view('livewire.loc-paie-partiel');
+    }
+    public function mount(){
+        Excel::store(new PartielPayExport($this->mois, $this->annee), 'public/etat/partial.xlsx');
+        $filePath = public_path('storage/etat/partial.xlsx');
+
+        // Load the Excel file using PHPSpreadsheet
+        $spreadsheet = IOFactory::load($filePath);
+
+        // Convert the first sheet's data to HTML for display
+        $writer = IOFactory::createWriter($spreadsheet, 'Html');
+        ob_start();
+        $writer->save('php://output');
+        $htmlOutput = ob_get_clean();
+        preg_match('/<table.*?<\/table>/s', $htmlOutput, $matches);
+        $this->htmlContent = $matches[0] ?? 'No data found';
     }
 
     #[On('m2')]
