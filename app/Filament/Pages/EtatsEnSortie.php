@@ -34,8 +34,8 @@ class EtatsEnSortie extends Page implements HasForms
     public $menu;
 
     public $menus = [
-        'Locataires à jour', 
-        'Locataires avec payement en retard', 
+        'Locataires à jour',
+        'Locataires avec payement en retard',
         'Locataires avec payement partiel',
         'Locataires avec soldes impayés',
         'Evolution Loyer/Locataire',
@@ -127,7 +127,7 @@ class EtatsEnSortie extends Page implements HasForms
 
     // public static function getNavigationBadge(): ?string
     // {
-    //     return 5;   
+    //     return 5;
     // }
 
 }

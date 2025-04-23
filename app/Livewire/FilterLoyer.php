@@ -40,8 +40,8 @@ class FilterLoyer extends Component implements HasForms, HasTable
         ->selectRaw("(select sum(`loyers`.`montant`) from `loyers` where `locataires`.`id` = `loyers`.`locataire_id` and (`mois` = ? and `annee` = ?)) as `somme`", [$this->mois, $this->annee])
         ->orderBy('locataires.id')
         ->get();
-        $pdf = pdf::loadHTML(Blade::render('ev', ['data' => $this->data, 'label' => 'Evolution des paiements de '.$this->mois. ' '.$this->annee]))->setPaper('a4', 'landscape');
-        Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
+        //$pdf = pdf::loadHTML(Blade::render('ev', ['data' => $this->data, 'label' => 'Evolution des paiements de '.$this->mois. ' '.$this->annee]))->setPaper('a4', 'landscape');
+        //Storage::disk('public')->put('pdf/doc.pdf', $pdf->output());
         return view('livewire.filter-loyer');
     }
 

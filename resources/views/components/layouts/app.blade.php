@@ -2,29 +2,29 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
- 
+
         <meta name="application-name" content="{{ config('app.name') }}">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
- 
+
         <title>{{ config('app.name') }}</title>
- 
+
         <style>
             [x-cloak] {
                 display: none !important;
             }
         </style>
- 
+
         @filamentStyles
         {{-- @vite('resources/css/app.css') --}}
-        <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css')}}">
+        <link rel="stylesheet" href="{{asset('build/assets/app-ca6c7c66.css')}}">
     </head>
- 
+
     <body class="antialiased">
         {{ $slot }}
- 
+
         @filamentScripts
         {{-- @vite('resources/js/app.js') --}}
-        <script src="{{asset('build/assets/app-ddee773b.js')}}"></script>
+        <script src="{{asset('build/assets/app-bb8b3db8.js')}}"></script>
     </body>
 </html>

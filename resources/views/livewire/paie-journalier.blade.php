@@ -6,8 +6,17 @@
             $lelo = $lelo->format('d-m-Y');
         @endphp
         <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Paiement journalier du {{$lelo}}</h1>
+        <x-filament::icon-button
+            icon="heroicon-o-table-cells"
+            tag="a"
+            label="Export to Pdf"
+            tooltip="Export to Pdf"
+            href="/storage/pdf/doc.pdf"
+            target="_blank"
+
+        />
     </div>
-    {{$this->table}}
+    {{-- {{$this->table}} --}}
     <link rel="stylesheet" href="{{public_path('css.css')}}">
 
 <div class="" style="overflow: auto;">
@@ -19,7 +28,7 @@
         use App\Models\Garantie;
     @endphp
 
-    <table class="overflow-x-scroll">
+    <table class="overflow-x-scroll w-full">
         <thead class="bg-gray-100 dark:bg-gray-700" style="background-color: #ababab9f">
             <tr class=" ">
                 <th scope="col" colspan="3" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
@@ -43,7 +52,7 @@
                 <th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Dettes
                 </th>
-                @php
+                {{-- @php
                     $moisEncours = intVal(now()->format('m'))-4;
                     for($i = 0 ; $i < 5; $i++) {
                         $moisEncours = (intVal(now()->format('m'))-4) + $i;
@@ -71,7 +80,7 @@
                 @endphp
                 <th scope="col" class="border py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
                     Datte
-                </th>
+                </th> --}}
             </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -157,7 +166,7 @@
                             {{$dettes}} $
                         @endif
                     </td>
-                    @php
+                    {{-- @php
                     $moisAff = '';
                     for ($i=0; $i < 5; $i++) {
                         $moisEncours = (intVal(now()->format('m'))-4) + $i;
@@ -189,11 +198,11 @@
                                  $tm+= $loyer->montant;
                         }
                     }
-                    @endphp
+                    @endphp --}}
 
-                    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
+                    {{-- <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-norwap">
                         {{now()->format('d-m-Y')}}
-                    </td>
+                    </td> --}}
                 </tr>
             @endforeach
         </tbody>
@@ -225,9 +234,9 @@
                 <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{-- {{$tf}} --}}
                 </td>
-                <td class="fi-ta-cell p-0 text-center first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
+                {{-- <td class="fi-ta-cell p-0 text-center first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3">
                     {{$lm}}
-                </td>
+                </td> --}}
 
             </tr>
         </tfoot>

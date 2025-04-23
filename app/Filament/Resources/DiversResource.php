@@ -34,13 +34,13 @@ class DiversResource extends Resource
     {
         return $form
             ->schema([
-                
+
                 // Forms\Components\Toggle::make('entreprise')
                 //     ->label('Entreprise/Locataire')
                 //     ->reactive(),
                 Grid::make()
                         ->schema([
-                            
+
                             Radio::make('entreprise')
                                 ->options([
                                    1 => 'Entreprise',
@@ -51,10 +51,12 @@ class DiversResource extends Resource
                                 ->reactive()
                                 ->default(1)
                         ]),
-               
+
                 Forms\Components\Select::make('locataire_id')
                     ->hidden(fn(Get $get): bool =>  $get('entreprise') == 1)
                     ->relationship('locataire', 'noms', )
+                    ->searchable()
+                    ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('besoin')
                     ->required()
@@ -73,7 +75,7 @@ class DiversResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-        
+
             ->columns([
                 Tables\Columns\TextColumn::make('created_at')
                     ->label("Date")
@@ -105,8 +107,8 @@ class DiversResource extends Resource
                     ->numeric()
                     ->sortable()
                     ->money(),
-                
-               
+
+
                    /*  TextColumn::make('total')->default( function(Divers $d){
                         return $d->cu*$d->qte;
                     })->money() */
@@ -123,14 +125,14 @@ class DiversResource extends Resource
                     ->default(function(Divers $record){
                         return User::find($record->users_id)->first()->name ?? '';
                     })
-                    
+
                 // Tables\Columns\TextColumn::make('total')
                 //     ->label('cu')
                 //     ->summarize()
                 //     ->money(),
-                        
-                        
-                    
+
+
+
             ])
             ->filters([
                 SelectFilter::make('locataire_id')->relationship('locataire', 'nom')->label('Locataire'),
@@ -169,6 +171,6 @@ class DiversResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::all()->count();   
+        return static::getModel()::all()->count();
     }
 }

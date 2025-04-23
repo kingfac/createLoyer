@@ -5,25 +5,25 @@
     ]" />
     <x-filament::section>
         {{-- Widget content --}}
-        <form wire:submit="create"> 
+        <form wire:submit="create">
             {{ $this->form }}
- 
+
             {{-- <x-filament::button type="submit" class="mt-3  py-5">
                 {{ __('filament-panels::resources/pages/create-record.form.actions.create.label') }}
             </x-filament::button> --}}
-            
-            <div style="display: grid; grid-template-columns: repeat(5, 1fr);" class="gap-4" 
+
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr);" class="gap-4"
 
             {{-- alpine js code --}}
             x-data="{
                 a:555
             }">
 
-                <button 
-                    size="xs" 
-                    icon="heroicon-m-sparkles" 
-                    type="button" 
-                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                <button
+                    size="xs"
+                    icon="heroicon-m-sparkles"
+                    type="button"
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3"
                     wire:click="go(0)"
                     :class="{'bg-red-800 text-black':a==0}"
                     @click="a=0"
@@ -35,10 +35,10 @@
                {{--  <x-filament::button type="button" class="mt-3  py-5" wire:click="go(1)">
                     Locataires avec payement en retard
                 </x-filament::button> --}}
-                <button 
-                    size="xs" 
-                    icon="heroicon-m-sparkles" 
-                    type="button" 
+                <button
+                    size="xs"
+                    icon="heroicon-m-sparkles"
+                    type="button"
                     class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3"
                     :class="{'bg-red-800 text-black':a==2}"
                     @click="a=2"
@@ -47,12 +47,12 @@
                     Payement partiel
                 </button>
 
-                <button 
-                    size="xs" 
-                    icon="heroicon-m-sparkles" 
-                    type="button" 
-                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
-                    wire:click="go(3)" 
+                <button
+                    size="xs"
+                    icon="heroicon-m-sparkles"
+                    type="button"
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3"
+                    wire:click="go(3)"
                     :class="{'bg-red-800 text-black':a==3}"
                     @click="a=3"
                     outlined>
@@ -60,24 +60,24 @@
                     Soldes impayés
                 </button>
 
-                <button 
-                    size="xs" 
-                    icon="heroicon-m-sparkles" 
-                    type="button" 
-                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
-                    wire:click="go(4)" 
+                {{-- <button
+                    size="xs"
+                    icon="heroicon-m-sparkles"
+                    type="button"
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3"
+                    wire:click="go(4)"
                     :class="{'bg-red-800 text-black':a==4}"
                     @click="a=4"
                     outlined>
                     <x-heroicon-s-sparkles class="w-4 h-4" />
                     Evolution loyer
-                </button>
+                </button> --}}
 
-                <button 
-                    size="xs" 
-                    icon="heroicon-m-sparkles" 
-                    type="button" 
-                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                <button
+                    size="xs"
+                    icon="heroicon-m-sparkles"
+                    type="button"
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3"
                     wire:click="go(5)"
                     :class="{'bg-red-800 text-black':a==5}"
                     @click="a=5"
@@ -85,22 +85,22 @@
                     <x-heroicon-s-sparkles class="w-4 h-4" />
                     Paiement Global
                 </button>
-                <button 
-                    size="xs" 
-                    icon="heroicon-m-sparkles" 
-                    type="button" class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
-                    wire:click="go(6)" 
+                <button
+                    size="xs"
+                    icon="heroicon-m-sparkles"
+                    type="button" class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3"
+                    wire:click="go(6)"
                     :class="{'bg-red-800 text-black':a==6}"
                     @click="a=6"
                     outlined>
                     <x-heroicon-s-sparkles class="w-4 h-4" />
                     Paiement Journalier
                 </button>
-                <button 
-                    size="xs" 
-                    icon="heroicon-m-sparkles" 
-                    type="button" 
-                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                <button
+                    size="xs"
+                    icon="heroicon-m-sparkles"
+                    type="button"
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3"
                     wire:click="go(11)"
                     :class="{'bg-red-800 text-black':a==11}"
                     @click="a=11"
@@ -109,11 +109,11 @@
                     Rapport Mensuel
                 </button>
 
-                <button 
-                    size="xs" 
-                    icon="heroicon-m-sparkles" 
-                    type="button" class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
-                    wire:click="go(7)" 
+                <button
+                    size="xs"
+                    icon="heroicon-m-sparkles"
+                    type="button" class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3"
+                    wire:click="go(7)"
                     :class="{'bg-red-800 text-black':a==7}"
                     @click="a=7"
                     outlined>
@@ -121,12 +121,12 @@
                     Total garantie
                 </button>
 
-                <button 
-                    size="xs" 
-                    icon="heroicon-m-sparkles" 
-                    type="button" 
-                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
-                    wire:click="go(8)" 
+                <button
+                    size="xs"
+                    icon="heroicon-m-sparkles"
+                    type="button"
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3"
+                    wire:click="go(8)"
                     :class="{'bg-red-800 text-black':a==8}"
                     @click="a=8"
                     outlined>
@@ -134,11 +134,11 @@
                     Total divers
                 </button>
 
-                <button 
-                    size="xs" 
-                    icon="heroicon-m-sparkles" 
-                    type="button" 
-                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                <button
+                    size="xs"
+                    icon="heroicon-m-sparkles"
+                    type="button"
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3"
                     wire:click="go(9)"
                     :class="{'bg-red-800 text-black':a==9}"
                     @click="a=9"
@@ -146,11 +146,11 @@
                     <x-heroicon-s-sparkles class="w-4 h-4" />
                     Arriérés
                 </button>
-                <button 
-                    size="xs" 
-                    icon="heroicon-m-sparkles" 
-                    type="button" 
-                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                <button
+                    size="xs"
+                    icon="heroicon-m-sparkles"
+                    type="button"
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3"
                     wire:click="go(10)"
                     :class="{'bg-red-800 text-black':a==10}"
                     @click="a=10"
@@ -158,11 +158,11 @@
                     <x-heroicon-s-sparkles class="w-4 h-4" />
                     Prevision mensuelle
                 </button>
-                <button 
-                    size="xs" 
-                    icon="heroicon-m-sparkles" 
-                    type="button" 
-                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                <button
+                    size="xs"
+                    icon="heroicon-m-sparkles"
+                    type="button"
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3"
                     wire:click="go(12)"
                     :class="{'bg-red-800 text-black':a==12}"
                     @click="a=12"
@@ -171,24 +171,24 @@
                     <x-heroicon-s-sparkles class="w-4 h-4" />
                     Sorties avec dettes
                 </button>
-                <button 
-                    size="xs" 
-                    icon="heroicon-m-sparkles" 
-                    type="button" 
-                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                <button
+                    size="xs"
+                    icon="heroicon-m-sparkles"
+                    type="button"
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3"
                     wire:click="go(14)"
-                    :class="{'bg-red-800 text-black':a==14}" 
+                    :class="{'bg-red-800 text-black':a==14}"
                     @click="a=14"
 
                     outlined>
                     <x-heroicon-s-sparkles class="w-4 h-4" />
                     Résumé Journalier
                 </button>
-                <button 
-                    size="xs" 
-                    icon="heroicon-m-sparkles" 
-                    type="button" 
-                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3" 
+                <button
+                    size="xs"
+                    icon="heroicon-m-sparkles"
+                    type="button"
+                    class="mt-3  py-5 text-white hover:text-black bg-blue-600 rounded-lg hover:bg-gray-100  border-2 flex justify-center items-center gap-3"
                     wire:click="go(13)"
                     :class="{'bg-red-800 text-black':a==13}"
                     @click="a=13"
@@ -197,10 +197,10 @@
                     Rapport Journalier
                 </button>
             </div>
-        </form> 
+        </form>
     </x-filament::section>
     <x-filament::section>
-        
+
         @if ($menu == $menus[0])
             <livewire:loc-ajour :mois=$mois :annee=$annee>
         @endif
@@ -216,7 +216,7 @@
         @if ($menu == $menus[3])
             <livewire:loc-solde-impaye :mois=$mois :annee=$annee>
         @endif
-        
+
         @if ($menu == $menus[4])
         <livewire:filter-loyer :mois=$mois :annee=$annee>
         @endif
