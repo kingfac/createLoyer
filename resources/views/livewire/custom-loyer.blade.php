@@ -281,7 +281,7 @@
                 </div>
             </div>
         </div>
-        <div class="pagination py-5 flex justify-between">
+        <div class="pagination py-5 gap-4 flex justify-between">
             <div>
                 <label for="perPage">Items par page:</label>
                 <select wire:model.change="perPage" id="perPage" class="px-5">
