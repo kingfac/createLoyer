@@ -40,7 +40,7 @@
         
     @endphp
 
-    {{-- <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}"> --}}
+    <link rel="stylesheet" href="{{asset('build/assets/app-3e76f9e4.css') }}">
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
     <div class="flex justify-between">
         <h1 class="text-2xl font-bold" style="padding-bottom: 25px;">Arriérés des locataires</h1>

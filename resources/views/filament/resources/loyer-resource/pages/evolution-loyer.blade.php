@@ -6,7 +6,7 @@
     use App\Models\Locataire;
 @endphp
 
-{{-- <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}"> --}}
+<link rel="stylesheet" href="{{asset('build/assets/app-3e76f9e4.css') }}">
 <x-filament-panels::page>
 
     <x-filament::breadcrumbs :breadcrumbs="[

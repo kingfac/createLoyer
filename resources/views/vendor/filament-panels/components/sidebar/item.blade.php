@@ -20,7 +20,7 @@
     $sidebarCollapsible = $sidebarCollapsible && filament()->isSidebarCollapsibleOnDesktop();
 @endphp
 {{-- @vite('resources/css/app.css') --}}
-<link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}">
+<link rel="stylesheet" href="{{asset('build/assets/app-3e76f9e4.css') }}">
 <li
     {{
         $attributes->class([

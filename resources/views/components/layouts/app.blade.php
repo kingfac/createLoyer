@@ -17,7 +17,7 @@
 
         @filamentStyles
         {{-- @vite('resources/css/app.css') --}}
-        <link rel="stylesheet" href="{{asset('build/assets/app-ca6c7c66.css')}}">
+        <link rel="stylesheet" href="{{asset('build/assets/app-3e76f9e4.css')}}">
     </head>
 
     <body class="antialiased">
@@ -25,6 +25,6 @@
 
         @filamentScripts
         {{-- @vite('resources/js/app.js') --}}
-        <script src="{{asset('build/assets/app-bb8b3db8.js')}}"></script>
+        <script src="{{asset('build/assets/app-ddee773b.js')}}"></script>
     </body>
 </html>

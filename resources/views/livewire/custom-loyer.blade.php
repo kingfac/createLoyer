@@ -2,7 +2,7 @@
 <div style="overflow-y:hidden;">
 
     {{-- @vite('resources/css/app.css') --}}
-    <link rel="stylesheet" href="{{asset('build/assets/app-2bf04d98.css') }}">
+    <link rel="stylesheet" href="{{asset('build/assets/app-3e76f9e4.css') }}">
 
     {{-- Close your eyes. Count to one. That is how long forever feels. --}}
     {{$this->form}}
