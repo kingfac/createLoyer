@@ -330,7 +330,7 @@
         @if ($dt1)
             <livewire:custom-create-loyer :locataire_id=$dt1 :mois=$mois :annee=$annee>
         @endif
-</x-filament::modal>
+    </x-filament::modal>
 @filamentScripts
 {{-- @vite('resources/js/app.js') --}}
 <script src="{{asset('build/assets/app-ddee773b.js')}}"></script>
