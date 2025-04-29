@@ -9,3 +9,4 @@
     @livewire('custom-loyer')
 
 </x-filament-panels::page>
+p

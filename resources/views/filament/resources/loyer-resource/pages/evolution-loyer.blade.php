@@ -30,7 +30,7 @@
         @endphp
         <div style="" class="p-4 bg-{{$color}}-600 rounded-lg shadow-xl hover:bg-{{$color}}-50">
             <b class="px-2 py-1 rounded-lg bg-white text-black shadow-lg" >{{$loop->index + 1}}</b>
-            <span class="px-2 text-lg font-bold text-white">Locataire {{$loc->nom}} </span>
+            <span class="px-2 text-smy font-bold text-white"> {{$loc->nom}} {{$loc->postnom}} {{$loc->prenom}} | {{$loc->matricule}} </span>
 
             <div class="flex justify-center {{-- items-center text-center --}}">
                 <p class="py-2 font-bold text-xl text-white">{{$somme}}$ / {{$loyer}}$</p>

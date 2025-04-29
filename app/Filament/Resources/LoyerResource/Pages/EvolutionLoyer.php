@@ -22,7 +22,7 @@ class EvolutionLoyer extends Page
     public function mount($mois): void
     {
         $this->mois = $mois;
-        $this->data = Locataire::all();
+        $this->data = Locataire::where('actif', true)->get();
         //static::authorizeResourceAccess();
         // static::authorizeResourceAccess();
         //dd($mois);
@@ -30,6 +30,7 @@ class EvolutionLoyer extends Page
 
     protected function getHeaderWidgets(): array
     {
+        
         return [
 
         ];

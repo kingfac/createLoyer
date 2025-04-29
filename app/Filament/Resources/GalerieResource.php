@@ -17,6 +17,8 @@ use Filament\Forms\Components\Actions\Action;
 use App\Filament\Resources\GalerieResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\GalerieResource\RelationManagers;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ToggleColumn;
 
 class GalerieResource extends Resource
 {
@@ -46,6 +48,7 @@ class GalerieResource extends Resource
                     ->label('Numéro')
                     ->required()
                     ->maxLength(255),
+                
             ]);
     }
 
@@ -71,9 +74,20 @@ class GalerieResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                IconColumn::make('actif')
+                ->boolean()
             ])
+            
             ->filters([
                 SelectFilter::make('commune_id')->relationship('commune', 'nom')->label('Commune'),
+                SelectFilter::make('actif')
+                ->label('Statut')
+                ->options([
+                    true => 'Actif',
+                    false => 'Inactif',
+                ])->default(
+                    'actif'
+                )
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -89,7 +103,7 @@ class GalerieResource extends Resource
                     // Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->query(Galerie::where('actif', true));
+           ;
     }
 
     public static function getRelations(): array
