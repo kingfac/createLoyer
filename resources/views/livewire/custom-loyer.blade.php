@@ -283,7 +283,7 @@
         </div>
         <div class="pagination py-5 gap-4 flex justify-between">
             <div>
-                <label for="perPage">Items par page:</label>
+                <label for="perPage">Par page:</label>
                 <select wire:model.change="perPage" id="perPage" class="px-5">
                     @foreach ($perPageOptions as $option)
                         <option value="{{ $option }}">{{ $option }}</option>
