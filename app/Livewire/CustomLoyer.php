@@ -43,8 +43,8 @@ class CustomLoyer extends Component implements HasForms
     public $rows ;
     public $start_page = 1;
     public $total_page;
-    public $perPage = 25;
-    public $perPageOptions = [25, 50, 100]; // Options for per page selection
+    public $perPage = 15;
+    public $perPageOptions = [15, 25, 50, 100]; // Options for per page selection
     public $offset;
 
 
