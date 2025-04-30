@@ -66,7 +66,7 @@ class GarantieResource extends Resource
                 return Garantie::query()->whereIn('locataire_id', $locsactifs)->where('restitution',false)->where('montant', '>', 0);
             })
             ->columns([
-                TextColumn::make('matricule')
+                TextColumn::make('locataire.matricule')
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('locataire.noms')
