@@ -77,18 +77,15 @@ class GalerieResource extends Resource
                 IconColumn::make('actif')
                 ->boolean()
             ])
-            
             ->filters([
                 SelectFilter::make('commune_id')->relationship('commune', 'nom')->label('Commune'),
                 SelectFilter::make('actif')
-                ->label('Statut')
-                ->options([
-                    true => 'Actif',
-                    false => 'Inactif',
-                ])->default(
-                    'actif'
-                )
-            ])
+                    ->label('actif')
+                    ->options([
+                        true => 'Actif',
+                        false => 'Inactif',
+                    ])
+                ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make("Désactiver")
@@ -103,7 +100,7 @@ class GalerieResource extends Resource
                     // Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-           ;
+            ->query(Galerie::where('actif', true));
     }
 
     public static function getRelations(): array
