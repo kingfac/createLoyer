@@ -12,7 +12,7 @@
                 {{ __('filament-panels::resources/pages/create-record.form.actions.create.label') }}
             </x-filament::button> --}}
 
-            <div style="display: grid; grid-template-columns: repeat(5, 1fr);" class="gap-4"
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr);" class="gap-4"
 
             {{-- alpine js code --}}
             x-data="{
@@ -196,14 +196,14 @@
                     <x-heroicon-s-sparkles class="w-4 h-4" />
                     Rapport Journalier
                 </button>
-            </div>
+        </div>
         </form>
     </x-filament::section>
     <x-filament::section>
 
         @if ($menu == $menus[0])
             <livewire:loc-ajour :mois=$mois :annee=$annee>
-        @endif
+        @endif  
 
         @if ($menu == $menus[1])
             <livewire:loc-paie-retard :mois=$mois :annee=$annee>
