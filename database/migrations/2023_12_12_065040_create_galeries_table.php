@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('galeries', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->string('av');
-            $table->string('num');
+            $table->string('av')->nullable();
+            $table->string('num')->nullable();
             $table->boolean('actif')->default(true);
             $table->unsignedBigInteger('commune_id');
             //$table->foreign('commune_id')->references('id')->on('communes');

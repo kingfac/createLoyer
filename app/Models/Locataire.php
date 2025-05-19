@@ -11,14 +11,12 @@ class Locataire extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'postnom', 'matricule', 'prenom', 'tel', 'garantie', 'occupation_id','actif', 'nbr', 'mp', 'ap', 'num_occupation'];
+    protected $fillable = ['noms', 'matricule', 'tel', 'garantie', 'occupation_id','actif', 'nbr', 'mp', 'ap', 'num_occupation'];
     protected $casts = [
-        'nom' => 'string', 
-        'postnom' => 'string', 
-        'prenom' => 'string', 
-        'tel' => 'string', 
-        'garantie' => 'double', 
-        'nbr' => 'double', 
+        'noms' => 'string',
+        'tel' => 'string',
+        'garantie' => 'double',
+        'nbr' => 'double',
         'occupation_id' => 'integer',
         'mp' => 'integer',
         'ap' => 'integer',
@@ -33,7 +31,7 @@ class Locataire extends Model
     public function loyers() : HasMany {
         return $this->hasMany(Loyer::class);
     }
-    
+
     public function garanties() : HasMany {
         return $this->hasMany(Garantie::class);
     }
@@ -41,7 +39,7 @@ class Locataire extends Model
     public function divers() : HasMany {
         return $this->hasMany(Divers::class);
     }
-    
+
     /* public function noms(){
         return $this->nom.' - '.$this->prenom;
     } */

@@ -403,8 +403,8 @@ class CustomCreateLoyer extends Component implements HasForms
             foreach ($loyers as $index => $loy)
             {
                     //convertir mois en nombre
+                    dd($loy->mois, $Mois1, $m, $Mois2);
                     $mloyer = intval($Mois2[$loy->mois]);
-                    //dd( $mloyer, $loy->mois);
                     //si ce n'est pas le meme mois qu'on traite
                     if($m != $mloyer){
                         if($m != 0 ){

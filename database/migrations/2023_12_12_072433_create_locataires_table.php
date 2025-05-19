@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('locataires', function (Blueprint $table) {
             $table->id();
             $table->string('matricule')->nullable();
-            $table->string('nom');
-            $table->string('postnom')->nullable();
-            $table->string('prenom');
-            $table->string('tel', 14);
+            $table->string('noms');
+            // $table->string('postnom')->nullable();
+            // $table->string('prenom')->nullable();
+            $table->string('tel', 14)->nullable();
             $table->double('garantie');
             $table->double('nbr');
             $table->unsignedBigInteger('mp')->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->unsignedBigInteger('occupation_id');
             $table->string('num_occupation');
             $table->boolean('actif');
-            $table->string('noms')->virtualAs('concat(nom, \' \', postnom, \' \', prenom)');
+            //$table->string('noms')->virtualAs('concat(nom, \' \', postnom, \' \', prenom)');
             //$table->foreign('occupation_id')->references('id')->on('occupations')->cascadeOnDelete();
             $table->timestamps();
         });
