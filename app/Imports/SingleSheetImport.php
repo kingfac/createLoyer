@@ -129,14 +129,14 @@ class SingleSheetImport implements ToCollection
             // ]);
 
              // 5. Loyer
-            Loyer::create([
-                'mois' => $moisEnLettres,
-                'annee' => $anneeDebut,
-                'montant' => $loyerMontant,
-                'locataire_id' => $locataire->id,
-                'users_id' => auth()->id() ?? 1,
-                'garantie' => 0,
-            ]);
+            // Loyer::create([
+            //     'mois' => $moisEnLettres,
+            //     'annee' => $anneeDebut,
+            //     'montant' => $loyerMontant,
+            //     'locataire_id' => $locataire->id,
+            //     'users_id' => auth()->id() ?? 1,
+            //     'garantie' => 0,
+            // ]);
 
             // 6. Garantie
             Garantie::create([
