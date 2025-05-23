@@ -24,8 +24,9 @@ class SingleSheetImport implements ToCollection
     {
         $currentMonth = 5;
         $currentYear = 2025;
-
-        foreach ($rows as $index => $row) {
+        try {
+            //code...
+            foreach ($rows as $index => $row) {
             if ($index < 1 || empty($row[0])) continue;
             //if (empty(trim($row[0])) || strtolower(trim($row[0])) === 'nom et postnom' || strtolower(trim($row[0])) === 'noms & postnom') continue;
 
@@ -146,5 +147,10 @@ class SingleSheetImport implements ToCollection
                 'restitution' => 0,
             ]);
         }
+        } catch (\Throwable $th) {
+            //throw $th;
+            dd($th);
+        }
+
     }
 }
