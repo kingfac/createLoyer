@@ -76,8 +76,6 @@ class SingleSheetImport implements ToCollection
             if (!$galerie) {
                 $galerie = Galerie::create([
                     'nom' => ucfirst($galerieNom),
-                    'av' => null,
-                    'num' => null,
                     'commune_id' => 8,
                 ]);
             }

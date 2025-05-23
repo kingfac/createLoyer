@@ -403,7 +403,7 @@ class CustomCreateLoyer extends Component implements HasForms
             foreach ($loyers as $index => $loy)
             {
                     //convertir mois en nombre
-                    dd($loy->mois, $Mois1, $m, $Mois2);
+                    // dd($loy->mois, $Mois1, $m, $Mois2);
                     $mloyer = intval($Mois2[$loy->mois]);
                     //si ce n'est pas le meme mois qu'on traite
                     if($m != $mloyer){
@@ -866,7 +866,7 @@ class CustomCreateLoyer extends Component implements HasForms
 
     public function remplir(){
         $this->annee = $this->copy_annee;
-        $this->data = Locataire::join('loyers', '.locataire_id', '=', 'locataires.id')
+        $this->data = Locataire::join('loyers', 'locataire_id', '=', 'locataires.id')
         ->selectRaw('locataires.*, loyers.montant, loyers.mois, loyers.annee, loyers.created_at as date_loyer, loyers.observation, loyers.garantie,loyers.id as di, loyers.users_id')
         ->where(['loyers.locataire_id' => $this->locataire_id, 'mois' => $this->mois, 'annee' => $this->annee])
         ->orderBy('locataires.id')
